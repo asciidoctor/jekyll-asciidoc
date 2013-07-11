@@ -1,3 +1,10 @@
 asciidoc: asciidoctor
 asciidoc_ext: asciidoc,adoc,ad
-asciidoctor: 'notitle! hardbreaks'
+asciidoctor:
+  safe: safe
+  attributes:
+    - notitle!
+    - hardbreaks
+    - idprefix=
+    - idseparator=-
+    - linkattrs
