@@ -1,6 +1,6 @@
 module Jekyll
   module Converters
-    class AsciiDoc < Converter
+    class AsciiDocConverter < Converter
       safe true
 
       pygments_prefix "\n"
@@ -77,9 +77,9 @@ module Jekyll
 
   module Generators
     # Promotes select AsciiDoc attributes to Jekyll front matter
-    class AsciiDocPreProcessor < Generator
+    class AsciiDocPreprocessor < Generator
       def generate(site)
-        asciidoc_converter = site.getConverterImpl(Jekyll::Converters::AsciiDoc)
+        asciidoc_converter = site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
         asciidoc_converter.setup
         key_prefix = (site.config['asciidoc_key_prefix'] || 'jekyll-')
         key_prefix_len = key_prefix.length
@@ -144,7 +144,7 @@ module Jekyll
     # Returns the HTML formatted String.
     def asciidocify(input)
       site = @context.registers[:site]
-      converter = site.getConverterImpl(Jekyll::Converters::AsciiDoc)
+      converter = site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
       converter.convert(input)
     end
   end

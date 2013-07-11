@@ -3,6 +3,17 @@ Dan Allen
 
 A http://jekyllrb.com[Jekyll] plugin that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
 
+The plugin consists of three extensions:
+
+`Jekyll::Converters::AsciiDocConverter`::
+  Converts AsciiDoc files to HTML
+`Jekyll::Generators::AsciiDocPreprocessor`::
+  Promotes select AsciiDoc attributes to Jekyll front matter (e.g., title, author, page-layout)
+`Jekyll::Filters.asciidocify`::
+  A Liquid filter for converting AsciiDoc content to HTML using the AsciiDocConverter
+
+All these extensions are included in the file +asciidoc_plugin.rb+.
+
 == Installation
 
 The plugin depends on the http://rubygems.org/gems/asciidoctor[asciidoctor] gem.
@@ -10,9 +21,11 @@ You can install this gem using:
 
  $ gem install asciidoctor
 
-To install this plugin, copy +asciidoc_converter.rb+ to the +_plugins+ directory in the root of your site source (if no +_plugins+ directory exists, first create it.)
+To install this plugin, copy +asciidoc_plugin.rb+ to the +_plugins+ directory in the root of your site source.
 
-== Configuration
+NOTE: If no +_plugins+ directory exists, you need to first create it.
+
+== Configuration (Optional)
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
 Since Asciidoctor is the only option, the default setting is equivalent to the following configuration in +_config.yml+:
@@ -25,8 +38,10 @@ To tell Jekyll which extensions to recognize as AsciiDoc files, add the followin
 
 The extensions shown in the previous listing are the default values, so you don't need to specify this option if those defaults are sufficient.
 
-To pass attributes to AsciiDoc, add the following line to your +_config.yml+:
+To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your +_config.yml+:
 
- asciidoctor: 'notitle! hardbreaks'
-
-Again, the default values are shown here.
+ asciidoctor:
+   attributes:
+     - hardbreaks!
+     - source-highlighter=coderay
+     - coderay-css=style
