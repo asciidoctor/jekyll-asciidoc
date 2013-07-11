@@ -1,0 +1,3 @@
+asciidoc: asciidoctor
+asciidoc_ext: asciidoc,adoc,ad
+asciidoctor: 'notitle! hardbreaks'
