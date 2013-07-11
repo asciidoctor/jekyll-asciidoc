@@ -6,14 +6,30 @@ module Jekyll
       pygments_prefix "\n"
       pygments_suffix "\n"
 
+      def initialize(config)
+        @config = config
+        @config['asciidoc'] ||= 'asciidoctor'
+        @config['asciidoc_ext'] ||= 'asciidoc,adoc,ad'
+        @asciidoctor_config = (@config['asciidoctor'] ||= {})
+        # convert keys to symbols
+        @asciidoctor_config.keys.each do |key|
+          @asciidoctor_config[key.to_sym] = @asciidoctor_config.delete(key)
+        end
+        @asciidoctor_config[:safe] ||= 'safe'
+        user_defined_attributes = @asciidoctor_config[:attributes]
+        @asciidoctor_config[:attributes] = %w(notitle! hardbreaks idprefix= idseparator=- linkattrs)
+        unless user_defined_attributes.nil?
+          @asciidoctor_config[:attributes].concat(user_defined_attributes)
+        end
+        @asciidoctor_config[:attributes].push('env-jekyll')
+      end
+
       def setup
         return if @setup
-        case (@config['asciidoc'] || 'asciidoctor')
+        case @config['asciidoc']
           when 'asciidoctor'
             begin
               require 'asciidoctor'
-              @config['asciidoc_ext'] ||= 'asciidoc,adoc,ad'
-              @config['asciidoctor'] ||= %w(notitle! hardbreaks)
               @setup = true
             rescue LoadError
               STDERR.puts 'You are missing a library required to convert AsciiDoc files. Please run:'
@@ -41,11 +57,95 @@ module Jekyll
         setup
         case @config['asciidoc']
         when 'asciidoctor'
-          Asciidoctor.render(content, :attributes => @config['asciidoctor'])
+          Asciidoctor.render(content, @config['asciidoctor'])
         else
           content
         end
       end
+
+      def load(content)
+        setup
+        case @config['asciidoc']
+        when 'asciidoctor'
+          Asciidoctor.load(content, :parse_header_only => true)
+        else
+          nil
+        end
+      end
+    end
+  end
+
+  module Generators
+    # Promotes select AsciiDoc attributes to Jekyll front matter
+    class AsciiDocPreProcessor < Generator
+      def generate(site)
+        asciidoc_converter = site.getConverterImpl(Jekyll::Converters::AsciiDoc)
+        asciidoc_converter.setup
+        key_prefix = (site.config['asciidoc_key_prefix'] || 'jekyll-')
+        key_prefix_len = key_prefix.length
+        site.pages.each do |page|
+          if asciidoc_converter.matches(page.ext)
+            doc = asciidoc_converter.load(page.content)
+            next if doc.nil?
+
+            page.data['title'] ||= doc.doctitle
+            page.data['author'] = doc.author unless doc.author.nil?
+
+            doc.attributes.each do |key, val|
+              if key.start_with?(key_prefix)
+                page.data[key[key_prefix_len..-1]] ||= val
+              end
+            end
+
+            unless page.data.has_key? 'layout'
+              if doc.attr? 'page-layout'
+                page.data['layout'] ||= doc.attr 'page-layout'
+              else
+                page.data['layout'] ||= 'default'
+              end
+            end
+          end
+        end
+        site.posts.each do |post|
+          if asciidoc_converter.matches(post.ext)
+            doc = asciidoc_converter.load(post.content)
+            next if doc.nil?
+
+            post.data['title'] ||= doc.doctitle
+            post.data['author'] = doc.author unless doc.author.nil?
+            # TODO carry over date
+            # setting categories doesn't work here, we lose the post
+            #post.data['categories'] ||= (doc.attr 'categories') if (doc.attr? 'categories')
+
+            doc.attributes.each do |key, val|
+              if key.start_with?(key_prefix)
+                post.data[key[key_prefix_len..-1]] ||= val
+              end
+            end
+
+            unless post.data.has_key? 'layout'
+              if doc.attr? 'page-layout'
+                post.data['layout'] ||= doc.attr 'page-layout'
+              else
+                post.data['layout'] ||= 'post'
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  module Filters
+    # Convert an AsciiDoc string into HTML output.
+    #
+    # input - The AsciiDoc String to convert.
+    #
+    # Returns the HTML formatted String.
+    def asciidocify(input)
+      site = @context.registers[:site]
+      converter = site.getConverterImpl(Jekyll::Converters::AsciiDoc)
+      converter.convert(input)
     end
   end
 end
