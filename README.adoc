@@ -67,3 +67,15 @@ If you want the standard AsciiDoc behavior of collapsing hard line breaks in par
      - hardbreaks!
 
 If you already have AsciiDoc attributes defined in the +_config.yml+, the +hardbreaks!+ attribute should be added as a sibling entry in the YAML collection.
+
+== GitHub Pages
+
+GitHub doesn't (yet) whitelist the AsciiDoc plugin, so you can only run it on your own machine.
+
+TIP: GitHub needs to hear from enough users that they want to plugin in order to enable it.
+Our recommendation is to keep lobbying for them to enable it.
+
+You can automate publishing of the generated site to GitHub Pages using a continuous integration job.
+Refer to https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site[Tranfuse website build] for an example of how to implement automated deployment.
+
+Refer to the https://help.github.com/articles/using-jekyll-plugins-with-github-pages[Jekyll Plugins on GitHub Pages] for a list of the plugins currently supported on the server-side (in addition to Markdown, which isn't listed).
