@@ -55,3 +55,15 @@ To pass additional attributes to AsciiDoc, or override the default attributes de
      - hardbreaks!
      - source-highlighter=coderay
      - coderay-css=style
+
+=== Hard line breaks
+
+The Jekyll AsciiDoc integration is configured to preserve hard line breaks in paragraph content by default.
+Since many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), this default was selected to ease the transition to AsciiDoc.
+If you want the standard AsciiDoc behavior of collapsing hard line breaks in paragraph content, add the following settings to your site's +_config.yml+ file:
+
+ asciidoctor:
+   attributes:
+     - hardbreaks!
+
+If you already have AsciiDoc attributes defined in the +_config.yml+, the +hardbreaks!+ attribute should be added as a sibling entry in the YAML collection.
