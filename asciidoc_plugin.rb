@@ -3,8 +3,8 @@ module Jekyll
     class AsciiDocConverter < Converter
       safe true
 
-      pygments_prefix "\n"
-      pygments_suffix "\n"
+      highlighter_prefix "\n"
+      highlighter_suffix "\n"
 
       def initialize(config)
         @config = config
