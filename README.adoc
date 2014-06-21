@@ -35,6 +35,30 @@ To install this plugin, copy +asciidoc_plugin.rb+ to the +_plugins+ directory in
 
 NOTE: If no +_plugins+ directory exists, you need to first create it.
 
+== Creating Pages
+
+To add a page composed in AsciiDoc, simply add an AsciiDoc file to the root of the project with an AsciiDoc file extension.
+
+.sample.adoc
+```asciidoc
+---
+---
+= Sample Page
+:layout: page
+:permalink: /page/
+
+This is a sample page composed in AsciiDoc.
+Jekyll converts it to HTML using http://asciidoctor.org[Asciidoctor].
+
+[source,ruby]
+----
+puts "Hello, World!"
+----
+```
+
+IMPORTANT: The AsciiDoc file must have a Markdown-style front matter header or else it won't be recognized as a page.
+You can use an empty front matter header, as shown above, or you can define all your document metadata (e.g., document title) in the front matter instead of AsciiDoc attributes.
+
 == Configuration (Optional)
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
