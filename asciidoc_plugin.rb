@@ -45,12 +45,12 @@ module Jekyll
       end
       
       def matches(ext)
-        rgx = '(' + @config['asciidoc_ext'].gsub(',','|') +')'
+        rgx = "\.(#{@config['asciidoc_ext'].tr ',', '|'})$"
         ext =~ Regexp.new(rgx, Regexp::IGNORECASE)
       end
 
       def output_ext(ext)
-        ".html"
+        '.html'
       end
 
       def convert(content)
@@ -59,6 +59,7 @@ module Jekyll
         when 'asciidoctor'
           Asciidoctor.render(content, @config['asciidoctor'])
         else
+          warn 'Unknown AsciiDoc converter. Passing through raw content.'
           content
         end
       end
@@ -69,6 +70,7 @@ module Jekyll
         when 'asciidoctor'
           Asciidoctor.load(content, :parse_header_only => true)
         else
+          warn 'Unknown AsciiDoc converter. Cannot load document header.'
           nil
         end
       end
