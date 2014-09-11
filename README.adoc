@@ -59,6 +59,18 @@ puts "Hello, World!"
 IMPORTANT: The AsciiDoc file must have a Markdown-style front matter header or else it won't be recognized as a page.
 You can use an empty front matter header, as shown above, or you can define all your document metadata (e.g., document title) in the front matter instead of AsciiDoc attributes.
 
+You can now build your site using:
+
+ $ jekyll build
+ 
+and preview it using:
+
+ $ jekyll serve
+ 
+IMPORTANT: If you use the `--safe` option, the AsciiDoc plugin will not be activated.
+The `--safe` flag disables third-party plugins such as this one.
+
+
 == Configuration (Optional)
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
@@ -77,8 +89,8 @@ To pass additional attributes to AsciiDoc, or override the default attributes de
  asciidoctor:
    attributes:
      - hardbreaks!
-     - source-highlighter=coderay
-     - coderay-css=style
+     - source-highlighter=pygments
+     - pygments-css=style
 
 === Hard line breaks
 
