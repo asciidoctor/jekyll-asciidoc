@@ -1,6 +1,3 @@
-require "jekyll"
-require "asciidoctor"
-
 module Jekyll
   module Converters
     class AsciiDocConverter < Converter
