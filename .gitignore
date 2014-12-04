@@ -1,2 +1,4 @@
-*.gem
-
+/.ruby-*
+/*.gem
+/pkg/
+/Gemfile.lock

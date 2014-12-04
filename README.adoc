@@ -1,5 +1,5 @@
 = Jekyll AsciiDoc Plugin (powered by Asciidoctor)
-Dan Allen
+Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
 
 A http://jekyllrb.com[Jekyll] plugin that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
 
@@ -12,35 +12,60 @@ The plugin consists of three extensions:
 `Jekyll::Filters.asciidocify`::
   A Liquid filter for converting AsciiDoc content to HTML using the AsciiDocConverter
 
-All these extensions are included in the file +asciidoc_plugin.rb+.
+All these extensions are included in the file `lib/asciidoc_plugin.rb`.
 
 == Installation
 
-The plugin depends on the Asciidoctor gem, named http://rubygems.org/gems/asciidoctor[asciidoctor].
+The plugin depends on the Asciidoctor gem (named http://rubygems.org/gems/asciidoctor[asciidoctor]).
 You can install the gem using:
 
  $ gem install asciidoctor
 
 If you are using Bundler to manage the dependencies in your Jekyll project, then add the Asciidoctor gem instead to your `Gemfile` (below the Jekyll gem, named jekyll):
 
- source 'https://rubygems.org'
- gem 'jekyll'
- gem 'asciidoctor'
+[source,ruby]
+source 'https://rubygems.org'
+gem 'jekyll'
+gem 'asciidoctor'
 
-Then run the Bundler install command:
+Then, run the Bundler install command, `bundle`:
 
- bundle install
+ $ bundle
 
-To install this plugin, copy +asciidoc_plugin.rb+ to the +_plugins+ directory in the root of your site source.
+=== Using a release
 
-NOTE: If no +_plugins+ directory exists, you need to first create it.
+First, install the Jekyll AsciiDoc gem (named `jekyll-asciidoc`):
+
+ $ gem install jekyll-asciidoc`
+
+If you are using Bundler to manage the dependencies, add the `jekyll-asciidoc` gem to your `Gemfile`:
+
+[source,ruby]
+gem 'jekyll-asciidoc'
+
+Then, run the Bundler command to install it:
+
+ $ bundle
+
+Finally, add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's `_config.yml` file:
+
+[source,yaml]
+gems:
+  - jekyll-asciidoc
+
+=== Using the development version
+
+To install the development version of this plugin, copy `lib/asciidoc_plugin.rb` to the `_plugins` directory in the root of your site source.
+
+NOTE: If no `_plugins` directory exists, you need to first create it.
 
 == Creating Pages
 
 To add a page composed in AsciiDoc, simply add an AsciiDoc file to the root of the project with an AsciiDoc file extension.
 
 .sample.adoc
-```asciidoc
+[source,asciidoc]
+....
 ---
 ---
 = Sample Page
@@ -54,7 +79,7 @@ Jekyll converts it to HTML using http://asciidoctor.org[Asciidoctor].
 ----
 puts "Hello, World!"
 ----
-```
+....
 
 IMPORTANT: The AsciiDoc file must have a Markdown-style front matter header or else it won't be recognized as a page.
 You can use an empty front matter header, as shown above, or you can define all your document metadata (e.g., document title) in the front matter instead of AsciiDoc attributes.
@@ -70,39 +95,42 @@ and preview it using:
 IMPORTANT: If you use the `--safe` option, the AsciiDoc plugin will not be activated.
 The `--safe` flag disables third-party plugins such as this one.
 
-
 == Configuration (Optional)
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
-Since Asciidoctor is the only option, the default setting is equivalent to the following configuration in +_config.yml+:
+Since Asciidoctor is the only option, the default setting is equivalent to the following configuration in `_config.yml`:
 
- asciidoc: asciidoctor
+[source,yaml]
+asciidoc: asciidoctor
 
-To tell Jekyll which extensions to recognize as AsciiDoc files, add the following line to your +_config.yml+:
+To tell Jekyll which extensions to recognize as AsciiDoc files, add the following line to your `_config.yml`:
 
- asciidoc_ext: asciidoc,adoc,ad
+[source,yaml]
+asciidoc_ext: asciidoc,adoc,ad
 
 The extensions shown in the previous listing are the default values, so you don't need to specify this option if those defaults are sufficient.
 
-To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your +_config.yml+:
+To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your `_config.yml`:
 
- asciidoctor:
-   attributes:
-     - hardbreaks!
-     - source-highlighter=pygments
-     - pygments-css=style
+[source,yaml]
+asciidoctor:
+  attributes:
+    - hardbreaks!
+    - source-highlighter=pygments
+    - pygments-css=style
 
 === Hard line breaks
 
 The Jekyll AsciiDoc integration is configured to preserve hard line breaks in paragraph content by default.
 Since many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), this default was selected to ease the transition to AsciiDoc.
-If you want the standard AsciiDoc behavior of collapsing hard line breaks in paragraph content, add the following settings to your site's +_config.yml+ file:
+If you want the standard AsciiDoc behavior of collapsing hard line breaks in paragraph content, add the following settings to your site's `_config.yml` file:
 
- asciidoctor:
-   attributes:
-     - hardbreaks!
+[source,yaml]
+asciidoctor:
+  attributes:
+    - hardbreaks!
 
-If you already have AsciiDoc attributes defined in the +_config.yml+, the +hardbreaks!+ attribute should be added as a sibling entry in the YAML collection.
+If you already have AsciiDoc attributes defined in the `_config.yml`, the `hardbreaks!` attribute should be added as a sibling entry in the YAML collection.
 
 == GitHub Pages
 
