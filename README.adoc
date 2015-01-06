@@ -37,7 +37,7 @@ Then, run the Bundler install command
 
 === Installing release version of the plugin
 
-* Using Bundler for Jekyll management
+* Using Bundler
 +
 Add `jekyll-asciidoc` plugin gem to your `Gemfile`
 +
@@ -104,6 +104,11 @@ You can now build your site using:
 and preview it using:
 
  $ jekyll serve
+
+If you are using Bundler then use following commands to do the same
+
+ $ bundle exec jekyll build
+ $ bundle exec jekyll serve
  
 IMPORTANT: If you use the `--safe` option, the AsciiDoc plugin will not be activated.
 The `--safe` flag disables third-party plugins such as this one.
