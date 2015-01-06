@@ -35,16 +35,16 @@ Then, run the Bundler install command
 
  $ bundle install
 
-=== Installing release version of the plugin
+=== Installing a released version of the plugin
 
-* Using Bundler
+Using Bundler::
 +
 Add `jekyll-asciidoc` plugin gem to your `Gemfile`
 +
 [source,ruby]
 ----
 group :jekyll_plugins do
-       gem "jekyll-asciidoc"
+  gem "jekyll-asciidoc"
 end
 ----
 +
@@ -52,7 +52,7 @@ Then, run the Bundler command to install it:
 
  $ bundle install
 
-* Without Bundler
+Without Bundler::
 +
 If you are not using Bundler for managing Jekyll then install gems manually
 +
