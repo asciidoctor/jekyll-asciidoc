@@ -2,3 +2,5 @@
 /*.gem
 /pkg/
 /Gemfile.lock
+.idea
+*.iml
