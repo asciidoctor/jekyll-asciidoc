@@ -21,39 +21,52 @@ You can install the gem using:
 
  $ gem install asciidoctor
 
-If you are using Bundler to manage the dependencies in your Jekyll project, then add the Asciidoctor gem instead to your `Gemfile` (below the Jekyll gem, named jekyll):
+If you are using Bundler to manage the dependencies in your Jekyll project, then add the Asciidoctor gem to your `Gemfile` (below the Jekyll gem, named jekyll):
 
 [source,ruby]
+----
 source 'https://rubygems.org'
+
 gem 'jekyll'
 gem 'asciidoctor'
+----
 
-Then, run the Bundler install command, `bundle`:
+Then, run the Bundler install command
 
- $ bundle
+ $ bundle install
 
-=== Using a release
+=== Installing a released version of the plugin
 
-First, install the Jekyll AsciiDoc gem (named `jekyll-asciidoc`):
-
- $ gem install jekyll-asciidoc`
-
-If you are using Bundler to manage the dependencies, add the `jekyll-asciidoc` gem to your `Gemfile`:
-
+Using Bundler::
++
+Add `jekyll-asciidoc` plugin gem to your `Gemfile`
++
 [source,ruby]
-gem 'jekyll-asciidoc'
-
+----
+group :jekyll_plugins do
+  gem "jekyll-asciidoc"
+end
+----
++
 Then, run the Bundler command to install it:
 
- $ bundle
+ $ bundle install
 
-Finally, add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's `_config.yml` file:
-
+Without Bundler::
++
+If you are not using Bundler for managing Jekyll then install gems manually
++
+ $ gem install jekyll-asciidoc 
++
+And then, add `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's `_config.yml` file:
++
 [source,yaml]
+----
 gems:
   - jekyll-asciidoc
+----
 
-=== Using the development version
+=== Installing development version of the plugin
 
 To install the development version of this plugin, copy `lib/asciidoc_plugin.rb` to the `_plugins` directory in the root of your site source.
 
@@ -81,7 +94,7 @@ puts "Hello, World!"
 ----
 ....
 
-IMPORTANT: The AsciiDoc file must have a Markdown-style front matter header or else it won't be recognized as a page.
+IMPORTANT: The AsciiDoc file must have a http://jekyllrb.com/docs/frontmatter/[YAML front matter] header or else it won't be recognized as a page.
 You can use an empty front matter header, as shown above, or you can define all your document metadata (e.g., document title) in the front matter instead of AsciiDoc attributes.
 
 You can now build your site using:
@@ -91,6 +104,11 @@ You can now build your site using:
 and preview it using:
 
  $ jekyll serve
+
+If you are using Bundler then use following commands to do the same
+
+ $ bundle exec jekyll build
+ $ bundle exec jekyll serve
  
 IMPORTANT: If you use the `--safe` option, the AsciiDoc plugin will not be activated.
 The `--safe` flag disables third-party plugins such as this one.
