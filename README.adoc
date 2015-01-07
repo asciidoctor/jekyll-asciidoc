@@ -94,7 +94,7 @@ puts "Hello, World!"
 ----
 ....
 
-IMPORTANT: The AsciiDoc file must have a YAML front matter header or else it won't be recognized as a page.
+IMPORTANT: The AsciiDoc file must have a http://jekyllrb.com/docs/frontmatter/[YAML front matter] header or else it won't be recognized as a page.
 You can use an empty front matter header, as shown above, or you can define all your document metadata (e.g., document title) in the front matter instead of AsciiDoc attributes.
 
 You can now build your site using:
