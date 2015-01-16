@@ -17,7 +17,7 @@ module Jekyll
         end
         @asciidoctor_config[:safe] ||= 'safe'
         user_defined_attributes = @asciidoctor_config[:attributes]
-        @asciidoctor_config[:attributes] = %w(notitle! hardbreaks idprefix= idseparator=- linkattrs)
+        @asciidoctor_config[:attributes] = %w(notitle hardbreaks idprefix= idseparator=- linkattrs)
         unless user_defined_attributes.nil?
           @asciidoctor_config[:attributes].concat(user_defined_attributes)
         end
