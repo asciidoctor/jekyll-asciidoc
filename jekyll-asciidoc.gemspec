@@ -1,6 +1,8 @@
+require File.expand_path '../lib/jekyll-asciidoc/version', __FILE__
+
 Gem::Specification.new do |s|
   s.name = 'jekyll-asciidoc'
-  s.version = '1.0.0'
+  s.version = Jekyll::AsciiDoc::VERSION
   s.summary = 'A Jekyll plugin that converts AsciiDoc files in your site source to HTML pages using Asciidoctor.'
   s.description = 'A Jekyll plugin that converts AsciiDoc files in your site source to HTML pages using Asciidoctor.'
   s.authors = ['Dan Allen']
