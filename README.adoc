@@ -163,11 +163,16 @@ You can also refer to the https://github.com/johncarl81/transfuse/tree/transfuse
 
 Refer to the https://help.github.com/articles/using-jekyll-plugins-with-github-pages[Jekyll Plugins on GitHub Pages] for a list of the plugins currently supported on the server-side (in addition to Markdown, which isn't listed).
 
-== Releasing the gem
+== Releasing the gem to RubyGems.org
 
-When you are ready for a release, first set the version in the file [path]_lib/jekyll-asciidoc/version.rb_ and commit the change.
+When you are ready for a release, first set the version in the file [path]_lib/jekyll-asciidoc/version.rb_.
+Then, commit the change using the following commit message template:
 
-To package, tag and release the gem to RubyGems.org, run the following rake task:
+ Release X.Y.Z
+
+where `X.Y.Z` is the version number of the gem.
+
+Next, package, tag and release the gem to RubyGems.org, run the following rake task:
 
  $ rake release
 
