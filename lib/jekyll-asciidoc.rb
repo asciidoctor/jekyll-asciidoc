@@ -81,7 +81,13 @@ module Jekyll
     # Promotes select AsciiDoc attributes to Jekyll front matter
     class AsciiDocPreprocessor < Generator
       def generate(site)
-        asciidoc_converter = site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
+        asciidoc_converter = if site.respond_to?(:find_converter_instance)
+          # Jekyll 3
+          site.find_converter_instance(Jekyll::Converters::AsciiDocConverter)
+        else
+          # Jekyll 2
+          site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
+        end
         asciidoc_converter.setup
         key_prefix = (site.config['asciidoc_key_prefix'] || 'jekyll-')
         key_prefix_len = key_prefix.length
@@ -146,7 +152,13 @@ module Jekyll
     # Returns the HTML formatted String.
     def asciidocify(input)
       site = @context.registers[:site]
-      converter = site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
+      converter = if site.respond_to?(:find_converter_instance)
+        # Jekyll 3
+        site.find_converter_instance(Jekyll::Converters::AsciiDocConverter)
+      else
+        # Jekyll 2
+        site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
+      end
       converter.convert(input)
     end
   end
