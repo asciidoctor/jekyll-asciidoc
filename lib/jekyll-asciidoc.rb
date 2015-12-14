@@ -1,4 +1,10 @@
+require 'jekyll/version'
+
+
 module Jekyll
+
+  USING_JEKYLL_2 = Jekyll::VERSION.split('.')[0] == 2
+
   module Converters
     class AsciiDocConverter < Converter
       safe true
@@ -114,8 +120,14 @@ module Jekyll
             end
           end
         end
-        site.posts.each do |post|
-          if asciidoc_converter.matches(post.ext)
+        if USING_JEKYLL_2
+            site.posts
+        else
+            site.posts.docs
+        end.each do |post|
+          if (USING_JEKYLL_2 && asciidoc_converter.matches(post.ext)) ||
+             (asciidoc_converter.matches(post.data['ext']))
+
             doc = asciidoc_converter.load(post.content)
             next if doc.nil?
 
