@@ -1,10 +1,6 @@
-require 'jekyll/version'
-
+JEKYLL_MIN_VERSION_3 = Gem::Version.new(Jekyll::VERSION) >= Gem::Version.new('3.0.0') unless defined? JEKYLL_MIN_VERSION_3
 
 module Jekyll
-
-  USING_JEKYLL_2 = Jekyll::VERSION.split('.')[0] == 2
-
   module Converters
     class AsciiDocConverter < Converter
       safe true
@@ -87,13 +83,9 @@ module Jekyll
     # Promotes select AsciiDoc attributes to Jekyll front matter
     class AsciiDocPreprocessor < Generator
       def generate(site)
-        asciidoc_converter = if site.respond_to?(:find_converter_instance)
-          # Jekyll 3
-          site.find_converter_instance(Jekyll::Converters::AsciiDocConverter)
-        else
-          # Jekyll 2
-          site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
-        end
+        asciidoc_converter = JEKYLL_MIN_VERSION_3 ?
+            site.find_converter_instance(Jekyll::Converters::AsciiDocConverter) :
+            site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
         asciidoc_converter.setup
         key_prefix = (site.config['asciidoc_key_prefix'] || 'jekyll-')
         key_prefix_len = key_prefix.length
@@ -120,14 +112,9 @@ module Jekyll
             end
           end
         end
-        if USING_JEKYLL_2
-            site.posts
-        else
-            site.posts.docs
-        end.each do |post|
-          if (USING_JEKYLL_2 && asciidoc_converter.matches(post.ext)) ||
-             (asciidoc_converter.matches(post.data['ext']))
-
+        (JEKYLL_MIN_VERSION_3 ? site.posts.docs : site.posts).each do |post|
+          if (JEKYLL_MIN_VERSION_3 && asciidoc_converter.matches(post.data['ext'])) ||
+              asciidoc_converter.matches(post.ext)
             doc = asciidoc_converter.load(post.content)
             next if doc.nil?
 
@@ -164,13 +151,9 @@ module Jekyll
     # Returns the HTML formatted String.
     def asciidocify(input)
       site = @context.registers[:site]
-      converter = if site.respond_to?(:find_converter_instance)
-        # Jekyll 3
-        site.find_converter_instance(Jekyll::Converters::AsciiDocConverter)
-      else
-        # Jekyll 2
-        site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
-      end
+      converter = JEKYLL_MIN_VERSION_3 ?
+          site.find_converter_instance(Jekyll::Converters::AsciiDocConverter) :
+          site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
       converter.convert(input)
     end
   end
