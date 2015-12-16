@@ -113,8 +113,7 @@ module Jekyll
           end
         end
         (JEKYLL_MIN_VERSION_3 ? site.posts.docs : site.posts).each do |post|
-          if (JEKYLL_MIN_VERSION_3 && asciidoc_converter.matches(post.data['ext'])) ||
-              asciidoc_converter.matches(post.ext)
+          if asciidoc_converter.matches(JEKYLL_MIN_VERSION_3 ? post.data['ext'] : post.ext)
             doc = asciidoc_converter.load(post.content)
             next if doc.nil?
 
