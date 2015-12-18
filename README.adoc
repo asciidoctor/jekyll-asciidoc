@@ -45,11 +45,9 @@ Using Bundler::
 Add the `jekyll-asciidoc` plugin gem to your [path]_Gemfile_
 
 [source,ruby]
-----
 group :jekyll_plugins do
   gem 'jekyll-asciidoc'
 end
-----
 
 Then, run the Bundler command to install it:
 
@@ -66,10 +64,8 @@ If you are not using Bundler for managing Jekyll then install gems manually
 And then, add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
 
 [source,yaml]
-----
 gems:
   - jekyll-asciidoc
-----
 --
 
 === Installing development version of the plugin
@@ -87,7 +83,7 @@ NOTE: If the [path]_{empty}_plugins_ directory does not exist, you need to first
 To add a page composed in AsciiDoc, simply add an AsciiDoc file to the root of the project with an AsciiDoc file extension.
 
 .sample.adoc
-[source,asciidoc]
+[listing]
 ....
 ---
 ---
