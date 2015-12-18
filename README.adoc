@@ -1,7 +1,9 @@
 = Jekyll AsciiDoc Plugin (powered by Asciidoctor)
-Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
+Paul Rayner <https://github.com/paulrayner[@paulrayner]>; Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
 
-A http://jekyllrb.com[Jekyll] plugin that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
+A plugin for http://jekyllrb.com[Jekyll] that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
+
+== Overview
 
 The plugin consists of three extensions:
 
@@ -21,7 +23,7 @@ You can install the gem using:
 
  $ gem install asciidoctor
 
-If you're using Bundler to manage the dependencies in your Jekyll project, instead add the asciidoctor gem to your `Gemfile` (beneath the jekyll gem):
+If you're using Bundler to manage the dependencies in your Jekyll project, instead add the asciidoctor gem to your [path]_Gemfile_ (beneath the jekyll gem):
 
 [source,ruby]
 ----
@@ -40,7 +42,7 @@ Then, run the Bundler install command:
 Using Bundler::
 +
 --
-Add `jekyll-asciidoc` plugin gem to your `Gemfile`
+Add the `jekyll-asciidoc` plugin gem to your [path]_Gemfile_
 
 [source,ruby]
 ----
@@ -61,7 +63,7 @@ If you are not using Bundler for managing Jekyll then install gems manually
 
  $ gem install jekyll-asciidoc 
 
-And then, add `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's `_config.yml` file:
+And then, add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
 
 [source,yaml]
 ----
@@ -72,9 +74,13 @@ gems:
 
 === Installing development version of the plugin
 
-To install the development version of this plugin, copy `lib/asciidoc_plugin.rb` to the `_plugins` directory in the root of your site source.
+To install the development version of this plugin, use:
 
-NOTE: If no `_plugins` directory exists, you need to first create it.
+ $ rake install
+
+An alternative--though not recommend--approach is to copy the file [path]_lib/jekyll-asciidoc.rb_ to the [path]_{empty}_plugins_ directory in the root of your site source.
+
+NOTE: If the [path]_{empty}_plugins_ directory does not exist, you need to first create it.
 
 == Creating Pages
 
@@ -120,19 +126,19 @@ The `--safe` flag disables third-party plugins such as this one.
 == Configuration (Optional)
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
-Since Asciidoctor is the only option, the default setting is equivalent to the following configuration in `_config.yml`:
+Since Asciidoctor is the only option, the default setting is equivalent to the following configuration in [path]_{empty}_config.yml_:
 
 [source,yaml]
 asciidoc: asciidoctor
 
-To tell Jekyll which extensions to recognize as AsciiDoc files, add the following line to your `_config.yml`:
+To tell Jekyll which extensions to recognize as AsciiDoc files, add the following line to your [path]_{empty}_config.yml_:
 
 [source,yaml]
 asciidoc_ext: asciidoc,adoc,ad
 
 The extensions shown in the previous listing are the default values, so you don't need to specify this option if those defaults are sufficient.
 
-To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your `_config.yml`:
+To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your [path]_{empty}_config.yml_:
 
 [source,yaml]
 asciidoctor:
@@ -145,14 +151,14 @@ asciidoctor:
 
 The Jekyll AsciiDoc integration is configured to preserve hard line breaks in paragraph content by default.
 Since many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), this default was selected to ease the transition to AsciiDoc.
-If you want the standard AsciiDoc behavior of collapsing hard line breaks in paragraph content, add the following settings to your site's `_config.yml` file:
+If you want the standard AsciiDoc behavior of collapsing hard line breaks in paragraph content, add the following settings to your site's [path]_{empty}_config.yml_ file:
 
 [source,yaml]
 asciidoctor:
   attributes:
     - hardbreaks!
 
-If you already have AsciiDoc attributes defined in the `_config.yml`, the `hardbreaks!` attribute should be added as a sibling entry in the YAML collection.
+If you already have AsciiDoc attributes defined in the [path]_{empty}_config.yml_, the `hardbreaks!` attribute should be added as a sibling entry in the YAML collection.
 
 == GitHub Pages
 
