@@ -12,7 +12,7 @@ The plugin consists of three extensions:
 `Jekyll::Filters.asciidocify`::
   A Liquid filter for converting AsciiDoc content to HTML using the AsciiDocConverter
 
-All these extensions are included in the file `lib/asciidoc_plugin.rb`.
+These extensions are loaded automatically when the jekyll-asciidoc is required.
 
 == Installation
 
@@ -44,7 +44,7 @@ Add `jekyll-asciidoc` plugin gem to your `Gemfile`
 [source,ruby]
 ----
 group :jekyll_plugins do
-  gem "jekyll-asciidoc"
+  gem 'jekyll-asciidoc'
 end
 ----
 +
