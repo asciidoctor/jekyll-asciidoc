@@ -16,12 +16,12 @@ These extensions are loaded automatically when the jekyll-asciidoc is required.
 
 == Installation
 
-The plugin depends on the Asciidoctor gem (named http://rubygems.org/gems/asciidoctor[asciidoctor]).
+The plugin depends on the http://rubygems.org/gems/asciidoctor[asciidoctor] gem.
 You can install the gem using:
 
  $ gem install asciidoctor
 
-If you are using Bundler to manage the dependencies in your Jekyll project, then add the Asciidoctor gem to your `Gemfile` (below the Jekyll gem, named jekyll):
+If you're using Bundler to manage the dependencies in your Jekyll project, instead add the asciidoctor gem to your `Gemfile` (beneath the jekyll gem):
 
 [source,ruby]
 ----
@@ -31,7 +31,7 @@ gem 'jekyll'
 gem 'asciidoctor'
 ----
 
-Then, run the Bundler install command
+Then, run the Bundler install command:
 
  $ bundle install
 
@@ -39,32 +39,36 @@ Then, run the Bundler install command
 
 Using Bundler::
 +
+--
 Add `jekyll-asciidoc` plugin gem to your `Gemfile`
-+
+
 [source,ruby]
 ----
 group :jekyll_plugins do
   gem 'jekyll-asciidoc'
 end
 ----
-+
+
 Then, run the Bundler command to install it:
 
  $ bundle install
+--
 
 Without Bundler::
 +
+--
 If you are not using Bundler for managing Jekyll then install gems manually
-+
+
  $ gem install jekyll-asciidoc 
-+
+
 And then, add `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's `_config.yml` file:
-+
+
 [source,yaml]
 ----
 gems:
   - jekyll-asciidoc
 ----
+--
 
 === Installing development version of the plugin
 
