@@ -119,7 +119,7 @@ If you are using Bundler then use following commands to do the same
 IMPORTANT: If you use the `--safe` option, the AsciiDoc plugin will not be activated.
 The `--safe` flag disables third-party plugins such as this one.
 
-== Configuration (Optional)
+== Configuration (optional)
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
 Since Asciidoctor is the only option, the default setting is equivalent to the following configuration in [path]_{empty}_config.yml_:
@@ -155,6 +155,83 @@ asciidoctor:
     - hardbreaks!
 
 If you already have AsciiDoc attributes defined in the [path]_{empty}_config.yml_, the `hardbreaks!` attribute should be added as a sibling entry in the YAML collection.
+
+== AsciiDoctor Diagrams (optional)
+
+[quote]
+----
+Asciidoctor Diagram is a set of extensions for Asciidoctor that allow you to embed diagrams
+written using the PlantUML, Graphviz, ditaa, or Shaape syntax inside your AsciiDoc documents
+----
+
+[IMPORTANT]
+====
+For `GraphViz` and `PlantUML` diagram generation - http://www.graphviz.org[`GraphViz`] must be installed, i.e. `dot` utility can be found in `$PATH`.
+====
+
+=== Installation
+
+Using Bundler::
++
+--
+Add `asciidoctor-diagram` gem to your [path]_Gemfile_
+
+[source,ruby]
+----
+group :jekyll_plugins do
+  ....
+  gem 'asciidoctor-diagram', '>= 1.3.1' <1>
+  ...
+end
+----
+<1> version can be configured differently
+
+Then, run the Bundler command to install it:
+
+ $ bundle install
+--
+
+Without Bundler::
++
+--
+Install gems manually
+
+ $ gem install jekyll-asciidoc
+
+And then, add the `asciidoctor-diagram` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
+
+[source,yaml]
+gems:
+  - asciidoctor-diagram
+--
+
+=== Output folders
+
+By default diagram images are generated in in the root folder.
+Thus, images URLs are not properly referenced from generated HTML.
+
+To overcome this, use `imagesdir` attribute in `AsciiDoc` file that contains diagrams.
+
+._posts/2016-01-01-diagrams.adoc
+[listing]
+....
+---
+---
+= Diagrams
+
+:imagesdir: /images/2016-01-01 <1>
+
+[graphviz, dot-example, svg]
+----
+digraph g {
+    a -> b
+    b -> c
+    c -> d
+    d -> a
+}
+----
+....
+<1> assuming that root folder of `Jekyll` project contains `images` directory and blog post specific subdirectory.
 
 == Supplemental AsciiDoc Assets
 
