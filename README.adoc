@@ -1,5 +1,7 @@
 = Jekyll AsciiDoc Plugin (powered by Asciidoctor)
 Paul Rayner <https://github.com/paulrayner[@paulrayner]>; Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
+:toc: preamble
+:toclevels: 1
 
 A plugin for http://jekyllrb.com[Jekyll] that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
 
@@ -78,7 +80,7 @@ An alternative--though not recommend--approach is to copy the file [path]_lib/je
 
 NOTE: If the [path]_{empty}_plugins_ directory does not exist, you need to first create it.
 
-== Creating Pages
+== Creating pages
 
 To add a page composed in AsciiDoc, simply add an AsciiDoc file to the root of the project with an AsciiDoc file extension.
 
@@ -143,7 +145,7 @@ asciidoctor:
     - source-highlighter=pygments
     - pygments-css=style
 
-=== Hard line breaks
+=== Disabling hard line breaks
 
 The Jekyll AsciiDoc integration is configured to preserve hard line breaks in paragraph content by default.
 Since many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), this default was selected to ease the transition to AsciiDoc.
@@ -156,18 +158,12 @@ asciidoctor:
 
 If you already have AsciiDoc attributes defined in the [path]_{empty}_config.yml_, the `hardbreaks!` attribute should be added as a sibling entry in the YAML collection.
 
-== AsciiDoctor Diagrams (optional)
+== Enabling Asciidoctor Diagram (optional)
 
-[quote]
-----
-Asciidoctor Diagram is a set of extensions for Asciidoctor that allow you to embed diagrams
-written using the PlantUML, Graphviz, ditaa, or Shaape syntax inside your AsciiDoc documents
-----
+Asciidoctor Diagram is a set of extensions for Asciidoctor that allow you to embed diagrams written using the PlantUML, Graphviz, ditaa, or Shaape syntax inside your AsciiDoc documents.
 
 [IMPORTANT]
-====
-For `GraphViz` and `PlantUML` diagram generation - http://www.graphviz.org[`GraphViz`] must be installed, i.e. `dot` utility can be found in `$PATH`.
-====
+For Graphviz and PlantUML diagram generation, http://www.graphviz.org[Graphviz] must be installed (i.e., the `dot` utility must be available on your `$PATH`.
 
 === Installation
 
@@ -198,28 +194,29 @@ Install gems manually
 
  $ gem install jekyll-asciidoc
 
-And then, add the `asciidoctor-diagram` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
+Then, add the `asciidoctor-diagram` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
 
 [source,yaml]
 gems:
   - asciidoctor-diagram
 --
 
-=== Output folders
+Both of the previous configurations are the equivalent of passing `-r asciidoctor-diagram` to the `asciidoctor` command.
 
-By default diagram images are generated in in the root folder.
-Thus, images URLs are not properly referenced from generated HTML.
+=== Generated image location
 
-To overcome this, use `imagesdir` attribute in `AsciiDoc` file that contains diagrams.
+By default diagram images are generated in the root folder.
+Thus, images URLs are not properly referenced from the generated HTML pages.
 
-._posts/2016-01-01-diagrams.adoc
+To fix this, set the `imagesdir` attribute in any AsciiDoc file that contains diagrams.
+
+._posts/2015-12-24-diagrams.adoc
 [listing]
 ....
 ---
 ---
 = Diagrams
-
-:imagesdir: /images/2016-01-01 <1>
+:imagesdir: /images/2015-12-24 <1>
 
 [graphviz, dot-example, svg]
 ----
@@ -231,7 +228,10 @@ digraph g {
 }
 ----
 ....
-<1> assuming that root folder of `Jekyll` project contains `images` directory and blog post specific subdirectory.
+<1> the date in the imagesdir value must match the date of the post (e.g., 2015-12-24)
+
+WARNING: The images are generated after Jekyll copies assets to the [path]_{empty}_site_ directory.
+Therefore, you'll have to run `jeykll` twice before you see the images in the preview.
 
 == Supplemental AsciiDoc Assets
 
