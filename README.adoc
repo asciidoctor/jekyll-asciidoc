@@ -192,7 +192,7 @@ Without Bundler::
 --
 Install gems manually
 
- $ gem install jekyll-asciidoc
+ $ gem install asciidoctor-diagram
 
 Then, add the `asciidoctor-diagram` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
 
