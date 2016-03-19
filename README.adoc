@@ -3,6 +3,8 @@ Paul Rayner <https://github.com/paulrayner[@paulrayner]>; Dan Allen <https://git
 :toc: preamble
 :toclevels: 1
 
+image:https://badge.fury.io/rb/jekyll-asciidoc.svg["Gem Version", link="https://badge.fury.io/rb/jekyll-asciidoc"]
+
 A plugin for http://jekyllrb.com[Jekyll] that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
 
 == Overview
@@ -61,7 +63,7 @@ Without Bundler::
 --
 If you are not using Bundler for managing Jekyll then install gems manually
 
- $ gem install jekyll-asciidoc 
+ $ gem install jekyll-asciidoc
 
 And then, add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
 
@@ -108,7 +110,7 @@ You can use an empty front matter header, as shown above, or you can define all 
 You can now build your site using:
 
  $ jekyll build
- 
+
 and preview it using:
 
  $ jekyll serve
@@ -117,7 +119,7 @@ If you are using Bundler then use following commands to do the same
 
  $ bundle exec jekyll build
  $ bundle exec jekyll serve
- 
+
 IMPORTANT: If you use the `--safe` option, the AsciiDoc plugin will not be activated.
 The `--safe` flag disables third-party plugins such as this one.
 
@@ -332,7 +334,7 @@ or your site configuration:
 asciidoctor:
   attributes:
     - icons
-    - iconsdir=/images/icons 
+    - iconsdir=/images/icons
 
 Then, simply put the icon images that the page needs in the [path]_images/icons_ directory.
 
