@@ -2,10 +2,13 @@
 Paul Rayner <https://github.com/paulrayner[@paulrayner]>; Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
 :toc: preamble
 :toclevels: 1
-
-image:https://badge.fury.io/rb/jekyll-asciidoc.svg["Gem Version", link="https://badge.fury.io/rb/jekyll-asciidoc"]
+ifdef::env-github[:badges:]
 
 A plugin for http://jekyllrb.com[Jekyll] that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
+
+ifdef::badges[]
+image::https://img.shields.io/gem/v/jekyll-asciidoc.svg?label=gem%20version[Gem Version, link=https://rubygems.org/gems/jekyll-asciidoc]
+endif::[]
 
 == Overview
 
