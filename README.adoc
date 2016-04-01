@@ -350,7 +350,7 @@ Our recommendation is to keep lobbying for them to enable it.
 
 You can automate publishing of the generated site to GitHub Pages using a continuous integration job.
 Refer to the tutorial http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] to find step-by-step instructions to setup this job.
-You can also refer to the https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site[Tranfuse website build^] for an example in practice.
+You can also refer to the https://github.com/johncarl81/transfuse-site[Tranfuse website build^] for an example in practice.
 
 Refer to the https://help.github.com/articles/using-jekyll-plugins-with-github-pages[Jekyll Plugins on GitHub Pages] for a list of the plugins currently supported on the server-side (in addition to Markdown, which isn't listed).
 
