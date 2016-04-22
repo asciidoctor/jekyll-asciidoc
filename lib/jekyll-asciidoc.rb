@@ -59,7 +59,7 @@ module Jekyll
         setup
         case @config['asciidoc']
         when 'asciidoctor'
-          Asciidoctor.render(content, @config['asciidoctor'])
+          Asciidoctor.convert(content, @config['asciidoctor'])
         else
           warn 'Unknown AsciiDoc converter. Passing through raw content.'
           content
