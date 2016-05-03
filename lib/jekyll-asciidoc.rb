@@ -97,14 +97,11 @@ module Jekyll
           if asciidoc_converter.matches(page.ext)
             next unless (doc = asciidoc_converter.load_header(page.content))
 
-            page.data['title'] ||= doc.doctitle
+            page.data['title'] = doc.doctitle if doc.header?
             page.data['author'] = doc.author if doc.author
 
             doc.attributes.each do |key, val|
-              if key.start_with?(page_attr_prefix) &&
-                  !page.data.key?(data_key = key[page_attr_prefix_l..-1])
-                page.data[data_key] = val
-              end
+              page.data[key[page_attr_prefix_l..-1]] = val if key.start_with?(page_attr_prefix)
             end
 
             page.data['layout'] = 'default' unless page.data.key? 'layout'
@@ -115,17 +112,11 @@ module Jekyll
           if asciidoc_converter.matches(JEKYLL_MIN_VERSION_3 ? post.data['ext'] : post.ext)
             next unless (doc = asciidoc_converter.load_header(post.content))
 
-            post.data['title'] ||= doc.doctitle
+            post.data['title'] = doc.doctitle if doc.header?
             post.data['author'] = doc.author if doc.author
-            # TODO carry over date
-            # setting categories doesn't work here, we lose the post
-            #post.data['categories'] ||= (doc.attr 'categories') if (doc.attr? 'categories')
 
             doc.attributes.each do |key, val|
-              if key.start_with?(page_attr_prefix) &&
-                  !post.data.key?(data_key = key[page_attr_prefix_l..-1])
-                post.data[data_key] = val
-              end
+              post.data[key[page_attr_prefix_l..-1]] = val if key.start_with?(page_attr_prefix)
             end
 
             post.data['layout'] = 'default' unless post.data.key? 'layout'
