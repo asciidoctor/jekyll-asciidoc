@@ -36,11 +36,11 @@ module Jekyll
             rescue LoadError
               STDERR.puts 'You are missing a library required to convert AsciiDoc files. Please run:'
               STDERR.puts '  $ [sudo] gem install asciidoctor'
-              raise FatalException.new("Missing dependency: asciidoctor")
+              raise FatalException.new('Missing dependency: asciidoctor')
             end
           else
             STDERR.puts "Invalid AsciiDoc processor: #{@config['asciidoc']}"
-            STDERR.puts "  Valid options are [ asciidoctor ]"
+            STDERR.puts '  Valid options are [ asciidoctor ]'
             raise FatalException.new("Invalid AsciiDoc process: #{@config['asciidoc']}")
         end
         @setup = true
