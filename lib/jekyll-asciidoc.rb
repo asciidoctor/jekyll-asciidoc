@@ -10,20 +10,20 @@ module Jekyll
 
       def initialize(config)
         @config = config
-        @config['asciidoc'] ||= 'asciidoctor'
-        @config['asciidoc_ext'] ||= 'asciidoc,adoc,ad'
-        @asciidoctor_config = (@config['asciidoctor'] ||= {})
-        # convert keys to symbols
-        @asciidoctor_config.keys.each do |key|
-          @asciidoctor_config[key.to_sym] = @asciidoctor_config.delete(key)
+        config['asciidoc'] ||= 'asciidoctor'
+        config['asciidoc_ext'] ||= 'asciidoc,adoc,ad'
+        unless (asciidoctor_config = (config['asciidoctor'] ||= {})).frozen?
+          # NOTE convert keys to symbols
+          asciidoctor_config.keys.each do |key|
+            asciidoctor_config[key.to_sym] = asciidoctor_config.delete(key)
+          end
+          asciidoctor_config[:safe] ||= 'safe'
+          (asciidoctor_config[:attributes] ||= []).tap do |attributes|
+            attributes.unshift(*['notitle', 'hardbreaks', 'idprefix', 'idseparator=-', 'linkattrs'])
+            attributes.push('env-jekyll')
+          end
+          asciidoctor_config.freeze
         end
-        @asciidoctor_config[:safe] ||= 'safe'
-        user_defined_attributes = @asciidoctor_config[:attributes]
-        @asciidoctor_config[:attributes] = %w(notitle hardbreaks idprefix= idseparator=- linkattrs)
-        unless user_defined_attributes.nil?
-          @asciidoctor_config[:attributes].concat(user_defined_attributes)
-        end
-        @asciidoctor_config[:attributes].push('env-jekyll')
       end
 
       def setup
