@@ -12,6 +12,7 @@ module Jekyll
         @config = config
         config['asciidoc'] ||= 'asciidoctor'
         config['asciidoc_ext'] ||= 'asciidoc,adoc,ad'
+        config['asciidoc_page_attribute_prefix'] ||= 'page'
         unless (asciidoctor_config = (config['asciidoctor'] ||= {})).frozen?
           # NOTE convert keys to symbols
           asciidoctor_config.keys.each do |key|
@@ -87,55 +88,47 @@ module Jekyll
             site.find_converter_instance(Jekyll::Converters::AsciiDocConverter) :
             site.getConverterImpl(Jekyll::Converters::AsciiDocConverter)
         asciidoc_converter.setup
-        key_prefix = (site.config['asciidoc_key_prefix'] || 'jekyll-')
-        key_prefix_len = key_prefix.length
+        unless (page_attr_prefix = site.config['asciidoc_page_attribute_prefix']).empty?
+          page_attr_prefix = %(#{page_attr_prefix}-)
+        end
+        page_attr_prefix_l = page_attr_prefix.length
+
         site.pages.each do |page|
           if asciidoc_converter.matches(page.ext)
-            doc = asciidoc_converter.load(page.content)
-            next if doc.nil?
+            next unless (doc = asciidoc_converter.load(page.content))
 
             page.data['title'] ||= doc.doctitle
-            page.data['author'] = doc.author unless doc.author.nil?
+            page.data['author'] = doc.author if doc.author
 
             doc.attributes.each do |key, val|
-              if key.start_with?(key_prefix)
-                page.data[key[key_prefix_len..-1]] ||= val
+              if key.start_with?(page_attr_prefix) &&
+                  !page.data.key?(data_key = key[page_attr_prefix_l..-1])
+                page.data[data_key] = val
               end
             end
 
-            unless page.data.has_key? 'layout'
-              if doc.attr? 'page-layout'
-                page.data['layout'] ||= doc.attr 'page-layout'
-              else
-                page.data['layout'] ||= 'default'
-              end
-            end
+            page.data['layout'] = 'default' unless page.data.key? 'layout'
           end
         end
+
         (JEKYLL_MIN_VERSION_3 ? site.posts.docs : site.posts).each do |post|
           if asciidoc_converter.matches(JEKYLL_MIN_VERSION_3 ? post.data['ext'] : post.ext)
-            doc = asciidoc_converter.load(post.content)
-            next if doc.nil?
+            next unless (doc = asciidoc_converter.load(post.content))
 
             post.data['title'] ||= doc.doctitle
-            post.data['author'] = doc.author unless doc.author.nil?
+            post.data['author'] = doc.author if doc.author
             # TODO carry over date
             # setting categories doesn't work here, we lose the post
             #post.data['categories'] ||= (doc.attr 'categories') if (doc.attr? 'categories')
 
             doc.attributes.each do |key, val|
-              if key.start_with?(key_prefix)
-                post.data[key[key_prefix_len..-1]] ||= val
+              if key.start_with?(page_attr_prefix) &&
+                  !post.data.key?(data_key = key[page_attr_prefix_l..-1])
+                post.data[data_key] = val
               end
             end
 
-            unless post.data.has_key? 'layout'
-              if doc.attr? 'page-layout'
-                post.data['layout'] ||= doc.attr 'page-layout'
-              else
-                post.data['layout'] ||= 'post'
-              end
-            end
+            post.data['layout'] = 'default' unless post.data.key? 'layout'
           end
         end
       end
