@@ -110,6 +110,9 @@ puts "Hello, World!"
 IMPORTANT: The AsciiDoc file must have a http://jekyllrb.com/docs/frontmatter/[YAML front matter] header or else it won't be recognized as a page.
 You can use an empty front matter header, as shown above, or you can define all your document metadata (e.g., document title) in the front matter instead of AsciiDoc attributes.
 
+NOTE: AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to Jekyll front matter.
+The part of the name after the `page-` prefix is used as the key (e.g., page-layout becomes layout).
+
 You can now build your site using:
 
  $ jekyll build
@@ -140,6 +143,15 @@ To tell Jekyll which extensions to recognize as AsciiDoc files, add the followin
 asciidoc_ext: asciidoc,adoc,ad
 
 The extensions shown in the previous listing are the default values, so you don't need to specify this option if those defaults are sufficient.
+
+AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to Jekyll front matter.
+The part of the name after the `page-` prefix is used as the key (e.g., page-layout becomes layout).
+If you want to change this attribute prefix, add the following line to your [path]_{empty}_config.yml_:
+
+[source,yaml]
+asciidoc_page_attribute_prefix: jekyll
+
+A hyphen is automatically added to the value of this configuration setting if the value is non-empty.
 
 To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your [path]_{empty}_config.yml_:
 
