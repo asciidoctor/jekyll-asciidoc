@@ -119,7 +119,7 @@ module Jekyll
               post.data[key[page_attr_prefix_l..-1]] = val if key.start_with?(page_attr_prefix)
             end
 
-            post.data['layout'] = 'default' unless post.data.key? 'layout'
+            post.data['layout'] = 'post' unless post.data.key? 'layout'
           end
         end
       end
