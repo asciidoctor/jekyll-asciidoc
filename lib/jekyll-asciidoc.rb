@@ -67,7 +67,7 @@ module Jekyll
         end
       end
 
-      def load(content)
+      def load_header(content)
         setup
         case @config['asciidoc']
         when 'asciidoctor'
@@ -95,7 +95,7 @@ module Jekyll
 
         site.pages.each do |page|
           if asciidoc_converter.matches(page.ext)
-            next unless (doc = asciidoc_converter.load(page.content))
+            next unless (doc = asciidoc_converter.load_header(page.content))
 
             page.data['title'] ||= doc.doctitle
             page.data['author'] = doc.author if doc.author
@@ -113,7 +113,7 @@ module Jekyll
 
         (JEKYLL_MIN_VERSION_3 ? site.posts.docs : site.posts).each do |post|
           if asciidoc_converter.matches(JEKYLL_MIN_VERSION_3 ? post.data['ext'] : post.ext)
-            next unless (doc = asciidoc_converter.load(post.content))
+            next unless (doc = asciidoc_converter.load_header(post.content))
 
             post.data['title'] ||= doc.doctitle
             post.data['author'] = doc.author if doc.author
