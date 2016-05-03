@@ -1,12 +1,27 @@
 = Jekyll AsciiDoc Plugin (powered by Asciidoctor)
 Paul Rayner <https://github.com/paulrayner[@paulrayner]>; Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
+// Settings:
+:idprefix:
+:idseparator: -
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
 :toc: preamble
 :toclevels: 1
-ifdef::env-github[:badges:]
+endif::[]
+ifdef::env-github[]
+:status:
+:outfilesuffix: .adoc
+:!toc-title:
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
 
 A plugin for http://jekyllrb.com[Jekyll] that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
 
-ifdef::badges[]
+ifdef::status[]
 image::https://img.shields.io/gem/v/jekyll-asciidoc.svg?label=gem%20version[Gem Version, link=https://rubygems.org/gems/jekyll-asciidoc]
 endif::[]
 
