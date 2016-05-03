@@ -95,7 +95,7 @@ To add a page composed in AsciiDoc, simply add an AsciiDoc file to the root of t
 ---
 ---
 = Sample Page
-:layout: page
+:page-layout: page
 :permalink: /page/
 
 This is a sample page composed in AsciiDoc.
