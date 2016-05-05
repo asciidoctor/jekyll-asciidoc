@@ -29,11 +29,11 @@ module Jekyll
 
       def setup
         return if @setup
+        @setup = true
         case @config['asciidoc']
           when 'asciidoctor'
             begin
-              require 'asciidoctor'
-              @setup = true
+              require 'asciidoctor' unless defined? ::Asciidoctor
             rescue LoadError
               STDERR.puts 'You are missing a library required to convert AsciiDoc files. Please run:'
               STDERR.puts '  $ [sudo] gem install asciidoctor'
@@ -42,9 +42,8 @@ module Jekyll
           else
             STDERR.puts "Invalid AsciiDoc processor: #{@config['asciidoc']}"
             STDERR.puts '  Valid options are [ asciidoctor ]'
-            raise FatalException.new("Invalid AsciiDoc process: #{@config['asciidoc']}")
+            raise FatalException.new("Invalid AsciiDoc processor: #{@config['asciidoc']}")
         end
-        @setup = true
       end
       
       def matches(ext)
