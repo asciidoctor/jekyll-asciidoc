@@ -99,7 +99,7 @@ module Jekyll
             page.data['title'] = doc.doctitle if doc.header?
             page.data['author'] = doc.author if doc.author
 
-            unless (additional_page_data = ::SafeYAML.load(doc.attributes
+            unless (additional_page_data = SafeYAML.load(doc.attributes
                 .select {|name| name.start_with?(page_attr_prefix) }
                 .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val}) }
                 .join("\n"))).empty?
@@ -116,9 +116,9 @@ module Jekyll
 
             post.data['title'] = doc.doctitle if doc.header?
             post.data['author'] = doc.author if doc.author
-            post.data['date'] = ::DateTime.parse(doc.revdate).to_time if doc.attr? 'revdate'
+            post.data['date'] = DateTime.parse(doc.revdate).to_time if doc.attr? 'revdate'
 
-            unless (additional_page_data = ::SafeYAML.load(doc.attributes
+            unless (additional_page_data = SafeYAML.load(doc.attributes
                 .select {|name| name.start_with?(page_attr_prefix) }
                 .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val}) }
                 .join("\n"))).empty?
