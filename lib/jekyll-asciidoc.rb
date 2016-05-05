@@ -21,7 +21,7 @@ module Jekyll
           asciidoctor_config[:safe] ||= 'safe'
           (asciidoctor_config[:attributes] ||= []).tap do |attributes|
             attributes.unshift(*['notitle', 'hardbreaks', 'idprefix', 'idseparator=-', 'linkattrs'])
-            attributes.push('env-jekyll')
+            attributes.push('env=site', 'env-site', 'site-gen=jekyll', 'site-gen-jekyll', 'jekyll-version=' + Jekyll::VERSION)
           end
           asciidoctor_config.freeze
         end
