@@ -11,7 +11,8 @@ module Jekyll
       def initialize(config)
         @config = config
         config['asciidoc'] ||= 'asciidoctor'
-        config['asciidoc_ext'] ||= 'asciidoc,adoc,ad'
+        asciidoc_ext = (config['asciidoc_ext'] ||= 'asciidoc,adoc,ad')
+        config['asciidoc_ext_re'] = Regexp.new("\.(#{asciidoc_ext.tr ',', '|'})$", Regexp::IGNORECASE)
         config['asciidoc_page_attribute_prefix'] ||= 'page'
         unless (asciidoctor_config = (config['asciidoctor'] ||= {})).frozen?
           # NOTE convert keys to symbols
@@ -47,8 +48,7 @@ module Jekyll
       end
       
       def matches(ext)
-        rgx = "\.(#{@config['asciidoc_ext'].tr ',', '|'})$"
-        ext =~ Regexp.new(rgx, Regexp::IGNORECASE)
+        ext =~ @config['asciidoc_ext_re']
       end
 
       def output_ext(ext)
