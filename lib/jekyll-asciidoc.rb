@@ -3,6 +3,10 @@ JEKYLL_MIN_VERSION_3 = Gem::Version.new(Jekyll::VERSION) >= Gem::Version.new('3.
 module Jekyll
   module Converters
     class AsciiDocConverter < Converter
+      IMPLICIT_ATTRIBUTES = %W(
+        env=site env-site site-gen=jekyll site-gen-jekyll builder=jekyll builder-jekyll jekyll-version=#{Jekyll::VERSION}
+      )
+
       safe true
 
       highlighter_prefix "\n"
@@ -21,8 +25,8 @@ module Jekyll
           end
           asciidoctor_config[:safe] ||= 'safe'
           (asciidoctor_config[:attributes] ||= []).tap do |attributes|
-            attributes.unshift(*['notitle', 'hardbreaks', 'idprefix', 'idseparator=-', 'linkattrs'])
-            attributes.push('env=site', 'env-site', 'site-gen=jekyll', 'site-gen-jekyll', 'jekyll-version=' + Jekyll::VERSION)
+            attributes.unshift('notitle', 'hardbreaks', 'idprefix', 'idseparator=-', 'linkattrs')
+            attributes.concat(IMPLICIT_ATTRIBUTES)
           end
           asciidoctor_config.freeze
         end
