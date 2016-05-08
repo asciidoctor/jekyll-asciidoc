@@ -103,11 +103,10 @@ module Jekyll
             page.data['title'] = doc.doctitle if doc.header?
             page.data['author'] = doc.author if doc.author
 
-            unless (additional_page_data = SafeYAML.load(doc.attributes
+            unless (adoc_front_matter = doc.attributes
                 .select {|name| name.start_with?(page_attr_prefix) }
-                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val}) }
-                .join("\n"))).empty?
-              page.data.update(additional_page_data)
+                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val}) }).empty?
+              page.data.update(SafeYAML.load(adoc_front_matter * "\n"))
             end
 
             page.data['layout'] = 'default' unless page.data.key? 'layout'
@@ -122,11 +121,10 @@ module Jekyll
             post.data['author'] = doc.author if doc.author
             post.data['date'] = DateTime.parse(doc.revdate).to_time if doc.attr? 'revdate'
 
-            unless (additional_page_data = SafeYAML.load(doc.attributes
+            unless (adoc_front_matter = doc.attributes
                 .select {|name| name.start_with?(page_attr_prefix) }
-                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val}) }
-                .join("\n"))).empty?
-              post.data.update(additional_page_data)
+                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val}) }).empty?
+              post.data.update(SafeYAML.load(adoc_front_matter * "\n"))
             end
 
             post.data['layout'] = 'post' unless post.data.key? 'layout'
