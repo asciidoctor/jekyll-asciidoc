@@ -111,7 +111,7 @@ To add a page composed in AsciiDoc, simply add an AsciiDoc file to the root of t
 ---
 = Sample Page
 :page-layout: page
-:permalink: /page/
+:page-permalink: /page/
 
 This is a sample page composed in AsciiDoc.
 Jekyll converts it to HTML using http://asciidoctor.org[Asciidoctor].
