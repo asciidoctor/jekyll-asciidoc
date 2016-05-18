@@ -122,11 +122,16 @@ puts "Hello, World!"
 ----
 ....
 
-IMPORTANT: The AsciiDoc file must have a http://jekyllrb.com/docs/frontmatter/[YAML front matter] header or else it won't be recognized as a page.
-You can use an empty front matter header, as shown above, or you can define all your document metadata (e.g., document title) in the front matter instead of AsciiDoc attributes.
+AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to Jekyll front matter.
+The part of the name after the `page-` prefix is used as the entry's key (e.g., page-layout becomes layout).
 
-NOTE: AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to Jekyll front matter.
-The part of the name after the `page-` prefix is used as the key (e.g., page-layout becomes layout).
+IMPORTANT: Each AsciiDoc file must begin with a http://jekyllrb.com/docs/frontmatter/[front matter header].
+Otherwise, Jekyll won't treat the file as a page, but rather as a static file.
+The front matter header must be the very first character of the file.
+If the file begins with whitespace or a Byte Order Mark (BOM), then the front matter header won't be seen.
+
+TIP: You can use an empty front matter header, as shown above.
+In this case, you define all the document metadata (e.g., layout) using AsciiDoc attributes instead of in the front matter.
 
 You can now build your site using:
 
