@@ -41,11 +41,11 @@ These extensions are loaded automatically when the jekyll-asciidoc is required.
 == Installation
 
 The plugin depends on the http://rubygems.org/gems/asciidoctor[asciidoctor] gem.
-You can install the gem using:
+You can install the gem directly using:
 
  $ gem install asciidoctor
 
-If you're using Bundler to manage the dependencies in your Jekyll project, instead add the asciidoctor gem to your [path]_Gemfile_ (beneath the jekyll gem):
+If you're using Bundler to manage dependencies in your Jekyll project, add the asciidoctor gem to your project's [path]_Gemfile_ instead (just below the entry for the jekyll gem):
 
 [source,ruby]
 ----
@@ -55,9 +55,9 @@ gem 'jekyll'
 gem 'asciidoctor'
 ----
 
-Then, run the Bundler install command:
+Then, run the `bundle` command from Bundler to install the gem:
 
- $ bundle install
+ $ bundle
 
 === Installing a released version of the plugin
 
