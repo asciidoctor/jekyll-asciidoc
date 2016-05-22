@@ -19,11 +19,11 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
-A plugin for http://jekyllrb.com[Jekyll] that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
-
 ifdef::status[]
 image::https://img.shields.io/gem/v/jekyll-asciidoc.svg?label=gem%20version[Gem Version, link=https://rubygems.org/gems/jekyll-asciidoc]
 endif::[]
+
+A plugin for http://jekyllrb.com[Jekyll] that converts http://asciidoc.org[AsciiDoc] files in your site source to HTML pages using http://asciidoctor.org[Asciidoctor].
 
 == Overview
 
