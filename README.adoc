@@ -25,6 +25,7 @@ endif::[]
 :uri-gem-jekyll-asciidoc: http://rubygems.org/gems/jekyll-asciidoc
 :uri-jekyll: https://jekyllrb.com
 :uri-front-matter: http://jekyllrb.com/docs/frontmatter/
+:uri-liquid-templates: https://jekyllrb.com/docs/templates/
 :uri-graphviz: http://www.graphviz.org
 
 ifdef::status[]
@@ -162,6 +163,13 @@ In addition to these explicit page attributes, the following AsciiDoc attributes
 * doctitle (i.e., the document title) (becomes title)
 * author
 * revdate (becomes date; value is converted to a DateTime object; only for posts)
+
+Unlike other content files, the {uri-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (as of v1.2.0 of this plugin).
+If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the liquid page variable.
+
+----
+:page-liquid:
+----
 
 IMPORTANT: Each AsciiDoc file must begin with a {uri-front-matter}[front matter header].
 Otherwise, Jekyll won't treat the file as a page, but rather as a static file.
