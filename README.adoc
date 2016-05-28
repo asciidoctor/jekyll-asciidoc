@@ -102,7 +102,15 @@ NOTE: If the [path]_{empty}_plugins_ directory does not exist, you need to first
 
 == Creating pages
 
-To add a page composed in AsciiDoc, simply add an AsciiDoc file to the root of the project with an AsciiDoc file extension.
+This plugin converts eligible AsciiDoc files found in the source directory (which defaults to the project root) to pages in the generated site.
+There are a few conditions that must be met for an AsciiDoc file to be qualified:
+
+. The file must have an AsciiDoc file extension (see <<configuration>>).
+. The name of the file must not begin with an underscore (e.g., `_`).
+. The file must not be located in a folder whose name begins with an underscore (e.g., `_`), except for posts.
+. The document must begin with a http://jekyllrb.com/docs/frontmatter/[front matter header] (and cannot have a Byte Order Mark, or BOM).
+
+Here's a sample AsciiDoc file that meets these criteria:
 
 .sample.adoc
 [listing]
@@ -154,7 +162,9 @@ If an AsciiDoc file is not listed, then likely Jekyll did not find a http://jeky
 IMPORTANT: If you use the `--safe` option, the AsciiDoc plugin will not be activated.
 The `--safe` flag disables third-party plugins such as this one.
 
-== Configuration (optional)
+== Configuration
+
+This section describes the configuration options for this plugin, which are _optional_.
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
 Since Asciidoctor is the only option, the default setting is equivalent to the following configuration in [path]_{empty}_config.yml_:
