@@ -141,10 +141,15 @@ and preview it using:
 
  $ jekyll serve
 
-If you are using Bundler then use following commands to do the same
+If you're using Bundler, then prefix the commands with `bundle exec`, as in:
 
  $ bundle exec jekyll build
- $ bundle exec jekyll serve
+
+To see a report of all the files that are processed, add the `--verbose` flag:
+
+ $ jekyll build --verbose
+
+If an AsciiDoc file is not listed, then likely Jekyll did not find a http://jekyllrb.com/docs/frontmatter/[front matter header].
 
 IMPORTANT: If you use the `--safe` option, the AsciiDoc plugin will not be activated.
 The `--safe` flag disables third-party plugins such as this one.
