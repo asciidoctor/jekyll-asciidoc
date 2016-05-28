@@ -105,7 +105,7 @@ module Jekyll
 
             unless (adoc_front_matter = doc.attributes
                 .select {|name| name.start_with?(page_attr_prefix) }
-                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val}) }).empty?
+                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val == '' ? '""' : val}) }).empty?
               page.data.update(SafeYAML.load(adoc_front_matter * "\n"))
             end
 
@@ -123,7 +123,7 @@ module Jekyll
 
             unless (adoc_front_matter = doc.attributes
                 .select {|name| name.start_with?(page_attr_prefix) }
-                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val}) }).empty?
+                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val == '' ? '""' : val}) }).empty?
               post.data.update(SafeYAML.load(adoc_front_matter * "\n"))
             end
 
