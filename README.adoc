@@ -138,7 +138,7 @@ puts "Hello, World!"
 ----
 ....
 
-Alternatively, you can define the front matter data directly in the AsciiDoc header:
+Alternatively, you can define the front matter data directly in the AsciiDoc header (which we recommend):
 
 .sample.adoc
 [listing]
