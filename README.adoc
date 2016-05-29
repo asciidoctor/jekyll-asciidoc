@@ -140,6 +140,13 @@ puts "Hello, World!"
 
 AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to Jekyll front matter.
 The part of the name after the `page-` prefix is used as the entry's key (e.g., page-layout becomes layout).
+The value is parsed as https://en.wikipedia.org/wiki/YAML[YAML] data (that which can be expressed in a single line).
+
+In addition to these explicit page attributes, the following AsciiDoc attributes are also promoted to page data:
+
+* doctitle (i.e., the document title) (becomes title)
+* author
+* revdate (becomes date; value is converted to a DateTime object; only for posts)
 
 IMPORTANT: Each AsciiDoc file must begin with a {uri-front-matter}[front matter header].
 Otherwise, Jekyll won't treat the file as a page, but rather as a static file.
