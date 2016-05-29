@@ -117,7 +117,7 @@ There are a few conditions that must be met for an AsciiDoc file to be qualified
 . The file must have an AsciiDoc file extension (see <<configuration>>).
 . The name of the file must not begin with a dot (`.`) or underscore (`_`).footnoteref:[excluded_files,These files are excluded by Jekyll.]
 . The file must not be located in a folder whose name begins with a dot (`.`) or underscore (`_`), except for posts.footnoteref:[excluded_files]
-. The document must begin with a {uri-front-matter}[front matter header] (and cannot have a Byte Order Mark, or BOM).
+. _(optional)_ The document may begin with a {uri-front-matter}[front matter header].
 
 Here's a sample AsciiDoc file that meets these criteria:
 
@@ -171,15 +171,14 @@ If you want the Liquid template preprocessor to be applied to an AsciiDoc file (
 :page-liquid:
 ----
 
-IMPORTANT: Each AsciiDoc file must begin with a {uri-front-matter}[front matter header].
-Otherwise, Jekyll won't treat the file as a page, but rather as a static file.
-The front matter header must be the very first character of the file.
-If the file begins with whitespace or a Byte Order Mark (BOM), then the front matter header won't be seen.
+IMPORTANT: AsciiDoc files may include a {uri-front-matter}[front matter header] for defining page settings and variables.
+If present, the front matter header must be the very first character of the file.
+The front matter header won't be seen--and could disrupt conversion--if the front matter is preceded by a whitespace character or a Byte Order Mark (BOM).
 
-TIP: You can use an empty front matter header, as shown in the second example above.
-In this case, you define all the document metadata (e.g., layout) using AsciiDoc attributes instead of in the front matter.
+TIP: You can exclude the front matter header, as shown in the first example above, or leave it empty, as shown in the second example.
+In these cases, you'll define all the page metadata (e.g., layout) using AsciiDoc attributes instead of in the front matter.
 You can also use a combination of both.
-In this case, the attributes defined in the AsciiDoc header take precedence.
+When combined, the attributes defined in the AsciiDoc header take precedence.
 
 You can now build your site using:
 

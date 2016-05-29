@@ -1,6 +1,14 @@
 JEKYLL_MIN_VERSION_3 = Gem::Version.new(Jekyll::VERSION) >= Gem::Version.new('3.0.0') unless defined? JEKYLL_MIN_VERSION_3
 
 module Jekyll
+  module AsciiDoc
+    module Utils
+      def self.has_front_matter?(delegate_method, asciidoc_ext_re, path)
+        ::File.extname(path) =~ asciidoc_ext_re ? true : delegate_method.call(path)
+      end
+    end
+  end
+
   module Converters
     class AsciiDocConverter < Converter
       IMPLICIT_ATTRIBUTES = %W(
@@ -17,7 +25,7 @@ module Jekyll
         @config = config
         config['asciidoc'] ||= 'asciidoctor'
         asciidoc_ext = (config['asciidoc_ext'] ||= 'asciidoc,adoc,ad')
-        config['asciidoc_ext_re'] = /^\.(?:#{asciidoc_ext.tr ',', '|'})$/ix
+        asciidoc_ext_re = (config['asciidoc_ext_re'] = /^\.(?:#{asciidoc_ext.tr ',', '|'})$/ix)
         config['asciidoc_page_attribute_prefix'] ||= 'page'
         unless (asciidoctor_config = (config['asciidoctor'] ||= {})).frozen?
           # NOTE convert keys to symbols
@@ -28,6 +36,14 @@ module Jekyll
           (asciidoctor_config[:attributes] ||= []).tap do |attributes|
             attributes.unshift('notitle', 'hardbreaks', 'idprefix', 'idseparator=-', 'linkattrs')
             attributes.concat(IMPLICIT_ATTRIBUTES)
+          end
+          if JEKYLL_MIN_VERSION_3 && !config['asciidoc_require_front_matter']
+            if (del_method = ::Jekyll::Utils.method(:has_yaml_header?))
+              unless (new_method = ::Jekyll::AsciiDoc::Utils.method(:has_front_matter?)).respond_to?(:curry)
+                new_method = new_method.to_proc # Ruby < 2.2
+              end
+              del_method.owner.define_singleton_method(del_method.name, new_method.curry[del_method][asciidoc_ext_re])
+            end
           end
           asciidoctor_config.freeze
         end
