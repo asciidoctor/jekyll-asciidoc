@@ -86,6 +86,12 @@ module Jekyll
   module Generators
     # Promotes select AsciiDoc attributes to Jekyll front matter
     class AsciiDocPreprocessor < Generator
+      module NoLiquid
+        def render_with_liquid?
+          false
+        end
+      end
+
       def generate(site)
         asciidoc_converter = JEKYLL_MIN_VERSION_3 ?
             site.find_converter_instance(Jekyll::Converters::AsciiDocConverter) :
@@ -110,6 +116,8 @@ module Jekyll
             end
 
             page.data['layout'] = 'default' unless page.data.key? 'layout'
+
+            page.extend NoLiquid unless page.data['liquid']
           end
         end
 
@@ -128,6 +136,8 @@ module Jekyll
             end
 
             post.data['layout'] = 'post' unless post.data.key? 'layout'
+
+            post.extend NoLiquid unless post.data['liquid']
           end
         end
       end
