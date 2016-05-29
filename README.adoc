@@ -114,8 +114,8 @@ This plugin converts eligible AsciiDoc files found in the source directory (whic
 There are a few conditions that must be met for an AsciiDoc file to be qualified:
 
 . The file must have an AsciiDoc file extension (see <<configuration>>).
-. The name of the file must not begin with an underscore (e.g., `_`).footnoteref:[ignored_files,This behavior is provided by Jekyll.]
-. The file must not be located in a folder whose name begins with an underscore (e.g., `_`), except for posts.footnoteref:[ignored_files]
+. The name of the file must not begin with a dot (`.`) or underscore (`_`).footnoteref:[excluded_files,These files are excluded by Jekyll.]
+. The file must not be located in a folder whose name begins with a dot (`.`) or underscore (`_`), except for posts.footnoteref:[excluded_files]
 . The document must begin with a {uri-front-matter}[front matter header] (and cannot have a Byte Order Mark, or BOM).
 
 Here's a sample AsciiDoc file that meets these criteria:
