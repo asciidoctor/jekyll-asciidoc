@@ -74,7 +74,7 @@ module Jekyll
         setup
         case @config['asciidoc']
         when 'asciidoctor'
-          Asciidoctor.load(content, parse_header_only: true)
+          Asciidoctor.load(content, @config['asciidoctor'].merge(parse_header_only: true))
         else
           warn 'Unknown AsciiDoc converter. Cannot load document header.'
           nil
