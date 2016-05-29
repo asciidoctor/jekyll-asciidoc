@@ -6,6 +6,7 @@ module Jekyll
       IMPLICIT_ATTRIBUTES = %W(
         env=site env-site site-gen=jekyll site-gen-jekyll builder=jekyll builder-jekyll jekyll-version=#{Jekyll::VERSION}
       )
+      HEADER_BOUNDARY_RE = /(?<=\p{Graph})\n\n/
 
       safe true
 
@@ -60,24 +61,27 @@ module Jekyll
       end
 
       def convert(content)
+        return content if content.empty?
         setup
         case @config['asciidoc']
         when 'asciidoctor'
           Asciidoctor.convert(content, @config['asciidoctor'])
         else
-          warn 'Unknown AsciiDoc converter. Passing through raw content.'
+          warn 'Unknown AsciiDoc converter. Passing through unparsed content.'
           content
         end
       end
 
       def load_header(content)
         setup
+        # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
+        header = content.split(HEADER_BOUNDARY_RE, 2)[0]
         case @config['asciidoc']
         when 'asciidoctor'
-          Asciidoctor.load(content, @config['asciidoctor'].merge(parse_header_only: true))
+          # NOTE return a document even if header is empty because attributes may be inherited from config
+          Asciidoctor.load(header, @config['asciidoctor'].merge(parse_header_only: true))
         else
           warn 'Unknown AsciiDoc converter. Cannot load document header.'
-          nil
         end
       end
     end
