@@ -124,10 +124,10 @@ Here's a sample AsciiDoc file that meets these criteria:
 [listing]
 ....
 ---
+layout: page
+permalink: /page/
 ---
 = Sample Page
-:page-layout: page
-:page-permalink: /page/
 
 This is a sample page composed in AsciiDoc.
 Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
@@ -136,6 +136,21 @@ Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
 ----
 puts "Hello, World!"
 ----
+....
+
+Alternatively, you can define the front matter data directly in the AsciiDoc header:
+
+.sample.adoc
+[listing]
+....
+---
+---
+= Sample Page
+:page-layout: page
+:page-permalink: /page/
+
+This is a sample page composed in AsciiDoc.
+...
 ....
 
 AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to Jekyll front matter.
@@ -153,8 +168,10 @@ Otherwise, Jekyll won't treat the file as a page, but rather as a static file.
 The front matter header must be the very first character of the file.
 If the file begins with whitespace or a Byte Order Mark (BOM), then the front matter header won't be seen.
 
-TIP: You can use an empty front matter header, as shown above.
+TIP: You can use an empty front matter header, as shown in the second example above.
 In this case, you define all the document metadata (e.g., layout) using AsciiDoc attributes instead of in the front matter.
+You can also use a combination of both.
+In this case, the attributes defined in the AsciiDoc header take precedence.
 
 You can now build your site using:
 
