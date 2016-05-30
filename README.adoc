@@ -144,8 +144,6 @@ Alternatively, you can define the front matter data directly in the AsciiDoc hea
 .sample.adoc
 [listing]
 ....
----
----
 = Sample Page
 :page-layout: page
 :page-permalink: /page/
@@ -304,8 +302,6 @@ To fix this, set the `imagesdir` attribute in any AsciiDoc file that contains di
 ._posts/2015-12-24-diagrams.adoc
 [listing]
 ....
----
----
 = Diagrams
 :imagesdir: /images/2015-12-24 <1>
 
