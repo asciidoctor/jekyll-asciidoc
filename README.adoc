@@ -129,6 +129,7 @@ layout: page
 permalink: /page/
 ---
 = Sample Page
+:uri-asciidoctor: http://asciidoctor.org
 
 This is a sample page composed in AsciiDoc.
 Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
@@ -147,8 +148,11 @@ Alternatively, you can define the front matter data directly in the AsciiDoc hea
 = Sample Page
 :page-layout: page
 :page-permalink: /page/
+:uri-asciidoctor: http://asciidoctor.org
 
 This is a sample page composed in AsciiDoc.
+Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
+
 ...
 ....
 
