@@ -17,7 +17,7 @@ module Jekyll
         @config = config
         config['asciidoc'] ||= 'asciidoctor'
         asciidoc_ext = (config['asciidoc_ext'] ||= 'asciidoc,adoc,ad')
-        config['asciidoc_ext_re'] = /^\.(?:#{asciidoc_ext.tr ',', '|'})$/i
+        config['asciidoc_ext_re'] = /^\.(?:#{asciidoc_ext.tr ',', '|'})$/ix
         config['asciidoc_page_attribute_prefix'] ||= 'page'
         unless (asciidoctor_config = (config['asciidoctor'] ||= {})).frozen?
           # NOTE convert keys to symbols
