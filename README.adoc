@@ -171,7 +171,7 @@ If the layout is ~, no layout is applied.
 To review, here are the different ways to specify a layout using the AsciiDoc attribute page-layout:
 
 * `:page-layout: page` -- use the layout named `page` (e.g., [path]_page.html_)
-* _not specified_ or `:page-layout:` or `:page-layout: _auto` -- use the default layout (i.e., `default` for pages, `post` for posts)
+* _not specified_, `:page-layout:` or `:page-layout: _auto` -- use the default layout (i.e., `default` for pages, `post` for posts)
 * `:!page-layout:` or `:page-layout: false` -- don't use a layout; instead, generate a standalone HTML document
 * `:page-layout: ~` -- don't use a layout (often results in an incomplete HTML file)
 
