@@ -15,6 +15,7 @@ module Jekyll
         env=site env-site site-gen=jekyll site-gen-jekyll builder=jekyll builder-jekyll jekyll-version=#{Jekyll::VERSION}
       )
       HEADER_BOUNDARY_RE = /(?<=\p{Graph})\n\n/
+      STANDALONE_HEADER = %([%standalone]\n)
 
       safe true
 
@@ -67,7 +68,7 @@ module Jekyll
           raise FatalException.new("Invalid AsciiDoc processor: #{@config['asciidoc']}")
         end
       end
-      
+
       def matches(ext)
         ext =~ @config['asciidoc_ext_re']
       end
@@ -79,9 +80,12 @@ module Jekyll
       def convert(content)
         return content if content.empty?
         setup
+        if (standalone = content.start_with?(STANDALONE_HEADER))
+          content = content[STANDALONE_HEADER.length..-1]
+        end
         case @config['asciidoc']
         when 'asciidoctor'
-          Asciidoctor.convert(content, @config['asciidoctor'])
+          Asciidoctor.convert(content, @config['asciidoctor'].merge(header_footer: standalone))
         else
           warn 'Unknown AsciiDoc converter. Passing through unparsed content.'
           content
@@ -112,6 +116,9 @@ module Jekyll
         end
       end
 
+      STANDALONE_HEADER = Converters::AsciiDocConverter::STANDALONE_HEADER
+      AUTO_PAGE_LAYOUT_LINE = %(:page-layout: _auto\n)
+
       def generate(site)
         asciidoc_converter = JEKYLL_MIN_VERSION_3 ?
             site.find_converter_instance(Jekyll::Converters::AsciiDocConverter) :
@@ -124,7 +131,8 @@ module Jekyll
 
         site.pages.each do |page|
           if asciidoc_converter.matches(page.ext)
-            next unless (doc = asciidoc_converter.load_header(page.content))
+            preamble = page.data.key?('layout') ? '' : AUTO_PAGE_LAYOUT_LINE
+            next unless (doc = asciidoc_converter.load_header(preamble + page.content))
 
             page.data['title'] = doc.doctitle if doc.header?
             page.data['author'] = doc.author if doc.author
@@ -135,7 +143,15 @@ module Jekyll
               page.data.update(SafeYAML.load(adoc_front_matter * "\n"))
             end
 
-            page.data['layout'] = 'default' unless page.data.key? 'layout'
+            case page.data['layout']
+            when nil
+              page.content = STANDALONE_HEADER + page.content unless page.data.key? 'layout'
+            when '', '_auto'
+              page.data['layout'] = 'default'
+            when false
+              page.data.delete('layout')
+              page.content = STANDALONE_HEADER + page.content
+            end
 
             page.extend NoLiquid unless page.data['liquid']
           end
@@ -143,7 +159,8 @@ module Jekyll
 
         (JEKYLL_MIN_VERSION_3 ? site.posts.docs : site.posts).each do |post|
           if asciidoc_converter.matches(JEKYLL_MIN_VERSION_3 ? post.data['ext'] : post.ext)
-            next unless (doc = asciidoc_converter.load_header(post.content))
+            preamble = post.data.key?('layout') ? '' : AUTO_PAGE_LAYOUT_LINE
+            next unless (doc = asciidoc_converter.load_header(preamble + post.content))
 
             post.data['title'] = doc.doctitle if doc.header?
             post.data['author'] = doc.author if doc.author
@@ -155,7 +172,15 @@ module Jekyll
               post.data.update(SafeYAML.load(adoc_front_matter * "\n"))
             end
 
-            post.data['layout'] = 'post' unless post.data.key? 'layout'
+            case post.data['layout']
+            when nil
+              post.content = STANDALONE_HEADER + post.content unless post.data.key? 'layout'
+            when '', '_auto'
+              post.data['layout'] = 'post'
+            when false
+              post.data.delete('layout')
+              post.content = STANDALONE_HEADER + post.content
+            end
 
             post.extend NoLiquid unless post.data['liquid']
           end
