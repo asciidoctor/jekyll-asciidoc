@@ -32,7 +32,7 @@ ifdef::status[]
 image:https://img.shields.io/gem/v/jekyll-asciidoc.svg?label=gem%20version[Gem Version, link={uri-gem-jekyll-asciidoc}]
 endif::[]
 
-A plugin for {uri-jekyll}[Jekyll] that converts {uri-asciidoc}[AsciiDoc] files in your site source to HTML pages using {uri-asciidoctor}[Asciidoctor].
+A plugin for {uri-jekyll}[Jekyll] (>= 2.0.0) that converts {uri-asciidoc}[AsciiDoc] files in your site source to HTML pages using {uri-asciidoctor}[Asciidoctor].
 
 == Overview
 
