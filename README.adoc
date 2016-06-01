@@ -76,9 +76,11 @@ Using Bundler::
 Add the `jekyll-asciidoc` plugin gem to your [path]_Gemfile_
 
 [source,ruby]
+----
 group :jekyll_plugins do
   gem 'jekyll-asciidoc'
 end
+----
 
 Then, run the Bundler command to install it:
 
@@ -95,8 +97,10 @@ If you are not using Bundler for managing Jekyll then install gems manually
 And then, add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
 
 [source,yaml]
+----
 gems:
   - jekyll-asciidoc
+----
 --
 
 === Installing development version of the plugin
@@ -122,8 +126,8 @@ There are a few conditions that must be met for an AsciiDoc file to be qualified
 Here's a sample AsciiDoc file that meets these criteria:
 
 .sample.adoc
-[listing]
-....
+[source,asciidoc]
+----
 ---
 layout: page
 permalink: /page/
@@ -135,16 +139,14 @@ This is a sample page composed in AsciiDoc.
 Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
 
 [source,ruby]
-----
 puts "Hello, World!"
 ----
-....
 
 Alternatively, you can define the front matter data directly in the AsciiDoc header (which we recommend):
 
 .sample.adoc
-[listing]
-....
+[source,asciidoc]
+----
 = Sample Page
 :page-layout: page
 :page-permalink: /page/
@@ -153,8 +155,9 @@ Alternatively, you can define the front matter data directly in the AsciiDoc hea
 This is a sample page composed in AsciiDoc.
 Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
 
-...
-....
+[source,ruby]
+puts "Hello, World!"
+----
 
 AsciiDoc attributes defined in the document header whose names begin with `page-` get promoted to Jekyll front matter.
 The part of the name after the `page-` prefix is used as the entry's key (e.g., page-layout becomes layout) and the value is interpeted as https://en.wikipedia.org/wiki/YAML[YAML] data (that which can be expressed in a single line).
@@ -226,12 +229,16 @@ By default, this plugin uses Asciidoctor to convert AsciiDoc files.
 Since Asciidoctor is the only option, the default setting is equivalent to the following configuration in [path]_{empty}_config.yml_:
 
 [source,yaml]
+----
 asciidoc: asciidoctor
+----
 
 To tell Jekyll which extensions to recognize as AsciiDoc files, add the following line to your [path]_{empty}_config.yml_:
 
 [source,yaml]
+----
 asciidoc_ext: asciidoc,adoc,ad
+----
 
 The extensions shown in the previous listing are the default values, so you don't need to specify this option if those defaults are sufficient.
 
@@ -240,18 +247,22 @@ The part of the name after the `page-` prefix is used as the key (e.g., page-lay
 If you want to change this attribute prefix, add the following line to your [path]_{empty}_config.yml_:
 
 [source,yaml]
+----
 asciidoc_page_attribute_prefix: jekyll
+----
 
 A hyphen is automatically added to the value of this configuration setting if the value is non-empty.
 
 To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your [path]_{empty}_config.yml_:
 
 [source,yaml]
+----
 asciidoctor:
   attributes:
     - hardbreaks!
     - source-highlighter=pygments
     - pygments-css=style
+----
 
 === Disabling hard line breaks
 
@@ -260,9 +271,11 @@ Since many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), t
 If you want the standard AsciiDoc behavior of collapsing hard line breaks in paragraph content, add the following settings to your site's [path]_{empty}_config.yml_ file:
 
 [source,yaml]
+----
 asciidoctor:
   attributes:
     - hardbreaks!
+----
 
 If you already have AsciiDoc attributes defined in the [path]_{empty}_config.yml_, the `hardbreaks!` attribute should be added as a sibling entry in the YAML collection.
 
@@ -283,8 +296,8 @@ Add `asciidoctor-diagram` gem to your [path]_Gemfile_
 [source,ruby]
 ----
 group :jekyll_plugins do
-  ....
-  gem 'asciidoctor-diagram', '>= 1.3.1' <1>
+  ...
+  gem 'asciidoctor-diagram', '~> 1.4.0' <1>
   ...
 end
 ----
@@ -305,8 +318,11 @@ Install gems manually
 Then, add the `asciidoctor-diagram` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
 
 [source,yaml]
+----
 gems:
   - asciidoctor-diagram
+  - jekyll-asciidoc
+----
 --
 
 Both of the previous configurations are the equivalent of passing `-r asciidoctor-diagram` to the `asciidoctor` command.
@@ -319,21 +335,21 @@ Thus, images URLs are not properly referenced from the generated HTML pages.
 To fix this, set the `imagesdir` attribute in any AsciiDoc file that contains diagrams.
 
 ._posts/2015-12-24-diagrams.adoc
-[listing]
-....
+[source,asciidoc]
+----
 = Diagrams
 :imagesdir: /images/2015-12-24 <1>
 
 [graphviz, dot-example, svg]
-----
+....
 digraph g {
     a -> b
     b -> c
     c -> d
     d -> a
 }
-----
 ....
+----
 <1> the date in the imagesdir value must match the date of the post (e.g., 2015-12-24)
 
 WARNING: The images are generated after Jekyll copies assets to the [path]_{empty}_site_ directory.
@@ -358,14 +374,18 @@ You need to augment the page layout to include resources typically present in a 
 . Add this stylesheet to the HTML `<head>` in [path]_{empty}_includes/head.html_ under the main.css declaration:
 +
 [source,html]
+----
 <link rel="stylesheet" href="{{ "/css/asciidoc.css" | prepend: site.baseurl }}">
+----
 
 === Font-based Admonition and Inline Icons
 
 To enable font-based admonition and inline icons, you first need to add Font Awesome to [path]_{empty}_includes/head.html_ file under the asciidoc.css declaration:
 
 [source,html]
+----
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+----
 
 NOTE: You can also link to local copy of Font Awesome.
 
@@ -412,15 +432,20 @@ Feel free to modify the CSS to your liking.
 
 Finally, you need to enable the font-based icons in the header of the document:
 
- :icons: font
+[source,asciidoc]
+----
+:icons: font
+----
 
 or in the site configuration:
 
 [source,yaml]
+----
 asciidoctor:
   attributes:
     - icons=font
     ...
+----
 
 === Image-based Admonition and Inline Icons
 
@@ -429,16 +454,21 @@ In this case, all you need to do is provide the icons at the proper location.
 
 First, enable image-based icons and configure the path to the icons in the header of the document:
 
- :icons:
- :iconsdir: /images/icons
+[source,asciidoc]
+----
+:icons:
+:iconsdir: /images/icons
+----
 
 or your site configuration:
 
 [source,yaml]
+----
 asciidoctor:
   attributes:
     - icons
     - iconsdir=/images/icons
+----
 
 Then, simply put the icon images that the page needs in the [path]_images/icons_ directory.
 
