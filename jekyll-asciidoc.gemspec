@@ -10,11 +10,11 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/asciidoctor/jekyll-asciidoc'
   s.license = 'MIT'
 
-  begin
-    s.files = `git ls-files -z -- */* {CHANGELOG,LICENSE,README,Rakefile}*`.split "\0"
+  s.files = begin
+    `git ls-files -z`.split "\0"
   rescue
-    s.files = Dir['**/*']
-  end
+    Dir['**/*']
+  end.grep(/^(?:lib\/.+|Rakefile|(LICENSE|README)\.adoc)$/)
   
   s.require_paths = ['lib']
 
