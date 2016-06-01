@@ -36,7 +36,7 @@ module Jekyll
           end
           asciidoctor_config[:safe] ||= 'safe'
           (asciidoctor_config[:attributes] ||= []).tap do |attributes|
-            attributes.unshift('notitle', 'hardbreaks', 'idprefix', 'idseparator=-', 'linkattrs')
+            attributes.unshift('notitle', 'idprefix', 'idseparator=-', 'linkattrs')
             attributes.concat(IMPLICIT_ATTRIBUTES)
           end
           if ::Jekyll::MIN_VERSION_3 && !config['asciidoc_require_front_matter']
