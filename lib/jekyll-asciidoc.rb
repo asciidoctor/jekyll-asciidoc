@@ -57,7 +57,7 @@ module Jekyll
         case @config['asciidoc']
         when 'asciidoctor'
           begin
-            require 'asciidoctor' unless defined? ::Asciidoctor
+            require 'asciidoctor' unless defined? ::Asciidoctor::VERSION
           rescue ::LoadError
             STDERR.puts 'You are missing a library required to convert AsciiDoc files. Please run:'
             STDERR.puts '  $ [sudo] gem install asciidoctor'
