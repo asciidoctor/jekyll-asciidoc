@@ -45,7 +45,7 @@ The plugin consists of three extensions:
 `Jekyll::Filters.asciidocify`::
   A Liquid filter for converting AsciiDoc content to HTML using the AsciiDocConverter
 
-These extensions are loaded automatically when the jekyll-asciidoc is required.
+These extensions are loaded automatically when the jekyll-asciidoc gem is required.
 
 == Installation
 
