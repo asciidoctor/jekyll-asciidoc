@@ -195,7 +195,7 @@ The front matter header won't be seen--and could disrupt conversion--if the fron
 TIP: You can exclude the front matter header, as shown in the first example above, or leave it empty, as shown in the second example.
 In these cases, you'll define all the page metadata (e.g., layout) using AsciiDoc attributes instead of in the front matter.
 You can also use a combination of both.
-When combined, the attributes defined in the AsciiDoc header take precedence.
+When intermixed, the attributes defined in the AsciiDoc header take precedence.
 
 You can now build your site using:
 
