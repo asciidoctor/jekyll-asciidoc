@@ -53,7 +53,7 @@ module Jekyll
       end
 
       def setup
-        return if @setup
+        return self if @setup
         @setup = true
         case @config['asciidoc']
         when 'asciidoctor'
@@ -69,6 +69,7 @@ module Jekyll
           STDERR.puts '  Valid options are [ asciidoctor ]'
           raise ::FatalException.new(%(Invalid AsciiDoc processor: #{@config['asciidoc']}))
         end
+        self
       end
 
       def matches(ext)
@@ -122,71 +123,49 @@ module Jekyll
       AUTO_PAGE_LAYOUT_LINE = %(:page-layout: _auto\n)
 
       def generate(site)
-        asciidoc_converter = ::Jekyll::MIN_VERSION_3 ?
+        @converter = (::Jekyll::MIN_VERSION_3 ?
             site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
-            site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)
-        asciidoc_converter.setup
-        unless (page_attr_prefix = site.config['asciidoc_page_attribute_prefix']).empty?
-          page_attr_prefix = %(#{page_attr_prefix}-)
+            site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
+        unless (@page_attr_prefix = site.config['asciidoc_page_attribute_prefix']).empty?
+          @page_attr_prefix = %(#{@page_attr_prefix}-)
         end
-        page_attr_prefix_l = page_attr_prefix.length
 
         site.pages.each do |page|
-          if asciidoc_converter.matches(page.ext)
-            preamble = page.data.key?('layout') ? '' : AUTO_PAGE_LAYOUT_LINE
-            next unless (doc = asciidoc_converter.load_header(preamble + page.content))
-
-            page.data['title'] = doc.doctitle if doc.header?
-            page.data['author'] = doc.author if doc.author
-
-            unless (adoc_front_matter = doc.attributes
-                .select {|name| name.start_with?(page_attr_prefix) }
-                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val == '' ? '""' : val}) }).empty?
-              page.data.update(::SafeYAML.load(adoc_front_matter * %(\n)))
-            end
-
-            case page.data['layout']
-            when nil
-              page.content = STANDALONE_HEADER + page.content unless page.data.key?('layout')
-            when '', '_auto'
-              page.data['layout'] = 'default'
-            when false
-              page.data.delete('layout')
-              page.content = STANDALONE_HEADER + page.content
-            end
-
-            page.extend NoLiquid unless page.data['liquid']
-          end
+          enhance_page(page) if @converter.matches(page.ext)
         end
 
         (::Jekyll::MIN_VERSION_3 ? site.posts.docs : site.posts).each do |post|
-          if asciidoc_converter.matches(::Jekyll::MIN_VERSION_3 ? post.data['ext'] : post.ext)
-            preamble = post.data.key?('layout') ? '' : AUTO_PAGE_LAYOUT_LINE
-            next unless (doc = asciidoc_converter.load_header(preamble + post.content))
-
-            post.data['title'] = doc.doctitle if doc.header?
-            post.data['author'] = doc.author if doc.author
-            post.data['date'] = ::DateTime.parse(doc.revdate).to_time if doc.attr? 'revdate'
-
-            unless (adoc_front_matter = doc.attributes
-                .select {|name| name.start_with?(page_attr_prefix) }
-                .map {|name, val| %(#{name[page_attr_prefix_l..-1]}: #{val == '' ? '""' : val}) }).empty?
-              post.data.update(::SafeYAML.load(adoc_front_matter * %(\n)))
-            end
-
-            case post.data['layout']
-            when nil
-              post.content = STANDALONE_HEADER + post.content unless post.data.key?('layout')
-            when '', '_auto'
-              post.data['layout'] = 'post'
-            when false
-              post.data.delete('layout')
-              post.content = STANDALONE_HEADER + post.content
-            end
-
-            post.extend NoLiquid unless post.data['liquid']
-          end
+          enhance_page(post, 'posts') if @converter.matches(::Jekyll::MIN_VERSION_3 ? post.data['ext'] : post.ext)
         end
+      end
+
+      def enhance_page page, collection = nil
+        #collection = (::Jekyll::Document === page ? page.collection.label : nil)
+        preamble = page.data.key?('layout') ? '' : AUTO_PAGE_LAYOUT_LINE
+        return unless (doc = @converter.load_header(preamble + page.content))
+
+        page.data['title'] = doc.doctitle if doc.header?
+        page.data['author'] = doc.author if doc.author
+        page.data['date'] = ::DateTime.parse(doc.revdate).to_time if collection == 'posts' && doc.attr?('revdate')
+
+        page_attr_prefix_length = @page_attr_prefix.length
+        unless (adoc_front_matter = doc.attributes
+            .select {|name| name.start_with?(@page_attr_prefix) }
+            .map {|name, val| %(#{name[page_attr_prefix_length..-1]}: #{val == '' ? '""' : val}) }).empty?
+          page.data.update(::SafeYAML.load(adoc_front_matter * %(\n)))
+        end
+
+        case page.data['layout']
+        when nil
+          page.content = STANDALONE_HEADER + page.content unless page.data.key?('layout')
+        when '', '_auto'
+          page.data['layout'] = (collection == 'posts' ? 'post' : 'default')
+        when false
+          page.data.delete('layout')
+          page.content = STANDALONE_HEADER + page.content
+        end
+
+        page.extend NoLiquid unless page.data['liquid']
       end
     end
   end
