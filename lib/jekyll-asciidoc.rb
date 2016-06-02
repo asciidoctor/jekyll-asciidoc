@@ -31,10 +31,7 @@ module Jekyll
         asciidoc_ext_re = (config['asciidoc_ext_re'] = /^\.(?:#{asciidoc_ext.tr ',', '|'})$/ix)
         config['asciidoc_page_attribute_prefix'] ||= 'page'
         unless (asciidoctor_config = (config['asciidoctor'] ||= {})).frozen?
-          # NOTE convert keys to symbols
-          asciidoctor_config.keys.each do |key|
-            asciidoctor_config[key.to_sym] = asciidoctor_config.delete(key)
-          end
+          asciidoctor_config.replace(::Hash[asciidoctor_config.map {|key, val| [key.to_sym, val] }])
           asciidoctor_config[:safe] ||= 'safe'
           (asciidoctor_config[:attributes] ||= []).tap do |attributes|
             attributes.unshift('notitle', 'idprefix', 'idseparator=-', 'linkattrs')
