@@ -123,7 +123,7 @@ module Jekyll
             site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
             site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
         unless (@page_attr_prefix = site.config['asciidoc_page_attribute_prefix']).empty?
-          @page_attr_prefix = %(#{@page_attr_prefix}-)
+          @page_attr_prefix = %(#{@page_attr_prefix.chomp '-'}-)
         end
 
         site.pages.each do |page|
