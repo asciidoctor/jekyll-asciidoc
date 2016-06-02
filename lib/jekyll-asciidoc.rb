@@ -24,6 +24,7 @@ module Jekyll
       highlighter_suffix %(\n)
 
       def initialize(config)
+        @setup = false
         @config = config
         config['asciidoc'] ||= 'asciidoctor'
         asciidoc_ext = (config['asciidoc_ext'] ||= 'asciidoc,adoc,ad')
