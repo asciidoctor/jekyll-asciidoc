@@ -25,8 +25,7 @@ module Jekyll
 
       def initialize(config)
         @setup = false
-        @config = config
-        config['asciidoc'] ||= 'asciidoctor'
+        (@config = config)['asciidoc'] ||= 'asciidoctor'
         asciidoc_ext = (config['asciidoc_ext'] ||= 'asciidoc,adoc,ad')
         asciidoc_ext_re = (config['asciidoc_ext_re'] = /^\.(?:#{asciidoc_ext.tr ',', '|'})$/ix)
         config['asciidoc_page_attribute_prefix'] ||= 'page'
@@ -116,8 +115,8 @@ module Jekyll
         end
       end
 
-      STANDALONE_HEADER = ::Jekyll::Converters::AsciiDocConverter::STANDALONE_HEADER
       AUTO_PAGE_LAYOUT_LINE = %(:page-layout: _auto\n)
+      STANDALONE_HEADER = ::Jekyll::Converters::AsciiDocConverter::STANDALONE_HEADER
 
       def generate(site)
         @converter = (::Jekyll::MIN_VERSION_3 ?
