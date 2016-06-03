@@ -259,25 +259,37 @@ To pass additional attributes to AsciiDoc, or override the default attributes de
 ----
 asciidoctor:
   attributes:
-    - hardbreaks!
+    - idprefix=_
     - source-highlighter=pygments
     - pygments-css=style
 ----
 
-=== Disabling hard line breaks
+=== Enabling hard line breaks
 
-The Jekyll AsciiDoc integration is configured to preserve hard line breaks in paragraph content by default.
-Since many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), this default was selected to ease the transition to AsciiDoc.
-If you want the standard AsciiDoc behavior of collapsing hard line breaks in paragraph content, add the following settings to your site's [path]_{empty}_config.yml_ file:
+Many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), which preserves hard line breaks in paragraph content.
+Asciidoctor supports this feature for AsciiDoc files.
+(In fact, previous versions of this plugin enabled this behavior by default).
+If you want to enable this behavior for AsciiDoc files, add the `hardbreaks-option` attribute to the Asciidoctor attributes configuration in your site's [path]_{empty}_config.yml_ file:
 
 [source,yaml]
 ----
 asciidoctor:
   attributes:
-    - hardbreaks!
+    - hardbreaks-option
 ----
 
-If you already have AsciiDoc attributes defined in the [path]_{empty}_config.yml_, the `hardbreaks!` attribute should be added as a sibling entry in the YAML collection.
+If you want to allow individual files to override this setting, then assign the value `@` to the attribute:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    - hardbreaks-option=@
+----
+
+If you already have AsciiDoc attributes defined in the [path]_{empty}_config.yml_, the new attribute should be added as a sibling entry in the YAML collection.
+
+WARNING: Keep in mind, if you enable hard line breaks, you won't be able to use the http://asciidoctor.org/docs/asciidoc-recommended-practices/#one-sentence-per-line[one sentence-per-line writing technique].
 
 == Enabling Asciidoctor Diagram (optional)
 
