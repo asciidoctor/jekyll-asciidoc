@@ -174,9 +174,9 @@ module Jekyll
     # Returns the HTML formatted String.
     def asciidocify(input)
       site = @context.registers[:site]
-      converter = ::Jekyll::MIN_VERSION_3 ?
+      converter = (::Jekyll::MIN_VERSION_3 ?
           site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
-          site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)
+          site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
       converter.convert(input)
     end
   end
