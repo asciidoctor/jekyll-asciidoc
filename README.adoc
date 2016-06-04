@@ -18,6 +18,8 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :warning-caption: :warning:
 endif::[]
+// Aliases:
+:path-config: pass:q[[path]___config.yml__]
 // URIs:
 :uri-asciidoc: http://asciidoc.org
 :uri-asciidoctor: http://asciidoctor.org
@@ -73,7 +75,7 @@ Then, run the `bundle` command from Bundler to install the gem:
 Using Bundler::
 +
 --
-Add the `jekyll-asciidoc` plugin gem to your [path]_Gemfile_
+Add the `jekyll-asciidoc` plugin gem to your [path]_Gemfile_:
 
 [source,ruby]
 ----
@@ -94,7 +96,7 @@ If you are not using Bundler for managing Jekyll then install gems manually
 
  $ gem install jekyll-asciidoc
 
-And then, add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
+And then, add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's {path-config} file:
 
 [source,yaml]
 ----
@@ -223,37 +225,59 @@ The `--safe` flag disables third-party plugins such as this one.
 
 == Configuration
 
-This section describes the configuration options for this plugin, which are _optional_.
+This section describes the configuration options for this plugin, which are all _optional_.
+
+=== AsciiDoc
+
+NOTE: Prior to v1.2.0 of this plugin, the configuration options in this section were flat, top-level names (e.g., `asciidoc_ext`).
+These names are now deprecated, but still supported.
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
-Since Asciidoctor is the only option, the default setting is equivalent to the following configuration in [path]_{empty}_config.yml_:
+Since Asciidoctor is currently the only option, the default setting is equivalent to the following configuration in {path-config}:
 
 [source,yaml]
 ----
-asciidoc: asciidoctor
+asciidoc:
+  processor: asciidoctor
 ----
 
-To tell Jekyll which extensions to recognize as AsciiDoc files, add the following line to your [path]_{empty}_config.yml_:
+IMPORTANT: The `asciidoc` block should only appear _once_ inside {path-config}.
+If you define any other options that are documented in this section, you should append them to the `asciidoc` block.
+
+To tell Jekyll which file extensions to match as AsciiDoc files, append the `ext` option to the `asciidoc` block of your {path-config}:
 
 [source,yaml]
 ----
-asciidoc_ext: asciidoc,adoc,ad
+asciidoc:
+  ext: asciidoc,adoc,ad
 ----
 
 The extensions shown in the previous listing are the default values, so you don't need to specify this option if those defaults are sufficient.
 
 AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to Jekyll front matter.
 The part of the name after the `page-` prefix is used as the key (e.g., page-layout becomes layout).
-If you want to change this attribute prefix, add the following line to your [path]_{empty}_config.yml_:
+If you want to change this attribute prefix, append the `page_attribute_prefix` option to the `asciidoc` block of your {path-config}:
 
 [source,yaml]
 ----
-asciidoc_page_attribute_prefix: jekyll
+asciidoc:
+  page_attribute_prefix: jekyll
 ----
 
 A hyphen is automatically added to the value of this configuration setting if the value is non-empty.
 
-To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your [path]_{empty}_config.yml_:
+By default, all eligible AsciiDoc files are processed.
+If you only want files containing a front matter header to be processed, add the `require_front_matter_header` option to the `asciidoc` block of your {path-config}:
+
+[source,yaml]
+----
+asciidoc:
+  require_front_matter_header: true
+----
+
+=== Asciidoctor
+
+To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your {path-config}:
 
 [source,yaml]
 ----
@@ -264,12 +288,14 @@ asciidoctor:
     - pygments-css=style
 ----
 
+In addition to `attributes`, you can define any another option key (e.g., `safe`) that is recognized by the http://asciidoctor.org/docs/user-manual/#ruby-api-options[Asciidoctor API].
+
 === Enabling hard line breaks
 
 Many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), which preserves hard line breaks in paragraph content.
 Asciidoctor supports this feature for AsciiDoc files.
 (In fact, previous versions of this plugin enabled this behavior by default).
-If you want to enable this behavior for AsciiDoc files, add the `hardbreaks-option` attribute to the Asciidoctor attributes configuration in your site's [path]_{empty}_config.yml_ file:
+If you want to enable this behavior for AsciiDoc files, add the `hardbreaks-option` attribute to the Asciidoctor attributes configuration in your site's {path-config} file:
 
 [source,yaml]
 ----
@@ -287,7 +313,7 @@ asciidoctor:
     - hardbreaks-option=@
 ----
 
-If you already have AsciiDoc attributes defined in the [path]_{empty}_config.yml_, the new attribute should be added as a sibling entry in the YAML collection.
+If you already have AsciiDoc attributes defined in the {path-config}, the new attribute should be added as a sibling entry in the YAML collection.
 
 WARNING: Keep in mind, if you enable hard line breaks, you won't be able to use the http://asciidoctor.org/docs/asciidoc-recommended-practices/#one-sentence-per-line[one sentence-per-line writing technique].
 
@@ -303,7 +329,7 @@ For Graphviz and PlantUML diagram generation, {uri-graphviz}[Graphviz] must be i
 Using Bundler::
 +
 --
-Add `asciidoctor-diagram` gem to your [path]_Gemfile_
+Add `asciidoctor-diagram` gem to your [path]_Gemfile_:
 
 [source,ruby]
 ----
@@ -327,7 +353,7 @@ Install gems manually
 
  $ gem install asciidoctor-diagram
 
-Then, add the `asciidoctor-diagram` gem to the list of gems for Jekyll to load in your site's [path]_{empty}_config.yml_ file:
+Then, add the `asciidoctor-diagram` gem to the list of gems for Jekyll to load in your site's {path-config} file:
 
 [source,yaml]
 ----
