@@ -1,5 +1,6 @@
 /.ruby-*
 /*.gem
+/.bundle/
 /pkg/
 /Gemfile.lock
 .idea
