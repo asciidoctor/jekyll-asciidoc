@@ -1,5 +1,5 @@
 module Jekyll
-  MIN_VERSION_3 = ::Gem::Version.new(VERSION) >= ::Gem::Version.new('3.0.0') unless defined? MIN_VERSION_3
+  MIN_VERSION_3 = ::Gem::Version.new(VERSION) >= ::Gem::Version.new('3.0.0') unless defined?(MIN_VERSION_3)
 
   module AsciiDoc
     module Configuration; end
@@ -28,7 +28,7 @@ module Jekyll
         # NOTE jekyll-watch reinitializes plugins using a shallow clone of config, so no need to reconfigure
         unless ::Jekyll::AsciiDoc::Configuration === (asciidoc_config = (config['asciidoc'] ||= {}))
           if ::String === asciidoc_config
-            ::Jekyll.logger.warn 'jekyll-asciidoc: The AsciiDoc-related configuration should be defined using a Hash (under the `asciidoc` key) instead of discrete entries.'
+            ::Jekyll.logger.warn('jekyll-asciidoc: The AsciiDoc-related configuration should be defined using a Hash (under the `asciidoc` key) instead of discrete entries.')
             asciidoc_config = config['asciidoc'] = { 'processor' => asciidoc_config }
           else
             asciidoc_config['processor'] ||= 'asciidoctor'
@@ -62,7 +62,7 @@ module Jekyll
             end
           end
 
-          asciidoc_config.extend ::Jekyll::AsciiDoc::Configuration
+          asciidoc_config.extend(::Jekyll::AsciiDoc::Configuration)
         end
         @config = config
         @setup = false
@@ -71,19 +71,19 @@ module Jekyll
       def setup
         return self if @setup
         @setup = true
-        case (processor = @config['asciidoc']['processor'])
+        case @config['asciidoc']['processor']
         when 'asciidoctor'
           begin
-            require 'asciidoctor' unless defined? ::Asciidoctor::VERSION
+            require 'asciidoctor' unless defined?(::Asciidoctor::VERSION)
           rescue ::LoadError
-            STDERR.puts 'You are missing a library required to convert AsciiDoc files. Please run:'
-            STDERR.puts '  $ [sudo] gem install asciidoctor'
-            raise ::FatalException.new('Missing dependency: asciidoctor')
+            ::Jekyll.logger.error('jekyll-asciidoc: You are missing a library required to convert AsciiDoc files. Please install using:')
+            ::Jekyll.logger.error('', '$ [sudo] gem install asciidoctor')
+            ::Jekyll.logger.abort_with('Bailing out; missing required dependency: asciidoctor')
           end
         else
-          STDERR.puts %(Invalid AsciiDoc processor: #{processor})
-          STDERR.puts '  Valid options are [ asciidoctor ]'
-          raise ::FatalException.new(%(Invalid AsciiDoc processor: #{processor}))
+          ::Jekyll.logger.error(%(jekyll-asciidoc: Invalid AsciiDoc processor given: #{@config['asciidoc']['processor']}))
+          ::Jekyll.logger.error('', 'Valid options are: asciidoctor')
+          ::Jekyll.logger.abort_with('Bailing out; invalid Asciidoctor processor')
         end
         self
       end
@@ -102,11 +102,11 @@ module Jekyll
         if (standalone = content.start_with?(STANDALONE_HEADER))
           content = content[STANDALONE_HEADER.length..-1]
         end
-        case (processor = @config['asciidoc']['processor'])
+        case @config['asciidoc']['processor']
         when 'asciidoctor'
           ::Asciidoctor.convert(content, @config['asciidoctor'].merge(header_footer: standalone))
         else
-          warn %(Unknown AsciiDoc processor: #{processor}. Passing through unparsed content.)
+          ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Passing through unparsed content.))
           content
         end
       end
@@ -115,12 +115,12 @@ module Jekyll
         setup
         # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
         header = content.split(HEADER_BOUNDARY_RE, 2)[0]
-        case (processor = @config['asciidoc']['processor'])
+        case @config['asciidoc']['processor']
         when 'asciidoctor'
           # NOTE return instance even if header is empty since attributes may be inherited from config
           ::Asciidoctor.load(header, @config['asciidoctor'].merge(parse_header_only: true))
         else
-          warn %(Unknown AsciiDoc processor: #{processor}. Cannot load document header.)
+          ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Cannot load document header.))
         end
       end
     end
@@ -179,7 +179,7 @@ module Jekyll
           page.content = STANDALONE_HEADER + page.content
         end
 
-        page.extend NoLiquid unless page.data['liquid']
+        page.extend(NoLiquid) unless page.data['liquid']
       end
     end
   end
