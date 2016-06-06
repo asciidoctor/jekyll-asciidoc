@@ -50,7 +50,7 @@ module Jekyll
           old_page_attr_prefix_val = config.delete('asciidoc_page_attribute_prefix')
           unless (page_attr_prefix = asciidoc_config['page_attribute_prefix'])
             page_attr_prefix = old_page_attr_prefix_def ? (old_page_attr_prefix_val || '') :
-                (asciidoc_config.key?('page_attribute_prefix') && '' || 'page')
+                (asciidoc_config.key?('page_attribute_prefix') ? '' : 'page')
           end
           asciidoc_config['page_attribute_prefix'] = page_attr_prefix.chomp('-')
           asciidoc_config['require_front_matter_header'] = !!asciidoc_config.fetch('require_front_matter_header', false)
