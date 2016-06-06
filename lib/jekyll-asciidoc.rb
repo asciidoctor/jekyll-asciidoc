@@ -195,10 +195,10 @@ module Jekyll
         page.data['author'] = doc.author if doc.author
         page.data['date'] = ::DateTime.parse(doc.revdate).to_time if collection == 'posts' && doc.attr?('revdate')
 
-        page_attr_prefix_len = @page_attr_prefix.length
+        page_attr_prefix_l = @page_attr_prefix.length
         unless (adoc_front_matter = doc.attributes
-            .select {|name| name.start_with?(@page_attr_prefix) }
-            .map {|name, val| %(#{name[page_attr_prefix_len..-1]}: #{val == '' ? '""' : val}) }).empty?
+            .select {|name| page_attr_prefix_l == 0 || name.start_with?(@page_attr_prefix) }
+            .map {|name, val| %(#{page_attr_prefix_l == 0 ? name : name[page_attr_prefix_l..-1]}: #{val == '' ? '""' : val}) }).empty?
           page.data.update(::SafeYAML.load(adoc_front_matter * %(\n)))
         end
 
