@@ -12,10 +12,21 @@ module Jekyll
 
   module Converters
     class AsciiDocConverter < Converter
-      IMPLICIT_ATTRIBUTES = %W(
-        env=site env-site site-gen=jekyll site-gen-jekyll
-        builder=jekyll builder-jekyll jekyll-version=#{::Jekyll::VERSION}
-      )
+      DEFAULT_ATTRIBUTES = {
+        'notitle' => '',
+        'idprefix' => '',
+        'idseparator' => '-',
+        'linkattrs' => ''
+      }
+      IMPLICIT_ATTRIBUTES = {
+        'env' => 'site',
+        'env-site' => '',
+        'site-gen' => 'jekyll',
+        'site-gen-jekyll' => '',
+        'builder' => 'jekyll',
+        'builder-jekyll' => '',
+        'jekyll-version' => ::Jekyll::VERSION
+      }
       HEADER_BOUNDARY_RE = /(?<=\p{Graph})\n\n/
       STANDALONE_HEADER = %([%standalone]\n)
 
@@ -48,10 +59,9 @@ module Jekyll
           asciidoctor_config = (config['asciidoctor'] ||= {})
           asciidoctor_config.replace(::Hash[asciidoctor_config.map {|key, val| [key.to_sym, val] }])
           asciidoctor_config[:safe] ||= 'safe'
-          (asciidoctor_config[:attributes] ||= []).tap do |attrs|
-            attrs.unshift('notitle', 'idprefix', 'idseparator=-', 'linkattrs')
-            attrs.concat(IMPLICIT_ATTRIBUTES)
-          end
+          asciidoctor_config[:attributes] = DEFAULT_ATTRIBUTES.dup
+              .update(coerce_attributes_to_hash(asciidoctor_config[:attributes]))
+              .update(IMPLICIT_ATTRIBUTES)
 
           if ::Jekyll::MIN_VERSION_3 && !asciidoc_config['require_front_matter']
             if (del_method = ::Jekyll::Utils.method(:has_yaml_header?))
@@ -66,6 +76,27 @@ module Jekyll
         end
         @config = config
         @setup = false
+      end
+
+      # TODO remove shadowed entries
+      def coerce_attributes_to_hash(attrs)
+        if ::Hash === attrs
+          ::Hash[attrs.map {|key, val|
+            if val
+              [key.end_with?('!') ? '!' + key.chop : key, val]
+            else
+              key = key.chop if key.end_with?('!')
+              key = '!' + key unless key.start_with?('!')
+              [key, '']
+            end
+          }]
+        else
+          Array(attrs || []).inject({}) do |accum, entry|
+            key, val = entry.split('=', 2)
+            accum[key.end_with?('!') ? '!' + key.chop : key] = val || ''
+            accum
+          end
+        end
       end
 
       def setup
