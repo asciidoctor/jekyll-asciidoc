@@ -127,7 +127,7 @@ module Jekyll
       end
 
       def convert(content)
-        return content if content.empty?
+        return '' if (content || '').empty?
         setup
         if (standalone = content.start_with?(STANDALONE_HEADER))
           content = content[STANDALONE_HEADER.length..-1]
@@ -188,7 +188,7 @@ module Jekyll
       def enhance_page page, collection = nil
         #collection = (::Jekyll::Document === page ? page.collection.label : nil)
         preamble = page.data.key?('layout') ? '' : AUTO_PAGE_LAYOUT_LINE
-        return unless (doc = @converter.load_header(preamble + page.content))
+        return unless (doc = @converter.load_header(%(#{preamble}#{page.content})))
 
         page.data['title'] = doc.doctitle if doc.header?
         page.data['author'] = doc.author if doc.author
@@ -203,12 +203,12 @@ module Jekyll
 
         case page.data['layout']
         when nil
-          page.content = STANDALONE_HEADER + page.content unless page.data.key?('layout')
+          page.content = %(#{STANDALONE_HEADER}#{page.content}) unless page.data.key?('layout')
         when '', '_auto'
           page.data['layout'] = (collection == 'posts' ? 'post' : 'default')
         when false
           page.data.delete('layout')
-          page.content = STANDALONE_HEADER + page.content
+          page.content = %(#{STANDALONE_HEADER}#{page.content})
         end
 
         page.extend(NoLiquid) unless page.data['liquid']
