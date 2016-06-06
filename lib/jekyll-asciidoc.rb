@@ -173,7 +173,9 @@ module Jekyll
         @converter = (::Jekyll::MIN_VERSION_3 ?
             site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
             site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
-        @page_attr_prefix = site.config['asciidoc']['page_attribute_prefix']
+        unless (@page_attr_prefix = site.config['asciidoc']['page_attribute_prefix']).empty?
+          @page_attr_prefix += '-'
+        end
 
         site.pages.each do |page|
           enhance_page(page) if @converter.matches(page.ext)
