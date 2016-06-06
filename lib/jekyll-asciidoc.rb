@@ -13,7 +13,6 @@ module Jekyll
   module Converters
     class AsciiDocConverter < Converter
       DEFAULT_ATTRIBUTES = {
-        'notitle' => '',
         'idprefix' => '',
         'idseparator' => '-',
         'linkattrs' => ''
