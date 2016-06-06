@@ -1,5 +1,5 @@
 module Jekyll
   module AsciiDoc
-    VERSION = '1.1.3.dev'
+    VERSION = '1.2.0.dev'
   end
 end
