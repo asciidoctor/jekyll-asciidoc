@@ -172,19 +172,29 @@ module Jekyll
         @converter = (::Jekyll::MIN_VERSION_3 ?
             site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
             site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
+
         unless (@page_attr_prefix = site.config['asciidoc']['page_attribute_prefix']).empty?
           @page_attr_prefix += '-'
         end
 
-        site.pages.each do |page|
-          enhance_page(page) if @converter.matches(page.ext)
+        site.pages.select! do |page|
+          @converter.matches(page.ext) ? enhance_page(page) : true
         end
 
-        (::Jekyll::MIN_VERSION_3 ? site.posts.docs : site.posts).each do |post|
-          enhance_page(post, 'posts') if @converter.matches(::Jekyll::MIN_VERSION_3 ? post.data['ext'] : post.ext)
+        (::Jekyll::MIN_VERSION_3 ? site.posts.docs : site.posts).select! do |post|
+          @converter.matches(::Jekyll::MIN_VERSION_3 ? post.data['ext'] : post.ext) ? enhance_page(post, 'posts') : true
         end
       end
 
+      # Integrate the page-oriented document attributes from the AsciiDoc
+      # document header into the data Array of the specified {::Jekyll::Page}
+      # or {::Jekyll::Document}.
+      #
+      # page       - the Page or Document instance to enhance.
+      # collection - the String name of the collection to which this Document
+      #              object belongs (optional, default: nil).
+      #
+      # Returns a [Boolean] indicating whether the page should be published.
       def enhance_page page, collection = nil
         #collection = (::Jekyll::Document === page ? page.collection.label : nil)
         preamble = page.data.key?('layout') ? '' : AUTO_PAGE_LAYOUT_LINE
@@ -212,6 +222,7 @@ module Jekyll
         end
 
         page.extend(NoLiquid) unless page.data['liquid']
+        page.data.fetch('published', true)
       end
     end
   end
