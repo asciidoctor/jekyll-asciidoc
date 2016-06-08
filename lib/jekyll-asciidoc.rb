@@ -57,23 +57,35 @@ module Jekyll
 
           asciidoctor_config = (config['asciidoctor'] ||= {})
           asciidoctor_config.replace(::Hash[asciidoctor_config.map {|key, val| [key.to_sym, val] }])
+          case (base_dir = asciidoctor_config[:base_dir])
+          when ':source'
+            asciidoctor_config[:base_dir] = ::File.expand_path(config['source'])
+          when ':docdir'
+            asciidoctor_config[:base_dir] = ::Jekyll::MIN_VERSION_3 ? :docdir : ::File.expand_path(config['source'])
+          else
+            asciidoctor_config[:base_dir] = ::File.expand_path(base_dir) if base_dir
+          end
           asciidoctor_config[:safe] ||= 'safe'
           asciidoctor_config[:attributes] = DEFAULT_ATTRIBUTES.dup
               .update(coerce_attributes_to_hash(asciidoctor_config[:attributes]))
               .update(IMPLICIT_ATTRIBUTES)
 
-          if ::Jekyll::MIN_VERSION_3 && !asciidoc_config['require_front_matter']
-            if (del_method = ::Jekyll::Utils.method(:has_yaml_header?))
+          if ::Jekyll::MIN_VERSION_3
+            if !asciidoc_config['require_front_matter'] && (del_method = ::Jekyll::Utils.method(:has_yaml_header?))
               unless (new_method = ::Jekyll::AsciiDoc::Utils.method(:has_front_matter?)).respond_to?(:curry)
                 new_method = new_method.to_proc # Ruby < 2.2
               end
               del_method.owner.define_singleton_method(del_method.name, new_method.curry[del_method][asciidoc_ext_re])
+            end
+            [:pages, :posts].each do |collection|
+              ::Jekyll::Hooks.register(collection, :pre_render, &method(:before_render))
             end
           end
 
           asciidoc_config.extend(::Jekyll::AsciiDoc::Configuration)
         end
         @config = config
+        @docdir = nil
         @setup = false
       end
 
@@ -126,6 +138,14 @@ module Jekyll
         '.html'
       end
 
+      def before_render(page, payload)
+        record_docdir(page) if matches(::Jekyll::Page === page ? page.ext : page.data['ext'])
+      end
+
+      def record_docdir(page)
+        @docdir = ::File.dirname(::File.expand_path(page.path, @config['source']))
+      end
+
       def convert(content)
         return '' if (content || '').empty?
         setup
@@ -134,7 +154,9 @@ module Jekyll
         end
         case @config['asciidoc']['processor']
         when 'asciidoctor'
-          ::Asciidoctor.convert(content, @config['asciidoctor'].merge(header_footer: standalone))
+          opts = @config['asciidoctor'].merge(header_footer: standalone)
+          opts[:base_dir] = @docdir if opts[:base_dir] == :docdir && @docdir
+          ::Asciidoctor.convert(content, opts)
         else
           ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Passing through unparsed content.))
           content
@@ -148,7 +170,9 @@ module Jekyll
         case @config['asciidoc']['processor']
         when 'asciidoctor'
           # NOTE return instance even if header is empty since attributes may be inherited from config
-          ::Asciidoctor.load(header, @config['asciidoctor'].merge(parse_header_only: true))
+          opts = @config['asciidoctor'].merge(parse_header_only: true)
+          opts[:base_dir] = @docdir if opts[:base_dir] == :docdir && @docdir
+          ::Asciidoctor.load(header, opts)
         else
           ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Cannot load document header.))
         end
@@ -198,6 +222,7 @@ module Jekyll
       def enhance_page page, collection = nil
         #collection = (::Jekyll::Document === page ? page.collection.label : nil)
         preamble = page.data.key?('layout') ? '' : AUTO_PAGE_LAYOUT_LINE
+        @converter.record_docdir(page) if ::Jekyll::MIN_VERSION_3
         return unless (doc = @converter.load_header(%(#{preamble}#{page.content})))
 
         page.data['title'] = doc.doctitle if doc.header?
