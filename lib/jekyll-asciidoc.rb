@@ -221,7 +221,7 @@ module Jekyll
       # Returns a [Boolean] indicating whether the page should be published.
       def enhance_page page, collection = nil
         #collection = (::Jekyll::Document === page ? page.collection.label : nil)
-        preamble = page.data.key?('layout') ? '' : AUTO_PAGE_LAYOUT_LINE
+        preamble = page.data.key?('layout') ? '' : %(:#{@page_attr_prefix}layout: _auto\n)
         @converter.record_docdir(page) if ::Jekyll::MIN_VERSION_3
         return unless (doc = @converter.load_header(%(#{preamble}#{page.content})))
 
@@ -232,7 +232,10 @@ module Jekyll
         page_attr_prefix_l = @page_attr_prefix.length
         unless (adoc_front_matter = doc.attributes
             .select {|name| page_attr_prefix_l == 0 || name.start_with?(@page_attr_prefix) }
-            .map {|name, val| %(#{page_attr_prefix_l == 0 ? name : name[page_attr_prefix_l..-1]}: #{val == '' ? '""' : val}) }).empty?
+            .map {|name, val|
+                val = (val == '' ? '\'\'' : (val == '-' ? '\'-\'' : val))
+                %(#{page_attr_prefix_l.zero? ? name : name[page_attr_prefix_l..-1]}: #{val})
+            }).empty?
           page.data.update(::SafeYAML.load(adoc_front_matter * %(\n)))
         end
 
@@ -255,15 +258,16 @@ module Jekyll
   module Filters
     # Convert an AsciiDoc string into HTML output.
     #
-    # input - The AsciiDoc String to convert.
+    # input   - The AsciiDoc String to convert.
+    # doctype - The target AsciiDoc doctype (optional, default: nil).
     #
     # Returns the HTML formatted String.
-    def asciidocify(input)
+    def asciidocify(input, doctype = nil)
       site = @context.registers[:site]
       converter = (::Jekyll::MIN_VERSION_3 ?
           site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
           site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
-      converter.convert(input)
+      converter.convert(doctype ? %(:doctype: #{doctype}\n#{input}) : input.to_s)
     end
   end
 end

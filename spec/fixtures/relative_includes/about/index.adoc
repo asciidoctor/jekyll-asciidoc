@@ -1,0 +1,9 @@
+= About Us
+
+We provide content design services for open source tech companies.
+
+docdir={docdir}
+
+== Our Team
+
+include::_people.adoc[]

@@ -1,0 +1,4 @@
+= Auto Layout
+:page-layout: _auto
+
+Lorem ipsum.

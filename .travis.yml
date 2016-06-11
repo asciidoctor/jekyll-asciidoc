@@ -1,0 +1,14 @@
+sudo: false
+git:
+  depth: 1
+language: ruby
+rvm:
+- 2.3.1
+- 2.2.5
+- 2.1.10
+- 2.0.0
+script: bundle exec rake spec
+notifications:
+  email:
+    on_success: never
+    on_failure: change

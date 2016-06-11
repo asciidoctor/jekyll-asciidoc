@@ -1,6 +1,7 @@
 /.ruby-*
 /*.gem
 /.bundle/
+/build/
 /pkg/
 /Gemfile.lock
 .idea

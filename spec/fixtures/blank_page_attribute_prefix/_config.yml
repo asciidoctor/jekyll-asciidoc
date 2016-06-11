@@ -1,0 +1,4 @@
+gems:
+  - jekyll-asciidoc
+asciidoc:
+  page_attribute_prefix: ~
