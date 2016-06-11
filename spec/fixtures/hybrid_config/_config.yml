@@ -1,0 +1,8 @@
+gems:
+  - jekyll-asciidoc
+asciidoc_ext: adoc
+asciidoc_page_attribute_prefix: jekyll
+asciidoc:
+  processor: asciidoctor
+  ext: asciidoc,adoc
+  page_attribute_prefix: pg

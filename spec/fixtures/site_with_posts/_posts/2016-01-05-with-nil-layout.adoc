@@ -1,0 +1,4 @@
+= Nil Layout
+:page-layout: ~
+
+Lorem ipsum.

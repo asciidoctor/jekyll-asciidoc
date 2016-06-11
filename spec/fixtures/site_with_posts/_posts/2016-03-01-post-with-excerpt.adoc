@@ -1,0 +1,4 @@
+= Post With Excerpt
+:page-excerpt: This is the _excerpt_ of this post.
+
+Lorem ipsum.

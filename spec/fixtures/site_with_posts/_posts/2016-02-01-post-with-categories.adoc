@@ -1,0 +1,4 @@
+= Post With Categories
+:page-categories: [code, javascript]
+
+Lorem ipsum.

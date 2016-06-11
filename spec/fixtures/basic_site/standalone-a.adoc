@@ -1,0 +1,4 @@
+= Standalone Page A
+:page-layout!:
+
+Lorem ipsum.

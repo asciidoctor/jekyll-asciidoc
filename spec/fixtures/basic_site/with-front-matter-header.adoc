@@ -1,0 +1,6 @@
+---
+title: Original Page Title
+---
+= Page Title
+
+Lorem ipsum.

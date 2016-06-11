@@ -1,0 +1,6 @@
+---
+liquid: true
+---
+= Liquid Enabled
+
+{{ page.title }}
