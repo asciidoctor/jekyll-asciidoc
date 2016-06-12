@@ -25,6 +25,7 @@ endif::[]
 :uri-asciidoctor: http://asciidoctor.org
 :uri-gem-asciidoctor: http://rubygems.org/gems/asciidoctor 
 :uri-gem-jekyll-asciidoc: http://rubygems.org/gems/jekyll-asciidoc
+:uri-repo: https://github.com/asciidoctor/jekyll-asciidoc
 :uri-jekyll: https://jekyllrb.com
 :uri-front-matter: http://jekyllrb.com/docs/frontmatter/
 :uri-liquid-templates: https://jekyllrb.com/docs/templates/
@@ -42,41 +43,26 @@ A plugin for {uri-jekyll}[Jekyll] (>= 2.0.0) that converts {uri-asciidoc}[AsciiD
 The plugin consists of three extensions:
 
 `Jekyll::Converters::AsciiDocConverter`::
-  Converts AsciiDoc files to HTML
+  Converts AsciiDoc files to HTML.
 `Jekyll::Generators::AsciiDocPreprocessor`::
-  Promotes select AsciiDoc attributes to Jekyll front matter (e.g., title, author, page-layout)
+  Promotes select AsciiDoc attributes to Jekyll front matter (e.g., title, author, page-layout, page-*).
 `Jekyll::Filters.asciidocify`::
-  A Liquid filter for converting AsciiDoc content to HTML using the AsciiDocConverter
+  A Liquid filter for converting AsciiDoc content to HTML using the converter from this plugin.
 
 These extensions are loaded automatically when the jekyll-asciidoc gem is required.
 
+This plugin currently uses Asciidoctor to convert AsciiDoc content.
+
 == Installation
 
-The plugin depends on the {uri-gem-asciidoctor}[asciidoctor] gem.
-You can install the gem directly using:
+This plugin is packaged as a gem named jekyll-asciidoc and published to RubyGems.org.
+The plugin depends on the {uri-gem-asciidoctor}[asciidoctor] gem, which gets installed automatically.
 
- $ gem install asciidoctor
+Your method of installation will depend on whether or not you are using Bundler to manage the dependencies for your Jekyll project.
 
-If you're using Bundler to manage dependencies in your Jekyll project, add the asciidoctor gem to your project's [path]_Gemfile_ instead (just below the entry for the jekyll gem):
+=== Installing Using Bundler
 
-[source,ruby]
-----
-source 'https://rubygems.org'
-
-gem 'jekyll'
-gem 'asciidoctor'
-----
-
-Then, run the `bundle` command from Bundler to install the gem:
-
- $ bundle
-
-=== Installing a Released Version of the Plugin
-
-Using Bundler::
-+
---
-Add the `jekyll-asciidoc` plugin gem to your [path]_Gemfile_:
+If you are using Bundler to manage the dependencies for your project (recommended), simply add the `jekyll-asciidoc` plugin gem to your [path]_Gemfile_:
 
 [source,ruby]
 ----
@@ -85,36 +71,26 @@ group :jekyll_plugins do
 end
 ----
 
-Then, run the Bundler command to install it:
+Then, run the `bundle` command from Bundler to install the gem:
 
- $ bundle install
---
+ $ bundle
 
-Without Bundler::
-+
---
-If you are not using Bundler for managing Jekyll then install gems manually
+=== Manual Installation
 
- $ gem install jekyll-asciidoc
+If you're not using Bundler to manage the dependencies for your Jekyll project, you'll need to install the gem manually: managing Jekyll then install gems manually
 
-And then, add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's {path-config} file:
+ $ [sudo] gem install jekyll-asciidoc
+
+NOTE: The `sudo` prefix is only required if you are installing gems into your system.
+To avoid this bad practice, we recommend using RVM (or another Ruby version manager), which will set up Ruby safely in your home directory.
+
+Then add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's {path-config} file:
 
 [source,yaml]
 ----
 gems:
   - jekyll-asciidoc
 ----
---
-
-=== Installing the Development Version of the Plugin
-
-To install the development version of this plugin, use:
-
- $ rake install
-
-An alternative--though not recommend--approach is to copy the file [path]_lib/jekyll-asciidoc.rb_ to the [path]_{empty}_plugins_ directory in the root of your site source.
-
-NOTE: If the [path]_{empty}_plugins_ directory does not exist, you need to first create it.
 
 == Creating Pages
 
@@ -352,7 +328,7 @@ Without Bundler::
 --
 Install gems manually
 
- $ gem install asciidoctor-diagram
+ $ [sudo] gem install asciidoctor-diagram
 
 Then, add the `asciidoctor-diagram` gem to the list of gems for Jekyll to load in your site's {path-config} file:
 
@@ -524,7 +500,70 @@ You can also refer to the https://github.com/johncarl81/transfuse-site[Tranfuse 
 
 Refer to the https://help.github.com/articles/using-jekyll-plugins-with-github-pages[Jekyll Plugins on GitHub Pages] for a list of the plugins currently supported on the server-side (in addition to Markdown, which isn't listed).
 
-== Releasing the Gem
+== Development
+
+To help develop the Jekyll AsciiDoc plugin, or to simply use the development version, you need to retrieve the source from GitHub.
+Follow the instructions below to learn how to clone the source, run the tests and install the development version.
+
+=== Retrieve the Source Code
+
+You can retrieve the source code from GitHub using git.
+Simply copy the URL of the {uri-repo}[GitHub repository] and pass it to the `git clone` command:
+
+[subs=attributes+]
+....
+git clone {uri-repo}
+....
+
+Next, switch to the project directory.
+
+ $ cd jekyll-asciidoc
+
+=== Install the Dependencies
+
+The dependencies needed to develop the Jekyll AsciiDoc plugin are defined in the [path]_Gemfile_ at the root of the project.
+You'll use Bundler to install these dependencies.
+
+To check if you have Bundler installed, use the `bundle` command to query for the version:
+
+ $ bundle --version
+
+If Bundler is not installed, use the `gem` command to install it.
+
+ $ [sudo] gem install bundler
+
+Finally, invoke the `bundle` command (which is provided by the bundler gem) from the root of the project to install the dependencies into the project:
+
+ $ bundle --path=.bundle/rubygems
+
+IMPORTANT: Since we've installed dependencies inside the project, it's necessary to prefix all commands (e.g., rake) with `bundle exec`.
+
+=== Running the Tests
+
+The tests are based on RSpec.
+The test suite is located in the [path]_spec_ directory.
+
+You can run the tests using Rake.
+
+ $ bundle exec rake spec
+
+For more fine-grained control, you can also run the tests using RSpec directly.
+
+ $ bundle exec rspec
+
+=== Installing the Gem Locally
+
+You can install the development version of the gem as follows:
+
+ $ bundle exec rake install
+
+This allows you to use an unreleased version of the gem in your site.
+If you want to build the gem and install it manually, use these commands instead:
+
+ $ bundle exec rake build
+ $ [sudo] gem install pkg/jekyll-asciidoc-*.dev.gem
+
+=== Releasing the Gem
 
 When you are ready for a release, first set the version in the file [path]_lib/jekyll-asciidoc/version.rb_.
 Then, commit the change using the following commit message template:
@@ -535,7 +574,7 @@ where `X.Y.Z` is the version number of the gem.
 
 Next, package, tag and release the gem to RubyGems.org, run the following rake task:
 
- $ rake release
+ $ bundle exec rake release
 
 IMPORTANT: Ensure you have the proper credentials setup as described in the guide http://guides.rubygems.org/publishing/#publishing-to-rubygemsorg[Publishing to RubyGems.org].
 
