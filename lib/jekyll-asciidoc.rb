@@ -263,11 +263,10 @@ module Jekyll
     #
     # Returns the HTML formatted String.
     def asciidocify(input, doctype = nil)
-      site = @context.registers[:site]
-      converter = (::Jekyll::MIN_VERSION_3 ?
-          site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
-          site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
-      converter.convert(doctype ? %(:doctype: #{doctype}\n#{input}) : input.to_s)
+      (@context.registers[:cached_asciidoc_converter] ||= (::Jekyll::MIN_VERSION_3 ?
+          @context.registers[:site].find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
+          @context.registers[:site].getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup)
+        .convert(doctype ? %(:doctype: #{doctype}\n#{input}) : input.to_s)
     end
   end
 end
