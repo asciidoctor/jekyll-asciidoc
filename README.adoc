@@ -71,7 +71,7 @@ Then, run the `bundle` command from Bundler to install the gem:
 
  $ bundle
 
-=== Installing a released version of the plugin
+=== Installing a Released Version of the Plugin
 
 Using Bundler::
 +
@@ -106,7 +106,7 @@ gems:
 ----
 --
 
-=== Installing development version of the plugin
+=== Installing the Development Version of the Plugin
 
 To install the development version of this plugin, use:
 
@@ -116,7 +116,7 @@ An alternative--though not recommend--approach is to copy the file [path]_lib/je
 
 NOTE: If the [path]_{empty}_plugins_ directory does not exist, you need to first create it.
 
-== Creating pages
+== Creating Pages
 
 This plugin converts eligible AsciiDoc files found inside the source directory (typically the project root) to pages in the generated site.
 There are a few conditions that must be met for an AsciiDoc file to be qualified:
@@ -291,7 +291,7 @@ asciidoctor:
 
 In addition to `attributes`, you can define any another option key (e.g., `safe`) that is recognized by the http://asciidoctor.org/docs/user-manual/#ruby-api-options[Asciidoctor API].
 
-=== Enabling hard line breaks
+=== Enabling Hard Line Breaks
 
 Many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), which preserves hard line breaks in paragraph content.
 Asciidoctor supports this feature for AsciiDoc files.
@@ -318,7 +318,7 @@ If you already have AsciiDoc attributes defined in the {path-config}, the new at
 
 WARNING: Keep in mind, if you enable hard line breaks, you won't be able to use the http://asciidoctor.org/docs/asciidoc-recommended-practices/#one-sentence-per-line[one sentence-per-line writing technique].
 
-== Enabling Asciidoctor Diagram (optional)
+== Enabling Asciidoctor Diagram
 
 Asciidoctor Diagram is a set of extensions for Asciidoctor that allow you to embed diagrams written using the PlantUML, Graphviz, ditaa, or Shaape syntax inside your AsciiDoc documents.
 
@@ -366,7 +366,7 @@ gems:
 
 Both of the previous configurations are the equivalent of passing `-r asciidoctor-diagram` to the `asciidoctor` command.
 
-=== Generated image location
+=== Generated Image Location
 
 By default diagram images are generated in the root folder.
 Thus, images URLs are not properly referenced from the generated HTML pages.
@@ -524,7 +524,7 @@ You can also refer to the https://github.com/johncarl81/transfuse-site[Tranfuse 
 
 Refer to the https://help.github.com/articles/using-jekyll-plugins-with-github-pages[Jekyll Plugins on GitHub Pages] for a list of the plugins currently supported on the server-side (in addition to Markdown, which isn't listed).
 
-== Releasing the gem to RubyGems.org
+== Releasing the Gem
 
 When you are ready for a release, first set the version in the file [path]_lib/jekyll-asciidoc/version.rb_.
 Then, commit the change using the following commit message template:
