@@ -66,9 +66,9 @@ module Jekyll
             asciidoctor_config[:base_dir] = ::File.expand_path(base_dir) if base_dir
           end
           asciidoctor_config[:safe] ||= 'safe'
-          asciidoctor_config[:attributes] = DEFAULT_ATTRIBUTES.dup
-              .update(coerce_attributes_to_hash(asciidoctor_config[:attributes]))
-              .update(IMPLICIT_ATTRIBUTES)
+          asciidoctor_config[:attributes] = DEFAULT_ATTRIBUTES
+            .merge(coerce_attributes_to_hash(asciidoctor_config[:attributes]))
+            .merge(IMPLICIT_ATTRIBUTES)
 
           if ::Jekyll::MIN_VERSION_3
             if !asciidoc_config['require_front_matter'] && (del_method = ::Jekyll::Utils.method(:has_yaml_header?))
