@@ -77,7 +77,7 @@ Then, run the `bundle` command from Bundler to install the gem:
 
 === Manual Installation
 
-If you're not using Bundler to manage the dependencies for your Jekyll project, you'll need to install the gem manually: managing Jekyll then install gems manually
+If you're not using Bundler to manage the dependencies for your Jekyll project, you'll need to install the gem manually:
 
  $ [sudo] gem install jekyll-asciidoc
 
@@ -267,7 +267,7 @@ asciidoctor:
 
 In addition to `attributes`, you can define any another option key (e.g., `safe`) that is recognized by the http://asciidoctor.org/docs/user-manual/#ruby-api-options[Asciidoctor API].
 
-=== Enabling Hard Line Breaks
+==== Enabling Hard Line Breaks
 
 Many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), which preserves hard line breaks in paragraph content.
 Asciidoctor supports this feature for AsciiDoc files.
@@ -293,6 +293,79 @@ asciidoctor:
 If you already have AsciiDoc attributes defined in the {path-config}, the new attribute should be added as a sibling entry in the YAML collection.
 
 WARNING: Keep in mind, if you enable hard line breaks, you won't be able to use the http://asciidoctor.org/docs/asciidoc-recommended-practices/#one-sentence-per-line[one sentence-per-line writing technique].
+
+== Customizing the Generated HTML
+
+You can use templates to customize the HTML output that Asciidoctor generates for your site.
+Template files can be composed in any templating language that is supported by https://github.com/rtomayko/tilt[Tilt].
+Each template file corresponds to a node in the AsciiDoc document tree (aka AST).
+
+Below are the steps you need to take to configure Asciidoctor to use custom templates with your site.
+
+=== Step 1: Add Required Gems
+
+You'll first need to add the thread_safe gem as well as the gem for the templating language you plan to use.
+We'll assume that you are using Slim.
+
+[source,ruby]
+----
+gem 'slim', '~> 3.0.7'
+gem 'thread_safe', '~> 0.3.5'
+----
+
+=== Step 2: Install New Gems
+
+Now run the `bundle` command to install the new gems.
+
+ $ bundle
+
+=== Step 3: Create a Templates Folder
+
+Next, create a new folder in your site named [path]___templates__ to store your templates.
+
+ $ mkdir _templates
+
+=== Step 4: Configure Asciidoctor to Load Templates
+
+In your site's {path-config} file, configure Asciidoctor to load the templates by telling it the location where the templates are stored.
+
+[source,yaml]
+----
+asciidoctor:
+  template_dir: _templates
+  attributes: ...
+----
+
+=== Step 5: Compose a Template
+
+The final step is to compose a template.
+We'll be customizing the unordered list node.
+Name the file [path]_ulist.html.slim_.
+
+.ulist.html.slim
+[source,slim]
+----
+- if title?
+  figure.list.unordered id=id
+    figcaption=title
+    ul class=[style, role]
+      - items.each do |_item|
+        li
+          span.primary=_item.text
+          - if _item.blocks?
+            =_item.content
+- else
+  ul id=id class=[style, role]
+    - items.each do |_item|
+      li
+        span.primary=_item.text
+        - if _item.blocks?
+          =_item.content
+----
+
+The next time you build your site, Asciidoctor will use your custom template to generate the HTML for unordered lists.
+
+TIP: You can find additional examples of custom templates in the https://github.com/asciidoctor/asciidoctor-backends[asciidoctor-backends] repository.
 
 == Enabling Asciidoctor Diagram
 
