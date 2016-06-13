@@ -38,5 +38,10 @@ RSpec.configure do |config|
     site.posts.docs.find {|p| p.relative_path == path }
   end
 
+  def find_doc(path, collection_name)
+    path = %(_#{collection_name}/#{path}) unless path.start_with?(%(_#{collection_name}/))
+    site.collections[collection_name].docs.find {|p| p.relative_path == path }
+  end
+
   FileUtils.rm_rf(output_dir)
 end
