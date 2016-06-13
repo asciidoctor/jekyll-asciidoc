@@ -384,8 +384,8 @@ Add `asciidoctor-diagram` gem to your [path]_Gemfile_:
 [source,ruby]
 ----
 group :jekyll_plugins do
-  ...
   gem 'asciidoctor-diagram', '~> 1.4.0' <1>
+  gem 'jekyll-asciidoc'
   ...
 end
 ----
