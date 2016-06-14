@@ -2,7 +2,7 @@ module Jekyll
   MIN_VERSION_3 = ::Gem::Version.new(VERSION) >= ::Gem::Version.new('3.0.0') unless defined?(MIN_VERSION_3)
 
   module AsciiDoc
-    module Configuration; end
+    module Configured; end
     module Utils
       def self.has_front_matter?(delegate_method, asciidoc_ext_re, path)
         ::File.extname(path) =~ asciidoc_ext_re ? true : delegate_method.call(path)
@@ -36,7 +36,7 @@ module Jekyll
 
       def initialize(config)
         # NOTE jekyll-watch reinitializes plugins using a shallow clone of config, so no need to reconfigure
-        unless ::Jekyll::AsciiDoc::Configuration === (asciidoc_config = (config['asciidoc'] ||= {}))
+        unless ::Jekyll::AsciiDoc::Configured === (asciidoc_config = (config['asciidoc'] ||= {}))
           if ::String === asciidoc_config
             ::Jekyll.logger.warn('jekyll-asciidoc: The AsciiDoc-related configuration should be defined using a Hash (under the `asciidoc` key) instead of discrete entries.')
             asciidoc_config = config['asciidoc'] = { 'processor' => asciidoc_config }
@@ -54,8 +54,22 @@ module Jekyll
           end
           asciidoc_config['page_attribute_prefix'] = page_attr_prefix.chomp('-')
           asciidoc_config['require_front_matter_header'] = !!asciidoc_config.fetch('require_front_matter_header', false)
+          asciidoc_config.extend(::Jekyll::AsciiDoc::Configured)
 
-          asciidoctor_config = (config['asciidoctor'] ||= {})
+          if ::Jekyll::MIN_VERSION_3
+            if !asciidoc_config['require_front_matter'] && (del_method = ::Jekyll::Utils.method(:has_yaml_header?))
+              unless (new_method = ::Jekyll::AsciiDoc::Utils.method(:has_front_matter?)).respond_to?(:curry)
+                new_method = new_method.to_proc # Ruby < 2.2
+              end
+              del_method.owner.define_singleton_method(del_method.name, new_method.curry[del_method][asciidoc_ext_re])
+            end
+            [:pages, :documents].each do |collection_name|
+              ::Jekyll::Hooks.register(collection_name, :pre_render, &method(:before_render))
+            end
+          end
+        end
+
+        unless ::Jekyll::AsciiDoc::Configured === (asciidoctor_config = (config['asciidoctor'] ||= {}))
           asciidoctor_config.replace(::Hash[asciidoctor_config.map {|key, val| [key.to_sym, val] }])
           case (base_dir = asciidoctor_config[:base_dir])
           when ':source'
@@ -69,21 +83,9 @@ module Jekyll
           asciidoctor_config[:attributes] = DEFAULT_ATTRIBUTES
             .merge(coerce_attributes_to_hash(asciidoctor_config[:attributes]))
             .merge(IMPLICIT_ATTRIBUTES)
-
-          if ::Jekyll::MIN_VERSION_3
-            if !asciidoc_config['require_front_matter'] && (del_method = ::Jekyll::Utils.method(:has_yaml_header?))
-              unless (new_method = ::Jekyll::AsciiDoc::Utils.method(:has_front_matter?)).respond_to?(:curry)
-                new_method = new_method.to_proc # Ruby < 2.2
-              end
-              del_method.owner.define_singleton_method(del_method.name, new_method.curry[del_method][asciidoc_ext_re])
-            end
-            [:pages, :documents].each do |collection_name|
-              ::Jekyll::Hooks.register(collection_name, :pre_render, &method(:before_render))
-            end
-          end
-
-          asciidoc_config.extend(::Jekyll::AsciiDoc::Configuration)
+          asciidoctor_config.extend(::Jekyll::AsciiDoc::Configured)
         end
+
         @config = config
         @docdir = nil
         @setup = false
@@ -193,7 +195,7 @@ module Jekyll
       STANDALONE_HEADER = ::Jekyll::Converters::AsciiDocConverter::STANDALONE_HEADER
 
       def generate(site)
-        @converter = (::Jekyll::MIN_VERSION_3 ?
+        @converter = converter = (::Jekyll::MIN_VERSION_3 ?
             site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
             site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
 
@@ -202,18 +204,18 @@ module Jekyll
         end
 
         site.pages.select! do |page|
-          @converter.matches(page.ext) ? enhance_page(page) : true
+          converter.matches(page.ext) ? enhance_page(page) : true
         end
 
         # NOTE posts were migrated to a collection named 'posts' in Jekyll 3
         site.posts.select! do |post|
-          @converter.matches(post.ext) ? enhance_page(post, 'posts') : true
+          converter.matches(post.ext) ? enhance_page(post, 'posts') : true
         end unless ::Jekyll::MIN_VERSION_3
 
-        site.collections.each do |collection_name, collection|
+        site.collections.each do |name, collection|
           next unless collection.write?
           collection.docs.select! do |doc|
-            @converter.matches(::Jekyll::MIN_VERSION_3 ? doc.data['ext'] : doc.extname) ? enhance_page(doc, collection_name) : true
+            converter.matches(::Jekyll::MIN_VERSION_3 ? doc.data['ext'] : doc.extname) ? enhance_page(doc, name) : true
           end
         end
       end
