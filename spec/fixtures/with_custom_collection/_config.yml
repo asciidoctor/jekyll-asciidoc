@@ -1,0 +1,7 @@
+gems:
+  - jekyll-asciidoc
+collections:
+  blueprints:
+    output: true
+asciidoctor:
+  base_dir: :docdir

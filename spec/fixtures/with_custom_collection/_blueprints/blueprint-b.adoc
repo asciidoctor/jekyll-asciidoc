@@ -1,0 +1,6 @@
+= Second Blueprint
+:page-layout: default
+
+Lorem ipsum.
+
+docdir={docdir}

@@ -77,8 +77,8 @@ module Jekyll
               end
               del_method.owner.define_singleton_method(del_method.name, new_method.curry[del_method][asciidoc_ext_re])
             end
-            [:pages, :posts].each do |collection|
-              ::Jekyll::Hooks.register(collection, :pre_render, &method(:before_render))
+            [:pages, :documents].each do |collection_name|
+              ::Jekyll::Hooks.register(collection_name, :pre_render, &method(:before_render))
             end
           end
 
@@ -205,8 +205,16 @@ module Jekyll
           @converter.matches(page.ext) ? enhance_page(page) : true
         end
 
-        (::Jekyll::MIN_VERSION_3 ? site.posts.docs : site.posts).select! do |post|
-          @converter.matches(::Jekyll::MIN_VERSION_3 ? post.data['ext'] : post.ext) ? enhance_page(post, 'posts') : true
+        # NOTE posts were migrated to a collection named 'posts' in Jekyll 3
+        site.posts.select! do |post|
+          @converter.matches(post.ext) ? enhance_page(post, 'posts') : true
+        end unless ::Jekyll::MIN_VERSION_3
+
+        site.collections.each do |collection_name, collection|
+          next unless collection.write?
+          collection.docs.select! do |doc|
+            @converter.matches(::Jekyll::MIN_VERSION_3 ? doc.data['ext'] : doc.extname) ? enhance_page(doc, collection_name) : true
+          end
         end
       end
 
@@ -214,20 +222,19 @@ module Jekyll
       # document header into the data Array of the specified {::Jekyll::Page}
       # or {::Jekyll::Document}.
       #
-      # page       - the Page or Document instance to enhance.
-      # collection - the String name of the collection to which this Document
-      #              object belongs (optional, default: nil).
+      # page            - the Page or Document instance to enhance.
+      # collection_name - the String name of the collection to which this Document
+      #                   object belongs (optional, default: nil).
       #
       # Returns a [Boolean] indicating whether the page should be published.
-      def enhance_page page, collection = nil
-        #collection = (::Jekyll::Document === page ? page.collection.label : nil)
+      def enhance_page page, collection_name = nil
         preamble = page.data.key?('layout') ? '' : %(:#{@page_attr_prefix}layout: _auto\n)
         @converter.record_docdir(page) if ::Jekyll::MIN_VERSION_3
         return unless (doc = @converter.load_header(%(#{preamble}#{page.content})))
 
         page.data['title'] = doc.doctitle if doc.header?
         page.data['author'] = doc.author if doc.author
-        page.data['date'] = ::DateTime.parse(doc.revdate).to_time if collection == 'posts' && doc.attr?('revdate')
+        page.data['date'] = ::DateTime.parse(doc.revdate).to_time if collection_name == 'posts' && doc.attr?('revdate')
 
         page_attr_prefix_l = @page_attr_prefix.length
         unless (adoc_front_matter = doc.attributes
@@ -243,7 +250,7 @@ module Jekyll
         when nil
           page.content = %(#{STANDALONE_HEADER}#{page.content}) unless page.data.key?('layout')
         when '', '_auto'
-          page.data['layout'] = (collection == 'posts' ? 'post' : 'default')
+          page.data['layout'] = collection_name ? collection_name.chomp('s') : 'default'
         when false
           page.data.delete('layout')
           page.content = %(#{STANDALONE_HEADER}#{page.content})

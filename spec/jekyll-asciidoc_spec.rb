@@ -315,7 +315,7 @@ describe(Jekyll::AsciiDoc) do
 
   describe('site with posts') do
     let(:name) do
-      'site_with_posts'
+      'with_posts'
     end
 
     before(:each) do
@@ -442,6 +442,44 @@ describe(Jekyll::AsciiDoc) do
     it 'should not process files that begin with an underscore' do
       file = output_file('about/_people.html')
       expect(File).not_to exist(file)
+    end
+  end
+
+  describe('site with custom collection') do
+    let(:name) do
+      'with_custom_collection'
+    end
+
+    before(:each) do
+      site.process
+    end
+
+    it 'should decorate document in custom collection' do
+      doc = find_doc('blueprint-a.adoc', 'blueprints')
+      expect(doc).not_to be_nil
+      expect(doc.title).to eql('First Blueprint')
+      expect(doc.data['foo']).to eql('bar')
+    end
+
+    it 'should use default layout that is named after the collection' do
+      file = output_file('blueprints/blueprint-a.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<p>Footer for blueprint layout.</p>')
+    end
+
+    it 'should allow the layout to be customized' do
+      file = output_file('blueprints/blueprint-b.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<p>Footer for default layout.</p>')
+    end
+
+    it 'should set docdir for document in custom collection when base_dir config key has the value :docdir' do
+      file = output_file('blueprints/blueprint-b.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match(%(docdir=#{site.config['source']}/_blueprints))
     end
   end
 end
