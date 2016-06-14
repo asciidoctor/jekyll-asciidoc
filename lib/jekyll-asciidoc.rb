@@ -10,6 +10,7 @@ module Jekyll
       end
 
       begin
+        # supports Jekyll >= 2.3.0
         define_method(:has_yaml_header?, &::Jekyll::Utils.method(:has_yaml_header?))
       rescue ::NameError; end
     end
@@ -61,24 +62,23 @@ module Jekyll
           asciidoc_config['require_front_matter_header'] = !!asciidoc_config['require_front_matter_header']
           asciidoc_config.extend(::Jekyll::AsciiDoc::Configured)
 
-          if ::Jekyll::MIN_VERSION_3
-            begin
-              dlg_method = ::Jekyll::AsciiDoc::Utils.method(:has_yaml_header?)
-              if asciidoc_config['require_front_matter_header']
-                if ::Jekyll::Utils.method(dlg_method.name).arity == -1 # not the original method
-                  ::Jekyll::Utils.define_singleton_method(dlg_method.name, &dlg_method)
-                end
-              else
-                unless (new_method = dlg_method.owner.method(:has_front_matter?)).respond_to?(:curry)
-                  new_method = new_method.to_proc # Ruby < 2.2
-                end
-                ::Jekyll::Utils.define_singleton_method(dlg_method.name, new_method.curry[dlg_method][asciidoc_ext_re])
+          begin
+            dlg_method = ::Jekyll::AsciiDoc::Utils.method(:has_yaml_header?)
+            if asciidoc_config['require_front_matter_header']
+              if ::Jekyll::Utils.method(dlg_method.name).arity == -1 # not the original method
+                ::Jekyll::Utils.define_singleton_method(dlg_method.name, &dlg_method)
               end
-            rescue ::NameError; end
-            [:pages, :documents].each do |collection_name|
-              ::Jekyll::Hooks.register(collection_name, :pre_render, &method(:before_render))
+            else
+              unless (new_method = dlg_method.owner.method(:has_front_matter?)).respond_to?(:curry)
+                new_method = new_method.to_proc # Ruby < 2.2
+              end
+              ::Jekyll::Utils.define_singleton_method(dlg_method.name, new_method.curry[dlg_method][asciidoc_ext_re])
             end
-          end
+          rescue ::NameError; end
+
+          [:pages, :documents].each do |collection_name|
+            ::Jekyll::Hooks.register(collection_name, :pre_render, &method(:before_render))
+          end if ::Jekyll::MIN_VERSION_3
         end
 
         unless ::Jekyll::AsciiDoc::Configured === (asciidoctor_config = (config['asciidoctor'] ||= {}))
