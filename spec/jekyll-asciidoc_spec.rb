@@ -313,6 +313,39 @@ describe(Jekyll::AsciiDoc) do
     end
   end
 
+  describe('require front matter header') do
+    let(:name) do
+      'require_front_matter_header'
+    end
+
+    before(:each) do
+      site.process
+    end
+
+    it 'should consider an AsciiDoc file with a front matter header to have a YAML header' do
+      file = source_file('with-front-matter-header.adoc')
+      expect(Jekyll::Utils.has_yaml_header?(file)).to be true
+    end
+
+    it 'should consider an AsciiDoc file without a front matter header to not have a YAML header' do
+      file = source_file('without-front-matter-header.adoc')
+      expect(Jekyll::Utils.has_yaml_header?(file)).to be false
+    end
+
+    it 'should convert an AsciiDoc file with a front matter header' do
+      file = output_file('with-front-matter-header.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<title>Page Title</title>')
+      expect(contents).to match('<p>Lorem ipsum.</p>')
+    end
+
+    it 'should not convert an AsciiDoc file without a front matter header' do
+      file = output_file('without-front-matter-header.adoc')
+      expect(File).to exist(file)
+    end
+  end
+
   describe('site with posts') do
     let(:name) do
       'with_posts'
