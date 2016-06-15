@@ -3,6 +3,28 @@ require 'fileutils'
 
 Jekyll.logger.log_level = :error
 
+# NOTE clear hooks after each site reset
+module Jekyll
+  module Hooks
+    def self.clone_registry(reg)
+      reg.inject({}) {|accum, (owner, hooks)|
+        accum[owner] = hooks.inject({}) {|accum2, (hook, callbacks)|
+          accum2[hook] = callbacks.clone
+          accum2
+        }
+        accum
+      }
+    end
+
+    register(:site, :after_reset) { reset }
+    @initial_registry = clone_registry(@registry)
+
+    def self.reset
+      @registry = clone_registry(@initial_registry)
+    end
+  end
+end
+
 RSpec.configure do |config|
   config.before(:suite) do
     ::FileUtils.rm_rf(output_dir)
