@@ -3,7 +3,7 @@ module Jekyll
 
   module AsciiDoc
     module Configured; end
-    module Callback; end
+    module Resource; end
     module Utils
       extend self
       def has_front_matter?(dlg_method, asciidoc_ext_re, path)
@@ -160,7 +160,7 @@ module Jekyll
       end
 
       def before_render(page, payload)
-        record_docdir(page) if matches(::Jekyll::Page === page ? page.ext : page.data['ext'])
+        record_docdir(page) if ::Jekyll::AsciiDoc::Resource === page
       end
 
       def record_docdir(page)
@@ -249,6 +249,7 @@ module Jekyll
       #
       # Returns a [Boolean] indicating whether the page should be published.
       def enhance_page page, collection_name = nil
+        page.extend ::Jekyll::AsciiDoc::Resource
         preamble = page.data.key?('layout') ? '' : %(:#{@page_attr_prefix}layout: _auto\n)
         @converter.record_docdir(page) if ::Jekyll::MIN_VERSION_3
         return unless (doc = @converter.load_header(%(#{preamble}#{page.content})))
