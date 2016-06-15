@@ -3,6 +3,7 @@ module Jekyll
 
   module AsciiDoc
     module Configured; end
+    module Callback; end
     module Utils
       extend self
       def has_front_matter?(dlg_method, asciidoc_ext_re, path)
@@ -75,9 +76,16 @@ module Jekyll
             end
           rescue ::NameError; end
 
-          [:pages, :documents].each do |collection_name|
-            ::Jekyll::Hooks.register(collection_name, :pre_render, &method(:before_render))
-          end if ::Jekyll::MIN_VERSION_3
+          if ::Jekyll::MIN_VERSION_3
+            hook_registry = ::Jekyll::Hooks.instance_variable_get :@registry
+            before_render_callback = method(:before_render).to_proc.extend(::Jekyll::AsciiDoc::Callback)
+            [:pages, :documents].each do |collection_name|
+              begin # attempt to remove any previously registered callback
+                hook_registry[collection_name][:pre_render].reject! {|callback| ::Jekyll::AsciiDoc::Callback === callback }
+              rescue; end
+              ::Jekyll::Hooks.register(collection_name, :pre_render, &before_render_callback)
+            end
+          end
         end
 
         unless ::Jekyll::AsciiDoc::Configured === (asciidoctor_config = (config['asciidoctor'] ||= {}))
