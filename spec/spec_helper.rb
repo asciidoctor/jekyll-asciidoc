@@ -4,6 +4,10 @@ require 'fileutils'
 Jekyll.logger.log_level = :error
 
 RSpec.configure do |config|
+  config.before(:suite) do
+    ::FileUtils.rm_rf(output_dir)
+  end
+
   def fixture_site_params path
     {
       'source' => source_dir(path),
@@ -13,20 +17,20 @@ RSpec.configure do |config|
   end
 
   def source_dir(path)
-    File.join(File.expand_path('../fixtures', __FILE__), path)
+    ::File.join(::File.expand_path('../fixtures', __FILE__), path)
   end
 
   def source_file(path)
-    File.join(site.config['source'], path)
+    ::File.join(site.config['source'], path)
   end
 
   def output_dir(path = nil)
-    base = File.expand_path('../../build/test-output', __FILE__)
-    path ? File.join(base, path) : base
+    base = ::File.expand_path('../../build/test-output', __FILE__)
+    path ? ::File.join(base, path) : base
   end
 
   def output_file(path)
-    File.join(site.config['destination'], path)
+    ::File.join(site.config['destination'], path)
   end
 
   def find_page(path)
@@ -42,6 +46,4 @@ RSpec.configure do |config|
     path = %(_#{collection_name}/#{path}) unless path.start_with?(%(_#{collection_name}/))
     site.collections[collection_name].docs.find {|p| p.relative_path == path }
   end
-
-  FileUtils.rm_rf(output_dir)
 end
