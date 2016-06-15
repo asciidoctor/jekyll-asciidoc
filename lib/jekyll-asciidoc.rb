@@ -75,17 +75,6 @@ module Jekyll
               ::Jekyll::Utils.define_singleton_method(dlg_method.name, new_method.curry[dlg_method][asciidoc_ext_re])
             end
           rescue ::NameError; end
-
-          if ::Jekyll::MIN_VERSION_3
-            hook_registry = ::Jekyll::Hooks.instance_variable_get :@registry
-            before_render_callback = method(:before_render).to_proc.extend(::Jekyll::AsciiDoc::Callback)
-            [:pages, :documents].each do |collection_name|
-              begin # attempt to remove any previously registered callback
-                hook_registry[collection_name][:pre_render].reject! {|callback| ::Jekyll::AsciiDoc::Callback === callback }
-              rescue; end
-              ::Jekyll::Hooks.register(collection_name, :pre_render, &before_render_callback)
-            end
-          end
         end
 
         unless ::Jekyll::AsciiDoc::Configured === (asciidoctor_config = (config['asciidoctor'] ||= {}))
@@ -225,6 +214,15 @@ module Jekyll
         @converter = converter = (::Jekyll::MIN_VERSION_3 ?
             site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
             site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
+
+        if ::Jekyll::MIN_VERSION_3
+          before_render_callback = converter.method(:before_render)
+          after_render_callback = converter.method(:after_render)
+          [:pages, :documents].each do |collection_name|
+            ::Jekyll::Hooks.register(collection_name, :pre_render, &before_render_callback)
+            ::Jekyll::Hooks.register(collection_name, :post_render, &after_render_callback)
+          end
+        end
 
         unless (@page_attr_prefix = site.config['asciidoc']['page_attribute_prefix']).empty?
           @page_attr_prefix += '-'
