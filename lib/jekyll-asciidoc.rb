@@ -159,6 +159,21 @@ module Jekyll
         @docdir = ::File.dirname(::File.expand_path(page.path, @config['source']))
       end
 
+      def load_header(content)
+        setup
+        # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
+        header = content.split(HEADER_BOUNDARY_RE, 2)[0]
+        case @config['asciidoc']['processor']
+        when 'asciidoctor'
+          # NOTE return instance even if header is empty since attributes may be inherited from config
+          opts = @config['asciidoctor'].merge(parse_header_only: true)
+          opts[:base_dir] = @docdir if opts[:base_dir] == :docdir && @docdir
+          ::Asciidoctor.load(header, opts)
+        else
+          ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Cannot load document header.))
+        end
+      end
+
       def convert(content)
         return '' if (content || '').empty?
         setup
@@ -173,21 +188,6 @@ module Jekyll
         else
           ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Passing through unparsed content.))
           content
-        end
-      end
-
-      def load_header(content)
-        setup
-        # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
-        header = content.split(HEADER_BOUNDARY_RE, 2)[0]
-        case @config['asciidoc']['processor']
-        when 'asciidoctor'
-          # NOTE return instance even if header is empty since attributes may be inherited from config
-          opts = @config['asciidoctor'].merge(parse_header_only: true)
-          opts[:base_dir] = @docdir if opts[:base_dir] == :docdir && @docdir
-          ::Asciidoctor.load(header, opts)
-        else
-          ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Cannot load document header.))
         end
       end
     end
