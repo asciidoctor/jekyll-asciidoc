@@ -94,14 +94,14 @@ gems:
 
 == Creating Pages
 
-This plugin converts eligible AsciiDoc files found inside the source directory (typically the project root) to pages in the generated site.
-There are a few conditions that must be met for an AsciiDoc file to be qualified:
+This plugin converts eligible AsciiDoc files located inside the source directory (by default, the project root) to HTML pages in the generated site.
+There are a few conditions that must be met in order for an AsciiDoc file to be eligible:
 
 . The file must have an AsciiDoc file extension (see <<configuration>>).
-. The name of the file must not begin with a dot (`.`) or underscore (`_`).footnoteref:[excluded_files,These files are excluded by Jekyll.]
-. The file must not be located in a folder whose name begins with a dot (`.`) or underscore (`_`), except for posts.footnoteref:[excluded_files]
-. The document must begin with a {uri-front-matter}[front matter header] prior to version 1.2.0 of this plugin (except for posts).
-Since version 1.2.0, the front matter header is always optional.
+. The name of the file must not begin with a dot (`.`) or an underscore (`_`).footnoteref:[excluded_files,These files are excluded by Jekyll.]
+. The file must not be located in a folder whose name begins with a dot (`.`) or an underscore (`_`), unless the folder is a designated collection (e.g., posts).footnoteref:[excluded_files]
+. With the exception of posts, documents must begin with a {uri-front-matter}[front matter header] if the version of this plugin is < 2.0.0 or the version of Jekyll is < 2.3.0.
+Since version 2.0.0 of this plugin, the front matter header is always optional if you're using Jekyll >= 2.3.0.
 
 Here's a sample AsciiDoc file that meets these criteria:
 
@@ -164,7 +164,7 @@ In addition to page attributes defined explicitly, the following implicit AsciiD
 * author
 * revdate (becomes date; value is converted to a DateTime object; only for posts)
 
-Unlike other content files, the {uri-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (as of version 1.2.0 of this plugin).
+Unlike other content files, the {uri-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (as of version 2.0.0 of this plugin).
 If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the liquid page variable.
 
 ----
@@ -175,8 +175,8 @@ IMPORTANT: AsciiDoc files may include a {uri-front-matter}[front matter header] 
 If present, the front matter header must be the very first character of the file.
 The front matter header won't be seen--and could disrupt conversion--if the front matter is preceded by a whitespace character or a Byte Order Mark (BOM).
 
-NOTE: As of version 1.2.0 of this plugin, you may exclude the front matter header, as shown in the second example above.
-Prior to version 1.2.0, you had to include at least an empty front matter header (except for posts).
+NOTE: As of version 2.0.0 of this plugin, you may exclude the front matter header if you're using Jekyll >= 2.3.0, as shown in the second example above.
+Prior to version 2.0.0, you had to include at least an empty front matter header (except for posts).
 In these cases, you define all the page metadata (e.g., layout) using AsciiDoc attributes instead of in the front matter.
 You can also use a combination of both.
 When intermixed, the attributes defined in the AsciiDoc header take precedence.
@@ -208,7 +208,7 @@ This section describes the configuration options for this plugin, which are all 
 
 === AsciiDoc
 
-NOTE: Prior to version 1.2.0 of this plugin, the configuration keys in this section were defined as flat, top-level names (e.g., `asciidoc_ext`).
+NOTE: Prior to version 2.0.0 of this plugin, the configuration keys in this section were defined as flat, top-level names (e.g., `asciidoc_ext`).
 These names are now deprecated, but still supported.
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
@@ -245,8 +245,8 @@ asciidoc:
 
 A hyphen is automatically added to the value of this configuration setting if the value is non-empty.
 
-By default, all eligible AsciiDoc files are processed (since version 1.2.0 of this plugin).
-If you only want files containing a front matter header to be processed (as was the behavior before version 1.2.0), add the `require_front_matter_header` option to the `asciidoc` block of your {path-config}:
+Since version 2.0.0 of this plugin, when used with Jekyll >= 2.3.0, all non-hidden AsciiDoc files are processed by default, even those without a front matter header.
+If you only want files containing a front matter header to be processed (as was the behavior prior to version 2.0.0), add the `require_front_matter_header` option to the `asciidoc` block of your {path-config}:
 
 [source,yaml]
 ----

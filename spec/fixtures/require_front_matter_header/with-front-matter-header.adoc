@@ -1,0 +1,5 @@
+---
+---
+= Page Title
+
+Lorem ipsum.

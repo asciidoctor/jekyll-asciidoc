@@ -1,0 +1,4 @@
+gems:
+  - jekyll-asciidoc
+asciidoc:
+  require_front_matter_header: true
