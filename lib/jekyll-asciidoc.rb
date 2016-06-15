@@ -163,8 +163,16 @@ module Jekyll
         record_docdir(page) if ::Jekyll::AsciiDoc::Resource === page
       end
 
+      def after_render(page)
+        clear_docdir if ::Jekyll::AsciiDoc::Resource === page
+      end
+
       def record_docdir(page)
         @docdir = ::File.dirname(::File.expand_path(page.path, @config['source']))
+      end
+
+      def clear_docdir
+        @docdir = nil
       end
 
       def load_header(content)
@@ -252,7 +260,9 @@ module Jekyll
         page.extend ::Jekyll::AsciiDoc::Resource
         preamble = page.data.key?('layout') ? '' : %(:#{@page_attr_prefix}layout: _auto\n)
         @converter.record_docdir(page) if ::Jekyll::MIN_VERSION_3
-        return unless (doc = @converter.load_header(%(#{preamble}#{page.content})))
+        doc = @converter.load_header(%(#{preamble}#{page.content}))
+        @converter.clear_docdir if ::Jekyll::MIN_VERSION_3
+        return unless doc
 
         page.data['title'] = doc.doctitle if doc.header?
         page.data['author'] = doc.author if doc.author
