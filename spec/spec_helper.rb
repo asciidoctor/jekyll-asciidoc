@@ -3,25 +3,20 @@ require 'fileutils'
 
 Jekyll.logger.log_level = :error
 
-# NOTE clear hooks after each site reset
+# NOTE reset hook callbacks each time site is reset
 module Jekyll
   module Hooks
-    def self.clone_registry(reg)
-      reg.inject({}) {|accum, (owner, hooks)|
-        accum[owner] = hooks.inject({}) {|accum2, (hook, callbacks)|
-          accum2[hook] = callbacks.clone
-          accum2
-        }
-        accum
-      }
+    # deep dup hashes and shallow dup the leaves
+    def self.deep_dup(h)
+      h.each_with_object({}) {|(k, v), new_h| new_h[k] = ::Hash === v ? deep_dup(v) : v.dup }
     end
 
-    register(:site, :after_reset) { reset }
-    @initial_registry = clone_registry(@registry)
-
-    def self.reset
-      @registry = clone_registry(@initial_registry)
+    def self.reset site
+      @registry = deep_dup(@initial_registry)
     end
+
+    register(:site, :after_reset, &method(:reset))
+    @initial_registry = deep_dup(@registry)
   end
 end
 
