@@ -3,7 +3,7 @@ module Jekyll
 
   module AsciiDoc
     module Configured; end
-    module Resource; end
+    module Document; end
     module Utils
       extend self
       def has_front_matter?(dlg_method, asciidoc_ext_re, path)
@@ -148,39 +148,43 @@ module Jekyll
         '.html'
       end
 
-      def before_render(page, payload)
-        record_docdir(page) if ::Jekyll::AsciiDoc::Resource === page
+      def before_render(document, payload)
+        record_docdir(document) if ::Jekyll::AsciiDoc::Document === document
       end
 
-      def after_render(page)
-        clear_docdir if ::Jekyll::AsciiDoc::Resource === page
+      def after_render(document)
+        clear_docdir if ::Jekyll::AsciiDoc::Document === document
       end
 
-      def record_docdir(page)
-        @docdir = ::File.dirname(::File.expand_path(page.path, @config['source']))
+      def record_docdir(document)
+        @docdir = ::File.dirname(::File.expand_path(document.path, @config['source']))
       end
 
       def clear_docdir
         @docdir = nil
       end
 
-      def load_header(content)
+      def load_header(document)
         setup
+        record_docdir(document) if ::Jekyll::MIN_VERSION_3
         # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
-        header = content.split(HEADER_BOUNDARY_RE, 2)[0]
+        header = document.content.split(HEADER_BOUNDARY_RE, 2)[0]
         case @config['asciidoc']['processor']
         when 'asciidoctor'
           # NOTE return instance even if header is empty since attributes may be inherited from config
           opts = @config['asciidoctor'].merge(parse_header_only: true)
           opts[:base_dir] = @docdir if opts[:base_dir] == :docdir && @docdir
-          ::Asciidoctor.load(header, opts)
+          doc = ::Asciidoctor.load(header, opts)
         else
           ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Cannot load document header.))
+          doc = nil
         end
+        clear_docdir if ::Jekyll::MIN_VERSION_3
+        doc
       end
 
       def convert(content)
-        return '' if (content || '').empty?
+        return '' if content.nil? || content.empty?
         setup
         if (standalone = content.start_with?(STANDALONE_HEADER))
           content = content[STANDALONE_HEADER.length..-1]
@@ -229,42 +233,39 @@ module Jekyll
         end
 
         site.pages.select! do |page|
-          converter.matches(page.ext) ? enhance_page(page) : true
+          converter.matches(page.ext) ? enhance(page) : true
         end
 
         # NOTE posts were migrated to a collection named 'posts' in Jekyll 3
         site.posts.select! do |post|
-          converter.matches(post.ext) ? enhance_page(post, 'posts') : true
+          converter.matches(post.ext) ? enhance(post, 'posts') : true
         end unless ::Jekyll::MIN_VERSION_3
 
         site.collections.each do |name, collection|
           next unless collection.write?
           collection.docs.select! do |doc|
-            converter.matches(::Jekyll::MIN_VERSION_3 ? doc.data['ext'] : doc.extname) ? enhance_page(doc, name) : true
+            converter.matches(::Jekyll::MIN_VERSION_3 ? doc.data['ext'] : doc.extname) ? enhance(doc, name) : true
           end
         end
       end
 
-      # Integrate the page-oriented document attributes from the AsciiDoc
-      # document header into the data Array of the specified {::Jekyll::Page}
+      # Integrate the page-related attributes from the AsciiDoc document header
+      # into the data Array of the specified {::Jekyll::Page}, {::Jekyll::Post}
       # or {::Jekyll::Document}.
       #
-      # page            - the Page or Document instance to enhance.
-      # collection_name - the String name of the collection to which this Document
-      #                   object belongs (optional, default: nil).
+      # document        - the Page, Post or Document instance to enhance.
+      # collection_name - the String name of the collection to which this
+      #                   document belongs (optional, default: nil).
       #
-      # Returns a [Boolean] indicating whether the page should be published.
-      def enhance_page page, collection_name = nil
-        page.extend ::Jekyll::AsciiDoc::Resource
-        preamble = page.data.key?('layout') ? '' : %(:#{@page_attr_prefix}layout: _auto\n)
-        @converter.record_docdir(page) if ::Jekyll::MIN_VERSION_3
-        doc = @converter.load_header(%(#{preamble}#{page.content}))
-        @converter.clear_docdir if ::Jekyll::MIN_VERSION_3
-        return unless doc
+      # Returns a [Boolean] indicating whether the document should be published.
+      def enhance document, collection_name = nil
+        document.extend(::Jekyll::AsciiDoc::Document)
+        document.content = %(:#{@page_attr_prefix}layout: _auto\n#{document.content}) unless document.data.key?('layout')
+        return unless (doc = @converter.load_header(document))
 
-        page.data['title'] = doc.doctitle if doc.header?
-        page.data['author'] = doc.author if doc.author
-        page.data['date'] = ::DateTime.parse(doc.revdate).to_time if collection_name == 'posts' && doc.attr?('revdate')
+        document.data['title'] = doc.doctitle if doc.header?
+        document.data['author'] = doc.author if doc.author
+        document.data['date'] = ::DateTime.parse(doc.revdate).to_time if collection_name == 'posts' && doc.attr?('revdate')
 
         page_attr_prefix_l = @page_attr_prefix.length
         unless (adoc_front_matter = doc.attributes
@@ -273,21 +274,21 @@ module Jekyll
                 val = (val == '' ? '\'\'' : (val == '-' ? '\'-\'' : val))
                 %(#{page_attr_prefix_l.zero? ? name : name[page_attr_prefix_l..-1]}: #{val})
             }).empty?
-          page.data.update(::SafeYAML.load(adoc_front_matter * %(\n)))
+          document.data.update(::SafeYAML.load(adoc_front_matter * %(\n)))
         end
 
-        case page.data['layout']
+        case document.data['layout']
         when nil
-          page.content = %(#{STANDALONE_HEADER}#{page.content}) unless page.data.key?('layout')
+          document.content = %(#{STANDALONE_HEADER}#{document.content}) unless document.data.key?('layout')
         when '', '_auto'
-          page.data['layout'] = collection_name ? collection_name.chomp('s') : 'default'
+          document.data['layout'] = collection_name ? collection_name.chomp('s') : 'default'
         when false
-          page.data.delete('layout')
-          page.content = %(#{STANDALONE_HEADER}#{page.content})
+          document.data.delete('layout')
+          document.content = %(#{STANDALONE_HEADER}#{document.content})
         end
 
-        page.extend(NoLiquid) unless page.data['liquid']
-        page.data.fetch('published', true)
+        document.extend(NoLiquid) unless document.data['liquid']
+        document.data.fetch('published', true)
       end
     end
   end
