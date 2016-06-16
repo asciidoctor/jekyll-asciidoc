@@ -78,7 +78,7 @@ module Jekyll
         end
 
         unless ::Jekyll::AsciiDoc::Configured === (asciidoctor_config = (config['asciidoctor'] ||= {}))
-          asciidoctor_config.replace(::Hash[asciidoctor_config.map {|key, val| [key.to_sym, val] }])
+          asciidoctor_config.replace(asciidoctor_config.each_with_object({}) {|(k, v), h| h[k.to_sym] = v })
           case (base_dir = asciidoctor_config[:base_dir])
           when ':source'
             asciidoctor_config[:base_dir] = ::File.expand_path(config['source'])
@@ -89,7 +89,7 @@ module Jekyll
           end
           asciidoctor_config[:safe] ||= 'safe'
           asciidoctor_config[:attributes] = DEFAULT_ATTRIBUTES
-            .merge(coerce_attributes_to_hash(asciidoctor_config[:attributes]))
+            .merge(resolve_attributes(asciidoctor_config[:attributes]))
             .merge(IMPLICIT_ATTRIBUTES)
           asciidoctor_config.extend(::Jekyll::AsciiDoc::Configured)
         end
@@ -99,24 +99,20 @@ module Jekyll
         @setup = false
       end
 
-      # TODO remove shadowed entries
-      def coerce_attributes_to_hash(attrs)
-        if ::Hash === attrs
-          ::Hash[attrs.map {|key, val|
-            if val
-              [key.end_with?('!') ? '!' + key.chop : key, val]
+      def resolve_attributes(attrs)
+        if (is_array = ::Array === attrs) || ::Hash === attrs
+          attrs.each_with_object({}) {|entry, new_attrs|
+            key, val = is_array ? (entry.split('=', 2) + ['', ''])[0..1] : entry
+            if key.start_with?('!')
+              new_attrs[key[1..-1]] = nil
+            elsif key.end_with?('!')
+              new_attrs[key.chop] = nil
             else
-              key = key.chop if key.end_with?('!')
-              key = '!' + key unless key.start_with?('!')
-              [key, '']
+              new_attrs[key] = val
             end
-          }]
+          }
         else
-          Array(attrs || []).inject({}) do |accum, entry|
-            key, val = entry.split('=', 2)
-            accum[key.end_with?('!') ? '!' + key.chop : key] = val || ''
-            accum
-          end
+          {}
         end
       end
 

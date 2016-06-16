@@ -120,7 +120,8 @@ describe(Jekyll::AsciiDoc) do
       expect(site.config['asciidoctor'][:attributes]['env']).to eql('site')
       expect(site.config['asciidoctor'][:attributes]['icons']).to eql('font')
       expect(site.config['asciidoctor'][:attributes]['sectanchors']).to eql('')
-      expect(site.config['asciidoctor'][:attributes]['!table-caption']).to eql('')
+      expect(site.config['asciidoctor'][:attributes].key?('table-caption')).to be true
+      expect(site.config['asciidoctor'][:attributes]['table-caption']).to be_nil
     end
   end
 
@@ -135,7 +136,8 @@ describe(Jekyll::AsciiDoc) do
       expect(site.config['asciidoctor'][:attributes]['env']).to eql('site')
       expect(site.config['asciidoctor'][:attributes]['icons']).to eql('font')
       expect(site.config['asciidoctor'][:attributes]['sectanchors']).to eql('')
-      expect(site.config['asciidoctor'][:attributes]['!table-caption']).to eql('')
+      expect(site.config['asciidoctor'][:attributes].key?('table-caption')).to be true
+      expect(site.config['asciidoctor'][:attributes]['table-caption']).to be_nil
     end
   end
 
