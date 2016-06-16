@@ -157,7 +157,7 @@ module Jekyll
       end
 
       def record_docdir(document)
-        @docdir = ::File.dirname(::File.expand_path(document.path, @config['source']))
+        @docdir = ::File.dirname(::File.expand_path(document.path, document.site.source))
       end
 
       def clear_docdir
