@@ -32,6 +32,7 @@ module Jekyll
         'builder-jekyll' => '',
         'jekyll-version' => ::Jekyll::VERSION
       }
+      ATTRIBUTE_REFERENCE_RE = /\\?\{(\w+(?:[\-]\w+)*)\}/
       HEADER_BOUNDARY_RE = /(?<=\p{Graph})\n\n/
       STANDALONE_HEADER = %([%standalone]\n)
 
@@ -89,7 +90,7 @@ module Jekyll
           end
           asciidoctor_config[:safe] ||= 'safe'
           asciidoctor_config[:attributes] = DEFAULT_ATTRIBUTES
-            .merge(resolve_attributes(asciidoctor_config[:attributes]))
+            .merge(compile_attributes(asciidoctor_config[:attributes]))
             .merge(IMPLICIT_ATTRIBUTES)
           asciidoctor_config.extend(::Jekyll::AsciiDoc::Configured)
         end
@@ -99,20 +100,40 @@ module Jekyll
         @setup = false
       end
 
-      def resolve_attributes(attrs)
+      def compile_attributes(attrs, seed = {})
         if (is_array = ::Array === attrs) || ::Hash === attrs
-          attrs.each_with_object({}) {|entry, new_attrs|
+          attrs.each_with_object(seed) {|entry, new_attrs|
             key, val = is_array ? (entry.split('=', 2) + ['', ''])[0..1] : entry
             if key.start_with?('!')
               new_attrs[key[1..-1]] = nil
             elsif key.end_with?('!')
               new_attrs[key.chop] = nil
+            elsif val
+              new_attrs[key] = resolve_attribute_refs(val, new_attrs)
             else
-              new_attrs[key] = val
+              new_attrs[key] = nil
             end
           }
         else
-          {}
+          seed
+        end
+      end
+
+      def resolve_attribute_refs text, table
+        if text.empty?
+          text
+        elsif text.include?('{')
+          text.gsub(ATTRIBUTE_REFERENCE_RE) {
+            if $&.start_with?('\\')
+              $&[1..-1]
+            elsif (value = table[$1])
+              value
+            else
+              $&
+            end
+          }
+        else
+          text
         end
       end
 
