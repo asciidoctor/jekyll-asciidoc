@@ -72,8 +72,8 @@ module Jekyll
         'builder-jekyll' => '',
         'jekyll-version' => ::Jekyll::VERSION
       }
-      HEADER_BOUNDARY_RE = /(?<=\p{Graph})\n\n/
-      STANDALONE_HEADER = %([%standalone]\n)
+      STANDALONE_OPTION_LINE = %([%standalone]\n)
+      HeaderBoundaryRx = /(?<=\p{Graph})\n\n/
 
       safe true
 
@@ -187,7 +187,7 @@ module Jekyll
         setup
         record_docdir(document) if ::Jekyll::MIN_VERSION_3
         # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
-        header = document.content.split(HEADER_BOUNDARY_RE, 2)[0]
+        header = document.content.split(HeaderBoundaryRx, 2)[0]
         case @config['asciidoc']['processor']
         when 'asciidoctor'
           # NOTE return instance even if header is empty since attributes may be inherited from config
@@ -205,8 +205,8 @@ module Jekyll
       def convert(content)
         return '' if content.nil? || content.empty?
         setup
-        if (standalone = content.start_with?(STANDALONE_HEADER))
-          content = content[STANDALONE_HEADER.length..-1]
+        if (standalone = content.start_with?(STANDALONE_OPTION_LINE))
+          content = content[STANDALONE_OPTION_LINE.length..-1]
         end
         case @config['asciidoc']['processor']
         when 'asciidoctor'
@@ -230,8 +230,7 @@ module Jekyll
         end
       end
 
-      AUTO_PAGE_LAYOUT_LINE = %(:page-layout: _auto\n)
-      STANDALONE_HEADER = ::Jekyll::Converters::AsciiDocConverter::STANDALONE_HEADER
+      STANDALONE_OPTION_LINE = ::Jekyll::Converters::AsciiDocConverter::STANDALONE_OPTION_LINE
 
       def generate(site)
         @converter = converter = (::Jekyll::MIN_VERSION_3 ?
@@ -298,12 +297,12 @@ module Jekyll
 
         case document.data['layout']
         when nil
-          document.content = %(#{STANDALONE_HEADER}#{document.content}) unless document.data.key?('layout')
+          document.content = %(#{STANDALONE_OPTION_LINE}#{document.content}) unless document.data.key?('layout')
         when '', '_auto'
           document.data['layout'] = collection_name ? collection_name.chomp('s') : 'default'
         when false
           document.data.delete('layout')
-          document.content = %(#{STANDALONE_HEADER}#{document.content})
+          document.content = %(#{STANDALONE_OPTION_LINE}#{document.content})
         end
 
         document.extend(NoLiquid) unless document.data['liquid']
