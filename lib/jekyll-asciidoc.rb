@@ -53,6 +53,16 @@ module Jekyll
           text
         end
       end
+
+      if ::Jekyll::MIN_VERSION_3
+        def get_converter(site)
+          site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter)
+        end
+      else
+        def get_converter(site)
+          site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)
+        end
+      end
     end
   end
 
@@ -238,9 +248,7 @@ module Jekyll
       STANDALONE_OPTION_LINE = ::Jekyll::Converters::AsciiDocConverter::STANDALONE_OPTION_LINE
 
       def generate(site)
-        @converter = converter = (::Jekyll::MIN_VERSION_3 ?
-            site.find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
-            site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup
+        @converter = converter = ::Jekyll::AsciiDoc::Utils.get_converter(site).setup
 
         if ::Jekyll::MIN_VERSION_3
           before_render_callback = converter.method(:before_render)
@@ -324,9 +332,7 @@ module Jekyll
     #
     # Returns the HTML formatted String.
     def asciidocify(input, doctype = nil)
-      (@context.registers[:cached_asciidoc_converter] ||= (::Jekyll::MIN_VERSION_3 ?
-          @context.registers[:site].find_converter_instance(::Jekyll::Converters::AsciiDocConverter) :
-          @context.registers[:site].getConverterImpl(::Jekyll::Converters::AsciiDocConverter)).setup)
+      (@context.registers[:cached_asciidoc_converter] ||= ::Jekyll::AsciiDoc::Utils.get_converter(@context.registers[:site]))
         .convert(doctype ? %(:doctype: #{doctype}\n#{input}) : input.to_s)
     end
   end

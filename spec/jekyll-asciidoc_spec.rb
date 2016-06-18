@@ -10,7 +10,7 @@ describe(Jekyll::AsciiDoc) do
   end
 
   let(:converter) do
-    converter = site.converters.find {|c| Jekyll::Converters::AsciiDocConverter === c }
+    ::Jekyll::AsciiDoc::Utils.get_converter(site)
   end
 
   describe('default configuration') do
