@@ -82,7 +82,7 @@ If you're not using Bundler to manage the dependencies for your Jekyll project, 
  $ [sudo] gem install jekyll-asciidoc
 
 NOTE: The `sudo` prefix is only required if you are installing gems into your system.
-To avoid this bad practice, we recommend using RVM (or another Ruby version manager), which will set up Ruby safely in your home directory.
+To avoid this bad practice, we recommend using RVM (or another Ruby version manager), which sets up Ruby safely in your home directory.
 
 Then add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's {path-config} file:
 
