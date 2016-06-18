@@ -123,7 +123,12 @@ module Jekyll
           when ':source'
             asciidoctor_config[:base_dir] = ::File.expand_path(config['source'])
           when ':docdir'
-            asciidoctor_config[:base_dir] = ::Jekyll::MIN_VERSION_3 ? :docdir : ::File.expand_path(config['source'])
+            if ::Jekyll::MIN_VERSION_3
+              asciidoctor_config[:base_dir] = :docdir
+            else
+              ::Jekyll.logger.warn('jekyll-asciidoc: Using :docdir as value of base_dir option requires Jekyll 3. Falling back to source directory.')
+              asciidoctor_config[:base_dir] = ::File.expand_path(config['source'])
+            end
           else
             asciidoctor_config[:base_dir] = ::File.expand_path(base_dir) if base_dir
           end
