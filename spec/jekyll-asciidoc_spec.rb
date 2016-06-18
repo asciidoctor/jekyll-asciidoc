@@ -9,6 +9,10 @@ describe(Jekyll::AsciiDoc) do
     Jekyll::Site.new(config)
   end
 
+  let(:converter) do
+    converter = site.converters.find {|c| Jekyll::Converters::AsciiDocConverter === c }
+  end
+
   describe('default configuration') do
     let(:name) do
       'default_config'
@@ -23,13 +27,11 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should configure AsciiDoc converter to match AsciiDoc file extension' do
-      converter = site.converters.find {|c| Jekyll::Converters::AsciiDocConverter === c }
       expect(converter).not_to be_nil
       expect(converter.matches('.adoc')).to be_truthy
     end
 
     it 'should use .html as output extension' do
-      converter = site.converters.find {|c| Jekyll::Converters::AsciiDocConverter === c }
       expect(converter).not_to be_nil
       expect(converter.output_ext('.adoc')).to eql ('.html')
     end
@@ -109,6 +111,45 @@ describe(Jekyll::AsciiDoc) do
     end
   end
 
+  describe('compile attributes') do
+    let(:name) do
+      'default_config'
+    end
+
+    it 'should transform negated attribute with trailing ! to attribute with nil value' do
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'icons!' => ''})
+      expect(result.key?('icons')).to be true
+      expect(result['icons']).to be_nil
+    end
+
+    it 'should transform negated attribute with leading ! to attribute with nil value' do
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'!icons' => ''})
+      expect(result.key?('icons')).to be true
+      expect(result['icons']).to be_nil
+    end
+
+    it 'should remove existing attribute when attribute is unset' do
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'icons' => 'font', '!icons' => ''})
+      expect(result.key?('icons')).to be true
+      expect(result['icons']).to be_nil
+    end
+
+    it 'should assign existing attribute to new value when set again' do
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'icons' => nil, 'icons' => 'font'})
+      expect(result['icons']).to eql('font')
+    end
+
+    it 'should resolve attribute references in attribute value' do
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}{bar}'})
+      expect(result['foobar']).to eql('foobar')
+    end
+
+    it 'should not resolve escaped attribute reference' do
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}\{bar}'})
+      expect(result['foobar']).to eql('foo{bar}')
+    end
+  end
+
   describe('attributes as hash') do
     let(:name) do
       'attributes_as_hash'
@@ -120,7 +161,8 @@ describe(Jekyll::AsciiDoc) do
       expect(site.config['asciidoctor'][:attributes]['env']).to eql('site')
       expect(site.config['asciidoctor'][:attributes]['icons']).to eql('font')
       expect(site.config['asciidoctor'][:attributes]['sectanchors']).to eql('')
-      expect(site.config['asciidoctor'][:attributes]['!table-caption']).to eql('')
+      expect(site.config['asciidoctor'][:attributes].key?('table-caption')).to be true
+      expect(site.config['asciidoctor'][:attributes]['table-caption']).to be_nil
     end
   end
 
@@ -135,7 +177,8 @@ describe(Jekyll::AsciiDoc) do
       expect(site.config['asciidoctor'][:attributes]['env']).to eql('site')
       expect(site.config['asciidoctor'][:attributes]['icons']).to eql('font')
       expect(site.config['asciidoctor'][:attributes]['sectanchors']).to eql('')
-      expect(site.config['asciidoctor'][:attributes]['!table-caption']).to eql('')
+      expect(site.config['asciidoctor'][:attributes].key?('table-caption')).to be true
+      expect(site.config['asciidoctor'][:attributes]['table-caption']).to be_nil
     end
   end
 

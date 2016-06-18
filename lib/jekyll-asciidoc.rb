@@ -6,6 +6,9 @@ module Jekyll
     module Document; end
     module Utils
       extend self
+
+      AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
+
       def has_front_matter?(dlg_method, asciidoc_ext_re, path)
         ::File.extname(path) =~ asciidoc_ext_re ? true : dlg_method.call(path)
       end
@@ -13,6 +16,43 @@ module Jekyll
       begin # supports Jekyll >= 2.3.0
         define_method(:has_yaml_header?, &::Jekyll::Utils.method(:has_yaml_header?))
       rescue ::NameError; end
+
+      def compile_attributes(attrs, seed = {})
+        if (is_array = ::Array === attrs) || ::Hash === attrs
+          attrs.each_with_object(seed) {|entry, new_attrs|
+            key, val = is_array ? (entry.split('=', 2) + ['', ''])[0..1] : entry
+            if key.start_with?('!')
+              new_attrs[key[1..-1]] = nil
+            elsif key.end_with?('!')
+              new_attrs[key.chop] = nil
+            elsif val
+              new_attrs[key] = resolve_attribute_refs(val, new_attrs)
+            else
+              new_attrs[key] = nil
+            end
+          }
+        else
+          seed
+        end
+      end
+
+      def resolve_attribute_refs text, table
+        if text.empty?
+          text
+        elsif text.include?('{')
+          text.gsub(AttributeReferenceRx) {
+            if $&.start_with?('\\')
+              $&[1..-1]
+            elsif (value = table[$1])
+              value
+            else
+              $&
+            end
+          }
+        else
+          text
+        end
+      end
     end
   end
 
@@ -78,7 +118,7 @@ module Jekyll
         end
 
         unless ::Jekyll::AsciiDoc::Configured === (asciidoctor_config = (config['asciidoctor'] ||= {}))
-          asciidoctor_config.replace(::Hash[asciidoctor_config.map {|key, val| [key.to_sym, val] }])
+          asciidoctor_config.replace(asciidoctor_config.each_with_object({}) {|(k, v), h| h[k.to_sym] = v })
           case (base_dir = asciidoctor_config[:base_dir])
           when ':source'
             asciidoctor_config[:base_dir] = ::File.expand_path(config['source'])
@@ -89,7 +129,7 @@ module Jekyll
           end
           asciidoctor_config[:safe] ||= 'safe'
           asciidoctor_config[:attributes] = DEFAULT_ATTRIBUTES
-            .merge(coerce_attributes_to_hash(asciidoctor_config[:attributes]))
+            .merge(::Jekyll::AsciiDoc::Utils.compile_attributes(asciidoctor_config[:attributes]))
             .merge(IMPLICIT_ATTRIBUTES)
           asciidoctor_config.extend(::Jekyll::AsciiDoc::Configured)
         end
@@ -97,27 +137,6 @@ module Jekyll
         @config = config
         @docdir = nil
         @setup = false
-      end
-
-      # TODO remove shadowed entries
-      def coerce_attributes_to_hash(attrs)
-        if ::Hash === attrs
-          ::Hash[attrs.map {|key, val|
-            if val
-              [key.end_with?('!') ? '!' + key.chop : key, val]
-            else
-              key = key.chop if key.end_with?('!')
-              key = '!' + key unless key.start_with?('!')
-              [key, '']
-            end
-          }]
-        else
-          Array(attrs || []).inject({}) do |accum, entry|
-            key, val = entry.split('=', 2)
-            accum[key.end_with?('!') ? '!' + key.chop : key] = val || ''
-            accum
-          end
-        end
       end
 
       def setup
