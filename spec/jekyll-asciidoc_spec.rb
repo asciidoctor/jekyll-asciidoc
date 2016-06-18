@@ -27,13 +27,11 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should configure AsciiDoc converter to match AsciiDoc file extension' do
-      converter = site.converters.find {|c| Jekyll::Converters::AsciiDocConverter === c }
       expect(converter).not_to be_nil
       expect(converter.matches('.adoc')).to be_truthy
     end
 
     it 'should use .html as output extension' do
-      converter = site.converters.find {|c| Jekyll::Converters::AsciiDocConverter === c }
       expect(converter).not_to be_nil
       expect(converter.output_ext('.adoc')).to eql ('.html')
     end
@@ -119,35 +117,35 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should transform negated attribute with trailing ! to attribute with nil value' do
-      result = converter.compile_attributes({'icons!' => ''})
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'icons!' => ''})
       expect(result.key?('icons')).to be true
       expect(result['icons']).to be_nil
     end
 
     it 'should transform negated attribute with leading ! to attribute with nil value' do
-      result = converter.compile_attributes({'!icons' => ''})
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'!icons' => ''})
       expect(result.key?('icons')).to be true
       expect(result['icons']).to be_nil
     end
 
     it 'should remove existing attribute when attribute is unset' do
-      result = converter.compile_attributes({'icons' => 'font', '!icons' => ''})
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'icons' => 'font', '!icons' => ''})
       expect(result.key?('icons')).to be true
       expect(result['icons']).to be_nil
     end
 
     it 'should assign existing attribute to new value when set again' do
-      result = converter.compile_attributes({'icons' => nil, 'icons' => 'font'})
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'icons' => nil, 'icons' => 'font'})
       expect(result['icons']).to eql('font')
     end
 
     it 'should resolve attribute references in attribute value' do
-      result = converter.compile_attributes({'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}{bar}'})
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}{bar}'})
       expect(result['foobar']).to eql('foobar')
     end
 
     it 'should not resolve escaped attribute reference' do
-      result = converter.compile_attributes({'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}\{bar}'})
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}\{bar}'})
       expect(result['foobar']).to eql('foo{bar}')
     end
   end
