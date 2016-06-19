@@ -60,7 +60,7 @@ The plugin depends on the {uri-gem-asciidoctor}[asciidoctor] gem, which gets ins
 
 Your method of installation will depend on whether or not you are using Bundler to manage the dependencies for your Jekyll project.
 
-=== Installing Using Bundler
+=== Installation Using Bundler
 
 If you are using Bundler to manage the dependencies for your project (recommended), simply add the `jekyll-asciidoc` plugin gem to your [path]_Gemfile_:
 
@@ -268,6 +268,38 @@ asciidoctor:
 ----
 
 In addition to `attributes`, you can define any another option key (e.g., `safe`) that is recognized by the http://asciidoctor.org/docs/user-manual/#ruby-api-options[Asciidoctor API].
+
+==== Setting the base directory
+
+In Asciidoctor, the base directory (i.e., `base_dir` option) is used as the root when resolving non-nested, relative includes, among other paths.
+
+By default, this plugin does not specify a base directory when invoking the Asciidoctor API.
+Asciidoctor will therefore use the current working directory (i.e., the project root) as the base directory.
+
+If your source directory is not the project root, and you want Asciidoctor to use the source directory as the base directory, set the value of the `base_dir` option to `:source`.
+
+[source,yaml]
+----
+asciidoctor:
+  base_dir: :source
+  ...
+----
+
+If, instead, you want the base directory to track the directory of the document being processed, and you're using Jekyll 3 or better, you can set the value of the `base_dir` option to `:docdir`.
+Since the base directory is also the jail, we also recommend setting the `safe` option to `unsafe` so that you can still resolve paths outside of this directory.
+
+[source,yaml]
+----
+asciidoctor:
+  base_dir: :docdir
+  safe: unsafe
+  ...
+----
+
+IMPORTANT: The `:docdir` setting is not available when using Jekyll 2.
+
+You can also set the `base_dir` option to any relative or absolute path.
+In that case, the same value will be used for all documents.
 
 ==== Enabling Hard Line Breaks
 
