@@ -92,7 +92,7 @@ gems:
   - jekyll-asciidoc
 ----
 
-== Creating Pages
+== Creating Pages and Documents
 
 This plugin converts eligible AsciiDoc files located inside the source directory (by default, the project root) to HTML pages in the generated site.
 There are a few conditions that must be met in order for an AsciiDoc file to be eligible:
@@ -269,7 +269,7 @@ asciidoctor:
 
 In addition to `attributes`, you can define any another option key (e.g., `safe`) that is recognized by the http://asciidoctor.org/docs/user-manual/#ruby-api-options[Asciidoctor API].
 
-==== Setting the base directory
+==== Specifying the Base Directory
 
 In Asciidoctor, the base directory (i.e., `base_dir` option) is used as the root when resolving non-nested, relative includes, among other paths.
 
