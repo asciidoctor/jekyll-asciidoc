@@ -23,8 +23,8 @@ endif::[]
 // URIs:
 :uri-asciidoc: http://asciidoc.org
 :uri-asciidoctor: http://asciidoctor.org
+:uri-gem: http://rubygems.org/gems/jekyll-asciidoc
 :uri-gem-asciidoctor: http://rubygems.org/gems/asciidoctor 
-:uri-gem-jekyll-asciidoc: http://rubygems.org/gems/jekyll-asciidoc
 :uri-repo: https://github.com/asciidoctor/jekyll-asciidoc
 :uri-jekyll: https://jekyllrb.com
 :uri-front-matter: http://jekyllrb.com/docs/frontmatter/
@@ -32,7 +32,7 @@ endif::[]
 :uri-graphviz: http://www.graphviz.org
 
 ifdef::status[]
-image:https://img.shields.io/gem/v/jekyll-asciidoc.svg?label=gem%20version[Gem Version, link={uri-gem-jekyll-asciidoc}]
+image:https://img.shields.io/gem/v/jekyll-asciidoc.svg?label=gem%20version[Gem Version, link={uri-gem}]
 image:https://img.shields.io/travis/asciidoctor/jekyll-asciidoc/master.svg[Build Status (Travis CI), link=https://travis-ci.org/asciidoctor/jekyll-asciidoc]
 endif::[]
 
@@ -50,18 +50,18 @@ The plugin consists of three extensions:
 `Jekyll::Filters.asciidocify`::
   A Liquid filter that uses the converter from this plugin to convert AsciiDoc content to HTML.
 
-These extensions are registered automatically when the jekyll-asciidoc gem is required.
+These extensions are registered automatically when the [app]*jekyll-asciidoc* gem is required.
 
 == Installation
 
-This plugin is packaged as a gem named jekyll-asciidoc and published to RubyGems.org.
-The plugin depends on the {uri-gem-asciidoctor}[asciidoctor] gem, which gets installed automatically.
+This plugin is packaged as a gem named [app]*{uri-gem}[jekyll-asciidoc]* and published to RubyGems.org.
+The plugin depends on the [app]*{uri-gem-asciidoctor}[asciidoctor]* gem, which gets installed automatically.
 
 Your method of installation will depend on whether or not you are using Bundler to manage the dependencies for your Jekyll project.
 
 === Installation Using Bundler
 
-If you are using Bundler to manage the dependencies for your project (recommended), simply add the `jekyll-asciidoc` plugin gem to your [path]_Gemfile_:
+If you are using Bundler to manage the dependencies for your project (recommended), simply add the [app]*jekyll-asciidoc* plugin gem to your [path]_Gemfile_:
 
 [source,ruby]
 ----
@@ -83,7 +83,7 @@ If you're not using Bundler to manage the dependencies for your Jekyll project, 
 NOTE: The `sudo` prefix is only required if you are installing gems into your system.
 To avoid this bad practice, we recommend using RVM (or another Ruby version manager), which sets up Ruby safely in your home directory.
 
-Then add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's {path-config} file:
+Then add the [app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load in your site's {path-config} file:
 
 [source,yaml]
 ----
@@ -91,14 +91,14 @@ gems:
   - jekyll-asciidoc
 ----
 
-== Creating Pages and Documents
+== Creating Pages
 
 This plugin converts eligible AsciiDoc files located inside the source directory (by default, the project root) to HTML pages in the generated site.
 There are a few conditions that must be met in order for an AsciiDoc file to be eligible:
 
 . The file must have an AsciiDoc file extension (see <<configuration>>).
-. The name of the file must not begin with a dot (`.`) or an underscore (`_`).footnoteref:[excluded_files,These files are excluded by Jekyll.]
-. The file must not be located in a folder whose name begins with a dot (`.`) or an underscore (`_`), unless the folder is a designated collection (e.g., posts).footnoteref:[excluded_files]
+. The name of the file must not begin with a dot (`.`) or an underscore (`_`).footnoteref:[excluded_files,Hidden files and folders are automatically excluded by Jekyll.]
+. The file must not be located in a folder whose name begins with a dot (`.`) or an underscore (`_`) (unless the folder is a designated collection, such as _posts).footnoteref:[excluded_files]
 . With the exception of posts, documents must begin with a {uri-front-matter}[front matter header] if using a version of this plugin < 2.0.0.
 Since version 2.0.0 of this plugin, the front matter header is always optional.
 
@@ -121,7 +121,7 @@ Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
 puts "Hello, World!"
 ----
 
-Alternatively, you can define the front matter data directly in the AsciiDoc header, which we recommend:
+Alternatively, you can define the page variables directly in the AsciiDoc header, which we recommend:
 
 .sample.adoc
 [source,asciidoc]
@@ -138,16 +138,16 @@ Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
 puts "Hello, World!"
 ----
 
-AsciiDoc attributes defined in the document header whose names begin with `page-` get promoted to Jekyll front matter.
+AsciiDoc attributes defined in the document header whose names begin with ``page-``footnote:[The prefix used to label page attributes can be customized.] get promoted to page variables.
 The part of the name after the `page-` prefix is used as the entry's key (e.g., page-layout becomes layout) and the value is interpeted as https://en.wikipedia.org/wiki/YAML[YAML] data (that which can be expressed in a single line).
 
-The most commonly defined page variable is layout, which determines which layout is used to wrap the generated content.
-Jekyll will look for a file inside the [path]_{empty}_layouts_ folder whose root name matches the name of the layout.
-For example, if the layout variable has the value `page`, Jekyll might resolve a layout named [path]_page.html_.
+The most commonly defined page variable is layout, which determines which template is used to wrap the generated content.
+Jekyll will look for a template file inside the [path]_{empty}_layouts_ folder whose root name matches the name of the layout.
+For example, if the layout variable has the value `page`, Jekyll would look for a layout template at the path [path]__layout/page.html_.
 
-If the layout is empty, the default layout is used, `default` for pages and `posts` for posts.
-If the layout is unset or `false`, the AsciiDoc processor will generate a standalone document (`header_footer: true`).
-In this case, the page will appear like an HTML file that is generated by the AsciiDoc processor directly.
+If the layout is empty, the default layout is used (`default` for pages, `post` for posts, and the collection label for a document in a collection).
+If the layout is unset or `false`, the AsciiDoc processor will generate a standalone document.
+In this case, the page will appear like an HTML file generated by the AsciiDoc processor directly (with the option `header_footer: true`).
 If the layout is ~, no layout is applied.
 
 To review, here are the different ways to specify a layout using the AsciiDoc attribute page-layout:
@@ -157,28 +157,29 @@ To review, here are the different ways to specify a layout using the AsciiDoc at
 * `:!page-layout:` or `:page-layout: false` -- don't use a layout; instead, generate a standalone HTML document
 * `:page-layout: ~` -- don't use a layout (often results in an incomplete HTML file)
 
-In addition to page attributes defined explicitly, the following implicit AsciiDoc attributes are also promoted to page data:
+In addition to page attributes defined explicitly, the following implicit AsciiDoc attributes are also promoted to page variables:
 
 * doctitle (i.e., the document title) (becomes title)
 * author
 * revdate (becomes date; value is converted to a DateTime object; only for posts)
 
 Unlike other content files, the {uri-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (as of version 2.0.0 of this plugin).
-If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the liquid page variable.
+If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the `liquid` page variable (shown here defined using a page attribute).
 
+[source,asciidoc]
 ----
 :page-liquid:
 ----
 
-IMPORTANT: AsciiDoc files may include a {uri-front-matter}[front matter header] for defining page settings and variables.
+IMPORTANT: AsciiDoc files may include a {uri-front-matter}[front matter header] for defining page variables.
 If present, the front matter header must be the very first character of the file.
-The front matter header won't be seen--and could disrupt conversion--if the front matter is preceded by a whitespace character or a Byte Order Mark (BOM).
+The front matter header won't be seen--and could distort conversion--if the front matter is preceded by whitespace or a Byte Order Mark (BOM).
 
 NOTE: As of version 2.0.0 of this plugin, you may exclude the front matter header, as shown in the second example above.
 Prior to version 2.0.0, you had to include at least an empty front matter header (except for posts).
-In these cases, you define all the page metadata (e.g., layout) using AsciiDoc attributes instead of in the front matter.
+In these cases, you define all the page variables (e.g., layout) using AsciiDoc page attributes instead of in the front matter.
 You can also use a combination of both.
-When intermixed, the attributes defined in the AsciiDoc header take precedence.
+When intermixed, the page attributes defined in the AsciiDoc header take precedence.
 
 You can now build your site using:
 
@@ -232,7 +233,7 @@ asciidoc:
 
 The extensions shown in the previous listing are the default values, so you don't need to specify this option if those defaults are sufficient.
 
-AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to Jekyll front matter.
+AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to page variables.
 The part of the name after the `page-` prefix is used as the key (e.g., page-layout becomes layout).
 If you want to change this attribute prefix, append the `page_attribute_prefix` option to the `asciidoc` block of your {path-config}:
 
@@ -489,7 +490,7 @@ JAQ provides a page layout out of the box configured to fully style body content
 
 The Jekyll AsciiDoc plugin converts AsciiDoc to embeddable HTML.
 This HTML is then inserted into the page layout.
-You need to augment the page layout to include resources typically present in a standalone HTML document that Asciidoctor produces.
+You need to augment the layout to include resources typically present in a standalone HTML document that Asciidoctor produces.
 
 . Create a stylesheet in the [path]_css_ directory named [path]_asciidoc.css_ to hold additional CSS for body content generated from AsciiDoc.
 . Add this stylesheet to the HTML `<head>` in [path]_{empty}_includes/head.html_ under the main.css declaration:
@@ -685,3 +686,18 @@ Next, package, tag and release the gem to RubyGems.org, run the following rake t
 IMPORTANT: Ensure you have the proper credentials setup as described in the guide http://guides.rubygems.org/publishing/#publishing-to-rubygemsorg[Publishing to RubyGems.org].
 
 Once you finish the release, you should update the version to the next micro version in the sequence using the `.dev` suffix (e.g., 1.0.1.dev).
+
+////
+[glossary]
+== Glossary
+
+[glossary]
+page variable::
+Data associated with a page, post or document.
+Page variables are defined in the front matter header or as page attributes in the AsciiDoc header.
+
+page attribute::
+Any AsciiDoc attribute that gets promoted to a page variable by this plugin.
+Before being promoted, the designated prefix is removed from the name.
+The value of a page attribute is parse as YAML data.
+////
