@@ -256,7 +256,8 @@ asciidoc:
 
 === Asciidoctor
 
-To pass additional attributes to AsciiDoc, or override the default attributes defined in the plugin, add the following lines to your {path-config}:
+You can pass additional attributes to AsciiDoc, or override default attributes defined by the plugin, by using the `attributes` option of the `asciidoctor` block in your {path-config}.
+The value of this option can either be an Array containing key-value pairs:
 
 [source,yaml]
 ----
@@ -266,6 +267,30 @@ asciidoctor:
     - source-highlighter=pygments
     - pygments-css=style
 ----
+
+or the key-value pairs can be defined as a Hash:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    idprefix: _
+    source-highlighter: pygments
+    pygments-css: style
+----
+
+You may use attribute references in the attribute value to reference any implicit or already defined attribute.
+For example, to set the `iconsdir` attribute based on the `imagesdir` attribute, use the following:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    imagesdir: /images
+    iconsdir: '{imagesdir}/icons'
+----
+
+If the value begins with an attribute reference, and you are defining the attributes using the Hash structure, you must enclose the value in quotes.
 
 In addition to `attributes`, you can define any another option key (e.g., `safe`) that is recognized by the http://asciidoctor.org/docs/user-manual/#ruby-api-options[Asciidoctor API].
 
