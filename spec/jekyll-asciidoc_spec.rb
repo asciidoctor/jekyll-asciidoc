@@ -312,25 +312,25 @@ describe(Jekyll::AsciiDoc) do
       expect(contents).to match('<h1>Standalone Page B</h1>')
     end
 
-    it 'should apply layout named default to page content if page-layout attribute not specified' do
+    it 'should apply layout named page to page content if page-layout attribute not specified' do
       file = output_file('without-front-matter-header.html')
       expect(File).to exist(file)
       contents = File.read(file)
-      expect(contents).to match('<p>Footer for default layout.</p>')
+      expect(contents).to match('<p>Footer for page layout.</p>')
     end
 
-    it 'should apply layout named default to page content if page-layout attribute is empty' do
+    it 'should apply layout named page to page content if page-layout attribute is empty' do
       file = output_file('with-empty-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
-      expect(contents).to match('<p>Footer for default layout.</p>')
+      expect(contents).to match('<p>Footer for page layout.</p>')
     end
 
-    it 'should apply layout named default to page content if page-layout attribute has value _auto' do
+    it 'should apply layout named page to page content if page-layout attribute has value _auto' do
       file = output_file('with-auto-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
-      expect(contents).to match('<p>Footer for default layout.</p>')
+      expect(contents).to match('<p>Footer for page layout.</p>')
     end
 
     it 'should apply specified layout to page content if page-layout has non-empty string value' do
@@ -353,6 +353,37 @@ describe(Jekyll::AsciiDoc) do
       page = find_page('has-page-attribute-with-empty-value.adoc')
       expect(page).not_to be_nil
       expect(page.data['attribute-with-empty-value']).to eql('')
+    end
+  end
+
+  describe('use default as fallback layout') do
+    let(:name) do
+      'fallback_to_default_layout'
+    end
+
+    before(:each) do
+      site.process
+    end
+
+    it 'should use default layout for page if page layout is not available' do
+      file = output_file('home.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<p>Footer for default layout.</p>')
+    end
+
+    it 'should use default layout for post if post layout is not available' do
+      file = output_file('2016/01/01/post.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<p>Footer for default layout.</p>')
+    end
+
+    it 'should use default layout for document if layout for document collection is not available' do
+      file = output_file('blueprints/blueprint.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<p>Footer for default layout.</p>')
     end
   end
 
@@ -537,7 +568,7 @@ describe(Jekyll::AsciiDoc) do
       expect(doc.data['foo']).to eql('bar')
     end
 
-    it 'should use default layout that is named after the collection' do
+    it 'should select layout that is based on the collection label by default' do
       file = output_file('blueprints/blueprint-a.html')
       expect(File).to exist(file)
       contents = File.read(file)

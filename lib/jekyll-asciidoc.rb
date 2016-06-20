@@ -312,7 +312,8 @@ module Jekyll
         when nil
           document.content = %(#{STANDALONE_OPTION_LINE}#{document.content}) unless document.data.key?('layout')
         when '', '_auto'
-          document.data['layout'] = collection_name ? collection_name.chomp('s') : 'default'
+          layout = collection_name ? collection_name.chomp('s') : 'page'
+          document.data['layout'] = document.site.layouts.key?(layout) ? layout : 'default'
         when false
           document.data.delete('layout')
           document.content = %(#{STANDALONE_OPTION_LINE}#{document.content})
