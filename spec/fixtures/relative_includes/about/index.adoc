@@ -2,7 +2,10 @@
 
 We provide content design services for open source tech companies.
 
-docdir={docdir}
+* docfile={docfile}
+* docdir={docdir}
+* outfile={outfile}
+* outdir={outdir}
 
 == Our Team
 

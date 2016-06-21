@@ -1,0 +1,5 @@
+gems:
+  - jekyll-asciidoc
+asciidoctor:
+  attributes:
+    imagesdir: /images

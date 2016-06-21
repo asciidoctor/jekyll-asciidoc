@@ -109,6 +109,7 @@ module Jekyll
 
       def initialize(config)
         # NOTE jekyll-watch reinitializes plugins using a shallow clone of config, so no need to reconfigure
+        # NOTE check for Configured only works if value of key is defined in _config.yml as Hash
         unless ::Jekyll::AsciiDoc::Configured === (asciidoc_config = (config['asciidoc'] ||= {}))
           if ::String === asciidoc_config
             ::Jekyll.logger.warn('jekyll-asciidoc: The AsciiDoc-related configuration should be defined using a Hash (under the `asciidoc` key) instead of discrete entries.')
@@ -146,28 +147,39 @@ module Jekyll
 
         unless ::Jekyll::AsciiDoc::Configured === (asciidoctor_config = (config['asciidoctor'] ||= {}))
           asciidoctor_config.replace(asciidoctor_config.each_with_object({}) {|(k, v), h| h[k.to_sym] = v })
-          case (base_dir = asciidoctor_config[:base_dir])
+          source = ::File.expand_path(config['source'])
+          dest = ::File.expand_path(config['destination'])
+          case (base = asciidoctor_config[:base_dir])
           when ':source'
-            asciidoctor_config[:base_dir] = ::File.expand_path(config['source'])
+            asciidoctor_config[:base_dir] = source
           when ':docdir'
             if ::Jekyll::MIN_VERSION_3
               asciidoctor_config[:base_dir] = :docdir
             else
               ::Jekyll.logger.warn('jekyll-asciidoc: Using :docdir as value of base_dir option requires Jekyll 3. Falling back to source directory.')
-              asciidoctor_config[:base_dir] = ::File.expand_path(config['source'])
+              asciidoctor_config[:base_dir] = source
             end
           else
-            asciidoctor_config[:base_dir] = ::File.expand_path(base_dir) if base_dir
+            asciidoctor_config[:base_dir] = ::File.expand_path(base) if base
           end
           asciidoctor_config[:safe] ||= 'safe'
-          asciidoctor_config[:attributes] = DEFAULT_ATTRIBUTES
-            .merge(::Jekyll::AsciiDoc::Utils.compile_attributes(asciidoctor_config[:attributes]))
-            .merge(IMPLICIT_ATTRIBUTES)
+          site_attributes = {
+            'site-root' => ::Dir.pwd,
+            'site-source' => source,
+            'site-destination' => dest,
+            'site-baseurl' => config['baseurl'],
+            'site-url' => config['url']
+          }
+          attrs = asciidoctor_config[:attributes] = ::Jekyll::AsciiDoc::Utils.compile_attributes(
+              asciidoctor_config[:attributes], site_attributes.merge(IMPLICIT_ATTRIBUTES).merge(DEFAULT_ATTRIBUTES))
+          if (imagesdir = attrs['imagesdir']) && !attrs.key?('imagesoutdir') && imagesdir.start_with?('/')
+            attrs['imagesoutdir'] = ::File.join(dest, imagesdir)
+          end
           asciidoctor_config.extend(::Jekyll::AsciiDoc::Configured)
         end
 
         @config = config
-        @docdir = nil
+        @path_info = nil
         @setup = false
       end
 
@@ -200,37 +212,53 @@ module Jekyll
       end
 
       def before_render(document, payload)
-        record_docdir(document) if ::Jekyll::AsciiDoc::Document === document
+        record_path_info(document) if ::Jekyll::AsciiDoc::Document === document
       end
 
       def after_render(document)
-        clear_docdir if ::Jekyll::AsciiDoc::Document === document
+        clear_path_info if ::Jekyll::AsciiDoc::Document === document
       end
 
-      def record_docdir(document)
-        @docdir = ::File.dirname(::File.expand_path(document.path, document.site.source))
+      def record_path_info(document, opts = {})
+        @path_info = {
+          'docfile' => (docfile = ::File.join(document.site.source, document.relative_path)),
+          'docdir' => ::File.dirname(docfile)
+        }
+        unless opts[:source_only]
+          @path_info.update({
+            'outfile' => (outfile = document.destination(document.site.dest)),
+            'outdir' => ::File.dirname(outfile)
+          })
+        end
       end
 
-      def clear_docdir
-        @docdir = nil
+      def clear_path_info
+        @path_info = {}
       end
 
       def load_header(document)
         setup
-        record_docdir(document) if ::Jekyll::MIN_VERSION_3
+        record_path_info(document, source_only: true) if ::Jekyll::MIN_VERSION_3
         # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
         header = document.content.split(HeaderBoundaryRx, 2)[0]
         case @config['asciidoc']['processor']
         when 'asciidoctor'
-          # NOTE return instance even if header is empty since attributes may be inherited from config
           opts = @config['asciidoctor'].merge(parse_header_only: true)
-          opts[:base_dir] = @docdir if opts[:base_dir] == :docdir && @docdir
+          unless @path_info.empty?
+            if opts[:base_dir] == :docdir
+              opts[:base_dir] = @path_info['docdir'] # NOTE this assignment happens inside the processor anyway
+            else
+              @path_info.delete('docdir')
+            end
+            opts[:attributes] = opts[:attributes].merge(@path_info)
+          end
+          # NOTE return instance even if header is empty since attributes may be inherited from config
           doc = ::Asciidoctor.load(header, opts)
         else
           ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Cannot load document header.))
           doc = nil
         end
-        clear_docdir if ::Jekyll::MIN_VERSION_3
+        clear_path_info if ::Jekyll::MIN_VERSION_3
         doc
       end
 
@@ -243,7 +271,14 @@ module Jekyll
         case @config['asciidoc']['processor']
         when 'asciidoctor'
           opts = @config['asciidoctor'].merge(header_footer: standalone)
-          opts[:base_dir] = @docdir if opts[:base_dir] == :docdir && @docdir
+          unless @path_info.empty?
+            if opts[:base_dir] == :docdir
+              opts[:base_dir] = @path_info['docdir'] # NOTE this assignment happens inside the processor anyway
+            else
+              @path_info.delete('docdir')
+            end
+            opts[:attributes] = opts[:attributes].merge(@path_info)
+          end
           ::Asciidoctor.convert(content, opts)
         else
           ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@config['asciidoc']['processor']}. Passing through unparsed content.))
@@ -349,7 +384,8 @@ module Jekyll
     #
     # Returns the HTML formatted String.
     def asciidocify(input, doctype = nil)
-      (@context.registers[:cached_asciidoc_converter] ||= ::Jekyll::AsciiDoc::Utils.get_converter(@context.registers[:site]))
+      (@context.registers[:cached_asciidoc_converter] ||=
+          ::Jekyll::AsciiDoc::Utils.get_converter(@context.registers[:site]))
         .convert(doctype ? %(:doctype: #{doctype}\n#{input}) : input.to_s)
     end
   end

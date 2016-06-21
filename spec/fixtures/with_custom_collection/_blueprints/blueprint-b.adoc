@@ -3,4 +3,7 @@
 
 Lorem ipsum.
 
-docdir={docdir}
+* docfile={docfile}
+* docdir={docdir}
+* outfile={outfile}
+* outdir={outdir}
