@@ -266,7 +266,22 @@ asciidoc:
 
 === Asciidoctor
 
-You can pass additional attributes to AsciiDoc, or override default attributes defined by the plugin, by using the `attributes` option of the `asciidoctor` block in your {path-config}.
+The following implicit AsciiDoc attributes are automatically defined for each page:
+
+....
+env=site
+env-site
+site-gen=jekyll
+site-gen-jekyll
+builder=jekyll
+builder-jekyll
+jekyll-version=(value of the Jekyll::VERSION constant)
+idprefix
+idseparator=-
+linkattrs
+....
+
+You can pass additional attributes to AsciiDoc, or override default attributes provided by the plugin, by using the `attributes` option of the `asciidoctor` block in your {path-config}.
 The value of this option can either be an Array containing key-value pairs:
 
 [source,yaml]
