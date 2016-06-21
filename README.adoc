@@ -284,7 +284,7 @@ builder-jekyll
 jekyll-version=(value of the Jekyll::VERSION constant)
 idprefix
 idseparator=-
-linkattrs
+linkattrs=@
 ....
 
 You can pass additional attributes to AsciiDoc, or override default attributes provided by the plugin, by using the `attributes` option of the `asciidoctor` block in your {path-config}.

@@ -88,7 +88,7 @@ module Jekyll
       DEFAULT_ATTRIBUTES = {
         'idprefix' => '',
         'idseparator' => '-',
-        'linkattrs' => ''
+        'linkattrs' => '@'
       }
       IMPLICIT_ATTRIBUTES = {
         'env' => 'site',
