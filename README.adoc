@@ -204,7 +204,17 @@ The `--safe` flag disables third-party plugins such as this one.
 
 == Configuration
 
-This section describes the configuration options for this plugin, which are all _optional_.
+This section describes the configuration options for this plugin, which are _optional_.
+
+You should at least assign an empty Hash as a default (e.g., `{}`) to the `asciidoc` and `asciidoctor` keys, respectively, if you don't plan on making any further customizations.
+
+[source,yaml]
+----
+asciidoc: {}
+asciidoctor: {}
+----
+
+Using these placeholder values is an optimization that prevents initialization from being performed more than once.
 
 === AsciiDoc
 
