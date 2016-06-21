@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative 'spec_helper'
 
 describe(Jekyll::AsciiDoc) do
   let(:config) do
@@ -61,16 +61,26 @@ describe(Jekyll::AsciiDoc) do
       expect(site.config['asciidoctor'][:safe]).to eql('safe')
     end
 
-    it 'should pass implicit attributes to Asciidoctor by default' do
-      expect(site.config['asciidoctor']).to be_a(Hash)
-      expect(site.config['asciidoctor'][:attributes]).to be_a(Hash)
-      expect(site.config['asciidoctor'][:attributes]['env']).to eql('site')
-      expect(site.config['asciidoctor'][:attributes]['env-site']).to eql('')
-      expect(site.config['asciidoctor'][:attributes]['site-gen']).to eql('jekyll')
-      expect(site.config['asciidoctor'][:attributes]['site-gen-jekyll']).to eql('')
-      expect(site.config['asciidoctor'][:attributes]['builder']).to eql('jekyll')
-      expect(site.config['asciidoctor'][:attributes]['builder-jekyll']).to eql('')
-      expect(site.config['asciidoctor'][:attributes]['jekyll-version']).to eql(Jekyll::VERSION)
+    it 'should pass implicit attributes to Asciidoctor' do
+      expect(asciidoctor_config = site.config['asciidoctor']).to be_a(Hash)
+      expect(attrs = asciidoctor_config[:attributes]).to be_a(Hash)
+      expect(attrs['env']).to eql('site')
+      expect(attrs['env-site']).to eql('')
+      expect(attrs['site-gen']).to eql('jekyll')
+      expect(attrs['site-gen-jekyll']).to eql('')
+      expect(attrs['builder']).to eql('jekyll')
+      expect(attrs['builder-jekyll']).to eql('')
+      expect(attrs['jekyll-version']).to eql(Jekyll::VERSION)
+    end
+
+    it 'should should pass site attributes to Asciidoctor' do
+      expect(asciidoctor_config = site.config['asciidoctor']).to be_a(Hash)
+      expect(attrs = asciidoctor_config[:attributes]).to be_a(Hash)
+      expect(attrs['site-root']).to eql(Dir.pwd)
+      expect(attrs['site-source']).to eql(site.source)
+      expect(attrs['site-destination']).to eql(site.dest)
+      expect(attrs['site-baseurl']).to eql(site.config['baseurl'])
+      expect(attrs['site-url']).to eql('http://example.org')
     end
   end
 
@@ -131,6 +141,32 @@ describe(Jekyll::AsciiDoc) do
     end
   end
 
+  describe('root relative imagesdir') do
+    let(:name) do
+      'root_relative_imagesdir'
+    end
+
+    it 'should set imagesoutdir if imagesdir is relative to root' do
+      expect(asciidoctor_config = site.config['asciidoctor']).to be_a(Hash)
+      expect(attrs = asciidoctor_config[:attributes]).to be_a(Hash)
+      expect(attrs['imagesdir']).to eql('/images')
+      expect(attrs['imagesoutdir']).to eql(File.join(site.dest, attrs['imagesdir']))
+    end
+  end
+
+  describe('imagesdir not set') do
+    let(:name) do
+      'default_config'
+    end
+
+    it 'should not set imagesoutdir if imagesdir is not set' do
+      expect(asciidoctor_config = site.config['asciidoctor']).to be_a(Hash)
+      expect(attrs = asciidoctor_config[:attributes]).to be_a(Hash)
+      expect(attrs.key?('imagesdir')).to be false
+      expect(attrs.key?('imagesoutdir')).to be false
+    end
+  end
+
   describe('compile attributes') do
     let(:name) do
       'default_config'
@@ -176,13 +212,13 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should merge attributes defined as a Hash into the attributes Hash' do
-      expect(site.config['asciidoctor']).to be_a(Hash)
-      expect(site.config['asciidoctor'][:attributes]).to be_a(Hash)
-      expect(site.config['asciidoctor'][:attributes]['env']).to eql('site')
-      expect(site.config['asciidoctor'][:attributes]['icons']).to eql('font')
-      expect(site.config['asciidoctor'][:attributes]['sectanchors']).to eql('')
-      expect(site.config['asciidoctor'][:attributes].key?('table-caption')).to be true
-      expect(site.config['asciidoctor'][:attributes]['table-caption']).to be_nil
+      expect(asciidoctor_config = site.config['asciidoctor']).to be_a(Hash)
+      expect(attrs = asciidoctor_config[:attributes]).to be_a(Hash)
+      expect(attrs['env']).to eql('site')
+      expect(attrs['icons']).to eql('font')
+      expect(attrs['sectanchors']).to eql('')
+      expect(attrs.key?('table-caption')).to be true
+      expect(attrs['table-caption']).to be_nil
     end
   end
 
@@ -192,13 +228,13 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should merge attributes defined as an Array into the attributes Hash' do
-      expect(site.config['asciidoctor']).to be_a(Hash)
-      expect(site.config['asciidoctor'][:attributes]).to be_a(Hash)
-      expect(site.config['asciidoctor'][:attributes]['env']).to eql('site')
-      expect(site.config['asciidoctor'][:attributes]['icons']).to eql('font')
-      expect(site.config['asciidoctor'][:attributes]['sectanchors']).to eql('')
-      expect(site.config['asciidoctor'][:attributes].key?('table-caption')).to be true
-      expect(site.config['asciidoctor'][:attributes]['table-caption']).to be_nil
+      expect(asciidoctor_config = site.config['asciidoctor']).to be_a(Hash)
+      expect(attrs = asciidoctor_config[:attributes]).to be_a(Hash)
+      expect(attrs['env']).to eql('site')
+      expect(attrs['icons']).to eql('font')
+      expect(attrs['sectanchors']).to eql('')
+      expect(attrs.key?('table-caption')).to be true
+      expect(attrs['table-caption']).to be_nil
     end
   end
 
@@ -373,6 +409,15 @@ describe(Jekyll::AsciiDoc) do
       page = find_page('has-page-attribute-with-empty-value.adoc')
       expect(page).not_to be_nil
       expect(page.data['attribute-with-empty-value']).to eql('')
+    end
+
+    it 'should resolve docdir as base_dir if base_dir value is not :docdir' do
+      source_file = source_file('subdir/page-in-subdir.adoc')
+      file = output_file('subdir/page-in-subdir.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match(%(docfile=#{source_file}))
+      expect(contents).to match(%(docdir=#{Dir.pwd}))
     end
   end
 
@@ -559,14 +604,18 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should resolve includes relative to docdir when base_dir config key has value :docdir' do
+      source_file = source_file('about/index.adoc')
       file = output_file('about/index.html')
       expect(File).to exist(file)
       contents = File.read(file)
       expect(contents).to match('Doc Writer')
-      expect(contents).to match(%(docdir=#{site.config['source']}/about))
+      expect(contents).to match(%(docfile=#{source_file}))
+      expect(contents).to match(%(docdir=#{File.dirname(source_file)}))
+      expect(contents).to match(%(outfile=#{file}))
+      expect(contents).to match(%(outdir=#{File.dirname(file)}))
     end
 
-    it 'should not process files that begin with an underscore' do
+    it 'should not process file that begins with an underscore' do
       file = output_file('about/_people.html')
       expect(File).not_to exist(file)
     end
@@ -603,10 +652,14 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should set docdir for document in custom collection when base_dir config key has the value :docdir' do
+      source_file = source_file('_blueprints/blueprint-b.adoc')
       file = output_file('blueprints/blueprint-b.html')
       expect(File).to exist(file)
       contents = File.read(file)
-      expect(contents).to match(%(docdir=#{site.config['source']}/_blueprints))
+      expect(contents).to match(%(docfile=#{source_file}))
+      expect(contents).to match(%(docdir=#{File.dirname(source_file)}))
+      expect(contents).to match(%(outfile=#{file}))
+      expect(contents).to match(%(outdir=#{File.dirname(file)}))
     end
   end
 end
