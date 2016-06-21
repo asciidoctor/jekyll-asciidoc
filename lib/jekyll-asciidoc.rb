@@ -63,6 +63,23 @@ module Jekyll
           site.getConverterImpl(::Jekyll::Converters::AsciiDocConverter)
         end
       end
+
+      def prepare_yaml_value val
+        if ::String === val
+          if val.empty?
+            '\'\''
+          else
+            begin
+              ::SafeYAML.load(%(--- #{val}))
+              val
+            rescue
+              val.include?('\'') ? %(\'#{val.gsub('\'', '\'\'')}\') : %(\'#{val}\')
+            end
+          end
+        else
+          val
+        end
+      end
     end
   end
 
@@ -298,12 +315,11 @@ module Jekyll
         document.data['author'] = doc.author if doc.author
         document.data['date'] = ::DateTime.parse(doc.revdate).to_time if collection_name == 'posts' && doc.attr?('revdate')
 
-        page_attr_prefix_l = @page_attr_prefix.length
+        len = @page_attr_prefix.length
         unless (adoc_front_matter = doc.attributes
-            .select {|name| page_attr_prefix_l == 0 || name.start_with?(@page_attr_prefix) }
+            .select {|name| len.zero? || name.start_with?(@page_attr_prefix) }
             .map {|name, val|
-                val = (val == '' ? '\'\'' : (val == '-' ? '\'-\'' : val))
-                %(#{page_attr_prefix_l.zero? ? name : name[page_attr_prefix_l..-1]}: #{val})
+                %(#{len.zero? ? name : name[len..-1]}: #{::Jekyll::AsciiDoc::Utils.prepare_yaml_value(val)})
             }).empty?
           document.data.update(::SafeYAML.load(adoc_front_matter * %(\n)))
         end

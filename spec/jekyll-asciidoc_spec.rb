@@ -111,6 +111,26 @@ describe(Jekyll::AsciiDoc) do
     end
   end
 
+  describe('prepare YAML value') do
+    let(:name) do
+      'default_config'
+    end
+
+    it 'should prepare YAML value from attribute value' do
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('')).to eql('\'\'')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('true')).to eql('true')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('false')).to eql('false')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('~')).to eql('~')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('1')).to eql('1')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('[one, two]')).to eql('[one, two]')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('John\'s House')).to eql('John\'s House')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('\'bar\'')).to eql('\'bar\'')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('\'')).to eql('\'\'\'\'')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('-')).to eql('\'-\'')
+      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value('@')).to eql('\'@\'')
+    end
+  end
+
   describe('compile attributes') do
     let(:name) do
       'default_config'
