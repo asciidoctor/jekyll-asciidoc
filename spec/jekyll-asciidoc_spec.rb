@@ -376,28 +376,28 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should apply layout named page to page content if page-layout attribute is empty' do
-      file = output_file('with-empty-layout.html')
+      file = output_file('empty-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
       expect(contents).to match('<p>Footer for page layout.</p>')
     end
 
     it 'should apply layout named page to page content if page-layout attribute has value _auto' do
-      file = output_file('with-auto-layout.html')
+      file = output_file('auto-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
       expect(contents).to match('<p>Footer for page layout.</p>')
     end
 
     it 'should apply specified layout to page content if page-layout has non-empty string value' do
-      file = output_file('with-custom-layout.html')
+      file = output_file('custom-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
       expect(contents).to match('<p>Footer for custom layout.</p>')
     end
 
     it 'should not apply a layout to page content if page-layout attribute is nil' do
-      file = output_file('with-nil-layout.html')
+      file = output_file('nil-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
       expect(contents).to match('div class="paragraph">
@@ -406,7 +406,7 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should convert an empty page attribute value to empty string' do
-      page = find_page('has-page-attribute-with-empty-value.adoc')
+      page = find_page('empty-page-attribute.adoc')
       expect(page).not_to be_nil
       expect(page.data['attribute-with-empty-value']).to eql('')
     end
@@ -519,28 +519,28 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should apply layout named post to post content if page-layout attribute is empty' do
-      file = output_file('2016/01/02/with-empty-layout.html')
+      file = output_file('2016/01/02/empty-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
       expect(contents).to match('<p>Footer for post layout.</p>')
     end
 
     it 'should apply layout named post to post content if page-layout attribute has value _auto' do
-      file = output_file('2016/01/03/with-auto-layout.html')
+      file = output_file('2016/01/03/auto-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
       expect(contents).to match('<p>Footer for post layout.</p>')
     end
 
     it 'should apply custom layout to post content if page-layout attribute has non-empty string value' do
-      file = output_file('2016/01/04/with-custom-layout.html')
+      file = output_file('2016/01/04/custom-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
       expect(contents).to match('<p>Footer for custom layout.</p>')
     end
 
     it 'should not apply a layout to post content if page-layout attribute is nil' do
-      file = output_file('2016/01/05/with-nil-layout.html')
+      file = output_file('2016/01/05/nil-layout.html')
       expect(File).to exist(file)
       contents = File.read(file)
       expect(contents).to match('div class="paragraph">
