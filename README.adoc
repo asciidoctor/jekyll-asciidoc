@@ -699,7 +699,7 @@ Then, simply put the icon images that the page needs in the [path]_images/icons_
 
 == GitHub Pages
 
-GitHub doesn't (yet) whitelist the AsciiDoc plugin, so you can only run it on your own machine.
+GitHub doesn't (yet) whitelist the AsciiDoc plugin, so you can only run it on your own machine (or CI server).
 
 TIP: GitHub needs to hear from enough users that they want to plugin in order to enable it.
 Our recommendation is to keep lobbying for them to enable it.
