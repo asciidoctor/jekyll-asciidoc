@@ -289,8 +289,8 @@ module Jekyll
   end
 
   module Generators
-    # Promotes approved AsciiDoc attributes to Jekyll front matter
-    class AsciiDocPreprocessor < Generator
+    # Promotes eligible AsciiDoc attributes to page variables and applies certain page-level settings.
+    class AsciiDocHeaderIntegrator < Generator
       module NoLiquid
         def render_with_liquid?
           false

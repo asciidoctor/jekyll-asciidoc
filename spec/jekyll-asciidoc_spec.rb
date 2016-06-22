@@ -23,7 +23,7 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should register AsciiDoc generator' do
-      expect(site.generators.any? {|g| Jekyll::Generators::AsciiDocPreprocessor === g }).to be true
+      expect(site.generators.any? {|g| Jekyll::Generators::AsciiDocHeaderIntegrator === g }).to be true
     end
 
     it 'should configure AsciiDoc converter to match AsciiDoc file extension' do
