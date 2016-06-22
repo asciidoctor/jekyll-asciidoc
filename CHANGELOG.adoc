@@ -1,0 +1,75 @@
+= {project-name} Changelog
+:project-name: Jekyll AsciiDoc Plugin
+:uri-repo: https://github.com/asciidoctor/jekyll-asciidoc
+
+This document provides a high-level view of the changes to the {project-name} by release.
+For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
+
+== 2.0.0 (unreleased)
+
+* Set docdir, docfile, outfile, and outdir attributes for each file if using Jekyll 3 (#59)
+  - docdir is only set if value of `base_dir` option is `:docdir`
+  - setting outdir allows proper integration with Asciidoctor Diagram
+* Automatically set `imagesoutdir` attribute if `imagesdir` attribute is relative to root
+* Pass site information (root, source, destination, baseurl and url) through as AsciiDoc attributes
+* Change default layout to match collection label (page for pages, post for posts, collection label for all others); use default layout as fallback (#104)
+* Resolve attribute references in attribute values defined in config (#103)
+* Apply AsciiDoc header integration to documents in all collections (#93)
+* Document how to create and enable templates to customize the HTML that Asciidoctor generates (#73)
+* Allow `base_dir` option to track document directory by setting the value to `:docdir` (#80)
+* Add a comprehensive test suite (#77)
+* Allow site-wide Asciidoctor attributes to be specified as a Hash; convert to Hash if Array is used (#87)
+* Interpret page attribute values as YAML data
+* Use Jekyll.logger to write log messages (#85)
+* Restructure configuration keys so all general settings are under the `asciidoc` key (#82)
+* Don't enable `hardbreaks` attribute by default (#69)
+* Bump minimum version of Jekyll to 2.3.0 and document requirement in README (#76)
+* Allow layout to be disabled to create standalone document; add and document additional option values for layout (#63)
+* Make front matter header optional (#57)
+* Apply site-wide Asciidoctor configuration (options/attributes) when loading document header (#67)
+* Disable liquid processor on AsciiDoc files by default; enable using liquid page variable (#65)
+* Resolve empty page attribute value as empty string (#70)
+* Major restructure and rewrite of README
+
+{uri-repo}/issues?q=milestone%3Av2.0.0[issues resolved] |
+{uri-repo}/releases/tag/v2.0.0[git tag]
+
+== 1.1.2 (2016-05-10) - @mkobit
+
+* Apply fix for documents that did not contain at least one attribute beginning with `page-` (#60)
+
+{uri-repo}/issues?q=milestone%3Av1.1.2[issues resolved] |
+{uri-repo}/releases/tag/v1.1.2[git tag]
+
+== 1.1.1 (2016-05-07) - @mkobit
+
+* The AsciiDoc document title overrides the title set in the front matter or the auto-generated title (in the case of a post) (#48)
+* The AsciiDoc page-related attributes override the matching entries in the page data (i.e., front matter)
+* The value of page-related attributes are treated as YAML values (automatic type coercion)
+* `page-` is the default prefix for page-related AsciiDoc attributes (e.g., `page-layout`) (#51)
+* The key to configure the page attribute prefix is `asciidoc_page_attribute_prefix`; the value should not contain the trailing hyphen (#51)
+* The date of a post can be set using the `revdate` AsciiDoc attribute (#53)
+* Only configure the Asciidoctor options once (previously it was being called twice in serve mode)
+* Set `env` attribute to `site` instead of `jekyll` (#55)
+
+{uri-repo}/issues?q=milestone%3Av1.1.1[issues resolved] |
+{uri-repo}/releases/tag/v1.1.1[git tag]
+
+== 1.0.1 (2016-03-19) - @mkobit
+
+Enables use with Jekyll 3.
+It is still compatible with Jekyll 2.
+
+* Jekyll 3 support (#36, #33)
+* Documentation and onboarding improvements (#25, #24)
+* Improvements to release process (#28)
+
+{uri-repo}/issues?q=milestone%3Av1.0.1[issues resolved] |
+{uri-repo}/releases/tag/v1.0.1[git tag]
+
+== 1.0.0 (2015-01-04) - @paulrayner
+
+Initial release.
+
+{uri-repo}/issues?q=milestone%3Av1.0.0[issues resolved] |
+{uri-repo}/releases/tag/v1.0.0[git tag]
