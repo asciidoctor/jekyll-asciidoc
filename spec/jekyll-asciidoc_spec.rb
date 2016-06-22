@@ -299,7 +299,7 @@ describe(Jekyll::AsciiDoc) do
       site.process
     end
 
-    it 'should view a plain AsciiDoc file as having a YAML header' do
+    it 'should consider a plain AsciiDoc file to have a YAML header' do
       file = source_file('without-front-matter-header.adoc')
       expect(Jekyll::Utils.has_yaml_header?(file)).to be true
     end
@@ -318,7 +318,30 @@ describe(Jekyll::AsciiDoc) do
       expect(contents).to match('<title>Page Title</title>')
     end
 
-    it 'should view an AsciiDoc file with a front matter header as having a YAML header' do
+    it 'should convert an AsciiDoc with no doctitle or AsciiDoc header' do
+      page = find_page('no-doctitle.adoc')
+      expect(page).not_to be_nil
+      expect(page.data.key?('title')).to be false
+      file = output_file('no-doctitle.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<title>Site Title</title>')
+      expect(contents).to match(%(<p>Just content.\nLorem ipsum.</p>))
+    end
+
+    it 'should convert an AsciiDoc with bare AsciiDoc header' do
+      page = find_page('bare-header.adoc')
+      expect(page).not_to be_nil
+      expect(page.data.key?('title')).to be false
+      expect(page.permalink).to eql('/bare/')
+      file = output_file('bare/index.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<title>Site Title</title>')
+      expect(contents).to match(%(<p>Just content.\nLorem ipsum.</p>))
+    end
+
+    it 'should consider an AsciiDoc file with a front matter header to have a YAML header' do
       file = source_file('with-front-matter-header.adoc')
       expect(Jekyll::Utils.has_yaml_header?(file)).to be true
     end
