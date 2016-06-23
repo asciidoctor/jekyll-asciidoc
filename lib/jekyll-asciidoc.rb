@@ -233,7 +233,7 @@ module Jekyll
       end
 
       def clear_path_info
-        @path_info = {}
+        @path_info = nil
       end
 
       def load_header(document)
@@ -244,7 +244,7 @@ module Jekyll
         case @config['asciidoc']['processor']
         when 'asciidoctor'
           opts = @config['asciidoctor'].merge(parse_header_only: true)
-          unless @path_info.empty?
+          if @path_info
             if opts[:base_dir] == :docdir
               opts[:base_dir] = @path_info['docdir'] # NOTE this assignment happens inside the processor anyway
             else
@@ -271,7 +271,7 @@ module Jekyll
         case @config['asciidoc']['processor']
         when 'asciidoctor'
           opts = @config['asciidoctor'].merge(header_footer: standalone)
-          unless @path_info.empty?
+          if @path_info
             if opts[:base_dir] == :docdir
               opts[:base_dir] = @path_info['docdir'] # NOTE this assignment happens inside the processor anyway
             else
