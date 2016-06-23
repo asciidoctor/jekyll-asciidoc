@@ -514,6 +514,7 @@ describe(Jekyll::AsciiDoc) do
     end
 
     before(:each) do
+      site.show_drafts = true
       site.process
     end
 

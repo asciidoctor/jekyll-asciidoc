@@ -29,8 +29,7 @@ RSpec.configure do |config|
     {
       'source' => source_dir(path),
       'destination' => output_dir(path),
-      'url' => 'http://example.org',
-      'show_drafts' => true
+      'url' => 'http://example.org'
     }
   end
 
