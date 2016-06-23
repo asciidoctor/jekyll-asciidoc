@@ -7,3 +7,4 @@ Lorem ipsum.
 * docdir={docdir}
 * outfile={outfile}
 * outdir={outdir}
+* outpath={outpath}
