@@ -528,6 +528,16 @@ describe(Jekyll::AsciiDoc) do
       expect(contents).not_to match('<h1>Welcome, Visitor!</h1>')
     end
 
+    it 'should use automatic title if no document title is given' do
+      post = find_post('2016-05-31-automatic-title.adoc')
+      expect(post).not_to be_nil
+      expect(post.data['title']).to eql('Automatic Title')
+      file = output_file('2016/05/31/automatic-title.html')
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<title>Automatic Title</title>')
+    end
+
     it 'should set author of post to value defined in AsciiDoc header' do
       post = find_post('2016-01-01-welcome.adoc')
       expect(post).not_to be_nil
