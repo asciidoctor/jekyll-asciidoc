@@ -103,7 +103,6 @@ module Jekyll
       HeaderBoundaryRx = /(?<=\p{Graph})\n\n/
 
       safe true
-
       highlighter_prefix %(\n)
       highlighter_suffix %(\n)
 
