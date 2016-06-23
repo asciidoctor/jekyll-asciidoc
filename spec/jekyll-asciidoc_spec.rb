@@ -441,6 +441,7 @@ describe(Jekyll::AsciiDoc) do
       contents = File.read(file)
       expect(contents).to match(%(docfile=#{source_file}))
       expect(contents).to match(%(docdir=#{Dir.pwd}))
+      expect(contents).to match(%(docname=#{File.basename(source_file, '.adoc')}))
     end
   end
 

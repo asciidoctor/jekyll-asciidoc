@@ -4,3 +4,4 @@ Lorem ipsum.
 
 * docfile={docfile}
 * docdir={docdir}
+* docname={docname}

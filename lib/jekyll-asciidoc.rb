@@ -222,7 +222,8 @@ module Jekyll
       def record_path_info(document, opts = {})
         @path_info = {
           'docfile' => (docfile = ::File.join(document.site.source, document.relative_path)),
-          'docdir' => ::File.dirname(docfile)
+          'docdir' => ::File.dirname(docfile),
+          'docname' => ::File.basename(docfile, ::File.extname(docfile))
         }
         unless opts[:source_only]
           @path_info.update({
