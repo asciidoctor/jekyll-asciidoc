@@ -1,0 +1,5 @@
+= A Draft Post
+Henry Jekyll
+:page-tags: [draft]
+
+Lorem ipsum.

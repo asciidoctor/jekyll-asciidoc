@@ -29,7 +29,8 @@ RSpec.configure do |config|
     {
       'source' => source_dir(path),
       'destination' => output_dir(path),
-      'url' => 'http://example.org'
+      'url' => 'http://example.org',
+      'show_drafts' => true
     }
   end
 
@@ -56,6 +57,11 @@ RSpec.configure do |config|
 
   def find_post(path)
     path = %(_posts/#{path}) unless path.start_with?('_posts/')
+    site.posts.docs.find {|p| p.relative_path == path }
+  end
+
+  def find_draft(path)
+    path = %(_drafts/#{path}) unless path.start_with?('_drafts/')
     site.posts.docs.find {|p| p.relative_path == path }
   end
 

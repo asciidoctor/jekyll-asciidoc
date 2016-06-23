@@ -597,6 +597,15 @@ describe(Jekyll::AsciiDoc) do
       expect(File).to exist(file)
     end
 
+    it 'should process AsciiDoc header of draft post' do
+      draft = find_draft('a-draft-post.adoc')
+      expect(draft).not_to be_nil
+      expect(draft.data['author']).to eql('Henry Jekyll')
+      expect(draft.data['tags']).to eql(['draft'])
+      file = output_file(%(#{draft.date.strftime('%Y/%m/%d')}/a-draft-post.html))
+      expect(File).to exist(file)
+    end
+
     it 'should apply asciidocify filter' do
       file = output_file('index.html')
       expect(File).to exist(file)
