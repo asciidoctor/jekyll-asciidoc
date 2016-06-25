@@ -230,7 +230,8 @@ module Jekyll
         unless opts[:source_only]
           @path_info.update({
             'outfile' => (outfile = document.destination(document.site.dest)),
-            'outdir' => ::File.dirname(outfile)
+            'outdir' => ::File.dirname(outfile),
+            'outpath' => document.url
           })
         end
       end

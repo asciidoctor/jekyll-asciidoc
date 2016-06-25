@@ -657,6 +657,7 @@ describe(Jekyll::AsciiDoc) do
       expect(contents).to match(%(docdir=#{File.dirname(source_file)}))
       expect(contents).to match(%(outfile=#{file}))
       expect(contents).to match(%(outdir=#{File.dirname(file)}))
+      expect(contents).to match(%(outpath=/about/))
     end
 
     it 'should not process file that begins with an underscore' do
@@ -704,6 +705,7 @@ describe(Jekyll::AsciiDoc) do
       expect(contents).to match(%(docdir=#{File.dirname(source_file)}))
       expect(contents).to match(%(outfile=#{file}))
       expect(contents).to match(%(outdir=#{File.dirname(file)}))
+      expect(contents).to match(%(outpath=/blueprints/blueprint-b.html))
     end
   end
 
