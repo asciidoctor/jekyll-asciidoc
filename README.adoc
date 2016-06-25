@@ -43,14 +43,14 @@ A plugin for {uri-jekyll}[Jekyll] (>= 2.3.0) that converts {uri-asciidoc}[AsciiD
 
 The plugin consists of three extensions:
 
-Converter -- `Jekyll::Converters::AsciiDocConverter`::
+Converter -- `Jekyll::AsciiDoc::Converter`::
 Converts AsciiDoc files to HTML pages.
 This plugin currently uses Asciidoctor to convert AsciiDoc content.
 
-Generator -- `Jekyll::Generators::AsciiDocHeaderIntegrator`::
+Generator -- `Jekyll::AsciiDoc::Integrator`::
 Promotes select AsciiDoc attributes (e.g., title, author, page-layout, page-*) to page variables (merged with the page variables defined in the front matter header).
 
-Liquid Filter -- `Jekyll::Filters#asciidocify`::
+Liquid Filter -- `asciidocify`::
 A Liquid filter that uses the converter from this plugin to convert AsciiDoc content to HTML.
 
 These extensions are registered automatically when the [app]*jekyll-asciidoc* gem is required.

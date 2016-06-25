@@ -7,6 +7,9 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 
 == 2.0.0 (unreleased)
 
+* Split source into multiple files
+* Move all classes under the `Jekyll::AsciiDoc` module
+* Avoid redundant initialization caused by the jekyll-watch plugin
 * Set docdir, docfile, docname, outfile, outdir, and outpath attributes for each file if using Jekyll 3 (#59)
   - docdir is only set if value of `base_dir` option is `:docdir`
   - setting outdir allows proper integration with Asciidoctor Diagram
