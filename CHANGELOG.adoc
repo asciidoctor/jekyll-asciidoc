@@ -7,7 +7,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 
 == 2.0.0 (unreleased)
 
-* Set docdir, docfile, outfile, and outdir attributes for each file if using Jekyll 3 (#59)
+* Set docdir, docfile, docname, outfile, outdir, and outpath attributes for each file if using Jekyll 3 (#59)
   - docdir is only set if value of `base_dir` option is `:docdir`
   - setting outdir allows proper integration with Asciidoctor Diagram
 * Automatically set `imagesoutdir` attribute if `imagesdir` attribute is relative to root
