@@ -706,4 +706,21 @@ describe(Jekyll::AsciiDoc) do
       expect(contents).to match(%(outdir=#{File.dirname(file)}))
     end
   end
+
+  describe('xhtml syntax') do
+    let(:name) do
+      'xhtml_syntax'
+    end
+
+    before(:each) do
+      site.process
+    end
+
+    it 'should output xhtml if asciidoctor backend option is xhtml' do
+      file = output_file('home.html') 
+      expect(File).to exist(file)
+      contents = File.read(file)
+      expect(contents).to match('<img src="/images/sunset.jpg" alt="Sunset" width="408" height="230"/>')
+    end
+  end
 end

@@ -1,0 +1,6 @@
+gems:
+  - jekyll-asciidoc
+asciidoctor:
+  backend: xhtml
+  attributes:
+    - imagesdir=/images
