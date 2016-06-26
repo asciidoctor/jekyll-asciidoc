@@ -191,7 +191,7 @@ describe(Jekyll::AsciiDoc) do
     end
 
     it 'should assign existing attribute to new value when set again' do
-      result = ::Jekyll::AsciiDoc::Utils.compile_attributes({'icons' => nil, 'icons' => 'font'})
+      result = ::Jekyll::AsciiDoc::Utils.compile_attributes(['!icons', 'icons=font'])
       expect(result['icons']).to eql('font')
     end
 
@@ -439,9 +439,11 @@ describe(Jekyll::AsciiDoc) do
       file = output_file('subdir/page-in-subdir.html')
       expect(::File).to exist(file)
       contents = ::File.read(file)
-      expect(contents).to match(%(docfile=#{source_file}))
       expect(contents).to match(%(docdir=#{::Dir.pwd}))
-      expect(contents).to match(%(docname=#{::File.basename(source_file, '.adoc')}))
+      if ::Jekyll::MIN_VERSION_3
+        expect(contents).to match(%(docfile=#{source_file}))
+        expect(contents).to match(%(docname=#{::File.basename(source_file, '.adoc')}))
+      end
     end
   end
 
@@ -533,7 +535,11 @@ describe(Jekyll::AsciiDoc) do
     it 'should use automatic title if no document title is given' do
       post = find_post('2016-05-31-automatic-title.adoc')
       expect(post).not_to be_nil
-      expect(post.data['title']).to eql('Automatic Title')
+      if ::Jekyll::MIN_VERSION_3
+        expect(post.data['title']).to eql('Automatic Title')
+      else
+        expect(post.data['title']).to be_nil
+      end
       file = output_file('2016/05/31/automatic-title.html')
       expect(::File).to exist(file)
       contents = ::File.read(file)
@@ -595,8 +601,10 @@ describe(Jekyll::AsciiDoc) do
       post = find_post('2016-02-01-post-with-categories.adoc')
       expect(post).not_to be_nil
       expect(post.data['categories']).to eql(['code', 'javascript'])
-      file = output_file('code/javascript/2016/02/01/post-with-categories.html')
-      expect(::File).to exist(file)
+      if ::Jekyll::MIN_VERSION_3
+        file = output_file('code/javascript/2016/02/01/post-with-categories.html')
+        expect(::File).to exist(file)
+      end
     end
 
     it 'should process AsciiDoc header of draft post' do
@@ -638,9 +646,9 @@ describe(Jekyll::AsciiDoc) do
     end
   end
 
-  describe('site with relative includes') do
+  describe('site with include relative to doc') do
     let(:name) do
-      'relative_includes'
+      'include_relative_to_doc'
     end
 
     before(:each) do
@@ -658,6 +666,31 @@ describe(Jekyll::AsciiDoc) do
       expect(contents).to match(%(outfile=#{file}))
       expect(contents).to match(%(outdir=#{::File.dirname(file)}))
       expect(contents).to match(%(outpath=/about/))
+    end
+  end if ::Jekyll::MIN_VERSION_3
+
+  describe('site with include relative to source') do
+    let(:name) do
+      'include_relative_to_source'
+    end
+
+    before(:each) do
+      site.process
+    end
+
+    it 'should resolve includes relative to source when base_dir config key has value :source' do
+      source_file = source_file('about/index.adoc')
+      file = output_file('about/index.html')
+      expect(::File).to exist(file)
+      contents = ::File.read(file)
+      expect(contents).to match('Doc Writer')
+      expect(contents).to match(%(docdir=#{site.source}))
+      if ::Jekyll::MIN_VERSION_3
+        expect(contents).to match(%(docfile=#{source_file}))
+        expect(contents).to match(%(outfile=#{file}))
+        expect(contents).to match(%(outdir=#{::File.dirname(file)}))
+        expect(contents).to match(%(outpath=/about/))
+      end
     end
 
     it 'should not process file that begins with an underscore' do
@@ -678,7 +711,8 @@ describe(Jekyll::AsciiDoc) do
     it 'should decorate document in custom collection' do
       doc = find_doc('blueprint-a.adoc', 'blueprints')
       expect(doc).not_to be_nil
-      expect(doc.title).to eql('First Blueprint')
+      expect(doc.data['title']).to eql('First Blueprint')
+      expect(doc.title).to eql('First Blueprint') if ::Jekyll::MIN_VERSION_3
       expect(doc.data['foo']).to eql('bar')
     end
 
@@ -706,7 +740,7 @@ describe(Jekyll::AsciiDoc) do
       expect(contents).to match(%(outfile=#{file}))
       expect(contents).to match(%(outdir=#{::File.dirname(file)}))
       expect(contents).to match(%(outpath=/blueprints/blueprint-b.html))
-    end
+    end if ::Jekyll::MIN_VERSION_3
   end
 
   describe('xhtml syntax') do
