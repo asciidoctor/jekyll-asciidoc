@@ -141,9 +141,9 @@ describe(Jekyll::AsciiDoc) do
     end
   end
 
-  describe('root relative imagesdir') do
+  describe('imagesdir relative to root') do
     let(:name) do
-      'root_relative_imagesdir'
+      'imagesdir_relative_to_root'
     end
 
     it 'should set imagesoutdir if imagesdir is relative to root' do
