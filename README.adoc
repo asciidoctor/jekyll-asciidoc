@@ -64,7 +64,7 @@ Your method of installation will depend on whether or not you are using Bundler 
 
 === Installation Using Bundler
 
-If you are using Bundler to manage the dependencies for your project (recommended), simply add the [app]*jekyll-asciidoc* plugin gem to your [path]_Gemfile_:
+If you're using Bundler to manage the dependencies for your project (as recommended), simply add the [app]*jekyll-asciidoc* gem to the `:jekyll_plugins` group in your [path]_Gemfile_:
 
 [source,ruby]
 ----
