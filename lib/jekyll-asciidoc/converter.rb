@@ -24,11 +24,16 @@ module Jekyll
       highlighter_suffix NewLine
 
       def initialize(config)
+        @config = config
+        @logger = ::Jekyll.logger
+        @path_info = nil
+        @setup = false
+
         # NOTE jekyll-watch reinitializes plugins using a shallow clone of config, so no need to reconfigure
         # NOTE check for Configured only works if value of key is defined in _config.yml as Hash
         unless Configured === (asciidoc_config = (config['asciidoc'] ||= {}))
           if ::String === asciidoc_config
-            ::Jekyll.logger.warn('jekyll-asciidoc: The AsciiDoc-related configuration should be defined using a Hash (under the `asciidoc` key) instead of discrete entries.')
+            @logger.warn('Jekyll AsciiDoc:', 'The AsciiDoc configuration should be defined as Hash under asciidoc key instead of as discrete entries.')
             asciidoc_config = config['asciidoc'] = { 'processor' => asciidoc_config }
           else
             asciidoc_config['processor'] ||= 'asciidoctor'
@@ -73,7 +78,7 @@ module Jekyll
               if ::Jekyll::MIN_VERSION_3
                 asciidoctor_config[:base_dir] = :docdir
               else
-                ::Jekyll.logger.warn('jekyll-asciidoc: Using :docdir as value of base_dir option requires Jekyll 3. Falling back to source directory.')
+                @logger.warn('Jekyll AsciiDoc:', 'Using :docdir as value of base_dir option requires Jekyll 3. Falling back to source directory.')
                 asciidoctor_config[:base_dir] = source
               end
             else
@@ -95,10 +100,6 @@ module Jekyll
             asciidoctor_config.extend(Configured)
           end
         end
-
-        @config = config
-        @path_info = nil
-        @setup = false
       end
 
       def setup
@@ -109,14 +110,14 @@ module Jekyll
           begin
             require 'asciidoctor' unless defined?(::Asciidoctor::VERSION)
           rescue ::LoadError
-            ::Jekyll.logger.error('jekyll-asciidoc: You are missing a library required to convert AsciiDoc files. Please install using:')
-            ::Jekyll.logger.error('', '$ [sudo] gem install asciidoctor')
-            ::Jekyll.logger.abort_with('Bailing out; missing required dependency: asciidoctor')
+            @logger.error('Jekyll AsciiDoc:', 'You are missing a library required to convert AsciiDoc files. Please install using:')
+            @logger.error('', '$ [sudo] gem install asciidoctor')
+            @logger.abort_with('Bailing out; missing required dependency: asciidoctor')
           end
         else
-          ::Jekyll.logger.error(%(jekyll-asciidoc: Invalid AsciiDoc processor given: #{@asciidoc_config['processor']}))
-          ::Jekyll.logger.error('', 'Valid options are: asciidoctor')
-          ::Jekyll.logger.abort_with('Bailing out; invalid Asciidoctor processor')
+          @logger.error('Jekyll AsciiDoc:', %(Invalid AsciiDoc processor given: #{@asciidoc_config['processor']}))
+          @logger.error('', 'Valid options are: asciidoctor')
+          @logger.abort_with('Bailing out; invalid Asciidoctor processor.')
         end
         self
       end
@@ -175,7 +176,7 @@ module Jekyll
           # NOTE return instance even if header is empty since attributes may be inherited from config
           doc = ::Asciidoctor.load(header, opts)
         else
-          ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.))
+          @logger.warn('Jekyll AsciiDoc:', %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.))
           doc = nil
         end
         clear_path_info if ::Jekyll::MIN_VERSION_3
@@ -201,7 +202,7 @@ module Jekyll
           end
           ::Asciidoctor.convert(content, opts)
         else
-          ::Jekyll.logger.warn(%(jekyll-asciidoc: Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.))
+          @logger.warn('Jekyll AsciiDoc:', %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.))
           content
         end
       end
