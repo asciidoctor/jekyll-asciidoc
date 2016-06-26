@@ -269,7 +269,7 @@ asciidoc:
 
 === Asciidoctor
 
-In addition to the built-in attributes in AsciiDoc, the following additional AsciiDoc attributes are automatically defined by this plugin and available to each AsciiDoc-based page:
+In addition to the built-in attributes in AsciiDoc, the following additional AsciiDoc attributes are automatically defined by this plugin and available to all AsciiDoc-based pages:
 
 ....
 site-root=(absolute path of root directory)
@@ -307,7 +307,7 @@ asciidoctor:
     - pygments-css=style
 ----
 
-or the key-value pairs can be defined as a Hash:
+or key-value pairs defined as a Hash:
 
 [source,yaml]
 ----
