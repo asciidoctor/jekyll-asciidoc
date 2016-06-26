@@ -269,7 +269,7 @@ asciidoc:
 
 === Asciidoctor
 
-The following implicit AsciiDoc attributes are automatically defined for each page:
+In addition to the built-in attributes in AsciiDoc, the following additional AsciiDoc attributes are automatically defined by this plugin and available to each AsciiDoc-based page:
 
 ....
 site-root=(absolute path of root directory)
@@ -287,6 +287,12 @@ jekyll-version=(value of the Jekyll::VERSION constant)
 idprefix
 idseparator=-
 linkattrs=@
+....
+
+The following attributes are defined per page:
+
+....
+outpath=(path of page relative to baseurl)
 ....
 
 You can pass additional attributes to AsciiDoc, or override default attributes provided by the plugin, by using the `attributes` option of the `asciidoctor` block in your {path-config}.
