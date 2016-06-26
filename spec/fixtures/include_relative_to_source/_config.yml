@@ -1,0 +1,4 @@
+gems:
+  - jekyll-asciidoc
+asciidoctor:
+  base_dir: :source

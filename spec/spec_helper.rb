@@ -1,6 +1,7 @@
 require 'jekyll'
 require 'fileutils'
 
+Jekyll::MIN_VERSION_3 = Gem::Version.new(Jekyll::VERSION) >= Gem::Version.new('3.0.0') unless defined?(Jekyll::MIN_VERSION_3)
 Jekyll.logger.log_level = :error
 
 # NOTE reset hook callbacks each time site is reset
@@ -18,7 +19,7 @@ module Jekyll
     register(:site, :after_reset, &method(:reset))
     @initial_registry = deep_dup(@registry)
   end
-end
+end if defined?(Jekyll::Hooks)
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -56,12 +57,13 @@ RSpec.configure do |config|
 
   def find_post(path)
     path = %(_posts/#{path}) unless path.start_with?('_posts/')
-    site.posts.docs.find {|p| p.relative_path == path }
+    (::Jekyll::MIN_VERSION_3 ? site.posts.docs : site.posts).find {|p| p.relative_path == path }
   end
 
   def find_draft(path)
     path = %(_drafts/#{path}) unless path.start_with?('_drafts/')
-    site.posts.docs.find {|p| p.relative_path == path }
+    path = %(/#{path}) unless ::Jekyll::MIN_VERSION_3
+    (::Jekyll::MIN_VERSION_3 ? site.posts.docs : site.posts).find {|p| p.relative_path == path }
   end
 
   def find_doc(path, collection_name)
