@@ -7,15 +7,15 @@ module Jekyll
       NewLine = Utils::NewLine
       StandaloneOptionLine = Utils::StandaloneOptionLine
 
-      def generate(site)
-        @converter = converter = Utils.get_converter(site).setup
+      def generate site
+        @converter = converter = (Utils.get_converter site).setup
 
         if ::Jekyll::MIN_VERSION_3
-          before_render_callback = converter.method(:before_render)
-          after_render_callback = converter.method(:after_render)
+          before_render_callback = converter.method :before_render
+          after_render_callback = converter.method :after_render
           [:pages, :documents].each do |collection_name|
-            ::Jekyll::Hooks.register(collection_name, :pre_render, &before_render_callback)
-            ::Jekyll::Hooks.register(collection_name, :post_render, &after_render_callback)
+            ::Jekyll::Hooks.register collection_name, :pre_render, &before_render_callback
+            ::Jekyll::Hooks.register collection_name, :post_render, &after_render_callback
           end
         end
 
@@ -24,18 +24,18 @@ module Jekyll
         end
 
         site.pages.select! do |page|
-          converter.matches(page.ext) ? integrate(page) : true
+          (converter.matches page.ext) ? (integrate page) : true
         end
 
         # NOTE posts were migrated to a collection named 'posts' in Jekyll 3
         site.posts.select! do |post|
-          converter.matches(post.ext) ? integrate(post, 'posts') : true
+          (converter.matches post.ext) ? (integrate post, 'posts') : true
         end unless ::Jekyll::MIN_VERSION_3
 
         site.collections.each do |name, collection|
           next unless collection.write?
           collection.docs.select! do |doc|
-            converter.matches(::Jekyll::MIN_VERSION_3 ? doc.data['ext'] : doc.extname) ? integrate(doc, name) : true
+            ((converter.matches ::Jekyll::MIN_VERSION_3) ? doc.data['ext'] : doc.extname) ? (integrate doc, name) : true
           end
         end
       end
@@ -50,36 +50,35 @@ module Jekyll
       #
       # Returns a [Boolean] indicating whether the document should be published.
       def integrate document, collection_name = nil
-        document.extend(Document)
-        document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless document.data.key?('layout')
-        return unless (doc = @converter.load_header(document))
+        document.extend Document
+        document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless document.data.key? 'layout'
+        return unless (doc = @converter.load_header document)
 
         document.data['title'] = doc.doctitle if doc.header?
         document.data['author'] = doc.author if doc.author
-        document.data['date'] = ::DateTime.parse(doc.revdate).to_time if collection_name == 'posts' && doc.attr?('revdate')
+        document.data['date'] = (::DateTime.parse doc.revdate).to_time if collection_name == 'posts' && (doc.attr? 'revdate')
 
         len = @page_attr_prefix.length
         unless (adoc_front_matter = doc.attributes
-            .select {|name| len.zero? || name.start_with?(@page_attr_prefix) }
-            .map {|name, val|
-                %(#{len.zero? ? name : name[len..-1]}: #{Utils.prepare_yaml_value(val)})
-            }).empty?
-          document.data.update(::SafeYAML.load(adoc_front_matter * NewLine))
+            .select {|name| len.zero? || (name.start_with? @page_attr_prefix) }
+            .map {|name, val| %(#{len.zero? ? name : name[len..-1]}: #{Utils.prepare_yaml_value val}) })
+            .empty?
+          document.data.update(::SafeYAML.load adoc_front_matter * NewLine)
         end
 
         case document.data['layout']
         when nil
-          document.content = %(#{StandaloneOptionLine}#{document.content}) unless document.data.key?('layout')
+          document.content = %(#{StandaloneOptionLine}#{document.content}) unless document.data.key? 'layout'
         when '', '_auto'
-          layout = collection_name ? collection_name.chomp('s') : 'page'
-          document.data['layout'] = document.site.layouts.key?(layout) ? layout : 'default'
+          layout = collection_name ? (collection_name.chomp 's') : 'page'
+          document.data['layout'] = (document.site.layouts.key? layout) ? layout : 'default'
         when false
-          document.data.delete('layout')
+          document.data.delete 'layout'
           document.content = %(#{StandaloneOptionLine}#{document.content})
         end
 
-        document.extend(NoLiquid) unless document.data['liquid']
-        document.data.fetch('published', true)
+        document.extend NoLiquid unless document.data['liquid']
+        document.data.fetch 'published', true
       end
     end
   end
