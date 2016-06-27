@@ -779,6 +779,87 @@ If you want to build the gem and install it manually, use these commands instead
  $ bundle exec rake build
  $ [sudo] gem install pkg/jekyll-asciidoc-*.dev.gem
 
+=== Coding Style
+
+This project adheres to the coding style used throughout the Asciidoctor project.
+The coding style is as follows:
+
+* Indent using 2 spaces generally.
+
+* Indent conditions, method arguments or ternary expressions that span more than one line using 4 spaces.
+
+* Don't indent `when` lines in case block.
+
+* Fully qualify the class name (beginning with `::`) of any type not in the current namespace.
+
+  ::File.extname path 
+
+* Use triple equals to check for type.
+
+  ::Hash === attrs
+
+* Drop parentheses around method arguments in method definition.
+
+  def integrate document, collection_name = nil
+    ...
+  end
+
+* Drop parentheses around method arguments in isolated method call.
+
+  source = ::File.expand_path config['source']
++
+  if key.start_with? '!'
+    ...
+  end
+
+* Use parentheses outside of method call when parentheses are required.
+
+  layout = collection_name ? (collection_name.chomp 's') : 'page'
++
+  if (::Jekyll::Utils.method dlg_method.name).arity == -1
+    ...
+  end
+
+* Don't put curly braces around entries in an options Hash.
+
+  record_path_info document, source_only: true
+
+* Use a trailing condition for single-line statements.
+
+  clear_path_info if Document === document
+
+* Put parantheses around a variable assignment inside a condition.
+
+  if (imagesdir = attrs['imagesdir'])
+
+* Use simple check for nil.
+
+  if base 
+
+* Use `%()` instead of double quotes around interpolated strings.
+
+  %(--- #{val})
+
+* Name constants using pascal style.
+
+  NewLine = %(\n)
+
+* Store each static regular expression in a constant.
+
+  HeaderBoundaryRx = /(?<=\p{Graph})\n\n/
+
+* Use parentheses in traditional style when writing test assertions.
+
+  expect(site.config['asciidoc']['processor']).to eql('asciidoctor')
+  expect(result.key? 'icons').to be true
+  expect(contents).to match('<div class="page-content">')
+
+////
+* use `do; end` for multi-line blocks; use `{}` for single-line blocks
+* try to make assignments in condition if scoped to that block
+* close empty block on same line if empty - `rescue ::NameError; end`
+////
+
 === Releasing the Gem
 
 When you are ready for a release, first set the version in the file [path]_lib/jekyll-asciidoc/version.rb_.
