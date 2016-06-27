@@ -15,13 +15,16 @@ module Jekyll
         'builder-jekyll' => '',
         'jekyll-version' => ::Jekyll::VERSION
       }
-      NewLine = Utils::NewLine
       StandaloneOptionLine = Utils::StandaloneOptionLine
-      HeaderBoundaryRx = /(?<=\p{Graph})#{NewLine * 2}/
+      HeaderBoundaryRx = /(?<=\p{Graph})#{Utils::NewLine * 2}/
 
+      # Enable plugin when running in safe mode
+      # jekyll-asciidoc gem must also be declared in whitelist
       safe true
-      highlighter_prefix NewLine
-      highlighter_suffix NewLine
+
+      # highlighter prefix/suffix not used by this plugin; defined only to avoid warning
+      highlighter_prefix nil
+      highlighter_suffix nil
 
       def initialize config
         @config = config

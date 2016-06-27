@@ -447,6 +447,28 @@ describe Jekyll::AsciiDoc do
     end
   end
 
+  describe 'safe mode' do
+    let :name do
+      'safe_mode'
+    end
+
+    before :each do
+      site.process
+    end
+
+    it 'should register converter and generator when running in safe mode' do
+      expect(site.converters.any? {|c| ::Jekyll::AsciiDoc::Converter === c }).to be true
+      expect(site.generators.any? {|g| ::Jekyll::AsciiDoc::Integrator === g }).to be true
+    end
+
+    it 'should convert AsciiDoc file when running in safe mode' do
+      file = output_file 'home.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to match('<p>Footer for home layout.</p>')
+    end
+  end
+
   describe 'use default as fallback layout' do
     let :name do
       'fallback_to_default_layout'
