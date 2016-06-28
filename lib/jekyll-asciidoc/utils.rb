@@ -48,14 +48,8 @@ module Jekyll
         end
       end
 
-      if ::Jekyll::MIN_VERSION_3
-        def get_converter site
-          site.find_converter_instance Converter
-        end
-      else
-        def get_converter site
-          site.getConverterImpl Converter
-        end
+      def get_converter site
+        site.find_converter_instance Converter
       end
 
       def prepare_yaml_value val

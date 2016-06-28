@@ -14,7 +14,7 @@ module Jekyll
       def generate site
         @converter = converter = (Utils.get_converter site).setup
 
-        if ::Jekyll::MIN_VERSION_3
+        if defined? ::Jekyll::Hooks
           before_render_callback = converter.method :before_render
           after_render_callback = converter.method :after_render
           [:pages, :documents].each do |collection_name|
@@ -34,12 +34,12 @@ module Jekyll
         # NOTE posts were migrated to a collection named 'posts' in Jekyll 3
         site.posts.select! do |post|
           (converter.matches post.ext) ? (integrate post, 'posts') : true
-        end unless ::Jekyll::MIN_VERSION_3
+        end if site.respond_to? :posts=
 
         site.collections.each do |name, collection|
           next unless collection.write?
           collection.docs.select! do |doc|
-            ((converter.matches ::Jekyll::MIN_VERSION_3) ? doc.data['ext'] : doc.extname) ? (integrate doc, name) : true
+            (converter.matches doc.extname) ? (integrate doc, name) : true
           end
         end
       end

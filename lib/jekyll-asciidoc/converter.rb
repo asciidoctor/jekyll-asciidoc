@@ -78,7 +78,7 @@ module Jekyll
             when ':source'
               asciidoctor_config[:base_dir] = source
             when ':docdir'
-              if ::Jekyll::MIN_VERSION_3
+              if defined? ::Jekyll::Hooks
                 asciidoctor_config[:base_dir] = :docdir
               else
                 @logger.warn 'Jekyll AsciiDoc:', 'Using :docdir as value of base_dir option requires Jekyll 3. Falling back to source directory.'
@@ -162,7 +162,7 @@ module Jekyll
 
       def load_header document
         setup
-        record_path_info document, source_only: true if ::Jekyll::MIN_VERSION_3
+        record_path_info document, source_only: true if defined? ::Jekyll::Hooks
         # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
         header = (document.content.split HeaderBoundaryRx, 2)[0]
         case @asciidoc_config['processor']
@@ -182,7 +182,7 @@ module Jekyll
           @logger.warn 'Jekyll AsciiDoc:', %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.)
           doc = nil
         end
-        clear_path_info if ::Jekyll::MIN_VERSION_3
+        clear_path_info if defined? ::Jekyll::Hooks
         doc
       end
 

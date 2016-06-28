@@ -57,13 +57,17 @@ RSpec.configure do |config|
 
   def find_post path
     path = %(_posts/#{path}) unless path.start_with? '_posts/'
-    (::Jekyll::MIN_VERSION_3 ? site.posts.docs : site.posts).find {|p| p.relative_path == path }
+    ((site.respond_to? :posts=) ? site.posts : site.posts.docs).find {|p| p.relative_path == path }
   end
 
   def find_draft path
     path = %(_drafts/#{path}) unless path.start_with? '_drafts/'
-    path = %(/#{path}) unless ::Jekyll::MIN_VERSION_3
-    (::Jekyll::MIN_VERSION_3 ? site.posts.docs : site.posts).find {|p| p.relative_path == path }
+    if site.respond_to? :posts=
+      path = %(/#{path})
+      site.posts.find {|p| p.relative_path == path }
+    else
+      site.posts.docs.find {|p| p.relative_path == path }
+    end
   end
 
   def find_doc path, collection_name
