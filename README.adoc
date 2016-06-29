@@ -20,6 +20,8 @@ ifdef::env-github[]
 endif::[]
 // Aliases:
 :path-config: pass:q[[path]___config.yml__]
+:conum-guard: {sp}
+ifndef::icons[:conum-guard: {sp}#{sp}]
 // URIs:
 :uri-repo: https://github.com/asciidoctor/jekyll-asciidoc
 :uri-gem: http://rubygems.org/gems/jekyll-asciidoc
@@ -511,10 +513,10 @@ Using Bundler::
 --
 Add `asciidoctor-diagram` gem to your [path]_Gemfile_:
 
-[source,ruby]
+[source,ruby,subs=attributes+]
 ----
 group :jekyll_plugins do
-  gem 'asciidoctor-diagram', '~> 1.4.0' <1>
+  gem 'asciidoctor-diagram', '~> 1.4.0' #{conum-guard}<1>
   gem 'jekyll-asciidoc'
   ...
 end
@@ -753,18 +755,75 @@ If you only want to perform inline substitutions on the content, add the `inline
 
 This filter allows you to compose site-wide data in AsciiDoc, such your site's description or synopsis, then convert it to HTML for use in the page template(s).
 
-== GitHub Pages
+== Using this Plugin on GitHub Pages
 
-GitHub doesn't (yet) whitelist the AsciiDoc plugin, so you can only run it on your own machine (or CI server).
+GitHub doesn't (yet) whitelist the AsciiDoc plugin, so you must run Jekyll either on your own computer or on a continuous integration (CI) server.
 
-TIP: GitHub needs to hear from enough users that they want to plugin in order to enable it.
-Our recommendation is to keep lobbying for them to enable it.
+[IMPORTANT]
+====
+GitHub needs to hear from enough users that need this plugin to persuade them to enable it.
+Our recommendation is to https://github.com/contact[contact support] and keep asking for it.
+
+Refer to the help page https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/[Adding Jekyll Plugins to a GitHub Pages site] for a list of plugins currently supported on GitHub Pages.
+====
 
 You can automate publishing of the generated site to GitHub Pages using a continuous integration job.
 Refer to the tutorial http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] to find step-by-step instructions to setup this job.
 You can also refer to the https://github.com/johncarl81/transfuse-site[Tranfuse website build^] for an example in practice.
 
-Refer to the https://help.github.com/articles/using-jekyll-plugins-with-github-pages[Jekyll Plugins on GitHub Pages] for a list of the plugins currently supported on the server-side (in addition to Markdown, which isn't listed).
+TIP: If you want to take a shortcut that skips all the steps in the tutorial, clone the {uri-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
+JAQ provides a page layout out of the box configured to fully style body content generated from AsciiDoc.
+
+== Using this Plugin on GitLab Pages
+
+Deployment to GitLab Pages is much simpler.
+That's because GitLab allows you to control the execution of Jekyll yourself.
+There's no need to mess around with CI jobs and authentication tokens.
+You can find all about how to use Jekyll with GitLab Pages in the tutorial https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#option-b-gitlab-ci-for-jekyll-websites[Hosting on GitLab.com with GitLab Pages].
+
+Assuming the following are true:
+
+. The source of your site resides on the master branch.
+. You're using Bundler to manage the dependencies for your project.
+
+then you can use the following [path]_.gitlab-ci.yml_ file to get starting hosting your Jekyll site on GitLab Pages.
+
+.gitlab-ci.yml
+[source,yaml]
+----
+image: ruby:2.3
+cache:
+  paths: 
+    - .bundle
+before_script:
+  - bundle --path .bundle/rubygems
+pages:
+  script:
+    - bundle exec jekyll build -d public --config _config.yml,_config-gitlab.yml -q
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+----
+
+This script runs Jekyll on the official Ruby Docker container.
+
+You also need to add and additional configuration file, [path]__config-gitlab.yml_, to set the `url` and `baseurl` options when deploying your site to GitLab Pages.
+
+._config-gitlab.yml
+[source,yaml,subs=attributes+]
+----
+url: https://<username>.gitlab.io #{conum-guard}<1>
+baseurl: /<projectname> #{conum-guard}<2>
+----
+<1> Replace `<username>` with your GitLab username or group.
+<2> Replace `<projectname>` with the basename of your project repository.
+
+The next time you push to the master branch, the GitLab Pages runner will execute Jekyll and deploy your site to [uri]_\https://<username>.gitlab.io/<projectname>_, where `<username>` is your GitLab username or group and `<projectname>` is the basename of your project repository.
+
+Like GitHub Pages, you can also have your site respond to a custom domain name, which is explained in the referenced tutorial.
+In this case, update the [path]__config-gitlab.yml_ file with the appropriate values.
 
 == Development
 
