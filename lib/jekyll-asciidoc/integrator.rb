@@ -62,12 +62,14 @@ module Jekyll
         document.data['author'] = doc.author if doc.author
         document.data['date'] = (::DateTime.parse doc.revdate).to_time if collection_name == 'posts' && (doc.attr? 'revdate')
 
-        len = @page_attr_prefix.length
-        unless (adoc_front_matter = doc.attributes
-            .select {|name| len.zero? || (name.start_with? @page_attr_prefix) }
-            .map {|name, val| %(#{len.zero? ? name : name[len..-1]}: #{Utils.prepare_yaml_value val}) })
-            .empty?
-          document.data.update(::SafeYAML.load adoc_front_matter * NewLine)
+        no_prefix = (prefix_size = @page_attr_prefix.length).zero?
+        unless (adoc_header_data = doc.attributes
+            .each_with_object({}) {|(key, val), accum|
+              if no_prefix || ((key.start_with? @page_attr_prefix) && key = key[prefix_size..-1])
+                accum[key] = ::String === val ? (Utils.parse_yaml_value val) : val
+              end
+            }).empty?
+          document.data.update adoc_header_data
         end
 
         case document.data['layout']

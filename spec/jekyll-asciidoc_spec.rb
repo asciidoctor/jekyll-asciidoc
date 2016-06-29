@@ -121,23 +121,23 @@ describe Jekyll::AsciiDoc do
     end
   end
 
-  describe 'prepare YAML value' do
+  describe 'parse YAML value' do
     let :name do
       'default_config'
     end
 
-    it 'should prepare YAML value from attribute value' do
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value '').to eql('\'\'')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value 'true').to eql('true')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value 'false').to eql('false')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value '~').to eql('~')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value '1').to eql('1')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value '[one, two]').to eql('[one, two]')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value 'John\'s House').to eql('John\'s House')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value '\'bar\'').to eql('\'bar\'')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value '\'').to eql('\'\'\'\'')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value '-').to eql('\'-\'')
-      expect(::Jekyll::AsciiDoc::Utils.prepare_yaml_value '@').to eql('\'@\'')
+    it 'should parse string as YAML value' do
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '').to eql('')
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value 'true').to be true
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value 'false').to be false
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '~').to be_nil
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '1').to eql(1)
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '[one, two]').to eql(['one', 'two'])
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value 'John\'s House').to eql('John\'s House')
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '\'bar\'').to eql('bar')
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '\'').to eql('\'')
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '-').to eql('-')
+      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '@').to eql('@')
     end
   end
 
