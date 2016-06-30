@@ -1,0 +1,6 @@
+gems:
+  - jekyll-asciidoc
+asciidoctor:
+  attributes:
+    - stylesdir=/css
+    - source-highlighter=pygments@

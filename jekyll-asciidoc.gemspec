@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 3.0'
+  s.add_development_dependency 'pygments.rb', '~> 0.6.3' unless RUBY_ENGINE == 'jruby'
 end

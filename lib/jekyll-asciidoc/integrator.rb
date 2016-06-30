@@ -42,6 +42,12 @@ module Jekyll
             (converter.matches doc.extname) ? (integrate doc, name) : true
           end
         end
+
+        if (attrs = site.config['asciidoctor'][:attributes]) &&
+            ((attrs['source-highlighter'] || '').chomp '@') == 'pygments' &&
+            ((attrs['pygments-css'] || '').chomp '@') != 'style' && attrs.fetch('pygments-stylesheet', '')
+          generate_pygments_stylesheet site, attrs
+        end
       end
 
       # Integrate the page-related attributes from the AsciiDoc document header
@@ -85,6 +91,28 @@ module Jekyll
 
         document.extend NoLiquid unless document.data['liquid']
         document.data.fetch 'published', true
+      end
+
+      def generate_pygments_stylesheet site, attrs
+        css_base = site.source
+        unless (css_dir = (attrs['stylesdir'] || '').chomp '@').empty? || (css_dir.start_with? '/')
+          css_dir = %(/#{css_dir})
+        end
+        if (css_name = attrs['pygments-stylesheet']).nil_or_empty?
+          css_name = 'asciidoc-pygments.css'
+        end
+        css_file = ::File.join css_base, css_dir, css_name
+        css_style = (attrs['pygments-style'] || 'vs').chomp '@'
+        css = ::Asciidoctor::Stylesheets.instance.pygments_stylesheet_data css_style
+        # NOTE apply stronger CSS rule for general text color
+        css = css.sub('.listingblock .pygments  {', '.listingblock .pygments, .listingblock .pygments code {')
+        if site.static_files.any? {|f| f.path == css_file }
+          ::IO.write css_file, css unless css == (::IO.read css_file)
+        else
+          ::Asciidoctor::Helpers.mkdir_p(::File.dirname css_file)
+          ::IO.write css_file, css
+          site.static_files << (::Jekyll::StaticFile.new site, css_base, css_dir, css_name)
+        end
       end
     end
   end

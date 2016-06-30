@@ -1,0 +1,16 @@
+= Code
+
+```ruby
+class NilClass
+  alias :nil_or_empty? :nil?
+end
+
+class String
+  def nil_or_empty?
+    alias :nil_or_empty? :empty? 
+  end
+end
+
+v = nil
+puts v.nil_or_empty?
+```
