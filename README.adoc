@@ -796,7 +796,7 @@ cache:
   paths: 
     - .bundle
 before_script:
-  - bundle --path .bundle/rubygems
+  - bundle --path .bundle/gems
 pages:
   script:
     - bundle exec jekyll build -d public --config _config.yml,_config-gitlab.yml -q
@@ -859,7 +859,7 @@ If Bundler is not installed, use the `gem` command to install it.
 
 Finally, invoke the `bundle` command (which is provided by the bundler gem) from the root of the project to install the dependencies into the project:
 
- $ bundle --path=.bundle/rubygems
+ $ bundle --path=.bundle/gems
 
 IMPORTANT: Since we've installed dependencies inside the project, it's necessary to prefix all commands (e.g., rake) with `bundle exec`.
 
