@@ -765,6 +765,55 @@ describe Jekyll::AsciiDoc do
     end if ::Jekyll::MIN_VERSION_3
   end
 
+  describe 'pygments code highlighting' do
+    let :name do
+      'pygments_code_highlighting'
+    end
+
+    before :each do
+      site.process
+    end
+
+    it 'should write the pygments stylesheet to the stylesdir' do
+      src_file = source_file 'css/asciidoc-pygments.css'
+      out_file = output_file 'css/asciidoc-pygments.css'
+      begin
+        expect(::File).to exist(src_file)
+        expect(::File).to exist(out_file)
+        src_content = ::File.read src_file
+        out_content = ::File.read out_file
+        expect(src_content).to eql(out_content)
+      ensure
+        if ::File.exist? src_file
+          ::File.delete src_file
+          ::Dir.rmdir(::File.dirname src_file)
+        end
+      end
+    end
+
+    it 'should overwrite pygments stylesheet if style has changed' do
+      src_file = source_file 'css/asciidoc-pygments.css'
+      out_file = output_file 'css/asciidoc-pygments.css'
+      begin
+        src_content = ::File.read src_file
+        out_content = ::File.read src_file
+        attrs = site.config['asciidoctor'][:attributes]
+        attrs['pygments-style'] = 'monokai'
+        integrator = site.generators.find {|g| ::Jekyll::AsciiDoc::Integrator === g }
+        integrator.generate_pygments_stylesheet site, attrs 
+        expect(::File.read src_file).not_to eql(src_content)
+        ::Jekyll::StaticFile.reset_cache
+        site.process
+        expect(::File.read out_file).not_to eql(out_content)
+      ensure
+        if ::File.exist? src_file
+          ::File.delete src_file
+          ::Dir.rmdir(::File.dirname src_file)
+        end
+      end
+    end
+  end unless RUBY_ENGINE == 'jruby'
+
   describe 'xhtml syntax' do
     let :name do
       'xhtml_syntax'
