@@ -910,6 +910,23 @@ For more fine-grained control, you can also run the tests using RSpec directly.
 
  $ bundle exec rspec
 
+If you only want to run a selection of tests, you can do so by assigning those specifications a tag and filtering the test run accordingly.
+
+Start by adding the `focus` tag to one or more specifications:
+
+[source,ruby]
+----
+it 'should register AsciiDoc converter', focus: true do
+  expect(site.converters.any? {|c| ::Jekyll::AsciiDoc::Converter === c }).to be true
+end
+----
+
+Then, run RSpec with the `focus` flag enabled:
+
+ $ bundle exec rspec -t focus
+
+You should see that RSpec only runs the specifications that have this flag.
+
 === Installing the Gem Locally
 
 You can install the development version of the gem as follows:
