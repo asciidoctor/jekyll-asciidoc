@@ -24,5 +24,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 3.0'
-  s.add_development_dependency 'pygments.rb', '~> 0.6.3' unless RUBY_ENGINE == 'jruby'
+  # enable pygments.rb dependency here once https://github.com/tmm1/pygments.rb/pull/162 is merged & released
+  #s.add_development_dependency 'pygments.rb', '~> 0.6.3'
 end
