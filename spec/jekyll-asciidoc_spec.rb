@@ -812,7 +812,7 @@ describe Jekyll::AsciiDoc do
         end
       end
     end
-  end unless RUBY_ENGINE == 'jruby'
+  end
 
   describe 'xhtml syntax' do
     let :name do
