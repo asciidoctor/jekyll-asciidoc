@@ -946,7 +946,7 @@ The coding style is as follows:
 
 * Indent using 2 spaces generally.
 
-* Indent conditions, method arguments or ternary expressions that span more than one line using 4 spaces.
+* Indent conditions, method arguments or ternary expressions that span more than one line using 4 spaces (but not data structures or chained method calls).
 
 * Don't indent `when` lines in case block.
 
@@ -971,6 +971,8 @@ The coding style is as follows:
   if key.start_with? '!'
     ...
   end
++
+  asciidoctor_config.replace Utils.symbolize_keys asciidoctor_config
 
 * Use parentheses outside of method call when parentheses are required.
 
@@ -980,7 +982,11 @@ The coding style is as follows:
     ...
   end
 
-* Don't put curly braces around entries in an options Hash.
+* Use parentheses where required, such as around initial accumulator value for predicates.
+
+  hash.each_with_object({}) {|(key, val), accum| accum[key.to_sym] = val }
+
+* Don't put curly braces around entries in an options Hash (i.e., symbol keys).
 
   record_path_info document, source_only: true
 
