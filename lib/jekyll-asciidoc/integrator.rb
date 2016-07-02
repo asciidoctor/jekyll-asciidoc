@@ -45,7 +45,7 @@ module Jekyll
 
         if (attrs = site.config['asciidoctor'][:attributes]) &&
             ((attrs['source-highlighter'] || '').chomp '@') == 'pygments' &&
-            ((attrs['pygments-css'] || '').chomp '@') != 'style' && attrs.fetch('pygments-stylesheet', '')
+            ((attrs['pygments-css'] || '').chomp '@') != 'style' && (attrs.fetch 'pygments-stylesheet', '')
           generate_pygments_stylesheet site, attrs
         end
       end
@@ -105,11 +105,11 @@ module Jekyll
         css_style = (attrs['pygments-style'] || 'vs').chomp '@'
         css = ::Asciidoctor::Stylesheets.instance.pygments_stylesheet_data css_style
         # NOTE apply stronger CSS rule for general text color
-        css = css.sub('.listingblock .pygments  {', '.listingblock .pygments, .listingblock .pygments code {')
+        css = css.sub '.listingblock .pygments  {', '.listingblock .pygments, .listingblock .pygments code {'
         if site.static_files.any? {|f| f.path == css_file }
           ::IO.write css_file, css unless css == (::IO.read css_file)
         else
-          ::Asciidoctor::Helpers.mkdir_p(::File.dirname css_file)
+          ::Asciidoctor::Helpers.mkdir_p ::File.dirname css_file
           ::IO.write css_file, css
           site.static_files << (::Jekyll::StaticFile.new site, css_base, css_dir, css_name)
         end
