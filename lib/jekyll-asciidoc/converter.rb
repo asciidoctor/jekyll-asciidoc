@@ -15,6 +15,7 @@ module Jekyll
         'builder-jekyll' => '',
         'jekyll-version' => ::Jekyll::VERSION
       }
+      MessageTopic = 'Jekyll AsciiDoc:'
       StandaloneOptionLine = Utils::StandaloneOptionLine
       HeaderBoundaryRx = /(?<=\p{Graph})#{Utils::NewLine * 2}/
 
@@ -36,7 +37,7 @@ module Jekyll
         # NOTE check for Configured only works if value of key is defined in _config.yml as Hash
         unless Configured === (asciidoc_config = (config['asciidoc'] ||= {}))
           if ::String === asciidoc_config
-            @logger.warn 'Jekyll AsciiDoc:', 'The AsciiDoc configuration should be defined as Hash under asciidoc key instead of as discrete entries.'
+            @logger.warn MessageTopic, 'The AsciiDoc configuration should be defined as Hash under asciidoc key instead of as discrete entries.'
             asciidoc_config = config['asciidoc'] = { 'processor' => asciidoc_config }
           else
             asciidoc_config['processor'] ||= 'asciidoctor'
@@ -81,7 +82,7 @@ module Jekyll
               if defined? ::Jekyll::Hooks
                 asciidoctor_config[:base_dir] = :docdir
               else
-                @logger.warn 'Jekyll AsciiDoc:', 'Using :docdir as value of base_dir option requires Jekyll 3. Falling back to source directory.'
+                @logger.warn MessageTopic, 'Using :docdir as value of base_dir option requires Jekyll 3. Falling back to source directory.'
                 asciidoctor_config[:base_dir] = source
               end
             else
@@ -113,12 +114,12 @@ module Jekyll
           begin
             require 'asciidoctor' unless defined? ::Asciidoctor::VERSION
           rescue ::LoadError
-            @logger.error 'Jekyll AsciiDoc:', 'You are missing a library required to convert AsciiDoc files. Please install using:'
+            @logger.error MessageTopic, 'You are missing a library required to convert AsciiDoc files. Please install using:'
             @logger.error '', '$ [sudo] gem install asciidoctor'
             @logger.abort_with 'Bailing out; missing required dependency: asciidoctor'
           end
         else
-          @logger.error 'Jekyll AsciiDoc:', %(Invalid AsciiDoc processor given: #{@asciidoc_config['processor']})
+          @logger.error MessageTopic, %(Invalid AsciiDoc processor given: #{@asciidoc_config['processor']})
           @logger.error '', 'Valid options are: asciidoctor'
           @logger.abort_with 'Bailing out; invalid Asciidoctor processor.'
         end
@@ -179,7 +180,7 @@ module Jekyll
           # NOTE return instance even if header is empty since attributes may be inherited from config
           doc = ::Asciidoctor.load header, opts
         else
-          @logger.warn 'Jekyll AsciiDoc:', %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.)
+          @logger.warn MessageTopic, %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.)
           doc = nil
         end
         clear_path_info if defined? ::Jekyll::Hooks
@@ -205,7 +206,7 @@ module Jekyll
           end
           ::Asciidoctor.convert content, opts
         else
-          @logger.warn 'Jekyll AsciiDoc:', %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
+          @logger.warn MessageTopic, %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
           content
         end
       end
