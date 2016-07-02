@@ -6,6 +6,8 @@ module Jekyll
         'idseparator' => '-',
         'linkattrs' => '@'
       }
+      DefaultFileExtensions = %w(asciidoc adoc ad)
+      DefaultPageAttributePrefix = 'page'
       ImplicitAttributes = {
         'env' => 'site',
         'env-site' => '',
@@ -17,6 +19,7 @@ module Jekyll
       }
       MessageTopic = 'Jekyll AsciiDoc:'
       StandaloneOptionLine = Utils::StandaloneOptionLine
+
       HeaderBoundaryRx = /(?<=\p{Graph})#{Utils::NewLine * 2}/
 
       # Enable plugin when running in safe mode
@@ -43,13 +46,13 @@ module Jekyll
             asciidoc_config['processor'] ||= 'asciidoctor'
           end
           old_asciidoc_ext = config.delete 'asciidoc_ext'
-          asciidoc_ext = (asciidoc_config['ext'] ||= (old_asciidoc_ext || 'asciidoc,adoc,ad'))
+          asciidoc_ext = (asciidoc_config['ext'] ||= (old_asciidoc_ext || (DefaultFileExtensions * ',')))
           asciidoc_ext_re = asciidoc_config['ext_re'] = /^\.(?:#{asciidoc_ext.tr ',', '|'})$/ix
           old_page_attr_prefix_def = config.key? 'asciidoc_page_attribute_prefix'
           old_page_attr_prefix_val = config.delete 'asciidoc_page_attribute_prefix'
           unless (page_attr_prefix = asciidoc_config['page_attribute_prefix'])
             page_attr_prefix = old_page_attr_prefix_def ? (old_page_attr_prefix_val || '') :
-                ((asciidoc_config.key? 'page_attribute_prefix') ? '' : 'page')
+                ((asciidoc_config.key? 'page_attribute_prefix') ? '' : DefaultPageAttributePrefix)
           end
           asciidoc_config['page_attribute_prefix'] = page_attr_prefix.chomp '-'
           asciidoc_config['require_front_matter_header'] = !!asciidoc_config['require_front_matter_header']
