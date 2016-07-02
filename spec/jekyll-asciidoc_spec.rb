@@ -783,6 +783,7 @@ describe Jekyll::AsciiDoc do
         src_content = ::File.read src_file
         out_content = ::File.read out_file
         expect(src_content).to eql(out_content)
+        expect(src_content).to match('.pygments .tok-c')
       ensure
         if ::File.exist? src_file
           ::File.delete src_file
@@ -804,7 +805,9 @@ describe Jekyll::AsciiDoc do
         expect(::File.read src_file).not_to eql(src_content)
         ::Jekyll::StaticFile.reset_cache
         site.process
-        expect(::File.read out_file).not_to eql(out_content)
+        new_out_content = ::File.read out_file
+        expect(new_out_content).not_to eql(out_content)
+        expect(new_out_content).to match('background-color: #49483e')
       ensure
         if ::File.exist? src_file
           ::File.delete src_file
