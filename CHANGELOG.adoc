@@ -7,15 +7,16 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 
 == 2.0.0 (unreleased)
 
-* Split source into multiple files
-* Move all classes under the `Jekyll::AsciiDoc` module
+* Split source into multiple files; move all classes under the `Jekyll::AsciiDoc` module
 * Avoid redundant initialization caused by the jekyll-watch plugin
 * Set docdir, docfile, docname, outfile, outdir, and outpath attributes for each file if using Jekyll 3 (#59)
   - docdir is only set if value of `base_dir` option is `:docdir`
   - setting outdir allows proper integration with Asciidoctor Diagram
 * Automatically set `imagesoutdir` attribute if `imagesdir` attribute is relative to root
 * Pass site information (root, source, destination, baseurl and url) through as AsciiDoc attributes
-* Change default layout to match collection label (page for pages, post for posts, collection label for all others); use default layout as fallback (#104)
+* Automatically generate stylesheet for Pygments (#30)
+* Change default layout to match collection label (#104)
+  - page for pages, post for posts, collection label for all others; use default layout as fallback
 * Resolve attribute references in attribute values defined in config (#103)
 * Apply AsciiDoc header integration to documents in all collections (#93)
 * Document how to create and enable templates to customize the HTML that Asciidoctor generates (#73)
@@ -24,6 +25,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * Allow site-wide Asciidoctor attributes to be specified as a Hash; convert to Hash if Array is used (#87)
 * Interpret page attribute values as YAML data
 * Use Jekyll.logger to write log messages (#85)
+* Add topic to all log messages
 * Restructure configuration keys so all general settings are under the `asciidoc` key (#82)
 * Don't enable `hardbreaks` attribute by default (#69)
 * Bump minimum version of Jekyll to 2.3.0 and document requirement in README (#76)
@@ -32,7 +34,11 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * Apply site-wide Asciidoctor configuration (options/attributes) when loading document header (#67)
 * Disable liquid processor on AsciiDoc files by default; enable using liquid page variable (#65)
 * Resolve empty page attribute value as empty string (#70)
+* Soft assign linkattrs attribute
+* Allow plugin to work in safe mode (#112)
 * Major restructure and rewrite of README
+* Document how to use plugin with GitLab Pages (#47)
+* Document asciidocify filter
 
 {uri-repo}/issues?q=milestone%3Av2.0.0[issues resolved] |
 {uri-repo}/releases/tag/v2.0.0[git tag]
