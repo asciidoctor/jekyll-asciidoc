@@ -48,6 +48,10 @@ module Jekyll
         end
       end
 
+      def symbolize_keys hash
+        hash.each_with_object({}) {|(key, val), accum| accum[key.to_sym] = val }
+      end
+
       def get_converter site
         site.find_converter_instance Converter
       end
