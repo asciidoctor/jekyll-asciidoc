@@ -1,5 +1,6 @@
 = Jekyll AsciiDoc Plugin (powered by Asciidoctor)
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>; Paul Rayner <https://github.com/paulrayner[@paulrayner]>
+v2.0.0, 2016-07-02
 // Settings:
 :idprefix:
 :idseparator: -
@@ -1075,7 +1076,7 @@ Next, package, tag and release the gem to RubyGems.org, run the following rake t
 
 IMPORTANT: Ensure you have the proper credentials setup as described in the guide {uri-guide-publish-gem}[Publishing to RubyGems.org].
 
-Once you finish the release, you should update the version to the next micro version in the sequence using the `.dev` suffix (e.g., 1.0.1.dev).
+Once you finish the release, you should update the version to the next micro version in the sequence using the `.dev` suffix (e.g., 2.0.1.dev).
 
 == About the Project
 
