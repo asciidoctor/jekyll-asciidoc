@@ -99,7 +99,7 @@ module Jekyll
               'site-baseurl' => config['baseurl'],
               'site-url' => config['url']
             }
-            attrs = asciidoctor_config[:attributes] = Utils.compile_attributes asciidoctor_config[:attributes],
+            attrs = asciidoctor_config[:attributes] = Utils.hashify_attributes asciidoctor_config[:attributes],
                 ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes)
             if (imagesdir = attrs['imagesdir']) && !(attrs.key? 'imagesoutdir') && (imagesdir.start_with? '/')
               attrs['imagesoutdir'] = ::File.join dest, imagesdir

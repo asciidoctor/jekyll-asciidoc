@@ -13,9 +13,9 @@ module Jekyll
         define_method :has_yaml_header?, &(::Jekyll::Utils.method :has_yaml_header?)
       rescue ::NameError; end
 
-      def compile_attributes attrs, seed = {}
+      def hashify_attributes attrs, initial = {}
         if (is_array = ::Array === attrs) || ::Hash === attrs
-          attrs.each_with_object seed do |entry, new_attrs|
+          attrs.each_with_object(initial) {|entry, new_attrs|
             key, val = is_array ? ((entry.split '=', 2) + ['', ''])[0..1] : entry
             if key.start_with? '!'
               new_attrs[key[1..-1]] = nil
@@ -24,9 +24,9 @@ module Jekyll
             else
               new_attrs[key] = val ? (resolve_attribute_refs val, new_attrs) : nil
             end
-          end
+          }
         else
-          seed
+          initial
         end
       end
 
