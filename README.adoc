@@ -1,6 +1,5 @@
 = Jekyll AsciiDoc Plugin (powered by Asciidoctor)
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>; Paul Rayner <https://github.com/paulrayner[@paulrayner]>
-v2.0.0, 2016-07-02
 // Settings:
 :idprefix:
 :idseparator: -
