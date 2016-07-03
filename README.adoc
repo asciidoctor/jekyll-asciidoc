@@ -804,16 +804,18 @@ GitHub doesn't (yet) whitelist the AsciiDoc plugin, so you must run Jekyll eithe
 GitHub needs to hear from enough users that need this plugin to persuade them to enable it.
 Our recommendation is to https://github.com/contact[contact support] and keep asking for it.
 
-Refer to the help page https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/[Adding Jekyll Plugins to a GitHub Pages site] for a list of plugins currently supported on GitHub Pages.
+Refer to the help page https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site[Adding Jekyll Plugins to a GitHub Pages site] for a list of plugins currently supported on GitHub Pages.
 ====
 
 _But don't despair!_
 You can still automate publishing of the generated site to GitHub Pages using a continuous integration job.
-Refer to the http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] tutorial to find step-by-step instructions to setup this job.
+Refer to the http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] tutorial to find step-by-step instructions.
 You can also refer to the https://github.com/johncarl81/transfuse-site[Tranfuse website build^] for an example in practice.
 
-TIP: If you want to take a shortcut that skips all the steps in the tutorial, clone the {uri-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
-JAQ provides a page layout out of the box configured to fully style body content generated from AsciiDoc.
+=== Jekyll AsciiDoc Quickstart
+
+If you want to take a shortcut that skips all the steps in the previously mentioned tutorial, clone the {uri-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
+JAQ includes a Rake build that is preconfigured to deploy to GitHub Pages from Travis CI and also provides a theme (page layout and CSS) that properly styles body content generated from AsciiDoc.
 
 == Using this Plugin on GitLab Pages
 
