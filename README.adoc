@@ -810,7 +810,7 @@ Refer to the help page https://help.github.com/articles/adding-jekyll-plugins-to
 _But don't despair!_
 You can still automate publishing of the generated site to GitHub Pages using a continuous integration job.
 Refer to the http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] tutorial to find step-by-step instructions.
-You can also refer to the https://github.com/johncarl81/transfuse-site[Tranfuse website build^] for an example in practice.
+You can also refer to the https://github.com/johncarl81/transfuse-site[Transfuse website build^] for an example in practice.
 
 TIP: When using this setup, don't forget to add the [path]_.nojekyll_ file to the root of the source to tell GitLab Pages not to waste time running Jekyll again on the server.
 
