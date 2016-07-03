@@ -24,31 +24,37 @@ endif::[]
 ifndef::icons[:conum-guard: {sp}#{sp}]
 // URIs:
 :uri-repo: https://github.com/asciidoctor/jekyll-asciidoc
+:uri-issues: {uri-repo}/issues
+:uri-search-issues: {uri-repo}/search?type=Issues
+:uri-chat: https://gitter.im/asciidoctor/asciidoctor
+:uri-ci: https://travis-ci.org/asciidoctor/jekyll-asciidoc
 :uri-gem: http://rubygems.org/gems/jekyll-asciidoc
-:uri-travis: https://travis-ci.org/asciidoctor/jekyll-asciidoc
+:uri-gem-asciidoctor: http://rubygems.org/gems/asciidoctor
 :uri-asciidoc: http://asciidoc.org
-:uri-asciidoc-practices: http://asciidoctor.org/docs/asciidoc-recommended-practices/
 :uri-asciidoctor: http://asciidoctor.org
-:uri-asciidoctor-gem: http://rubygems.org/gems/asciidoctor
-:uri-asciidoctor-manual: http://asciidoctor.org/docs/user-manual/
 :uri-asciidoctor-backends: https://github.com/asciidoctor/asciidoctor-backends
-:uri-asciidoctor-diagram: http://asciidoctor.org/docs/asciidoctor-diagram/
+:uri-asciidoctor-docs: {uri-asciidoctor}/docs
+:uri-asciidoctor-diagram: {uri-asciidoctor-docs}/asciidoctor-diagram
+:uri-asciidoctor-discuss: http://discuss.asciidoctor.org
+:uri-asciidoctor-manual: {uri-asciidoctor-docs}/user-manual
+:uri-asciidoc-practices: {uri-asciidoctor-docs}/asciidoc-recommended-practices
 :uri-jaq: https://github.com/asciidoctor/jekyll-asciidoc-quickstart
 :uri-jekyll: https://jekyllrb.com
-:uri-jekyll-docs: {uri-jekyll}/docs/
-:uri-front-matter: {uri-jekyll-docs}frontmatter/
-:uri-liquid-templates: {uri-jekyll-docs}templates/
+:uri-jekyll-docs: {uri-jekyll}/docs
+:uri-jekyll-discuss: https://talk.jekyllrb.com
+:uri-front-matter: {uri-jekyll-docs}/frontmatter
+:uri-liquid-templates: {uri-jekyll-docs}/templates
 :uri-graphviz: http://www.graphviz.org
 :uri-tilt: https://github.com/rtomayko/tilt
 :uri-yaml: https://en.wikipedia.org/wiki/YAML
-:uri-publish-gem: http://guides.rubygems.org/publishing/#publishing-to-rubygemsorg
+:uri-guide-publish-gem: http://guides.rubygems.org/publishing/#publishing-to-rubygemsorg
 
 ifdef::status[]
 image:https://img.shields.io/gem/v/jekyll-asciidoc.svg?label=gem%20version[Gem Version, link={uri-gem}]
-image:https://img.shields.io/travis/asciidoctor/jekyll-asciidoc/master.svg[Build Status (Travis CI), link={uri-travis}]
+image:https://img.shields.io/travis/asciidoctor/jekyll-asciidoc/master.svg[Build Status (Travis CI), link={uri-ci}]
 endif::[]
 
-A plugin for {uri-jekyll}[Jekyll] (>= 2.3.0) that converts {uri-asciidoc}[AsciiDoc] files in your site source to HTML pages using {uri-asciidoctor}[Asciidoctor] (>= 1.5.0).
+A plugin for {uri-jekyll}[Jekyll] (>= 2.3.0) that converts {uri-asciidoc}[AsciiDoc] source files in your site to HTML pages using {uri-asciidoctor}[Asciidoctor].
 
 == Overview
 
@@ -69,9 +75,9 @@ These extensions are registered automatically when the [app]*jekyll-asciidoc* ge
 == Installation
 
 This plugin is packaged as a gem named [app]*{uri-gem}[jekyll-asciidoc]* and published to RubyGems.org.
-The plugin depends on the [app]*{uri-asciidoctor-gem}[asciidoctor]* gem, which gets installed automatically.
+The plugin depends on the [app]*{uri-gem-asciidoctor}[asciidoctor]* gem, which gets installed automatically.
 
-Your method of installation will depend on whether or not you are using Bundler to manage the dependencies for your Jekyll project.
+Your method of installation will depend on whether you use Bundler to manage the dependencies for your Jekyll project.
 
 === Installation Using Bundler
 
@@ -859,6 +865,34 @@ The next time you push to the master branch, the GitLab Pages runner will execut
 Like GitHub Pages, you can also have your site respond to a custom domain name, which is explained in the referenced tutorial.
 In this case, update the [path]__config-gitlab.yml_ file with the appropriate values.
 
+== Getting Help
+
+The Jekyll AsciiDoc plugin is developed to help you publish your content quickly and easily.
+But we can't achieve that goal without your input.
+Your questions and feedback help steer the project, so speak up!
+Activity drives progress.
+
+When seeking answers, always start with the official documentation for Jekyll, which can be found on the {uri-jekyll}[Jekyll website].
+If you have general questions about Jekyll, we recommend you visit the {uri-jekyll-discuss}[Jekyll Talk] forum to get assistance.
+For questions related to this extension specifically, or general questions about AsciiDoc, please post to the {uri-asciidoctor-discuss}[Asciidoctor discussion list].
+You can also join us in the {uri-chat}[asciidoctor/asciidoctor channel] on Gitter.
+For general information about AsciiDoc, look no further than the {uri-asciidoctor-manual}[Asciidoctor User Manual].
+
+=== Filing Bug Reports and Feature Requests
+
+This project uses the {uri-issues}[GitHub issue tracker] to manage bug reports and feature requests.
+If you encounter a problem, please {uri-search-issues}[browse or search] the issues to find out if your problem has already been reported.
+If it has not, you may {uri-issues}/new[submit a new issue].
+
+The best way to get a timely response and quick fix for your issue is to write a detailed report and respond to replies in a timely manner.
+
+If you know Ruby (or you're willing to learn), we encourage you to submit a pull request.
+Please include an RSpec behavior that describes how your feature should work or demonstrates the problem you're encountering.
+Make sure to send your pull request from a branch in your fork.
+If the pull request resolves an issue, please name the branch using the issue number (e.g., issue-N, where N is the issue number).
+
+If you aren't able to submit a pull request, please provide a sample so that the developers can reproduce your scenario.
+
 == Development
 
 To help develop the Jekyll AsciiDoc plugin, or to simply use the development version, you need to retrieve the source from GitHub.
@@ -944,27 +978,27 @@ If you want to build the gem and install it manually, use these commands instead
 This project adheres to the coding style used throughout the Asciidoctor project.
 The coding style is as follows:
 
-* Indent using 2 spaces generally.
+* Indent using 2 spaces, generally.
 
-* Indent conditions, method arguments or ternary expressions that span more than one line using 4 spaces (but not data structures or chained method calls).
+* Indent successive lines of conditions, method arguments or ternary expressions using 4 spaces (but not data structures or chained method calls).
 
-* Don't indent `when` lines in case block.
+* Don't indent `when` lines in a case block.
 
 * Fully qualify the class name (beginning with `::`) of any type not in the current namespace.
 
   ::File.extname path 
 
-* Use triple equals to check for type.
+* Use triple equals to check for type, placing the type on the left hand side.
 
   ::Hash === attrs
 
-* Drop parentheses around method arguments in method definition.
+* Drop parentheses around method arguments of a method definition.
 
   def integrate document, collection_name = nil
     ...
   end
 
-* Drop parentheses around method arguments in isolated method call.
+* Drop parentheses around method arguments of an isolated method call.
 
   source = ::File.expand_path config['source']
 +
@@ -974,7 +1008,7 @@ The coding style is as follows:
 +
   asciidoctor_config.replace Utils.symbolize_keys asciidoctor_config
 
-* Use parentheses outside of method call when parentheses are required.
+* Use parentheses outside of a method call when parentheses are required.
 
   layout = collection_name ? (collection_name.chomp 's') : 'page'
 +
@@ -982,7 +1016,7 @@ The coding style is as follows:
     ...
   end
 
-* Use parentheses where required, such as around initial accumulator value for predicates.
+* Use parentheses where required, such as around the accumulator seed value for a collection predicate.
 
   hash.each_with_object({}) {|(key, val), accum| accum[key.to_sym] = val }
 
@@ -1039,7 +1073,7 @@ Next, package, tag and release the gem to RubyGems.org, run the following rake t
 
  $ bundle exec rake release
 
-IMPORTANT: Ensure you have the proper credentials setup as described in the guide {uri-publish-gem}[Publishing to RubyGems.org].
+IMPORTANT: Ensure you have the proper credentials setup as described in the guide {uri-guide-publish-gem}[Publishing to RubyGems.org].
 
 Once you finish the release, you should update the version to the next micro version in the sequence using the `.dev` suffix (e.g., 1.0.1.dev).
 
