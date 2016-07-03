@@ -812,6 +812,8 @@ You can still automate publishing of the generated site to GitHub Pages using a 
 Refer to the http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] tutorial to find step-by-step instructions.
 You can also refer to the https://github.com/johncarl81/transfuse-site[Tranfuse website build^] for an example in practice.
 
+TIP: When using this setup, don't forget to add the [path]_.nojekyll_ file to the root of the source to tell GitLab Pages not to waste time running Jekyll again on the server.
+
 === Jekyll AsciiDoc Quickstart
 
 If you want to take a shortcut that skips all the steps in the previously mentioned tutorial, clone the {uri-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
