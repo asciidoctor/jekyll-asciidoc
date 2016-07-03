@@ -14,6 +14,8 @@ module Jekyll
         site.find_generator_instance self
       end
 
+      # This method is triggered each time the site is generated, including after any file has changed when
+      # running in watch mode (regardless of incremental setting).
       def generate site
         @converter = converter = (Converter.get_instance site).setup
 
@@ -37,8 +39,9 @@ module Jekyll
           end
         end
 
-        if (attrs = site.config['asciidoctor'][:attributes]) &&
-            ((attrs['source-highlighter'] || '').chomp '@') == 'pygments' &&
+        attrs = site.config['asciidoctor'][:attributes]
+        attrs['localdate'], attrs['localtime'] = (site.time.strftime '%Y-%m-%d %H:%M:%S %Z').split ' ', 2
+        if ((attrs['source-highlighter'] || '').chomp '@') == 'pygments' &&
             ((attrs['pygments-css'] || '').chomp '@') != 'style' && (attrs.fetch 'pygments-stylesheet', '')
           generate_pygments_stylesheet site, attrs
         end

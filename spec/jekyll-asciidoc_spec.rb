@@ -469,6 +469,27 @@ describe Jekyll::AsciiDoc do
     end if ::Jekyll::MIN_VERSION_3
   end
 
+  describe 'explicit site time' do
+    let :name do
+      'explicit_site_time'
+    end
+
+    before :each do
+      site.process
+    end
+
+    it 'should set localdatetime on AsciiDoc pages to match site time and timezone' do
+      expect(asciidoctor_config = site.config['asciidoctor']).to be_a(::Hash)
+      expect(attrs = asciidoctor_config[:attributes]).to be_a(::Hash)
+      expect(attrs['localdate']).to eql(site.time.strftime '%Y-%m-%d')
+      expect(attrs['localtime']).to eql(site.time.strftime '%H:%M:%S %Z')
+      file = output_file 'home.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to match(%(localdatetime=#{site.time.strftime '%Y-%m-%d %H:%M:%S %Z'}))
+    end
+  end
+
   describe 'safe mode' do
     let :name do
       'safe_mode'

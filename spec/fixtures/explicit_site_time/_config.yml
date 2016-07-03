@@ -1,0 +1,4 @@
+time: 2016-07-04T09:15:00
+timezone: UTC
+gems:
+  - jekyll-asciidoc
