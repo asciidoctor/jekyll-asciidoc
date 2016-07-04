@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version = Jekyll::AsciiDoc::VERSION
   s.summary = 'A Jekyll plugin that converts AsciiDoc source files in your site to HTML pages using Asciidoctor.'
   s.description = 'A Jekyll plugin that converts AsciiDoc source files in your site to HTML pages using Asciidoctor.'
-  s.authors = ['Dan Allen']
+  s.authors = ['Dan Allen', 'Paul Rayner']
   s.email = ['dan.j.allen@gmail.com']
   s.homepage = 'https://github.com/asciidoctor/jekyll-asciidoc'
   s.license = 'MIT'
