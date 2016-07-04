@@ -72,7 +72,7 @@ module Jekyll
         unless (adoc_header_data = doc.attributes
             .each_with_object({}) {|(key, val), accum|
               if no_prefix || ((key.start_with? @page_attr_prefix) && key = key[prefix_size..-1])
-                accum[key] = ::String === val ? (Utils.parse_yaml_value val) : val
+                accum[key] = ::String === val ? (parse_yaml_value val) : val
               end
             }).empty?
           document.data.update adoc_header_data
@@ -112,6 +112,34 @@ module Jekyll
           ::Asciidoctor::Helpers.mkdir_p ::File.dirname css_file
           ::IO.write css_file, css
           site.static_files << (::Jekyll::StaticFile.new site, css_base, css_dir, css_name)
+        end
+      end
+
+      private
+
+      # Parse the specified value as though it is a single-line value part of a
+      # YAML key/value pair.
+      #
+      # Attempt to parse the specified String value as though it is a
+      # single-line value part of a YAML key/value pair. If the value fails to
+      # parse, wrap the value in single quotes (after escaping any single
+      # quotes in the value) and parse it as a character sequence. If the value
+      # is empty, return an empty String.
+      #
+      # val - The String value to parse.
+      #
+      # Returns an [Object] parsed from the string-based YAML value or empty
+      # [String] if the specified value is empty.
+      def parse_yaml_value val
+        if val.empty?
+          ''
+        else
+          begin
+            ::SafeYAML.load %(--- #{val})
+          rescue
+            val = val.gsub '\'', '\'\'' if val.include? '\''
+            ::SafeYAML.load %(--- \'#{val}\')
+          end
         end
       end
     end

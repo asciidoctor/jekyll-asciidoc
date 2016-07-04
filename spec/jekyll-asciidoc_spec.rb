@@ -13,6 +13,10 @@ describe Jekyll::AsciiDoc do
     site.find_converter_instance ::Jekyll::AsciiDoc::Converter
   end
 
+  let :integrator do
+    site.generators.find {|g| ::Jekyll::AsciiDoc::Integrator === g }
+  end
+
   describe 'default configuration' do
     let :name do
       'default_config'
@@ -127,17 +131,17 @@ describe Jekyll::AsciiDoc do
     end
 
     it 'should parse string as YAML value' do
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '').to eql('')
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value 'true').to be true
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value 'false').to be false
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '~').to be_nil
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '1').to eql(1)
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '[one, two]').to eql(['one', 'two'])
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value 'John\'s House').to eql('John\'s House')
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '\'bar\'').to eql('bar')
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '\'').to eql('\'')
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '-').to eql('-')
-      expect(::Jekyll::AsciiDoc::Utils.parse_yaml_value '@').to eql('@')
+      expect(integrator.send :parse_yaml_value, '').to eql('')
+      expect(integrator.send :parse_yaml_value, 'true').to be true
+      expect(integrator.send :parse_yaml_value, 'false').to be false
+      expect(integrator.send :parse_yaml_value, '~').to be_nil
+      expect(integrator.send :parse_yaml_value, '1').to eql(1)
+      expect(integrator.send :parse_yaml_value, '[one, two]').to eql(['one', 'two'])
+      expect(integrator.send :parse_yaml_value, 'John\'s House').to eql('John\'s House')
+      expect(integrator.send :parse_yaml_value, '\'bar\'').to eql('bar')
+      expect(integrator.send :parse_yaml_value, '\'').to eql('\'')
+      expect(integrator.send :parse_yaml_value, '-').to eql('-')
+      expect(integrator.send :parse_yaml_value, '@').to eql('@')
     end
   end
 
