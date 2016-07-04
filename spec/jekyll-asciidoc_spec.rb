@@ -10,7 +10,7 @@ describe Jekyll::AsciiDoc do
   end
 
   let :converter do
-    site.find_converter_instance ::Jekyll::AsciiDoc::Converter
+    ::Jekyll::AsciiDoc::Converter.get_instance site
   end
 
   let :integrator do
@@ -457,21 +457,15 @@ describe Jekyll::AsciiDoc do
 
     it 'should only register pre and post render hooks once' do
       hooks_registry = ::Jekyll::Hooks.instance_variable_get :@registry
-      after_site_reset = hooks_registry[:site][:after_reset].pop
-      begin
-        expect(hooks_registry[:pages][:pre_render].size).to eql(1)
-        expect(hooks_registry[:pages][:post_render].size).to eql(1)
-        expect(hooks_registry[:documents][:pre_render].size).to eql(1)
-        expect(hooks_registry[:documents][:post_render].size).to eql(1)
-        site.process
-        expect(hooks_registry).to be_a(::Jekyll::AsciiDoc::Configured)
-        expect(hooks_registry[:pages][:pre_render].size).to eql(1)
-        expect(hooks_registry[:pages][:post_render].size).to eql(1)
-        expect(hooks_registry[:documents][:pre_render].size).to eql(1)
-        expect(hooks_registry[:documents][:post_render].size).to eql(1)
-      ensure
-        hooks_registry[:site][:after_reset] << after_site_reset
-      end
+      expect(hooks_registry[:pages][:pre_render].size).to eql(1)
+      expect(hooks_registry[:pages][:post_render].size).to eql(1)
+      expect(hooks_registry[:documents][:pre_render].size).to eql(1)
+      expect(hooks_registry[:documents][:post_render].size).to eql(1)
+      site.process
+      expect(hooks_registry[:pages][:pre_render].size).to eql(1)
+      expect(hooks_registry[:pages][:post_render].size).to eql(1)
+      expect(hooks_registry[:documents][:pre_render].size).to eql(1)
+      expect(hooks_registry[:documents][:post_render].size).to eql(1)
     end if ::Jekyll::MIN_VERSION_3
   end
 
@@ -493,6 +487,7 @@ describe Jekyll::AsciiDoc do
       file = output_file 'home.html'
       expect(::File).to exist(file)
       contents = ::File.read file
+      expect(contents).to match('<title>Home Page</title>')
       expect(contents).to match('<p>Footer for home layout.</p>')
     end
   end

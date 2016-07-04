@@ -16,16 +16,7 @@ module Jekyll
       end
 
       def generate site
-        @converter = converter = (site.find_converter_instance Converter).setup
-
-        if defined? ::Jekyll::Hooks
-          # NOTE the hooks registry is global, so guard against registering hooks again on regenerate
-          unless Configured === (registry = (hooks = ::Jekyll::Hooks).instance_variable_get :@registry)
-            hooks.register [:pages, :documents], :pre_render, &(Converter.method :before_render)
-            hooks.register [:pages, :documents], :post_render, &(Converter.method :after_render)
-            registry.extend Configured
-          end
-        end
+        @converter = converter = (Converter.get_instance site).setup
 
         unless (@page_attr_prefix = site.config['asciidoc']['page_attribute_prefix']).empty?
           @page_attr_prefix = %(#{@page_attr_prefix}-)

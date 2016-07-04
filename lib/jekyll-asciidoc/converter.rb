@@ -131,6 +131,10 @@ module Jekyll
         self
       end
 
+      def self.get_instance site
+        site.find_converter_instance self
+      end
+
       def matches ext
         ext =~ @asciidoc_config['ext_re']
       end
@@ -140,11 +144,11 @@ module Jekyll
       end
 
       def self.before_render document, payload
-        (document.site.find_converter_instance Converter).before_render document, payload if Document === document
+        (get_instance document.site).before_render document, payload if Document === document
       end
 
       def self.after_render document
-        (document.site.find_converter_instance Converter).after_render document if Document === document
+        (get_instance document.site).after_render document if Document === document
       end
 
       def before_render document, payload
@@ -256,6 +260,11 @@ module Jekyll
           text
         end
       end
+
+      ::Jekyll::Hooks.tap do |hooks|
+        hooks.register [:pages, :documents], :pre_render, &(method :before_render)
+        hooks.register [:pages, :documents], :post_render, &(method :after_render)
+      end if defined? ::Jekyll::Hooks
     end
   end
 end
