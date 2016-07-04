@@ -9,14 +9,14 @@ module Jekyll
   module Hooks; extend self
     # deep dup hashes and shallow dup the leaves
     def deep_dup h
-      h.each_with_object({}) {|(k, v), new_h| new_h[k] = ::Hash === v ? (deep_dup v) : v.dup }
+      h.each_with_object({}) {|(k, v), accum| accum[k] = ::Hash === v ? (deep_dup v) : v.dup }
     end
 
     def reset site
       @registry = deep_dup @initial_registry
     end
 
-    register :site, :after_reset, &(method :reset)
+    register :site, :after_reset, priority: :high, &(method :reset)
     @initial_registry = deep_dup @registry
   end
 end if defined? Jekyll::Hooks
