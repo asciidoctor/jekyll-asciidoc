@@ -5,6 +5,13 @@
 This document provides a high-level view of the changes to the {project-name} by release.
 For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
 
+== 2.0.1 (unreleased)
+
+* don't register hook callbacks again when regenerating site
+* use static methods for hook callbacks
+* bundle CHANGELOG.adoc and test suite in gem
+* minor improvements to README
+
 == 2.0.0 (2016-07-02) - @mojavelinux
 
 * Split source into multiple files; move all classes under the `Jekyll::AsciiDoc` module
