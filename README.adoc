@@ -205,11 +205,15 @@ You can now build your site using:
 
  $ jekyll build
 
-and preview it using:
+or preview it using:
 
  $ jekyll serve
 
-If you're using Bundler, then prefix the commands with `bundle exec`, as in:
+You can continuously build without preview using:
+
+ $ jekyll build --watch
+
+If you're using Bundler, prefix the commands with `bundle exec`, as in:
 
  $ bundle exec jekyll build
 
