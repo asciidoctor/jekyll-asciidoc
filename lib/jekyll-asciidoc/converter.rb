@@ -137,12 +137,20 @@ module Jekyll
         '.html'
       end
 
+      def self.before_render document, payload
+        (Utils.get_converter document.site).before_render document, payload if Document === document
+      end
+
+      def self.after_render document
+        (Utils.get_converter document.site).after_render document if Document === document
+      end
+
       def before_render document, payload
-        record_path_info document if Document === document
+        record_path_info document
       end
 
       def after_render document
-        clear_path_info if Document === document
+        clear_path_info
       end
 
       def record_path_info document, opts = {}
