@@ -15,11 +15,11 @@ module Jekyll
         @converter = converter = (Utils.get_converter site).setup
 
         if defined? ::Jekyll::Hooks
-          before_render_callback = converter.method :before_render
-          after_render_callback = converter.method :after_render
-          [:pages, :documents].each do |collection_name|
-            ::Jekyll::Hooks.register collection_name, :pre_render, &before_render_callback
-            ::Jekyll::Hooks.register collection_name, :post_render, &after_render_callback
+          # NOTE the hooks registry is global, so guard against registering hooks again on regenerate
+          unless Configured === (registry = (hooks = ::Jekyll::Hooks).instance_variable_get :@registry)
+            hooks.register [:pages, :documents], :pre_render, &(Converter.method :before_render)
+            hooks.register [:pages, :documents], :post_render, &(Converter.method :after_render)
+            registry.extend Configured
           end
         end
 

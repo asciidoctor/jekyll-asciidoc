@@ -445,6 +445,25 @@ describe Jekyll::AsciiDoc do
         expect(contents).to match(%(docname=#{::File.basename src_file, '.adoc'}))
       end
     end
+
+    it 'should only register pre and post render hooks once' do
+      hooks_registry = ::Jekyll::Hooks.instance_variable_get :@registry
+      after_site_reset = hooks_registry[:site][:after_reset].pop
+      begin
+        expect(hooks_registry[:pages][:pre_render].size).to eql(1)
+        expect(hooks_registry[:pages][:post_render].size).to eql(1)
+        expect(hooks_registry[:documents][:pre_render].size).to eql(1)
+        expect(hooks_registry[:documents][:post_render].size).to eql(1)
+        site.process
+        expect(hooks_registry).to be_a(::Jekyll::AsciiDoc::Configured)
+        expect(hooks_registry[:pages][:pre_render].size).to eql(1)
+        expect(hooks_registry[:pages][:post_render].size).to eql(1)
+        expect(hooks_registry[:documents][:pre_render].size).to eql(1)
+        expect(hooks_registry[:documents][:post_render].size).to eql(1)
+      ensure
+        hooks_registry[:site][:after_reset] << after_site_reset
+      end
+    end if ::Jekyll::MIN_VERSION_3
   end
 
   describe 'safe mode' do
