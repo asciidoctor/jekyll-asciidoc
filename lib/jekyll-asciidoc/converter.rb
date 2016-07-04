@@ -77,7 +77,7 @@ module Jekyll
         if (@asciidoc_config = asciidoc_config)['processor'] == 'asciidoctor'
           unless Configured === (@asciidoctor_config = (config['asciidoctor'] ||= {}))
             asciidoctor_config = @asciidoctor_config
-            asciidoctor_config.replace(symbolize_keys asciidoctor_config)
+            asciidoctor_config.replace (symbolize_keys asciidoctor_config)
             source = ::File.expand_path config['source']
             dest = ::File.expand_path config['destination']
             case (base = asciidoctor_config[:base_dir])

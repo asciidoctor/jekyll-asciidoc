@@ -113,7 +113,7 @@ module Jekyll
         if site.static_files.any? {|f| f.path == css_file }
           ::IO.write css_file, css unless css == (::IO.read css_file)
         else
-          ::Asciidoctor::Helpers.mkdir_p ::File.dirname css_file
+          ::Asciidoctor::Helpers.mkdir_p (::File.dirname css_file)
           ::IO.write css_file, css
           site.static_files << (::Jekyll::StaticFile.new site, css_base, css_dir, css_name)
         end

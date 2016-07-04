@@ -1014,8 +1014,10 @@ The coding style is as follows:
   if key.start_with? '!'
     ...
   end
-+
-  asciidoctor_config.replace Utils.symbolize_keys asciidoctor_config
+
+* For chained method calls, wrap parentheses around nested method call.
+
+  asciidoctor_config.replace (Utils.symbolize_keys asciidoctor_config)
 
 * Use parentheses outside of a method call when parentheses are required.
 
