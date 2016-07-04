@@ -14,7 +14,7 @@ describe Jekyll::AsciiDoc do
   end
 
   let :integrator do
-    site.generators.find {|g| ::Jekyll::AsciiDoc::Integrator === g }
+    ::Jekyll::AsciiDoc::Integrator.get_instance site
   end
 
   describe 'default configuration' do

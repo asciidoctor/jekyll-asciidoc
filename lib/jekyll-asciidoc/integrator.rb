@@ -11,6 +11,10 @@ module Jekyll
       # jekyll-asciidoc gem must also be declared in whitelist
       safe true
 
+      def self.get_instance site
+        site.find_generator_instance self
+      end
+
       def generate site
         @converter = converter = (site.find_converter_instance Converter).setup
 
