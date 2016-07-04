@@ -204,6 +204,11 @@ describe Jekyll::AsciiDoc do
       result = converter.send :hashify_attributes, {'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}\{bar}'}
       expect(result['foobar']).to eql('foo{bar}')
     end
+
+    it 'should leave unresolved attribute reference in place' do
+      result = converter.send :hashify_attributes, {'foo' => 'foo', 'foobar' => '{foo}{bar}'}
+      expect(result['foobar']).to eql('foo{bar}')
+    end
   end
 
   describe 'attributes as hash' do

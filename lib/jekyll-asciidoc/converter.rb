@@ -246,19 +246,11 @@ module Jekyll
         end
       end
 
-      def resolve_attribute_refs text, table
+      def resolve_attribute_refs text, attrs
         if text.empty?
           text
         elsif text.include? '{'
-          text.gsub AttributeReferenceRx do
-            if $&.start_with? '\\'
-              $&[1..-1]
-            elsif (value = table[$1])
-              value
-            else
-              $&
-            end
-          end
+          text.gsub(AttributeReferenceRx) { ((m = $&).start_with? '\\') ? m[1..-1] : (attrs.fetch $1, m) }
         else
           text
         end
