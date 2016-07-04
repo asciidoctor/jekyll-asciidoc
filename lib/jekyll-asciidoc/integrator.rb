@@ -5,7 +5,7 @@ module Jekyll
     # certain page-level settings.
     class Integrator < ::Jekyll::Generator
       NewLine = Utils::NewLine
-      StandaloneOptionLine = Utils::StandaloneOptionLine
+      StandaloneOptionLine = Converter::StandaloneOptionLine
 
       # Enable plugin when running in safe mode
       # jekyll-asciidoc gem must also be declared in whitelist

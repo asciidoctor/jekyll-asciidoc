@@ -18,10 +18,11 @@ module Jekyll
         'jekyll-version' => ::Jekyll::VERSION
       }
       MessageTopic = Utils::MessageTopic
-      StandaloneOptionLine = Utils::StandaloneOptionLine
+      NewLine = Utils::NewLine
+      StandaloneOptionLine = %([%standalone]#{NewLine})
 
       AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
-      HeaderBoundaryRx = /(?<=\p{Graph})#{Utils::NewLine * 2}/
+      HeaderBoundaryRx = /(?<=\p{Graph})#{NewLine * 2}/
 
       # Enable plugin when running in safe mode
       # jekyll-asciidoc gem must also be declared in whitelist
