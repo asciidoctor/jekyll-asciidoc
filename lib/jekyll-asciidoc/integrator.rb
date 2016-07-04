@@ -12,7 +12,7 @@ module Jekyll
       safe true
 
       def generate site
-        @converter = converter = (Utils.get_converter site).setup
+        @converter = converter = (site.find_converter_instance Converter).setup
 
         if defined? ::Jekyll::Hooks
           # NOTE the hooks registry is global, so guard against registering hooks again on regenerate

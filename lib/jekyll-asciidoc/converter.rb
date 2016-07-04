@@ -17,9 +17,10 @@ module Jekyll
         'builder-jekyll' => '',
         'jekyll-version' => ::Jekyll::VERSION
       }
-      MessageTopic = 'Jekyll AsciiDoc:'
+      MessageTopic = Utils::MessageTopic
       StandaloneOptionLine = Utils::StandaloneOptionLine
 
+      AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
       HeaderBoundaryRx = /(?<=\p{Graph})#{Utils::NewLine * 2}/
 
       # Enable plugin when running in safe mode
@@ -75,7 +76,7 @@ module Jekyll
         if (@asciidoc_config = asciidoc_config)['processor'] == 'asciidoctor'
           unless Configured === (@asciidoctor_config = (config['asciidoctor'] ||= {}))
             asciidoctor_config = @asciidoctor_config
-            asciidoctor_config.replace Utils.symbolize_keys asciidoctor_config
+            asciidoctor_config.replace(symbolize_keys asciidoctor_config)
             source = ::File.expand_path config['source']
             dest = ::File.expand_path config['destination']
             case (base = asciidoctor_config[:base_dir])
@@ -99,7 +100,7 @@ module Jekyll
               'site-baseurl' => config['baseurl'],
               'site-url' => config['url']
             }
-            attrs = asciidoctor_config[:attributes] = Utils.hashify_attributes asciidoctor_config[:attributes],
+            attrs = asciidoctor_config[:attributes] = hashify_attributes asciidoctor_config[:attributes],
                 ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes)
             if (imagesdir = attrs['imagesdir']) && !(attrs.key? 'imagesoutdir') && (imagesdir.start_with? '/')
               attrs['imagesoutdir'] = ::File.join dest, imagesdir
@@ -138,11 +139,11 @@ module Jekyll
       end
 
       def self.before_render document, payload
-        (Utils.get_converter document.site).before_render document, payload if Document === document
+        (document.site.find_converter_instance Converter).before_render document, payload if Document === document
       end
 
       def self.after_render document
-        (Utils.get_converter document.site).after_render document if Document === document
+        (document.site.find_converter_instance Converter).after_render document if Document === document
       end
 
       def before_render document, payload
@@ -219,6 +220,47 @@ module Jekyll
         else
           @logger.warn MessageTopic, %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
           content
+        end
+      end
+
+      private
+
+      def symbolize_keys hash
+        hash.each_with_object({}) {|(key, val), accum| accum[key.to_sym] = val }
+      end
+
+      def hashify_attributes attrs, initial = {}
+        if (is_array = ::Array === attrs) || ::Hash === attrs
+          attrs.each_with_object(initial) {|entry, new_attrs|
+            key, val = is_array ? ((entry.split '=', 2) + ['', ''])[0..1] : entry
+            if key.start_with? '!'
+              new_attrs[key[1..-1]] = nil
+            elsif key.end_with? '!'
+              new_attrs[key.chop] = nil
+            else
+              new_attrs[key] = val ? (resolve_attribute_refs val, new_attrs) : nil
+            end
+          }
+        else
+          initial
+        end
+      end
+
+      def resolve_attribute_refs text, table
+        if text.empty?
+          text
+        elsif text.include? '{'
+          text.gsub AttributeReferenceRx do
+            if $&.start_with? '\\'
+              $&[1..-1]
+            elsif (value = table[$1])
+              value
+            else
+              $&
+            end
+          end
+        else
+          text
         end
       end
     end
