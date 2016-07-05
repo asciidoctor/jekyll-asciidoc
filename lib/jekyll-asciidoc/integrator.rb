@@ -7,8 +7,7 @@ module Jekyll
       NewLine = Utils::NewLine
       StandaloneOptionLine = Converter::StandaloneOptionLine
 
-      # Enable plugin when running in safe mode
-      # jekyll-asciidoc gem must also be declared in whitelist
+      # Enable plugin when running in safe mode; jekyll-asciidoc gem must also be declared in whitelist
       safe true
 
       def self.get_instance site

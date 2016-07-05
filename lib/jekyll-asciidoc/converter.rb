@@ -24,8 +24,7 @@ module Jekyll
       AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
       HeaderBoundaryRx = /(?<=\p{Graph})#{NewLine * 2}/
 
-      # Enable plugin when running in safe mode
-      # jekyll-asciidoc gem must also be declared in whitelist
+      # Enable plugin when running in safe mode; jekyll-asciidoc gem must also be declared in whitelist
       safe true
 
       # highlighter prefix/suffix not used by this plugin; defined only to avoid warning
