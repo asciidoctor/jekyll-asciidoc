@@ -260,6 +260,7 @@ module Jekyll
         end
       end
 
+      # Register pre and post render callbacks for saving and clearing contextual AsciiDoc attributes, respectively.
       ::Jekyll::Hooks.tap do |hooks|
         hooks.register [:pages, :documents], :pre_render, &(method :before_render)
         hooks.register [:pages, :documents], :post_render, &(method :after_render)

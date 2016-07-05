@@ -1,8 +1,8 @@
 module Jekyll
   module AsciiDoc
-    # Registers before and after render hooks to set contextual attributes,
-    # promotes eligible AsciiDoc attributes to page variables, and applies
-    # certain page-level settings.
+    # Promotes eligible AsciiDoc attributes to page variables and applies page-level settings to all documents handled
+    # by the converter included with this plugin. It also copies the custom Pygments stylesheet if Pygments is the
+    # source highlighter and configured to use class-based styling.
     class Integrator < ::Jekyll::Generator
       NewLine = Utils::NewLine
       StandaloneOptionLine = Converter::StandaloneOptionLine
