@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe Jekyll::AsciiDoc do
+describe 'Jekyll::AsciiDoc' do
   let :config do
     ::Jekyll.configuration(fixture_site_params name)
   end
