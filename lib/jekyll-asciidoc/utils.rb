@@ -8,9 +8,7 @@ module Jekyll
         (::File.extname path) =~ asciidoc_ext_re ? true : (dlg_method.call path)
       end
 
-      begin # supports Jekyll >= 2.3.0
-        define_method :has_yaml_header?, &(::Jekyll::Utils.method :has_yaml_header?)
-      rescue ::NameError; end
+      define_method :has_yaml_header?, &(::Jekyll::Utils.method :has_yaml_header?)
     end
   end
 end
