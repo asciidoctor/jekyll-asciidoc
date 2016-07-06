@@ -7,8 +7,8 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 
 == 2.0.1 (unreleased)
 
-* don't register hook callbacks again when regenerating site
-* use static methods for hook callbacks
+* align localtime and localdate attributes with site.time and site.timezone (#117)
+* don't register hook callbacks again when regenerating site; use static methods for hook callbacks (#121)
 * bundle CHANGELOG.adoc and test suite in gem
 * minor improvements to README
 
