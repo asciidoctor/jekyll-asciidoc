@@ -442,7 +442,7 @@ Each template file corresponds to a node in the AsciiDoc document tree (aka AST)
 
 Below are the steps you need to take to configure Asciidoctor to use custom templates with your site.
 
-=== Step 1: Add Required Gems
+=== Step {counter:step}: Add Required Gems
 
 You'll first need to add the thread_safe gem as well as the gem for the templating language you plan to use.
 We'll assume that you are using Slim.
@@ -453,19 +453,19 @@ gem 'slim', '~> 3.0.7'
 gem 'thread_safe', '~> 0.3.5'
 ----
 
-=== Step 2: Install New Gems
+=== Step {counter:step}: Install New Gems
 
 Now run the `bundle` command to install the new gems.
 
  $ bundle
 
-=== Step 3: Create a Templates Folder
+=== Step {counter:step}: Create a Templates Folder
 
 Next, create a new folder in your site named [path]__templates_ to store your templates.
 
  $ mkdir _templates
 
-=== Step 4: Configure Asciidoctor to Load Templates
+=== Step {counter:step}: Configure Asciidoctor to Load Templates
 
 In your site's {path-config} file, configure Asciidoctor to load the templates by telling it the location where the templates are stored.
 
@@ -476,7 +476,7 @@ asciidoctor:
   attributes: ...
 ----
 
-=== Step 5: Compose a Template
+=== Step {counter:step}: Compose a Template
 
 The final step is to compose a template.
 We'll be customizing the unordered list node.
