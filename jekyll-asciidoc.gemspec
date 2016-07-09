@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.email = ['dan.j.allen@gmail.com']
   s.homepage = 'https://github.com/asciidoctor/jekyll-asciidoc'
   s.license = 'MIT'
+  s.required_ruby_version = '>= 1.9.3'
 
   files = begin
     output = IO.popen('git ls-files -z', err: File::NULL) {|io| io.read }.split %(\0)
