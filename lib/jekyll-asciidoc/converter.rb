@@ -34,7 +34,7 @@ module Jekyll
       def initialize config
         @config = config
         @logger = ::Jekyll.logger
-        @path_info = nil
+        @page_context = {}
         @setup = false
 
         # NOTE jekyll-watch reinitializes plugins using a shallow clone of config, so no need to reconfigure
@@ -151,47 +151,48 @@ module Jekyll
       end
 
       def before_render document, payload
-        record_path_info document
+        if Document === document
+          @page_context[:data] = document.data
+          record_paths document
+        end
       end
 
       def after_render document
-        clear_path_info
+        @page_context.clear if Document === document
       end
 
-      def record_path_info document, opts = {}
-        @path_info = {
+      def record_paths document, opts = {}
+        @page_context[:paths] = paths = {
           'docfile' => (docfile = ::File.join document.site.source, document.relative_path),
           'docdir' => (::File.dirname docfile),
           'docname' => (::File.basename docfile, (::File.extname docfile))
         }
-        unless opts[:source_only]
-          @path_info.update({
-            'outfile' => (outfile = document.destination document.site.dest),
-            'outdir' => (::File.dirname outfile),
-            'outpath' => document.url
-          })
-        end
+        paths.update({
+          'outfile' => (outfile = document.destination document.site.dest),
+          'outdir' => (::File.dirname outfile),
+          'outpath' => document.url
+        }) unless opts[:source_only]
       end
 
-      def clear_path_info
-        @path_info = nil
+      def clear_paths
+        @page_context.delete :paths
       end
 
       def load_header document
         setup
-        record_path_info document, source_only: true if defined? ::Jekyll::Hooks
+        record_paths document, source_only: true if defined? ::Jekyll::Hooks
         # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
         header = (document.content.split HeaderBoundaryRx, 2)[0]
         case @asciidoc_config['processor']
         when 'asciidoctor'
           opts = @asciidoctor_config.merge parse_header_only: true
-          if @path_info
+          if (paths = @page_context[:paths])
             if opts[:base_dir] == :docdir
-              opts[:base_dir] = @path_info['docdir'] # NOTE this assignment happens inside the processor anyway
+              opts[:base_dir] = paths['docdir'] # NOTE this assignment happens inside the processor anyway
             else
-              @path_info.delete 'docdir'
+              paths.delete 'docdir'
             end
-            opts[:attributes] = opts[:attributes].merge @path_info
+            opts[:attributes] = opts[:attributes].merge paths
           end
           # NOTE return instance even if header is empty since attributes may be inherited from config
           doc = ::Asciidoctor.load header, opts
@@ -199,7 +200,7 @@ module Jekyll
           @logger.warn MessageTopic, %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.)
           doc = nil
         end
-        clear_path_info if defined? ::Jekyll::Hooks
+        clear_paths if defined? ::Jekyll::Hooks
         doc
       end
 
@@ -212,15 +213,15 @@ module Jekyll
         case @asciidoc_config['processor']
         when 'asciidoctor'
           opts = @asciidoctor_config.merge header_footer: standalone
-          if @path_info
+          if (paths = @page_context[:paths])
             if opts[:base_dir] == :docdir
-              opts[:base_dir] = @path_info['docdir'] # NOTE this assignment happens inside the processor anyway
+              opts[:base_dir] = paths['docdir'] # NOTE this assignment happens inside the processor anyway
             else
-              @path_info.delete 'docdir'
+              paths.delete 'docdir'
             end
-            opts[:attributes] = opts[:attributes].merge @path_info
+            opts[:attributes] = opts[:attributes].merge paths
           end
-          ::Asciidoctor.convert content, opts
+          ((@page_context[:data] || {})['document'] = ::Asciidoctor.load content, opts).extend(Liquidable).convert
         else
           @logger.warn MessageTopic, %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
           content

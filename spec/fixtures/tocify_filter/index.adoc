@@ -1,0 +1,25 @@
+= Page Title
+
+== Major Section A
+
+content
+
+=== Minor Section A.1
+
+content
+
+== Major Section B
+
+content
+
+=== Minor Section B.1
+
+content
+
+==== Micro Section B.1.1
+
+content
+
+== Major Section C
+
+content

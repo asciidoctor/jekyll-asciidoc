@@ -5,29 +5,35 @@
 This document provides a high-level view of the changes to the {project-name} by release.
 For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
 
+== Unreleased
+
+* Add `tocify_asciidoc` Liquid filter for generating a table of contents from the parsed AsciiDoc document (Jekyll 3+ only)
+* Set minimum version of Ruby to 1.9.3 in the gemspec
+
 == 2.0.1 (2016-07-06) - @mojavelinux
 
-* align localtime and localdate attributes with site.time and site.timezone (#117)
-* don't register hook callbacks again when regenerating site; use static methods for hook callbacks (#121)
-* bundle CHANGELOG.adoc and test suite in gem
-* minor improvements to README
+* Align localtime and localdate attributes with site.time and site.timezone (#117)
+* Don't register hook callbacks again when regenerating site; use static methods for hook callbacks (#121)
+* Bundle CHANGELOG.adoc and test suite in gem
+* Minor improvements to README
 
 == 2.0.0 (2016-07-02) - @mojavelinux
 
 * Split source into multiple files; move all classes under the `Jekyll::AsciiDoc` module
 * Avoid redundant initialization caused by the jekyll-watch plugin
-* Set docdir, docfile, docname, outfile, outdir, and outpath attributes for each file if using Jekyll 3 (#59)
+* Set docdir, docfile, docname, outfile, outdir, and outpath attributes for each file (Jekyll 3+ only) (#59)
   - docdir is only set if value of `base_dir` option is `:docdir`
   - setting outdir allows proper integration with Asciidoctor Diagram
 * Automatically set `imagesoutdir` attribute if `imagesdir` attribute is relative to root
 * Pass site information (root, source, destination, baseurl and url) through as AsciiDoc attributes
 * Automatically generate stylesheet for Pygments (#30)
 * Change default layout to match collection label (#104)
-  - page for pages, post for posts, collection label for all others; use default layout as fallback
+  - page for pages, post for posts, collection label for all others
+  - use layout named default as fallback
 * Resolve attribute references in attribute values defined in config (#103)
 * Apply AsciiDoc header integration to documents in all collections (#93)
 * Document how to create and enable templates to customize the HTML that Asciidoctor generates (#73)
-* Allow `base_dir` option to track document directory by setting the value to `:docdir` (#80)
+* Allow `base_dir` option to track document directory by setting the value to `:docdir` (Jekyll 3 only) (#80)
 * Add a comprehensive test suite (#77)
 * Allow site-wide Asciidoctor attributes to be specified as a Hash; convert to Hash if Array is used (#87)
 * Interpret page attribute values as YAML data
@@ -45,7 +51,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * Allow plugin to work in safe mode (#112)
 * Major restructure and rewrite of README
 * Document how to use plugin with GitLab Pages (#47)
-* Document asciidocify filter
+* Document `asciidocify` Liquid filter
 
 {uri-repo}/issues?q=milestone%3Av2.0.0[issues resolved] |
 {uri-repo}/releases/tag/v2.0.0[git tag]
