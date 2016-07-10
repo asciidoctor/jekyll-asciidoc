@@ -229,10 +229,9 @@ To see a report of all the files that are processed, add the `--verbose` flag:
 
  $ jekyll build --verbose
 
-If an AsciiDoc file is not listed, then likely Jekyll did not find a {uri-front-matter}[front matter header].
-
-IMPORTANT: If you use the `--safe` option, the AsciiDoc plugin will not be activated.
-The `--safe` flag disables third-party plugins such as this one.
+IMPORTANT: If you add the `--safe` flag, third-party plugins such as this one are disabled by default.
+To reenable the plugin, you must add the name of the gem to the whitelist.
+See <<Running in Safe Mode>> for details.
 
 == Configuration
 
