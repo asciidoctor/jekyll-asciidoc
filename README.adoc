@@ -183,9 +183,9 @@ To review, here are the different ways to specify a layout using the AsciiDoc at
 
 In addition to page attributes defined explicitly, the following implicit AsciiDoc attributes are also promoted to page variables:
 
-* doctitle (i.e., the document title) (becomes title)
+* doctitle (aka the document title) (becomes title)
 * author
-* revdate (becomes date; value is converted to a DateTime object; only for posts)
+* revdate (becomes date; value is converted to a DateTime object; posts only)
 
 Unlike other content files, the {uri-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (as of version 2.0.0 of this plugin).
 If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the `liquid` page variable (shown here defined using a page attribute).
