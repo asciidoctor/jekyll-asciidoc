@@ -165,6 +165,8 @@ The part of the name after the `page-` prefix is _lowercased_ and used as the en
 
 TIP: Use either a hyphen or an underscore as a word separator for page attributes with multiple words (e.g., page-short-name).
 
+=== Specifying a Layout
+
 The most commonly defined page variable is layout, which determines which template is used to wrap the generated content.
 Jekyll will look for a template file inside the [path]_{empty}_layouts_ folder whose root name matches the name of the layout.
 For example, if the layout variable has the value `info`, Jekyll looks for a layout template at the path [path]__layout/info.html_.
@@ -181,11 +183,15 @@ To review, here are the different ways to specify a layout using the AsciiDoc at
 * `:!page-layout:` or `:page-layout: false` -- don't use a layout; instead, generate a standalone HTML document
 * `:page-layout: ~` -- don't use a layout (often results in an incomplete HTML file)
 
+=== Implicit Page Variables
+
 In addition to page attributes defined explicitly, the following implicit AsciiDoc attributes are also promoted to page variables:
 
 * doctitle (aka the document title) (becomes title)
 * author
 * revdate (becomes date; value is converted to a DateTime object; posts only)
+
+=== Enabling Liquid Preprocessing
 
 Unlike other content files, the {uri-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (as of version 2.0.0 of this plugin).
 If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the `liquid` page variable (shown here defined using a page attribute).
