@@ -65,10 +65,12 @@ Converts AsciiDoc files to HTML pages.
 This plugin currently uses Asciidoctor to convert AsciiDoc content.
 
 Generator -- `Jekyll::AsciiDoc::Integrator`::
-Promotes select AsciiDoc attributes (e.g., title, author, page-layout, page-*) to page variables (merged with the page variables defined in the front matter header).
+Promotes eligible AsciiDoc attributes (e.g., doctitle, author, and attributes that begin with the page attribute prefix) to page variables.
+These attributes are merged with the page variables defined in the front matter header.
 
-Liquid Filter -- `asciidocify`::
-A Liquid filter that uses the converter from this plugin to convert AsciiDoc content to HTML.
+Liquid Filters::
+* `asciidocify` -- Uses the converter from this plugin to convert a string of AsciiDoc content to HTML.
+* `tocify_asciidoc` -- Generates a table of contents in HTML from the parsed AsciiDoc document of the current page (Jekyll 3+ and Asciidoctor only).
 
 These extensions are registered automatically when the [app]*jekyll-asciidoc* gem is required.
 
@@ -779,10 +781,14 @@ asciidoctor:
 
 Then, simply put the icon images that the page needs in the [path]_images/icons_ directory.
 
-== Converting AsciiDoc in Templates
+== Working with AsciiDoc Content in Templates
 
 Jekyll uses the Liquid templating language to process templates.
-This plugin defines an additional filter named `asciidocify` for converting a string of AsciiDoc.
+This plugin defines two additional Liquid filters, `asciidocify` and `tocify_asciidoc`, for working with AsciiDoc content in those templates.
+
+=== Converting a String from AsciiDoc
+
+You can use the `asciidocify` filter to convert an arbitrary AsciiDoc string anywhere in your template.
 
 Let's assume the excerpt of the post is written in AsciiDoc.
 You can convert it in your template as follows:
@@ -791,13 +797,31 @@ You can convert it in your template as follows:
 {{ post.excerpt | asciidocify }}
 ----
 
-If you only want to perform inline substitutions on the content, add the `inline` doctype as the first argument:
+By default, the AsciiDoc content is parsed as a full AsciiDoc document.
+If the content represents a single paragraph, and you only want to perform inline substitutions on that content, add the `inline` doctype as the filter's first argument:
 
 ----
 {{ post.excerpt | asciidocify: 'inline' }}
 ----
 
-This filter allows you to compose site-wide data in AsciiDoc, such your site's description or synopsis, then convert it to HTML for use in the page template(s).
+TIP: This filter allows you to compose site-wide data in AsciiDoc, such your site's description or synopsis, then convert it to HTML for use in the page template(s).
+
+=== Generating a Table of Contents
+
+If you're using Jekyll 3 or better, you can use the `tocify_asciidoc` filter to generate a table of contents in HTML for any page created from an AsciiDoc document.
+
+This filter gets applied to `page.document`, the page variable that resolves to the parsed AsciiDoc document, as shown here:
+
+----
+{{ page.document | tocify_asciidoc }}
+----
+
+The number of section levels (i.e., depth) shown in the table of contents defaults to the value defined by the `toclevels` attribute in the AsciiDoc document.
+To tune the number of levels, pass a numeric value as the filter's first argument.
+
+----
+{{ page.document | tocify_asciidoc: 3 }}
+----
 
 == Using this Plugin on GitHub Pages
 

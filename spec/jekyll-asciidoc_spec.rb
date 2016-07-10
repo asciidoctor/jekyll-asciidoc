@@ -877,4 +877,24 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to match('<img src="/images/sunset.jpg" alt="Sunset" width="408" height="230"/>')
     end
   end
+
+  describe 'tocify filter' do
+    let :name do
+      'tocify_filter'
+    end
+
+    before :each do
+      site.process
+    end
+
+    it 'should generate document outline when tocify_asciidoc filter is applied to page.document' do
+      file = output_file 'index.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      aside = contents.match(/<aside class="page-toc">.*<\/aside>/m)[0]
+      expect(aside).to match('<ul class="sectlevel1">')
+      expect(aside).to match('<a href="#major-section-a">Major Section A</a>')
+      expect(aside).not_to match('Micro Section')
+    end
+  end if ::Jekyll::MIN_VERSION_3
 end

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ page.title }}</title>
+</head>
+<body>
+<div class="page-content">
+{{ content }}
+</div>
+<aside class="page-toc">
+{{ page.document | tocify_asciidoc: 2 }}
+</aside>
+</body>
+</html>
