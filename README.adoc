@@ -163,6 +163,8 @@ puts "Hello, World!"
 AsciiDoc attributes defined in the document header whose names begin with ``page-``footnote:[The prefix used to label page attributes can be customized.] get promoted to page variables.
 The part of the name after the `page-` prefix is _lowercased_ and used as the entry's key (e.g., page-layout becomes layout) and the value is interpeted as {uri-yaml}[YAML] data (that which can be expressed in a single line).
 
+TIP: Use either a hyphen or an underscore as a word separator for page attributes with multiple words (e.g., page-short-name).
+
 The most commonly defined page variable is layout, which determines which template is used to wrap the generated content.
 Jekyll will look for a template file inside the [path]_{empty}_layouts_ folder whose root name matches the name of the layout.
 For example, if the layout variable has the value `info`, Jekyll looks for a layout template at the path [path]__layout/info.html_.
