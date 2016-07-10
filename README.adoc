@@ -205,21 +205,25 @@ In these cases, you define all the page variables (e.g., layout) using AsciiDoc 
 You can also use a combination of both.
 When intermixed, the page attributes defined in the AsciiDoc header take precedence.
 
-You can now build your site using:
+== Building and Previewing Your Site
+
+You can build your site into the [path]__site_ directory using:
 
  $ jekyll build
 
-or preview it using:
+If you're using Bundler, prefix the command with `bundle exec`.
+For example:
+
+[subs=+quotes]
+ $ *bundle exec* jekyll build
+
+You can preview your site at \http://localhost:4000 using:
 
  $ jekyll serve
 
 You can continuously build without preview using:
 
  $ jekyll build --watch
-
-If you're using Bundler, prefix the commands with `bundle exec`, as in:
-
- $ bundle exec jekyll build
 
 To see a report of all the files that are processed, add the `--verbose` flag:
 
