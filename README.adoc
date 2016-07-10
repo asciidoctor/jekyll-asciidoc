@@ -823,7 +823,11 @@ To tune the number of levels, pass a numeric value as the filter's first argumen
 {{ page.document | tocify_asciidoc: 3 }}
 ----
 
-== Using this Plugin on GitHub Pages
+== Publishing Your Site
+
+This section covers several options you have available for publishing your site, including GitHub Pages and GitLab Pages.
+
+=== Using this Plugin on GitHub Pages
 
 GitHub doesn't (yet) whitelist the AsciiDoc plugin, so you must run Jekyll either on your own computer or on a continuous integration (CI) server.
 
@@ -842,12 +846,12 @@ You can also refer to the https://github.com/johncarl81/transfuse-site[Transfuse
 
 TIP: When using this setup, don't forget to add the [path]_.nojekyll_ file to the root of the source to tell GitLab Pages not to waste time running Jekyll again on the server.
 
-=== Jekyll AsciiDoc Quickstart
+==== Jekyll AsciiDoc Quickstart
 
 If you want to take a shortcut that skips all the steps in the previously mentioned tutorial, clone the {uri-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
 JAQ includes a Rake build that is preconfigured to deploy to GitHub Pages from Travis CI and also provides a theme (page layout and CSS) that properly styles body content generated from AsciiDoc.
 
-== Using this Plugin on GitLab Pages
+=== Using this Plugin on GitLab Pages
 
 Deployment to GitLab Pages is much simpler.
 That's because GitLab allows you to control the execution of Jekyll yourself.
