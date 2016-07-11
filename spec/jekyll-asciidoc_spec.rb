@@ -177,40 +177,40 @@ describe 'Jekyll::AsciiDoc' do
     end
 
     it 'should transform negated attribute with trailing ! to attribute with nil value' do
-      result = converter.send :hashify_attributes, {'icons!' => ''}
+      result = converter.send :assemble_attributes, {'icons!' => ''}
       expect(result.key? 'icons').to be true
       expect(result['icons']).to be_nil
     end
 
     it 'should transform negated attribute with leading ! to attribute with nil value' do
-      result = converter.send :hashify_attributes, {'!icons' => ''}
+      result = converter.send :assemble_attributes, {'!icons' => ''}
       expect(result.key? 'icons').to be true
       expect(result['icons']).to be_nil
     end
 
     it 'should remove existing attribute when attribute is unset' do
-      result = converter.send :hashify_attributes, {'icons' => 'font', '!icons' => ''}
+      result = converter.send :assemble_attributes, {'icons' => 'font', '!icons' => ''}
       expect(result.key? 'icons').to be true
       expect(result['icons']).to be_nil
     end
 
     it 'should assign existing attribute to new value when set again' do
-      result = converter.send :hashify_attributes, ['!icons', 'icons=font']
+      result = converter.send :assemble_attributes, ['!icons', 'icons=font']
       expect(result['icons']).to eql('font')
     end
 
     it 'should resolve attribute references in attribute value' do
-      result = converter.send :hashify_attributes,{'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}{bar}'}
+      result = converter.send :assemble_attributes,{'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}{bar}'}
       expect(result['foobar']).to eql('foobar')
     end
 
     it 'should not resolve escaped attribute reference' do
-      result = converter.send :hashify_attributes, {'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}\{bar}'}
+      result = converter.send :assemble_attributes, {'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}\{bar}'}
       expect(result['foobar']).to eql('foo{bar}')
     end
 
     it 'should leave unresolved attribute reference in place' do
-      result = converter.send :hashify_attributes, {'foo' => 'foo', 'foobar' => '{foo}{bar}'}
+      result = converter.send :assemble_attributes, {'foo' => 'foo', 'foobar' => '{foo}{bar}'}
       expect(result['foobar']).to eql('foo{bar}')
     end
   end
