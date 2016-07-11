@@ -22,6 +22,10 @@ describe 'Jekyll::AsciiDoc' do
       'default_config'
     end
 
+    before :each do
+      site.object_id
+    end
+
     it 'should register AsciiDoc converter' do
       expect(site.converters.any? {|c| ::Jekyll::AsciiDoc::Converter === c }).to be true
     end
@@ -93,6 +97,10 @@ describe 'Jekyll::AsciiDoc' do
       'legacy_config'
     end
 
+    before :each do
+      site.object_id
+    end
+
     it 'should allow processor to be set using asciidoc key' do
       expect(site.config['asciidoc']).to be_a(::Hash)
       expect(site.config['asciidoc']['processor']).to eql('asciidoctor')
@@ -114,6 +122,10 @@ describe 'Jekyll::AsciiDoc' do
       'hybrid_config'
     end
 
+    before :each do
+      site.object_id
+    end
+
     it 'should use new key for ext over legacy key' do
       expect(site.config['asciidoc']).to be_a(::Hash)
       expect(site.config['asciidoc']['ext']).to eql('asciidoc,adoc')
@@ -128,6 +140,10 @@ describe 'Jekyll::AsciiDoc' do
   describe 'parse YAML value' do
     let :name do
       'default_config'
+    end
+
+    before :each do
+      site.object_id
     end
 
     it 'should parse string as YAML value' do
@@ -151,7 +167,7 @@ describe 'Jekyll::AsciiDoc' do
     end
 
     before :each do
-      site
+      site.object_id
     end
 
     it 'should set imagesoutdir if imagesdir is relative to root' do
@@ -165,6 +181,10 @@ describe 'Jekyll::AsciiDoc' do
   describe 'imagesdir not set' do
     let :name do
       'default_config'
+    end
+
+    before :each do
+      site.object_id
     end
 
     it 'should not set imagesoutdir if imagesdir is not set' do
@@ -181,7 +201,7 @@ describe 'Jekyll::AsciiDoc' do
     end
 
     before :each do
-      site
+      site.object_id
     end
 
     it 'should transform negated attribute with trailing ! to attribute with nil value' do
@@ -233,6 +253,10 @@ describe 'Jekyll::AsciiDoc' do
       'attributes_as_hash'
     end
 
+    before :each do
+      site.object_id
+    end
+
     it 'should merge attributes defined as a Hash into the attributes Hash' do
       expect(asciidoctor_config = site.config['asciidoctor']).to be_a(::Hash)
       expect(attrs = asciidoctor_config[:attributes]).to be_a(::Hash)
@@ -247,6 +271,10 @@ describe 'Jekyll::AsciiDoc' do
   describe 'attributes as array' do
     let :name do
       'attributes_as_array'
+    end
+
+    before :each do
+      site.object_id
     end
 
     it 'should merge attributes defined as an Array into the attributes Hash' do
@@ -265,9 +293,7 @@ describe 'Jekyll::AsciiDoc' do
       'alternate_page_attribute_prefix'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should strip trailing hyphen from page attribute prefix value' do
       expect(site.config['asciidoc']).to be_a(::Hash)
@@ -291,9 +317,7 @@ describe 'Jekyll::AsciiDoc' do
       'blank_page_attribute_prefix'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should coerce null value for page attribute prefix to empty string' do
       expect(site.config['asciidoc']).to be_a(::Hash)
@@ -317,9 +341,7 @@ describe 'Jekyll::AsciiDoc' do
       'basic_site'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should consider a plain AsciiDoc file to have a YAML header' do
       file = source_file 'without-front-matter-header.adoc'
@@ -487,9 +509,7 @@ describe 'Jekyll::AsciiDoc' do
       'explicit_site_time'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should set localdatetime on AsciiDoc pages to match site time and timezone' do
       expect(asciidoctor_config = site.config['asciidoctor']).to be_a(::Hash)
@@ -508,9 +528,7 @@ describe 'Jekyll::AsciiDoc' do
       'safe_mode'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should register converter and generator when running in safe mode' do
       expect(site.converters.any? {|c| ::Jekyll::AsciiDoc::Converter === c }).to be true
@@ -531,9 +549,7 @@ describe 'Jekyll::AsciiDoc' do
       'fallback_to_default_layout'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should use default layout for page if page layout is not available' do
       file = output_file 'home.html'
@@ -562,9 +578,7 @@ describe 'Jekyll::AsciiDoc' do
       'require_front_matter_header'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should consider an AsciiDoc file with a front matter header to have a YAML header' do
       file = source_file 'with-front-matter-header.adoc'
@@ -730,9 +744,7 @@ describe 'Jekyll::AsciiDoc' do
       'include_relative_to_doc'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should resolve includes relative to docdir when base_dir config key has value :docdir' do
       src_file = source_file 'about/index.adoc'
@@ -753,9 +765,7 @@ describe 'Jekyll::AsciiDoc' do
       'include_relative_to_source'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should resolve includes relative to source when base_dir config key has value :source' do
       src_file = source_file 'about/index.adoc'
@@ -783,9 +793,7 @@ describe 'Jekyll::AsciiDoc' do
       'with_custom_collection'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should decorate document in custom collection' do
       doc = find_doc 'blueprint-a.adoc', 'blueprints'
@@ -827,9 +835,7 @@ describe 'Jekyll::AsciiDoc' do
       'pygments_code_highlighting'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should write the pygments stylesheet to the stylesdir' do
       src_file = source_file 'css/asciidoc-pygments.css'
@@ -879,9 +885,7 @@ describe 'Jekyll::AsciiDoc' do
       'xhtml_syntax'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should output xhtml if asciidoctor backend option is xhtml' do
       file = output_file 'home.html'
@@ -896,9 +900,7 @@ describe 'Jekyll::AsciiDoc' do
       'tocify_filter'
     end
 
-    before :each do
-      site.process
-    end
+    before(:each) { site.process }
 
     it 'should generate document outline when tocify_asciidoc filter is applied to page.document' do
       file = output_file 'index.html'
