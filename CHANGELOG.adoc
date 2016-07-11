@@ -8,6 +8,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 == Unreleased
 
 * Add `tocify_asciidoc` Liquid filter for generating a table of contents from the parsed AsciiDoc document (Jekyll 3+ only)
+* Remove trailing `@` when resolving attribute reference in value of attribute defined in config
 * Set minimum version of Ruby to 1.9.3 in the gemspec
 
 == 2.0.1 (2016-07-06) - @mojavelinux

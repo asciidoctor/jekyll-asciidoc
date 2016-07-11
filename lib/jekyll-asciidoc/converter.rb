@@ -103,7 +103,7 @@ module Jekyll
             attrs = asciidoctor_config[:attributes] = assemble_attributes asciidoctor_config[:attributes],
                 ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes)
             if (imagesdir = attrs['imagesdir']) && !(attrs.key? 'imagesoutdir') && (imagesdir.start_with? '/')
-              attrs['imagesoutdir'] = ::File.join dest, imagesdir
+              attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
             end
             asciidoctor_config.extend Configured
           end
@@ -255,7 +255,7 @@ module Jekyll
         if text.empty?
           text
         elsif text.include? '{'
-          text.gsub(AttributeReferenceRx) { ((m = $&).start_with? '\\') ? m[1..-1] : (attrs.fetch $1, m) }
+          text.gsub(AttributeReferenceRx) { ($&.start_with? '\\') ? $&[1..-1] : ((attrs.fetch $1, $&).to_s.chomp '@') }
         else
           text
         end

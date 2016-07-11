@@ -150,11 +150,15 @@ describe 'Jekyll::AsciiDoc' do
       'imagesdir_relative_to_root'
     end
 
+    before :each do
+      site
+    end
+
     it 'should set imagesoutdir if imagesdir is relative to root' do
       expect(asciidoctor_config = site.config['asciidoctor']).to be_a(::Hash)
       expect(attrs = asciidoctor_config[:attributes]).to be_a(::Hash)
-      expect(attrs['imagesdir']).to eql('/images')
-      expect(attrs['imagesoutdir']).to eql(::File.join(site.dest, attrs['imagesdir']))
+      expect(attrs['imagesdir']).to eql('/images@')
+      expect(attrs['imagesoutdir']).to eql(::File.join site.dest, (attrs['imagesdir'].chomp '@'))
     end
   end
 
@@ -174,6 +178,10 @@ describe 'Jekyll::AsciiDoc' do
   describe 'compile attributes' do
     let :name do
       'default_config'
+    end
+
+    before :each do
+      site
     end
 
     it 'should transform negated attribute with trailing ! to attribute with nil value' do
@@ -200,7 +208,12 @@ describe 'Jekyll::AsciiDoc' do
     end
 
     it 'should resolve attribute references in attribute value' do
-      result = converter.send :assemble_attributes,{'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}{bar}'}
+      result = converter.send :assemble_attributes, {'foo' => 'foo', 'bar' => 'bar', 'baz' => nil, 'foobar' => '{foo}{bar}{baz}'}
+      expect(result['foobar']).to eql('foobar')
+    end
+
+    it 'should drop trailing @ from value when resolving attribute reference' do
+      result = converter.send :assemble_attributes, {'foo' => 'foo@', 'bar' => 'bar@', 'baz' => '@', 'foobar' => '{foo}{bar}{baz}'}
       expect(result['foobar']).to eql('foobar')
     end
 
