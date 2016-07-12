@@ -1,0 +1,22 @@
+version: '{build}'
+skip_tags: true
+clone_depth: 1
+environment:
+  matrix:
+  # For the list of Ruby versions installed, see https://www.appveyor.com/docs/installed-software#ruby
+  - RUBY_VERSION: 23
+  - RUBY_VERSION: 193
+    JEKYLL_VERSION: 2.3.0
+install:
+- set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
+- echo %PATH%
+- ruby -v
+- gem -v
+- bundle -v
+- bundle --jobs=3 --path=.bundle/gems
+build_script:
+- bundle exec rake build
+test_script:
+- bundle exec rake spec
+artifacts:
+- path: pkg\*.gem

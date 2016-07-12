@@ -57,4 +57,8 @@ RSpec.configure do |config|
     path = %(_#{collection_name}/#{path}) unless path.start_with? %(_#{collection_name}/)
     site.collections[collection_name].docs.find {|p| p.relative_path == path }
   end
+
+  def windows?
+    ::RbConfig::CONFIG['host_os'] =~ /win|ming/
+  end
 end
