@@ -54,7 +54,7 @@ ifdef::status[]
 image:https://img.shields.io/gem/v/jekyll-asciidoc.svg[Latest Release, link={uri-gem}]
 image:https://img.shields.io/badge/license-MIT-blue.svg[MIT License, link=#copyright-and-license]
 image:https://img.shields.io/travis/asciidoctor/jekyll-asciidoc/master.svg[Build Status (Travis CI), link={uri-ci-travis}]
-image:https://ci.appveyor.com/api/projects/status/3cf1f8p2cyoaoc25/branch/master?svg=true&passingText=green%20bar&failingText=%23fail&pendingText=building[Build Status (AppVeyor), link={uri-ci-appveyor}]
+image:https://ci.appveyor.com/api/projects/status/3cf1f8p2cyoaoc25/branch/master?svg=true&passingText=green%20bar&failingText=%23fail&pendingText=checking[Build Status (AppVeyor), link={uri-ci-appveyor}]
 endif::[]
 
 A plugin for {uri-jekyll}[Jekyll] (>= 2.3.0) that converts {uri-asciidoc}[AsciiDoc] source files in your site to HTML pages using {uri-asciidoctor}[Asciidoctor].
