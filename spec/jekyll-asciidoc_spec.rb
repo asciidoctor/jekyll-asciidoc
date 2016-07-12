@@ -737,7 +737,7 @@ describe 'Jekyll::AsciiDoc' do
       contents = ::File.read file
       expect(contents).to be_empty
     end
-  end
+  end unless windows?
 
   describe 'site with include relative to doc' do
     let :name do

@@ -133,7 +133,7 @@ module Jekyll
         else
           begin
             ::SafeYAML.load %(--- #{val})
-          rescue
+          rescue ::StandardError, ::SyntaxError
             val = val.gsub '\'', '\'\'' if val.include? '\''
             ::SafeYAML.load %(--- \'#{val}\')
           end
