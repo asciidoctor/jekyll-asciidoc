@@ -900,7 +900,7 @@ pages:
 
 This script runs Jekyll on the official Ruby Docker container.
 
-You also need to add and additional configuration file, [path]__config-gitlab.yml_, to set the `url` and `baseurl` options when deploying your site to GitLab Pages.
+You also need to add an additional configuration file, [path]__config-gitlab.yml_, to set the `url` and `baseurl` options when deploying your site to GitLab Pages.
 
 ._config-gitlab.yml
 [source,yaml,subs=attributes+]
