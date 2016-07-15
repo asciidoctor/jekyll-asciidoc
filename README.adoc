@@ -375,7 +375,8 @@ asciidoctor:
     iconsdir: '{imagesdir}/icons'
 ----
 
-CAUTION: If the value begins with an attribute reference, and you are defining the attributes using the Hash structure, you must enclose the value in quotes.
+CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash structure, you must enclose the value in quotes.
+Beware that there are additional edge cases when the value must be enclosed in quotes.
 
 In addition to `attributes`, you can define any another option key (e.g., `safe`) that is recognized by the {uri-asciidoctor-manual}#ruby-api-options[Asciidoctor API].
 
