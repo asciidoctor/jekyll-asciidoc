@@ -378,7 +378,17 @@ asciidoctor:
 CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash structure, you must enclose the value in quotes.
 Beware that there are additional edge cases when the value must be enclosed in quotes.
 
-In addition to `attributes`, you can define any another option key (e.g., `safe`) that is recognized by the {uri-asciidoctor-manual}#ruby-api-options[Asciidoctor API].
+Since version 2.1.0, you can remove a previously defined attribute by prefixing the name with a hyphen (aka minus):
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    -idprefix:
+----
+
+In addition to `attributes`, you may define any other option key (e.g., `safe`) recognized by the {uri-asciidoctor-manual}#ruby-api-options[Asciidoctor API].
+One of those is `base_dir`, which is covered in the next section.
 
 ==== Specifying the Base Directory
 
