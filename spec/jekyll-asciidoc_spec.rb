@@ -246,6 +246,16 @@ describe 'Jekyll::AsciiDoc' do
       result = converter.send :assemble_attributes, {'foo' => 'foo', 'foobar' => '{foo}{bar}'}
       expect(result['foobar']).to eql('foo{bar}')
     end
+
+    it 'should remove matching attribute if attribute starts with minus' do
+      result = converter.send :assemble_attributes, {'-idseparator' => ''}, {'idseparator' => '-'}
+      expect(result).to be_empty
+    end
+
+    it 'should not fail if attribute to be removed does not exist' do
+      result = converter.send :assemble_attributes, {'-idseparator' => ''}
+      expect(result).to be_empty
+    end
   end
 
   describe 'attributes as hash' do

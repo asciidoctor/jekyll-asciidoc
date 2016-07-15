@@ -10,6 +10,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * Add `tocify_asciidoc` Liquid filter for generating a table of contents from the parsed AsciiDoc document (Jekyll 3+ only)
 * Remove trailing `@` when resolving attribute reference in value of attribute defined in config
 * Set minimum version of Ruby to 1.9.3 in the gemspec
+* Prefixing attribute defined in config with minus removes previously defined (e.g., built-in) attribute (#123)
 * Enable CI for Windows platform by configuring job on AppVeyor
 * Catch SyntaxError when using Psych YAML parser with Ruby 1.9.3
 * Document that the name of page variable created from a page attribute is automatically lowercased

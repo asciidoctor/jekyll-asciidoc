@@ -242,6 +242,9 @@ module Jekyll
               new_attrs[key[1..-1]] = nil
             elsif key.end_with? '!'
               new_attrs[key.chop] = nil
+            # we're reserving !name=@ to clear implicit value (perhaps passing false value), but allowing doc to override
+            elsif key.start_with? '-'
+              new_attrs.delete key[1..-1]
             else
               new_attrs[key] = val ? (resolve_attribute_refs val, new_attrs) : nil
             end
