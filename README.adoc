@@ -355,6 +355,15 @@ asciidoctor:
     pygments-css: style
 ----
 
+When using the Hash syntax, you must use an empty string value to set a valueless attribute such as `sectanchors`:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    sectanchors: ''
+----
+
 You may use attribute references in the attribute value to reference any implicit or already defined attribute.
 For example, to set the `iconsdir` attribute based on the `imagesdir` attribute, use the following:
 
