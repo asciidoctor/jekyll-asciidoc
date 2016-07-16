@@ -204,57 +204,86 @@ describe 'Jekyll::AsciiDoc' do
       site.object_id
     end
 
+    it 'should assign nil value to attribute for attribute with nil value' do
+      result = converter.send :assemble_attributes, { 'icons' => nil }
+      expect(result.key? 'icons').to be true
+      expect(result['icons']).to be_nil
+    end
+
     it 'should transform negated attribute with trailing ! to attribute with nil value' do
-      result = converter.send :assemble_attributes, {'icons!' => ''}
+      result = converter.send :assemble_attributes, { 'icons!' => '' }
       expect(result.key? 'icons').to be true
       expect(result['icons']).to be_nil
     end
 
     it 'should transform negated attribute with leading ! to attribute with nil value' do
-      result = converter.send :assemble_attributes, {'!icons' => ''}
+      result = converter.send :assemble_attributes, { '!icons' => '' }
       expect(result.key? 'icons').to be true
       expect(result['icons']).to be_nil
     end
 
-    it 'should remove existing attribute when attribute is unset' do
-      result = converter.send :assemble_attributes, {'icons' => 'font', '!icons' => ''}
+    it 'should set existing attribute to nil when attribute is unset' do
+      result = converter.send :assemble_attributes, { 'icons' => 'font', '!icons' => '' }
       expect(result.key? 'icons').to be true
       expect(result['icons']).to be_nil
     end
 
-    it 'should assign existing attribute to new value when set again' do
-      result = converter.send :assemble_attributes, ['!icons', 'icons=font']
+    it 'should assign value to existing attribute when set again' do
+      result = converter.send :assemble_attributes, ['!icons', 'icons=font', '!source-highlighter', 'source-highlighter=coderay']
       expect(result['icons']).to eql('font')
+      expect(result['source-highlighter']).to eql('coderay')
     end
 
     it 'should resolve attribute references in attribute value' do
-      result = converter.send :assemble_attributes, {'foo' => 'foo', 'bar' => 'bar', 'baz' => nil, 'foobar' => '{foo}{bar}{baz}'}
+      result = converter.send :assemble_attributes, { 'foo' => 'foo', 'bar' => 'bar', 'baz' => nil, 'foobar' => '{foo}{bar}{baz}' }
       expect(result['foobar']).to eql('foobar')
     end
 
     it 'should drop trailing @ from value when resolving attribute reference' do
-      result = converter.send :assemble_attributes, {'foo' => 'foo@', 'bar' => 'bar@', 'baz' => '@', 'foobar' => '{foo}{bar}{baz}'}
+      result = converter.send :assemble_attributes, { 'foo' => 'foo@', 'bar' => 'bar@', 'baz' => '@', 'foobar' => '{foo}{bar}{baz}' }
       expect(result['foobar']).to eql('foobar')
     end
 
     it 'should not resolve escaped attribute reference' do
-      result = converter.send :assemble_attributes, {'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}\{bar}'}
+      result = converter.send :assemble_attributes, { 'foo' => 'foo', 'bar' => 'bar', 'foobar' => '{foo}\{bar}' }
       expect(result['foobar']).to eql('foo{bar}')
     end
 
     it 'should leave unresolved attribute reference in place' do
-      result = converter.send :assemble_attributes, {'foo' => 'foo', 'foobar' => '{foo}{bar}'}
+      result = converter.send :assemble_attributes, { 'foo' => 'foo', 'foobar' => '{foo}{bar}' }
       expect(result['foobar']).to eql('foo{bar}')
     end
 
     it 'should remove matching attribute if attribute starts with minus' do
-      result = converter.send :assemble_attributes, {'-idseparator' => ''}, {'idseparator' => '-'}
+      result = converter.send :assemble_attributes, { '-idseparator' => '' }, { 'idseparator' => '-' }
       expect(result).to be_empty
     end
 
     it 'should not fail if attribute to be removed does not exist' do
-      result = converter.send :assemble_attributes, {'-idseparator' => ''}
+      result = converter.send :assemble_attributes, { '-idseparator' => '' }
       expect(result).to be_empty
+    end
+
+    it 'should assign empty string to attribute if value is true' do
+      result = converter.send :assemble_attributes, { 'icons' => true }
+      expect(result['icons']).to eql('')
+    end
+
+    it 'should assign nil value to attribute if value is false' do
+      result = converter.send :assemble_attributes, { 'icons' => false }
+      expect(result.key? 'icons').to be true
+      expect(result['icons']).to be_nil
+    end
+
+    it 'should assign numeric value as string if value is numeric' do
+      result = converter.send :assemble_attributes, { 'count' => 1 }
+      expect(result['count']).to eql('1')
+    end
+
+    it 'should pass through Date value to attribute if value is Date' do
+      date = ::Date.parse('2016-01-01')
+      result = converter.send :assemble_attributes, { 'localdate' => date }
+      expect(result['localdate']).to eql(date)
     end
   end
 
