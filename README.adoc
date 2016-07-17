@@ -73,7 +73,7 @@ These attributes are merged with the page variables defined in the front matter 
 
 Liquid Filters::
 * `asciidocify` -- Uses the converter from this plugin to convert a string of AsciiDoc content to HTML.
-* `tocify_asciidoc` -- Generates a table of contents in HTML from the parsed AsciiDoc document of the current page (Jekyll 3+ and Asciidoctor only).
+* `tocify_asciidoc` -- Generates a table of contents in HTML from the parsed AsciiDoc document of the current page (since 2.1.0; only for Jekyll 3 or better and Asciidoctor).
 
 These extensions are registered automatically when the [app]*jekyll-asciidoc* gem is required.
 
