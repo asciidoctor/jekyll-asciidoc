@@ -911,7 +911,6 @@ describe 'Jekyll::AsciiDoc' do
         out_content = ::File.read src_file
         attrs = site.config['asciidoctor'][:attributes]
         attrs['pygments-style'] = 'monokai'
-        integrator = site.generators.find {|g| ::Jekyll::AsciiDoc::Integrator === g }
         integrator.generate_pygments_stylesheet site, attrs 
         expect(::File.read src_file).not_to eql(src_content)
         ::Jekyll::StaticFile.reset_cache
