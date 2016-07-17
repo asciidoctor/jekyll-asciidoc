@@ -230,9 +230,24 @@ You can preview your site at \http://localhost:4000 using:
 
  $ jekyll serve
 
-You can continuously build without preview using:
+Since Jekyll 2.4.0, the `serve` monitors the file system and rebuilds the site when a change is detected by default (i.e., watch mode).
+You can enable watch mode explicitly using the `--watch` flag:
+
+ $ jekyll serve --watch
+
+To disable watch mode explicitly, use the `--no-watch` flag instead.
+
+You can also use the `--watch` flag with the `build` command:
 
  $ jekyll build --watch
+
+If you only want Jekyll to build files which have changed, and not the whole site, add the `--incremental` flag:
+
+ $ jekyll serve --incremental
+
+or
+
+ $ jekyll build --watch --incremental
 
 To see a report of all the files that are processed, add the `--verbose` flag:
 
@@ -254,7 +269,7 @@ asciidoc: {}
 asciidoctor: {}
 ----
 
-Using these placeholder values prevents initialization from being performed more than once when using the `serve` command (see https://github.com/jekyll/jekyll/issues/4858[issue jekyll#4858]).
+Using these placeholder values prevents initialization from being performed more than once when using watch mode (see https://github.com/jekyll/jekyll/issues/4858[issue jekyll#4858]).
 
 === AsciiDoc
 
