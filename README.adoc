@@ -254,7 +254,7 @@ asciidoc: {}
 asciidoctor: {}
 ----
 
-Using these placeholder values is an optimization that prevents initialization from being performed more than once.
+Using these placeholder values prevents initialization from being performed more than once when using the `serve` command (see https://github.com/jekyll/jekyll/issues/4858[issue jekyll#4858]).
 
 === AsciiDoc
 
