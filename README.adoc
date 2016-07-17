@@ -436,7 +436,7 @@ IMPORTANT: The `:docdir` setting is not available when using Jekyll 2.
 You can also set the `base_dir` option to any relative or absolute path.
 In that case, the same value will be used for all documents.
 
-==== Enabling Hard Line Breaks
+==== Enabling Hard Line Breaks Globally
 
 Many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), which preserves hard line breaks in paragraph content.
 Asciidoctor supports this feature for AsciiDoc files.
