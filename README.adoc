@@ -220,8 +220,7 @@ You can build your site into the [path]__site_ directory using:
 
  $ jekyll build
 
-If you're using Bundler, prefix each command with `bundle exec`.
-For example:
+If you're using Bundler, prefix each command with `bundle exec`:
 
 [subs=+quotes]
  $ *bundle exec* jekyll build
@@ -230,7 +229,7 @@ You can preview your site at \http://localhost:4000 using:
 
  $ jekyll serve
 
-Since Jekyll 2.4.0, the `serve` monitors the file system and rebuilds the site when a change is detected by default (i.e., watch mode).
+Since Jekyll 2.4.0, the `serve` command monitors the file system and rebuilds the site whenever a change is detected by default (i.e., watch mode).
 You can enable watch mode explicitly using the `--watch` flag:
 
  $ jekyll serve --watch
@@ -626,7 +625,7 @@ end
 ----
 <1> Customize the version of Asciidoctor Diagram as needed.
 
-Then, run the Bundler command to install it:
+Then, run Bundler's install command to install the new gem:
 
  $ bundle install
 --
