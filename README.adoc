@@ -1069,6 +1069,14 @@ The coding style is as follows:
 
 * Don't indent `when` lines in a case block.
 
+* Leave a single space inside brackets of a Hash.
+
+  { "key" => "value" }
+
+* Use JSON-style key-value pair when key is a Symbol.
+
+  { key: "value" }
+
 * Fully qualify the class name (beginning with `::`) of any type not in the current namespace.
 
   ::File.extname path 
