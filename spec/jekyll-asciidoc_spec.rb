@@ -44,6 +44,15 @@ describe 'Jekyll::AsciiDoc' do
       expect(converter.output_ext '.adoc').to eql('.html')
     end
 
+    it 'should mark configuration as configured to prevent duplicate initialization' do
+      expect(asciidoc_config = site.config['asciidoc']).to be_a(::Jekyll::AsciiDoc::Configured)
+      expect(asciidoctor_config = site.config['asciidoctor']).to be_a(::Jekyll::AsciiDoc::Configured)
+      site.reset
+      site.setup
+      expect(site.config['asciidoc'].object_id).to eql(asciidoc_config.object_id)
+      expect(site.config['asciidoctor'].object_id).to eql(asciidoctor_config.object_id)
+    end
+
     it 'should use Asciidoctor to process AsciiDoc files by default' do
       expect(site.config['asciidoc']).to be_a(::Hash)
       expect(site.config['asciidoc']['processor']).to eql('asciidoctor')
