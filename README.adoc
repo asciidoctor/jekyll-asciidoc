@@ -276,7 +276,7 @@ NOTE: Prior to version 2.0.0 of this plugin, the configuration keys in this sect
 These names are now deprecated, but still supported.
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
-Since Asciidoctor is currently the only option, the default setting is equivalent to the following configuration in {path-config}:
+Because Asciidoctor is currently the only option, the default setting is equivalent to the following configuration in {path-config}:
 
 [source,yaml]
 ----
@@ -392,7 +392,7 @@ asciidoctor:
 CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash structure, you must enclose the value in quotes.
 Beware that there are additional edge cases when the value must be enclosed in quotes.
 
-Since version 2.1.0, you can remove a previously defined attribute by prefixing the name with a hyphen (aka minus):
+Since version 2.1.0 of this plugin, you can remove a previously defined attribute by prefixing the name with a hyphen (aka minus):
 
 [source,yaml]
 ----
