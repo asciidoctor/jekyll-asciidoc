@@ -220,7 +220,7 @@ You can build your site into the [path]__site_ directory using:
 
  $ jekyll build
 
-If you're using Bundler, prefix the command with `bundle exec`.
+If you're using Bundler, prefix each command with `bundle exec`.
 For example:
 
 [subs=+quotes]
