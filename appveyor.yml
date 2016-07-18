@@ -8,11 +8,12 @@ environment:
   - RUBY_VERSION: 193
     JEKYLL_VERSION: 2.3.0
 install:
-- set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
+# Prepend Ruby path from matrix while removing original Ruby entry (C:\Ruby193\bin)
+- set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH:C:\Ruby193\bin;=%
 - echo %PATH%
 - ruby -v
 - gem -v
-- bundle -v
+- bundle version
 - bundle --jobs=3 --path=.bundle/gems
 build_script:
 - bundle exec rake build
