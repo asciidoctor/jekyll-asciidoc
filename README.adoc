@@ -5,10 +5,11 @@ Dan Allen <https://github.com/mojavelinux[@mojavelinux]>; Paul Rayner <https://g
 :idseparator: -
 ifndef::env-github[:icons: font]
 ifdef::env-github,env-browser[]
-:toc: preamble
+:toc: macro
 :toclevels: 1
 endif::[]
 ifdef::env-github[]
+:branch: master
 :status:
 :outfilesuffix: .adoc
 :!toc-title:
@@ -59,6 +60,21 @@ image:https://ci.appveyor.com/api/projects/status/3cf1f8p2cyoaoc25/branch/master
 endif::[]
 
 A plugin for {uri-jekyll}[Jekyll] (>= 2.3.0) that converts {uri-asciidoc}[AsciiDoc] source files in your site to HTML pages using {uri-asciidoctor}[Asciidoctor].
+
+toc::[]
+
+ifeval::['{branch}' == 'master']
+[NOTE]
+You're viewing the documentation for the upcoming release.
+If you're looking for documentation for an older release, please refer to one of the following branches: +
+{uri-repo}/tree/2.0.x[2.0.x]
+&hybull;
+{uri-repo}/tree/1.1.x[1.1.x]
+&hybull;
+{uri-repo}/tree/1.0.x[1.0.x]
+
+//^ previous line intentionally left blank
+endif::[]
 
 == Overview
 
