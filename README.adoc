@@ -66,7 +66,7 @@ toc::[]
 ifeval::['{branch}' == 'master']
 [NOTE]
 You're viewing the documentation for the upcoming release.
-If you're looking for documentation for an older release, please refer to one of the following branches: +
+If you're looking for the documentation for an older release, please refer to one of the following branches: +
 {uri-repo}/tree/2.0.x[2.0.x]
 &hybull;
 {uri-repo}/tree/1.1.x[1.1.x]
