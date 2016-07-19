@@ -45,6 +45,7 @@ ifndef::icons[:conum-guard: {sp}#{sp}]
 :uri-jekyll-discuss: https://talk.jekyllrb.com
 :uri-front-matter: {uri-jekyll-docs}/frontmatter
 :uri-liquid-templates: {uri-jekyll-docs}/templates
+:uri-variables: {uri-jekyll-docs}/variables
 :uri-graphviz: http://www.graphviz.org
 :uri-tilt: https://github.com/rtomayko/tilt
 :uri-yaml: https://en.wikipedia.org/wiki/YAML
@@ -163,10 +164,15 @@ Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
 puts "Hello, World!"
 ----
 
-AsciiDoc attributes defined in the document header whose names begin with ``page-``footnote:[The prefix used to label page attributes can be customized.] get promoted to page variables.
-The part of the name after the `page-` prefix is _lowercased_ and used as the entry's key (e.g., page-layout becomes layout) and the value is interpeted as {uri-yaml}[YAML] data (that which can be expressed in a single line).
+=== Page Attributes
 
-TIP: Use either a hyphen or an underscore as a word separator for page attributes with multiple words (e.g., page-short-name).
+AsciiDoc attributes defined in the AsciiDoc document header and whose name begins with ``page-``footnote:[The prefix used to label page attributes can be customized.] get promoted to {uri-variables}[page variables].
+The part of the name after the `page-` prefix is _lowercased_ and used as the variable's name (e.g., page-layout becomes layout) and the value is processed as {uri-yaml}[YAML] data (single-line form).
+
+IMPORTANT: The AsciiDoc document header stops after the first blank line.
+You may use include directives in the the document header, but make sure the included file does not contain a blank line.
+
+TIP: Use either a hyphen or an underscore as a separator for page attributes with multiple words (e.g., page-short-name).
 
 === Specifying a Layout
 
