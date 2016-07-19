@@ -9,6 +9,7 @@ ifdef::env-github,env-browser[]
 :toclevels: 1
 endif::[]
 ifdef::env-github[]
+:branch: 2.0.x
 :status:
 :outfilesuffix: .adoc
 :!toc-title:
