@@ -1156,11 +1156,16 @@ The coding style is as follows:
 
   %(--- #{val})
 
+* Use single quotes around string if interpolation is not required.
+
+  'asciidoctor'
+
 * Name constants using pascal style.
 
   NewLine = %(\n)
 
 * Store each static regular expression in a constant.
+  Add `Rx` suffix to name.
 
   HeaderBoundaryRx = /(?<=\p{Graph})\n\n/
 
