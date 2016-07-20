@@ -1088,6 +1088,8 @@ The coding style is as follows:
 
 * Don't indent `when` lines in a case block.
 
+* Wrap API docs at 120 characters.
+
 * Leave a single space inside brackets of a Hash.
 
   { "key" => "value" }

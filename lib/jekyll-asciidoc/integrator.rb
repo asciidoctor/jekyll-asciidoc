@@ -14,8 +14,8 @@ module Jekyll
         site.find_generator_instance self
       end
 
-      # This method is triggered each time the site is generated, including after any file has changed when
-      # running in watch mode (regardless of incremental setting).
+      # This method is triggered each time the site is generated, including after any file has changed when running in
+      # watch mode (regardless of incremental setting).
       def generate site
         @converter = converter = (Converter.get_instance site).setup
 
@@ -47,13 +47,11 @@ module Jekyll
         end
       end
 
-      # Integrate the page-related attributes from the AsciiDoc document header
-      # into the data Array of the specified {::Jekyll::Page}, {::Jekyll::Post}
-      # or {::Jekyll::Document}.
+      # Integrate the page-related attributes from the AsciiDoc document header into the data Array of the specified
+      # {::Jekyll::Page}, {::Jekyll::Post} or {::Jekyll::Document}.
       #
       # document        - the Page, Post or Document instance to integrate.
-      # collection_name - the String name of the collection to which this
-      #                   document belongs (optional, default: nil).
+      # collection_name - the String name of the collection to which this document belongs (optional, default: nil).
       #
       # Returns a [Boolean] indicating whether the document should be published.
       def integrate document, collection_name = nil
@@ -114,19 +112,15 @@ module Jekyll
 
       private
 
-      # Parse the specified value as though it is a single-line value part of a
-      # YAML key/value pair.
+      # Parse the specified value as though it is a single-line value part of a YAML key/value pair.
       #
-      # Attempt to parse the specified String value as though it is a
-      # single-line value part of a YAML key/value pair. If the value fails to
-      # parse, wrap the value in single quotes (after escaping any single
-      # quotes in the value) and parse it as a character sequence. If the value
-      # is empty, return an empty String.
+      # Attempt to parse the specified String value as though it is a single-line value part of a YAML key/value pair.
+      # If the value fails to parse, wrap the value in single quotes (after escaping any single quotes in the value) and
+      # parse it as a character sequence. If the value is empty, return an empty String.
       #
       # val - The String value to parse.
       #
-      # Returns an [Object] parsed from the string-based YAML value or empty
-      # [String] if the specified value is empty.
+      # Returns an [Object] parsed from the string-based YAML value or empty [String] if the specified value is empty.
       def parse_yaml_value val
         if val.empty?
           ''
