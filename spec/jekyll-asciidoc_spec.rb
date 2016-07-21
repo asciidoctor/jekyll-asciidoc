@@ -355,8 +355,8 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'permalink/index.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<div class="page-content">')
-      expect(contents).not_to match('<meta name="generator" content="Asciidoctor 1.5.4">')
+      expect(contents).to include('<div class="page-content">')
+      expect(contents).not_to include('<meta name="generator" content="Asciidoctor 1.5.4">')
     end
   end
 
@@ -379,8 +379,8 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'permalink/index.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<div class="page-content">')
-      expect(contents).not_to match('<meta name="generator" content="Asciidoctor 1.5.4">')
+      expect(contents).to include('<div class="page-content">')
+      expect(contents).not_to include('<meta name="generator" content="Asciidoctor 1.5.4">')
     end
   end
 
@@ -400,14 +400,14 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'without-front-matter-header.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Lorem ipsum.</p>')
+      expect(contents).to include('<p>Lorem ipsum.</p>')
     end
 
     it 'should promote AsciiDoc document title to page title' do
       file = output_file 'without-front-matter-header.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<title>Page Title</title>')
+      expect(contents).to include('<title>Page Title</title>')
     end
 
     it 'should convert an AsciiDoc with no doctitle or AsciiDoc header' do
@@ -417,8 +417,8 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'no-doctitle.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<title>Site Title</title>')
-      expect(contents).to match(%(<p>Just content.\nLorem ipsum.</p>))
+      expect(contents).to include('<title>Site Title</title>')
+      expect(contents).to include(%(<p>Just content.\nLorem ipsum.</p>))
     end
 
     it 'should convert an AsciiDoc with bare AsciiDoc header' do
@@ -429,8 +429,8 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'bare/index.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<title>Site Title</title>')
-      expect(contents).to match(%(<p>Just content.\nLorem ipsum.</p>))
+      expect(contents).to include('<title>Site Title</title>')
+      expect(contents).to include(%(<p>Just content.\nLorem ipsum.</p>))
     end
 
     it 'should consider an AsciiDoc file with a front matter header to have a YAML header' do
@@ -442,22 +442,22 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'with-front-matter-header.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<title>Page Title</title>')
-      expect(contents).to match('<p>Lorem ipsum.</p>')
+      expect(contents).to include('<title>Page Title</title>')
+      expect(contents).to include('<p>Lorem ipsum.</p>')
     end
 
     it 'should not use Liquid preprocessor by default' do
       file = output_file 'no-liquid.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>{{ page.title }}</p>')
+      expect(contents).to include('<p>{{ page.title }}</p>')
     end
 
     it 'should enable Liquid preprocessor if liquid page variable is set' do
       file = output_file 'liquid-enabled.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Liquid Enabled</p>')
+      expect(contents).to include('<p>Liquid Enabled</p>')
     end
 
     it 'should not publish a page if the published page variable is set in the AsciiDoc header' do
@@ -469,55 +469,53 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'standalone-a.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<meta name="generator" content="Asciidoctor 1.5.4">')
-      expect(contents).to match('<title>Standalone Page A</title>')
-      expect(contents).to match('<h1>Standalone Page A</h1>')
+      expect(contents).to include('<meta name="generator" content="Asciidoctor 1.5.4">')
+      expect(contents).to include('<title>Standalone Page A</title>')
+      expect(contents).to include('<h1>Standalone Page A</h1>')
     end
 
     it 'should output a standalone HTML page if the page-layout attribute is false' do
       file = output_file 'standalone-b.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<meta name="generator" content="Asciidoctor 1.5.4">')
-      expect(contents).to match('<title>Standalone Page B</title>')
-      expect(contents).to match('<h1>Standalone Page B</h1>')
+      expect(contents).to include('<meta name="generator" content="Asciidoctor 1.5.4">')
+      expect(contents).to include('<title>Standalone Page B</title>')
+      expect(contents).to include('<h1>Standalone Page B</h1>')
     end
 
     it 'should apply layout named page to page content if page-layout attribute not specified' do
       file = output_file 'without-front-matter-header.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for page layout.</p>')
+      expect(contents).to include('<p>Footer for page layout.</p>')
     end
 
     it 'should apply layout named page to page content if page-layout attribute is empty' do
       file = output_file 'empty-layout.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for page layout.</p>')
+      expect(contents).to include('<p>Footer for page layout.</p>')
     end
 
     it 'should apply layout named page to page content if page-layout attribute has value _auto' do
       file = output_file 'auto-layout.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for page layout.</p>')
+      expect(contents).to include('<p>Footer for page layout.</p>')
     end
 
     it 'should apply specified layout to page content if page-layout has non-empty string value' do
       file = output_file 'custom-layout.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for custom layout.</p>')
+      expect(contents).to include('<p>Footer for custom layout.</p>')
     end
 
     it 'should not apply a layout to page content if page-layout attribute is nil' do
       file = output_file 'nil-layout.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('div class="paragraph">
-<p>Lorem ipsum.</p>
-</div>')
+      expect(contents).to include(%(div class="paragraph">\n<p>Lorem ipsum.</p>\n</div>))
     end
 
     it 'should convert an empty page attribute value to empty string' do
@@ -531,10 +529,10 @@ describe 'Jekyll::AsciiDoc' do
       out_file = output_file 'subdir/page-in-subdir.html'
       expect(::File).to exist(out_file)
       contents = ::File.read out_file
-      expect(contents).to match(%(docdir=#{::Dir.pwd}))
+      expect(contents).to include(%(docdir=#{::Dir.pwd}))
       if ::Jekyll::MIN_VERSION_3
-        expect(contents).to match(%(docfile=#{src_file}))
-        expect(contents).to match(%(docname=#{::File.basename src_file, '.adoc'}))
+        expect(contents).to include(%(docfile=#{src_file}))
+        expect(contents).to include(%(docname=#{::File.basename src_file, '.adoc'}))
       end
     end
 
@@ -567,7 +565,7 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'home.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match(%(localdatetime=#{site.time.strftime '%Y-%m-%d %H:%M:%S %Z'}))
+      expect(contents).to include(%(localdatetime=#{site.time.strftime '%Y-%m-%d %H:%M:%S %Z'}))
     end
   end
 
@@ -587,8 +585,8 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'home.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<title>Home Page</title>')
-      expect(contents).to match('<p>Footer for home layout.</p>')
+      expect(contents).to include('<title>Home Page</title>')
+      expect(contents).to include('<p>Footer for home layout.</p>')
     end
   end
 
@@ -603,21 +601,21 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'home.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for default layout.</p>')
+      expect(contents).to include('<p>Footer for default layout.</p>')
     end
 
     it 'should use default layout for post if post layout is not available' do
       file = output_file '2016/01/01/post.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for default layout.</p>')
+      expect(contents).to include('<p>Footer for default layout.</p>')
     end
 
     it 'should use default layout for document if layout for document collection is not available' do
       file = output_file 'blueprints/blueprint.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for default layout.</p>')
+      expect(contents).to include('<p>Footer for default layout.</p>')
     end
   end
 
@@ -642,8 +640,8 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'with-front-matter-header.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<title>Page Title</title>')
-      expect(contents).to match('<p>Lorem ipsum.</p>')
+      expect(contents).to include('<title>Page Title</title>')
+      expect(contents).to include('<p>Lorem ipsum.</p>')
     end
 
     it 'should not convert an AsciiDoc file without a front matter header' do
@@ -669,8 +667,8 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file '2016/01/01/welcome.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<title>Welcome, Visitor!</title>')
-      expect(contents).not_to match('<h1>Welcome, Visitor!</h1>')
+      expect(contents).to include('<title>Welcome, Visitor!</title>')
+      expect(contents).not_to include('<h1>Welcome, Visitor!</h1>')
     end
 
     it 'should use automatic title if no document title is given' do
@@ -684,7 +682,7 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file '2016/05/31/automatic-title.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<title>Automatic Title</title>')
+      expect(contents).to include('<title>Automatic Title</title>')
     end
 
     it 'should set author of post to value defined in AsciiDoc header' do
@@ -697,45 +695,43 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file '2016/01/01/welcome.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for post layout.</p>')
+      expect(contents).to include('<p>Footer for post layout.</p>')
     end
 
     it 'should apply layout named post to post content if page-layout attribute is empty' do
       file = output_file '2016/01/02/empty-layout.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for post layout.</p>')
+      expect(contents).to include('<p>Footer for post layout.</p>')
     end
 
     it 'should apply layout named post to post content if page-layout attribute has value _auto' do
       file = output_file '2016/01/03/auto-layout.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for post layout.</p>')
+      expect(contents).to include('<p>Footer for post layout.</p>')
     end
 
     it 'should apply custom layout to post content if page-layout attribute has non-empty string value' do
       file = output_file '2016/01/04/custom-layout.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for custom layout.</p>')
+      expect(contents).to include('<p>Footer for custom layout.</p>')
     end
 
     it 'should not apply a layout to post content if page-layout attribute is nil' do
       file = output_file '2016/01/05/nil-layout.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('div class="paragraph">
-<p>Lorem ipsum.</p>
-</div>')
+      expect(contents).to include(%(div class="paragraph">\n<p>Lorem ipsum.</p>\n</div>))
     end
 
     it 'should show the title above the content if the showtitle attribute is set' do
       file = output_file '2016/04/01/show-me-the-title.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<title>Show Me the Title</title>')
-      expect(contents).to match('<h1>Show Me the Title</h1>')
+      expect(contents).to include('<title>Show Me the Title</title>')
+      expect(contents).to include('<h1>Show Me the Title</h1>')
     end
 
     it 'should interpret value of page attribute as YAML data' do
@@ -761,7 +757,7 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'index.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p class="excerpt">This is the <em>excerpt</em> of this post.</p>')
+      expect(contents).to include('<p class="excerpt">This is the <em>excerpt</em> of this post.</p>')
     end
   end
 
@@ -799,12 +795,12 @@ describe 'Jekyll::AsciiDoc' do
       out_file = output_file 'about/index.html'
       expect(::File).to exist(out_file)
       contents = ::File.read out_file
-      expect(contents).to match('Doc Writer')
-      expect(contents).to match(%(docfile=#{src_file}))
-      expect(contents).to match(%(docdir=#{::File.dirname src_file}))
-      expect(contents).to match(%(outfile=#{out_file}))
-      expect(contents).to match(%(outdir=#{::File.dirname out_file}))
-      expect(contents).to match(%(outpath=/about/))
+      expect(contents).to include('Doc Writer')
+      expect(contents).to include(%(docfile=#{src_file}))
+      expect(contents).to include(%(docdir=#{::File.dirname src_file}))
+      expect(contents).to include(%(outfile=#{out_file}))
+      expect(contents).to include(%(outdir=#{::File.dirname out_file}))
+      expect(contents).to include(%(outpath=/about/))
     end
   end if ::Jekyll::MIN_VERSION_3
 
@@ -820,13 +816,13 @@ describe 'Jekyll::AsciiDoc' do
       out_file = output_file 'about/index.html'
       expect(::File).to exist(out_file)
       contents = ::File.read out_file
-      expect(contents).to match('Doc Writer')
-      expect(contents).to match(%(docdir=#{site.source}))
+      expect(contents).to include('Doc Writer')
+      expect(contents).to include(%(docdir=#{site.source}))
       if ::Jekyll::MIN_VERSION_3
-        expect(contents).to match(%(docfile=#{src_file}))
-        expect(contents).to match(%(outfile=#{out_file}))
-        expect(contents).to match(%(outdir=#{::File.dirname out_file}))
-        expect(contents).to match(%(outpath=/about/))
+        expect(contents).to include(%(docfile=#{src_file}))
+        expect(contents).to include(%(outfile=#{out_file}))
+        expect(contents).to include(%(outdir=#{::File.dirname out_file}))
+        expect(contents).to include(%(outpath=/about/))
       end
     end
 
@@ -855,14 +851,14 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'blueprints/blueprint-a.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for blueprint layout.</p>')
+      expect(contents).to include('<p>Footer for blueprint layout.</p>')
     end
 
     it 'should allow the layout to be customized' do
       file = output_file 'blueprints/blueprint-b.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<p>Footer for default layout.</p>')
+      expect(contents).to include('<p>Footer for default layout.</p>')
     end
 
     it 'should set docdir for document in custom collection when base_dir config key has the value :docdir' do
@@ -870,11 +866,11 @@ describe 'Jekyll::AsciiDoc' do
       out_file = output_file 'blueprints/blueprint-b.html'
       expect(::File).to exist(out_file)
       contents = ::File.read out_file
-      expect(contents).to match(%(docfile=#{src_file}))
-      expect(contents).to match(%(docdir=#{::File.dirname src_file}))
-      expect(contents).to match(%(outfile=#{out_file}))
-      expect(contents).to match(%(outdir=#{::File.dirname out_file}))
-      expect(contents).to match(%(outpath=/blueprints/blueprint-b.html))
+      expect(contents).to include(%(docfile=#{src_file}))
+      expect(contents).to include(%(docdir=#{::File.dirname src_file}))
+      expect(contents).to include(%(outfile=#{out_file}))
+      expect(contents).to include(%(outdir=#{::File.dirname out_file}))
+      expect(contents).to include(%(outpath=/blueprints/blueprint-b.html))
     end if ::Jekyll::MIN_VERSION_3
   end
 
@@ -894,7 +890,7 @@ describe 'Jekyll::AsciiDoc' do
         src_content = ::File.read src_file
         out_content = ::File.read out_file
         expect(src_content).to eql(out_content)
-        expect(src_content).to match('.pygments .tok-c')
+        expect(src_content).to include('.pygments .tok-c')
       ensure
         if ::File.exist? src_file
           ::File.delete src_file
@@ -917,7 +913,7 @@ describe 'Jekyll::AsciiDoc' do
         site.process
         new_out_content = ::File.read out_file
         expect(new_out_content).not_to eql(out_content)
-        expect(new_out_content).to match('background-color: #49483e')
+        expect(new_out_content).to include('background-color: #49483e')
       ensure
         if ::File.exist? src_file
           ::File.delete src_file
@@ -938,7 +934,7 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'home.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<img src="/images/sunset.jpg" alt="Sunset" width="408" height="230"/>')
+      expect(contents).to include('<img src="/images/sunset.jpg" alt="Sunset" width="408" height="230"/>')
     end
   end
 
@@ -954,9 +950,9 @@ describe 'Jekyll::AsciiDoc' do
       expect(::File).to exist(file)
       contents = ::File.read file
       aside = contents.match(/<aside class="page-toc">.*<\/aside>/m)[0]
-      expect(aside).to match('<ul class="sectlevel1">')
-      expect(aside).to match('<a href="#major-section-a">Major Section A</a>')
-      expect(aside).not_to match('Micro Section')
+      expect(aside).to include('<ul class="sectlevel1">')
+      expect(aside).to include('<a href="#major-section-a">Major Section A</a>')
+      expect(aside).not_to include('Micro Section')
     end
   end if ::Jekyll::MIN_VERSION_3
 end
