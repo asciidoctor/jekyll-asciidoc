@@ -1,0 +1,6 @@
+= Post With Date in Revision Line
+Author Name
+// NOTE cannot use colon in date because it's used as the delimiter for the revision remark
+2016-07-20 05h45m25s -0600
+
+Lorem ipsum.

@@ -1,0 +1,4 @@
+= Post With Date and Time Zone
+:revdate: 2016-07-15 04:15:30 -0600
+
+Lorem ipsum.
