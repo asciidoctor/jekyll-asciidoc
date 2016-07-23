@@ -15,7 +15,9 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * Enable CI for Windows platform by configuring job on AppVeyor
 * Catch SyntaxError when using Psych YAML parser with Ruby 1.9.3
 * Document that the name of page variable created from a page attribute is automatically lowercased
-* Minor improvements to README
+* Parse the value of the revdate attribute using `Jekyll::Utils.parse_date`
+* Document how to assign a specific time to a post
+* Add additional documentation and make other minor improvements to the README
 
 == 2.0.1 (2016-07-06) - @mojavelinux
 

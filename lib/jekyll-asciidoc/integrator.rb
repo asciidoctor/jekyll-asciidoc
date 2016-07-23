@@ -61,7 +61,12 @@ module Jekyll
 
         document.data['title'] = doc.doctitle if doc.header?
         document.data['author'] = doc.author if doc.author
-        document.data['date'] = (::DateTime.parse doc.revdate).to_time if collection_name == 'posts' && (doc.attr? 'revdate')
+        if collection_name == 'posts' && (doc.attr? 'revdate')
+          document.data['date'] = ::Jekyll::Utils.parse_date doc.revdate,
+              %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
+          # NOTE Jekyll 2.3 requires date field to be set explicitly
+          document.date = document.data['date'] if document.respond_to? :date=
+        end
 
         no_prefix = (prefix_size = @page_attr_prefix.length).zero?
         unless (adoc_header_data = doc.attributes

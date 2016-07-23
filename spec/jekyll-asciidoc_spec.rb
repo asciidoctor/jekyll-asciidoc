@@ -557,7 +557,7 @@ describe 'Jekyll::AsciiDoc' do
 
     before(:each) { site.process }
 
-    it 'should set localdatetime on AsciiDoc pages to match site time and timezone' do
+    it 'should set localdatetime on AsciiDoc pages to match site time and time zone' do
       expect(asciidoctor_config = site.config['asciidoctor']).to be_a(::Hash)
       expect(attrs = asciidoctor_config[:attributes]).to be_a(::Hash)
       expect(attrs['localdate']).to eql(site.time.strftime '%Y-%m-%d')
@@ -731,6 +731,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(::File).to exist(file)
       contents = ::File.read file
       expect(contents).to include('<title>Show Me the Title</title>')
+      expect(contents).to include('<h1 class="post-title">Show Me the Title</h1>')
       expect(contents).to include('<h1>Show Me the Title</h1>')
     end
 
@@ -744,6 +745,49 @@ describe 'Jekyll::AsciiDoc' do
       end
     end
 
+    it 'should convert revdate to local Time object and use it as date of post' do
+      # NOTE Time.parse without time zone assumes time zone of site
+      date = ::Time.parse('2016-06-15 10:30:00')
+      date = date.localtime if ::Jekyll::MIN_VERSION_3
+      slug = 'post-with-date'
+      post = find_post %(#{date.strftime '%Y-%m-%d'}-#{slug}.adoc)
+      expect(post).not_to be_nil
+      expect(post.data['date']).to be_a(::Time)
+      expect(post.data['date'].to_s).to eql(date.to_s)
+      file = output_file %(#{date.strftime '%Y/%m/%d'}/#{slug}.html)
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include(%(<time class="date-published" datetime="#{date.xmlschema}">#{date.strftime '%B %d, %Y'}</time>))
+    end
+
+    it 'should convert revdate with time zone to local Time object and use it as date of post' do
+      date = ::Time.parse('2016-07-15 04:15:30 -0600')
+      date = date.localtime if ::Jekyll::MIN_VERSION_3
+      slug = 'post-with-date-and-tz'
+      post = find_post %(#{date.strftime '%Y-%m-%d'}-#{slug}.adoc)
+      expect(post).not_to be_nil
+      expect(post.data['date']).to be_a(::Time)
+      expect(post.data['date'].to_s).to eql(date.to_s)
+      file = output_file %(#{date.strftime '%Y/%m/%d'}/#{slug}.html)
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include(%(<time class="date-published" datetime="#{date.xmlschema}">#{date.strftime '%B %d, %Y'}</time>))
+    end
+
+    it 'should convert revdate in revision line to local Time object and use it as date of post' do
+      date = ::Time.parse('2016-07-20 05:45:25 -0600')
+      date = date.localtime if ::Jekyll::MIN_VERSION_3
+      slug = 'post-with-date-in-revision-line'
+      post = find_post %(#{date.strftime '%Y-%m-%d'}-#{slug}.adoc)
+      expect(post).not_to be_nil
+      expect(post.data['date']).to be_a(::Time)
+      expect(post.data['date'].to_s).to eql(date.to_s)
+      file = output_file %(#{date.strftime '%Y/%m/%d'}/#{slug}.html)
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include(%(<time class="date-published" datetime="#{date.xmlschema}">#{date.strftime '%B %d, %Y'}</time>))
+    end
+
     it 'should process AsciiDoc header of draft post' do
       draft = find_draft 'a-draft-post.adoc'
       expect(draft).not_to be_nil
@@ -753,7 +797,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(::File).to exist(file)
     end
 
-    it 'should apply asciidocify filter' do
+    it 'should apply asciidocify filter to excerpt' do
       file = output_file 'index.html'
       expect(::File).to exist(file)
       contents = ::File.read file
