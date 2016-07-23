@@ -804,6 +804,36 @@ describe 'Jekyll::AsciiDoc' do
     end
   end if ::Jekyll::MIN_VERSION_3
 
+  describe 'site with include relative to root' do
+    let :name do
+      'include_relative_to_root'
+    end
+
+    before(:each) {
+      @old_pwd = ::Dir.pwd
+      ::Dir.chdir(source_dir name)
+      site.process
+    }
+    after(:each) {
+      ::Dir.chdir(@old_pwd)
+    }
+
+    it 'should resolve includes relative to root when base_dir is not set' do
+      src_file = source_file 'about/index.adoc'
+      out_file = output_file 'about/index.html'
+      expect(::File).to exist(out_file)
+      contents = ::File.read out_file
+      expect(contents).to include('Doc Writer')
+      expect(contents).to include(%(docdir=#{::Dir.pwd}))
+      if ::Jekyll::MIN_VERSION_3
+        expect(contents).to include(%(docfile=#{src_file}))
+        expect(contents).to include(%(outfile=#{out_file}))
+        expect(contents).to include(%(outdir=#{::File.dirname out_file}))
+        expect(contents).to include(%(outpath=/about/))
+      end
+    end
+  end
+
   describe 'site with include relative to source' do
     let :name do
       'include_relative_to_source'
