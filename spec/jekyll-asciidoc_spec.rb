@@ -783,9 +783,9 @@ describe 'Jekyll::AsciiDoc' do
     end
   end unless windows?
 
-  describe 'site with include relative to doc' do
+  describe 'site with include relative to docdir' do
     let :name do
-      'include_relative_to_doc'
+      'include_relative_to_docdir'
     end
 
     before(:each) { site.process }
