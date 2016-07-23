@@ -857,11 +857,16 @@ describe 'Jekyll::AsciiDoc' do
       'include_relative_to_root'
     end
 
+    let :config do
+      ::Jekyll.configuration((fixture_site_params name).merge('source' => (::File.join (source_dir name), 'source')))
+    end
+
     before(:each) {
       @old_pwd = ::Dir.pwd
       ::Dir.chdir(source_dir name)
       site.process
     }
+
     after(:each) {
       ::Dir.chdir(@old_pwd)
     }
