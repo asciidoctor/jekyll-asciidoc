@@ -834,7 +834,11 @@ describe 'Jekyll::AsciiDoc' do
 
     before(:each) { site.process }
 
-    it 'should resolve includes relative to docdir when base_dir config key has value :docdir' do
+    it 'should not expand base_dir when base_dir config key has value :docdir' do
+      expect(site.config['asciidoctor'][:base_dir]).to eql(:docdir)
+    end
+
+    it 'should resolve include relative to docdir when base_dir config key has value :docdir' do
       src_file = source_file 'about/index.adoc'
       out_file = output_file 'about/index.html'
       expect(::File).to exist(out_file)
@@ -862,7 +866,11 @@ describe 'Jekyll::AsciiDoc' do
       ::Dir.chdir(@old_pwd)
     }
 
-    it 'should resolve includes relative to root when base_dir is not set' do
+    it 'should not set base_dir if base_dir config key has no value' do
+      expect(site.config['asciidoctor'].key? :base_dir).to be false
+    end
+
+    it 'should resolve include relative to root when base_dir is not set' do
       src_file = source_file 'about/index.adoc'
       out_file = output_file 'about/index.html'
       expect(::File).to exist(out_file)
@@ -885,7 +893,11 @@ describe 'Jekyll::AsciiDoc' do
 
     before(:each) { site.process }
 
-    it 'should resolve includes relative to source when base_dir config key has value :source' do
+    it 'should expand base_dir to match site source when base_dir config key has value :source' do
+      expect(site.config['asciidoctor'][:base_dir]).to eql(site.source)
+    end
+
+    it 'should resolve include relative to source when base_dir config key has value :source' do
       src_file = source_file 'about/index.adoc'
       out_file = output_file 'about/index.html'
       expect(::File).to exist(out_file)
