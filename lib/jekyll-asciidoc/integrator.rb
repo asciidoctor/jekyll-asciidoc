@@ -55,7 +55,6 @@ module Jekyll
       #
       # Returns a [Boolean] indicating whether the document should be published.
       def integrate document, collection_name = nil
-        document.extend Document
         document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless document.data.key? 'layout'
         return false unless (doc = @converter.load_header document)
 
@@ -89,6 +88,7 @@ module Jekyll
           document.content = %(#{StandaloneOptionLine}#{document.content})
         end
 
+        document.extend Document
         document.extend NoLiquid unless document.data['liquid']
         document.data.fetch 'published', true
       end
