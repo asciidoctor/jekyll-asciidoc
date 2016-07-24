@@ -57,7 +57,7 @@ module Jekyll
       def integrate document, collection_name = nil
         document.extend Document
         document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless document.data.key? 'layout'
-        return unless (doc = @converter.load_header document)
+        return false unless (doc = @converter.load_header document)
 
         document.data['title'] = doc.doctitle if doc.header?
         document.data['author'] = doc.author if doc.author
