@@ -218,6 +218,9 @@ module Jekyll
               paths.delete 'docdir'
             end
             opts[:attributes] = opts[:attributes].merge paths
+          # for auto-extracted excerpt, paths are't available since hooks don't get triggered
+          elsif opts[:base_dir] == :docdir
+            opts.delete :base_dir
           end
           ((@page_context[:data] || {})['document'] = ::Asciidoctor.load content, opts).extend(Liquidable).convert
         else

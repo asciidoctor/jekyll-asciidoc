@@ -17,6 +17,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * Document that the name of page variable created from a page attribute is automatically lowercased
 * Parse the value of the revdate attribute using `Jekyll::Utils.parse_date`
 * Document how to assign a specific time to a post
+* Fix crash when converting an auto-extracted excerpt when base_dir option is set to :docdir
 * Add additional documentation and make other minor improvements to the README
 
 == 2.0.1 (2016-07-06) - @mojavelinux
