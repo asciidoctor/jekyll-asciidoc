@@ -151,14 +151,12 @@ module Jekyll
       end
 
       def before_render document, payload
-        if Document === document
-          @page_context[:data] = document.data
-          record_paths document
-        end
+        @page_context[:data] = document.data
+        record_paths document
       end
 
       def after_render document
-        @page_context.clear if Document === document
+        @page_context.clear
       end
 
       def record_paths document, opts = {}
