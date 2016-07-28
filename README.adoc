@@ -750,7 +750,7 @@ With this configuration, all images will be generated into the [path]_images_ di
 
 ==== Preserving Generated Images
 
-Since Asciidoctor Diagram writes to the output folder, you have instruct Jekyll not to remove these generated files.
+Since Asciidoctor Diagram writes to the output folder, you have to instruct Jekyll not to remove these generated files.
 One way to do this is to apply a "`monkeypatch`" to Jekyll.
 Add the file [path]_jekyll-ext.rb_ to the [path]__plugins_ folder of your project root (creating the folder if it does not already exist) and populate the file with the following content:
 
