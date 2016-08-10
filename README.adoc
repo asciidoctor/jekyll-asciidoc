@@ -1156,6 +1156,10 @@ The coding style is as follows:
 
   asciidoctor_config.replace (Utils.symbolize_keys asciidoctor_config)
 
+* Add `%r` prefix to inline regexp when used as the first argument of a method.
+
+  files.grep %r/^spec\//
+
 * Use parentheses outside of a method call when parentheses are required.
 
   layout = collection_name ? (collection_name.chomp 's') : 'page'
