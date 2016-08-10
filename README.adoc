@@ -529,7 +529,7 @@ whitelist:
 
 Safe mode is enabled either through the `--safe` flag:
 
- $ jekyll build --safe 
+ $ jekyll build --safe
 
 or the `safe` configuration option in your site's {path-config} file:
 
@@ -969,7 +969,7 @@ then you can use the following [path]_.gitlab-ci.yml_ file to get starting hosti
 ----
 image: ruby:2.3
 cache:
-  paths: 
+  paths:
     - .bundle
 before_script:
   - bundle --path .bundle/gems
@@ -1132,7 +1132,7 @@ The coding style is as follows:
 
 * Fully qualify the class name (beginning with `::`) of any type not in the current namespace.
 
-  ::File.extname path 
+  ::File.extname path
 
 * Use triple equals to check for type, placing the type on the left hand side.
 
@@ -1182,7 +1182,7 @@ The coding style is as follows:
 
 * Use simple check for nil.
 
-  if base 
+  if base
 
 * Use `%()` instead of double quotes around interpolated strings.
 
