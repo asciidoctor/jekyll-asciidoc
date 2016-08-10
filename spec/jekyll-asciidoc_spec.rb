@@ -934,7 +934,6 @@ describe 'Jekyll::AsciiDoc' do
       doc = find_doc 'blueprint-a.adoc', 'blueprints'
       expect(doc).not_to be_nil
       expect(doc.data['title']).to eql('First Blueprint')
-      expect(doc.title).to eql('First Blueprint') if ::Jekyll::MIN_VERSION_3
       expect(doc.data['foo']).to eql('bar')
     end
 
