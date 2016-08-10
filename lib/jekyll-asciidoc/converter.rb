@@ -151,7 +151,8 @@ module Jekyll
       end
 
       def before_render document, payload
-        @page_context[:data] = document.data
+        # NOTE Jekyll 3.1 incorrectly mapped the page payload to document.data instead of payload['page']
+        @page_context[:data] = ::Jekyll::AsciiDoc::Jekyll3_1 ? document.data : payload['page']
         record_paths document
       end
 
