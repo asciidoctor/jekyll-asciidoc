@@ -20,7 +20,7 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 // Aliases:
-:path-config: pass:q[[path]___config.yml__]
+:path-config: pass:q[[.path]___config.yml__]
 :conum-guard: {sp}
 ifndef::icons[:conum-guard: {sp}#{sp}]
 // URIs:
@@ -92,18 +92,18 @@ Liquid Filters::
 * `asciidocify` -- Uses the converter from this plugin to convert a string of AsciiDoc content to HTML.
 * `tocify_asciidoc` -- Generates a table of contents in HTML from the parsed AsciiDoc document of the current page (since 2.1.0; only for Jekyll 3 or better and Asciidoctor).
 
-These extensions are registered automatically when the [app]*jekyll-asciidoc* gem is required.
+These extensions are registered automatically when the [.app]*jekyll-asciidoc* gem is required.
 
 == Installation
 
-This plugin is packaged as a gem named [app]*{uri-gem}[jekyll-asciidoc]* and published to RubyGems.org.
-The plugin depends on the [app]*{uri-gem-asciidoctor}[asciidoctor]* gem, which gets installed automatically.
+This plugin is packaged as a gem named [.app]*{uri-gem}[jekyll-asciidoc]* and published to RubyGems.org.
+The plugin depends on the [.app]*{uri-gem-asciidoctor}[asciidoctor]* gem, which gets installed automatically.
 
 Your method of installation will depend on whether you use Bundler to manage the dependencies for your Jekyll project.
 
 === Installation Using Bundler
 
-If you're using Bundler to manage the dependencies for your project (as recommended), simply add the [app]*jekyll-asciidoc* gem to the `:jekyll_plugins` group in your [path]_Gemfile_:
+If you're using Bundler to manage the dependencies for your project (as recommended), simply add the [.app]*jekyll-asciidoc* gem to the `:jekyll_plugins` group in your [.path]_Gemfile_:
 
 [source,ruby]
 ----
@@ -125,7 +125,7 @@ If you're not using Bundler to manage the dependencies for your Jekyll project, 
 NOTE: The `sudo` prefix is only required if you are installing gems into your system.
 To avoid this bad practice, we recommend using RVM (or another Ruby version manager), which sets up Ruby safely in your home directory.
 
-Then add the [app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load in your site's {path-config} file:
+Then add the [.app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load in your site's {path-config} file:
 
 [source,yaml]
 ----
@@ -193,8 +193,8 @@ TIP: Use either a hyphen or an underscore as a separator for page attributes wit
 === Specifying a Layout
 
 The most commonly defined page variable is layout, which determines which template is used to wrap the generated content.
-Jekyll will look for a template file inside the [path]_{empty}_layouts_ folder whose root name matches the name of the layout.
-For example, if the layout variable has the value `info`, Jekyll looks for a layout template at the path [path]__layout/info.html_.
+Jekyll will look for a template file inside the [.path]_{empty}_layouts_ folder whose root name matches the name of the layout.
+For example, if the layout variable has the value `info`, Jekyll looks for a layout template at the path [.path]__layout/info.html_.
 
 If the layout is empty, the auto-selected layout layout is used (documented in the list below).
 If the layout is unset or `false`, the AsciiDoc processor will generate a standalone document.
@@ -203,7 +203,7 @@ If the layout is ~, no layout is applied.
 
 To review, here are the different ways to specify a layout using the AsciiDoc attribute page-layout:
 
-* `:page-layout: info` -- use the layout named `info` (e.g., [path]__layout/info.html_)
+* `:page-layout: info` -- use the layout named `info` (e.g., [.path]__layout/info.html_)
 * _not specified_, `:page-layout:` or `:page-layout: _auto` -- use the automatic layout (i.e., `page` for pages, `post` for posts, the singular form of the collection label for a document; if the auto-selected layout isn't available, the layout `default` is used)
 * `:!page-layout:` or `:page-layout: false` -- don't use a layout; instead, generate a standalone HTML document
 * `:page-layout: ~` -- don't use a layout (often results in an incomplete HTML file)
@@ -270,7 +270,7 @@ When intermixed, the page attributes defined in the AsciiDoc header take precede
 
 == Building and Previewing Your Site
 
-You can build your site into the [path]__site_ directory using:
+You can build your site into the [.path]__site_ directory using:
 
  $ jekyll build
 
@@ -519,7 +519,7 @@ WARNING: Keep in mind, if you enable hard line breaks, you won't be able to use 
 
 == Running in Safe Mode
 
-If you want to use this plugin when running Jekyll in safe mode, you must add the [app]*jekyll-asciidoc* gem to the whitelist in your site's {path-config} file:
+If you want to use this plugin when running Jekyll in safe mode, you must add the [.app]*jekyll-asciidoc* gem to the whitelist in your site's {path-config} file:
 
 [source,yaml]
 ----
@@ -607,7 +607,7 @@ Now run the `bundle` command to install the new gems.
 
 === Step {counter:step}: Create a Templates Folder
 
-Next, create a new folder in your site named [path]__templates_ to store your templates.
+Next, create a new folder in your site named [.path]__templates_ to store your templates.
 
  $ mkdir _templates
 
@@ -626,7 +626,7 @@ asciidoctor:
 
 The final step is to compose a template.
 We'll be customizing the unordered list node.
-Name the file [path]_ulist.html.slim_.
+Name the file [.path]_ulist.html.slim_.
 
 .ulist.html.slim
 [source,slim]
@@ -667,7 +667,7 @@ For Graphviz and PlantUML diagram generation, {uri-graphviz}[Graphviz] must be i
 Using Bundler::
 +
 --
-Add `asciidoctor-diagram` gem to your [path]_Gemfile_:
+Add `asciidoctor-diagram` gem to your [.path]_Gemfile_:
 
 [source,ruby,subs=attributes+]
 ----
@@ -746,13 +746,13 @@ asciidoctor:
     imagesdir: /images
 ----
 
-With this configuration, all images will be generated into the [path]_images_ directory inside the destination folder.
+With this configuration, all images will be generated into the [.path]_images_ directory inside the destination folder.
 
 ==== Preserving Generated Images
 
 Since Asciidoctor Diagram writes to the output folder, you have to instruct Jekyll not to remove these generated files.
 One way to do this is to apply a "`monkeypatch`" to Jekyll.
-Add the file [path]_jekyll-ext.rb_ to the [path]__plugins_ folder of your project root (creating the folder if it does not already exist) and populate the file with the following content:
+Add the file [.path]_jekyll-ext.rb_ to the [.path]__plugins_ folder of your project root (creating the folder if it does not already exist) and populate the file with the following content:
 
 ._plugins/jekyll-ext.rb
 [source,ruby]
@@ -789,8 +789,8 @@ The Jekyll AsciiDoc plugin converts AsciiDoc to embeddable HTML.
 This HTML is then inserted into the page layout.
 You need to augment the layout to include resources typically present in a standalone HTML document that Asciidoctor produces.
 
-. Create a stylesheet in the [path]_css_ directory named [path]_asciidoc.css_ to hold additional CSS for body content generated from AsciiDoc.
-. Add this stylesheet to the HTML `<head>` in [path]_{empty}_includes/head.html_ under the main.css declaration:
+. Create a stylesheet in the [.path]_css_ directory named [.path]_asciidoc.css_ to hold additional CSS for body content generated from AsciiDoc.
+. Add this stylesheet to the HTML `<head>` in [.path]_{empty}_includes/head.html_ under the main.css declaration:
 +
 [source,html]
 ----
@@ -833,7 +833,7 @@ NOTE: It may still be necessary to make some tweaks to your site's stylesheet to
 
 === Font-based Admonition and Inline Icons
 
-To enable font-based admonition and inline icons, you first need to add Font Awesome to [path]_{empty}_includes/head.html_ file under the asciidoc.css declaration:
+To enable font-based admonition and inline icons, you first need to add Font Awesome to [.path]_{empty}_includes/head.html_ file under the asciidoc.css declaration:
 
 [source,html]
 ----
@@ -842,7 +842,7 @@ To enable font-based admonition and inline icons, you first need to add Font Awe
 
 NOTE: You can also link to local copy of Font Awesome.
 
-Next, you need to add the following CSS rules from the default Asciidoctor stylesheet to the [path]_css/asciidoc.css_ file:
+Next, you need to add the following CSS rules from the default Asciidoctor stylesheet to the [.path]_css/asciidoc.css_ file:
 
 [source,css]
 ----
@@ -923,7 +923,7 @@ asciidoctor:
     - iconsdir=/images/icons
 ----
 
-Then, simply put the icon images that the page needs in the [path]_images/icons_ directory.
+Then, simply put the icon images that the page needs in the [.path]_images/icons_ directory.
 
 == Publishing Your Site
 
@@ -943,7 +943,7 @@ You can still automate publishing of the generated site to GitHub Pages using a 
 Refer to the http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] tutorial to find step-by-step instructions.
 You can also refer to the https://github.com/johncarl81/transfuse-site[Transfuse website build^] for an example in practice.
 
-TIP: When using this setup, don't forget to add the [path]_.nojekyll_ file to the root of the source to tell GitLab Pages not to waste time running Jekyll again on the server.
+TIP: When using this setup, don't forget to add the [.path]_.nojekyll_ file to the root of the source to tell GitLab Pages not to waste time running Jekyll again on the server.
 
 ==== Jekyll AsciiDoc Quickstart
 
@@ -962,7 +962,7 @@ Assuming the following are true:
 . The source of your site resides on the master branch.
 . You're using Bundler to manage the dependencies for your project.
 
-then you can use the following [path]_.gitlab-ci.yml_ file to get starting hosting your Jekyll site on GitLab Pages.
+then you can use the following [.path]_.gitlab-ci.yml_ file to get starting hosting your Jekyll site on GitLab Pages.
 
 .gitlab-ci.yml
 [source,yaml]
@@ -985,7 +985,7 @@ pages:
 
 This script runs Jekyll on the official Ruby Docker container.
 
-You also need to add an additional configuration file, [path]__config-gitlab.yml_, to set the `url` and `baseurl` options when deploying your site to GitLab Pages.
+You also need to add an additional configuration file, [.path]__config-gitlab.yml_, to set the `url` and `baseurl` options when deploying your site to GitLab Pages.
 
 ._config-gitlab.yml
 [source,yaml,subs=attributes+]
@@ -996,10 +996,10 @@ baseurl: /<projectname> #{conum-guard}<2>
 <1> Replace `<username>` with your GitLab username or group.
 <2> Replace `<projectname>` with the basename of your project repository.
 
-The next time you push to the master branch, the GitLab Pages runner will execute Jekyll and deploy your site to [uri]_\https://<username>.gitlab.io/<projectname>_, where `<username>` is your GitLab username or group and `<projectname>` is the basename of your project repository.
+The next time you push to the master branch, the GitLab Pages runner will execute Jekyll and deploy your site to [.uri]_\https://<username>.gitlab.io/<projectname>_, where `<username>` is your GitLab username or group and `<projectname>` is the basename of your project repository.
 
 Like GitHub Pages, you can also have your site respond to a custom domain name, which is explained in the referenced tutorial.
-In this case, update the [path]__config-gitlab.yml_ file with the appropriate values.
+In this case, update the [.path]__config-gitlab.yml_ file with the appropriate values.
 
 == Getting Help
 
@@ -1050,7 +1050,7 @@ Next, switch to the project directory.
 
 === Install the Dependencies
 
-The dependencies needed to develop the Jekyll AsciiDoc plugin are defined in the [path]_Gemfile_ at the root of the project.
+The dependencies needed to develop the Jekyll AsciiDoc plugin are defined in the [.path]_Gemfile_ at the root of the project.
 You'll use Bundler to install these dependencies.
 
 To check if you have Bundler installed, use the `bundle` command to query for the version:
@@ -1070,7 +1070,7 @@ IMPORTANT: Since we've installed dependencies inside the project, it's necessary
 === Running the Tests
 
 The tests are based on RSpec.
-The test suite is located in the [path]_spec_ directory.
+The test suite is located in the [.path]_spec_ directory.
 
 You can run the tests using Rake.
 
@@ -1117,6 +1117,7 @@ The coding style is as follows:
 * Indent using 2 spaces, generally.
 
 * Indent successive lines of conditions, method arguments or ternary expressions using 4 spaces (but not data structures or chained method calls).
+// QUESTION are we sure chained method calls should be an exception?
 
 * Don't indent `when` lines in a case block.
 
@@ -1219,7 +1220,7 @@ The coding style is as follows:
 
 === Releasing the Gem
 
-When you are ready for a release, first set the version in the file [path]_lib/jekyll-asciidoc/version.rb_.
+When you are ready for a release, first set the version in the file [.path]_lib/jekyll-asciidoc/version.rb_.
 Then, commit the change using the following commit message template:
 
  Release X.Y.Z
