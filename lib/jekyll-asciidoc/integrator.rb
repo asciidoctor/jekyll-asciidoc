@@ -67,7 +67,7 @@ module Jekyll
           document.date = document.data['date'] if document.respond_to? :date=
         end
 
-        no_prefix = (prefix_size = @page_attr_prefix.length).zero?
+        no_prefix = (prefix_size = @page_attr_prefix.length) == 0
         unless (adoc_header_data = doc.attributes
             .each_with_object({}) {|(key, val), accum|
               if no_prefix || ((key.start_with? @page_attr_prefix) && key = key[prefix_size..-1])
