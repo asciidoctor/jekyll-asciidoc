@@ -565,9 +565,10 @@ TIP: This filter allows you to compose site-wide data in AsciiDoc, such your sit
 
 === Generating a Table of Contents
 
-Since version 2.1.0 of this plugin, if you're also using Jekyll 3 or better, you can use the `tocify_asciidoc` filter to generate a table of contents in HTML for any page created from an AsciiDoc document.
+Since version 2.1.0 of this plugin, if you're using Jekyll 3 or better, you can use the `tocify_asciidoc` filter to generate a table of contents from the content of any page that is generated from AsciiDoc.
+This filter gives you the ability to place this table of contents anywhere inside the page layout, but outside the main content.
 
-This filter gets applied to `page.document`, the page variable that resolves to the parsed AsciiDoc document, as shown here:
+You apply the `tocify_asciidoc` filter to `page.document`, the page variable that resolves to the parsed AsciiDoc document, as shown here:
 
 ----
 {{ page.document | tocify_asciidoc }}
@@ -578,6 +579,23 @@ To tune the number of levels, pass a numeric value as the filter's first argumen
 
 ----
 {{ page.document | tocify_asciidoc: 3 }}
+----
+
+When you use the `tocify_asciidoc` filter, you'll also want to disable the `toc` attribute in your document.
+You can do this using a conditional preprocessor directive.
+
+[source,asciidoc]
+----
+= Guide
+ifndef::env-site[:toc: left]
+
+== Section A
+
+content
+
+== Section B
+
+content
 ----
 
 == Customizing the Generated HTML
