@@ -858,7 +858,7 @@ To enable font-based admonition and inline icons, you first need to add Font Awe
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 ----
 
-NOTE: You can also link to local copy of Font Awesome.
+NOTE: You can also link to a local copy of Font Awesome.
 
 Next, you need to add the following CSS rules from the default Asciidoctor stylesheet to the [.path]_css/asciidoc.css_ file:
 
