@@ -977,7 +977,7 @@ You can find all about how to use Jekyll with GitLab Pages in the tutorial https
 
 Assuming the following are true:
 
-. The source of your site resides on the master branch.
+. The source of your site resides on the website branch.
 . You're using Bundler to manage the dependencies for your project.
 
 then you can use the following [.path]_.gitlab-ci.yml_ file to get starting hosting your Jekyll site on GitLab Pages.
@@ -998,7 +998,7 @@ pages:
     paths:
       - public
   only:
-    - master
+    - website
 ----
 
 This script runs Jekyll on the official Ruby Docker container.
