@@ -973,11 +973,12 @@ JAQ includes a Rake build that is preconfigured to deploy to GitHub Pages from T
 Deployment to GitLab Pages is much simpler.
 That's because GitLab allows you to control the execution of Jekyll yourself.
 There's no need to mess around with CI jobs and authentication tokens.
-You can find all about how to use Jekyll with GitLab Pages in the tutorial https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#option-b-gitlab-ci-for-jekyll-websites[Hosting on GitLab.com with GitLab Pages].
+You can find all about how to use Jekyll with GitLab Pages in the tutorial https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#option-b-gitlab-ci-for-jekyll-websites[Hosting on GitLab.com with GitLab Pages]. 
+More in-depth information regarding setting up your repository for GitLab Pages can be found in the  https://docs.gitlab.com/ee/pages/README.html[GitLab Enterprise Edition / Pages] documentation.
 
 Assuming the following are true:
 
-. The source of your site resides on the website branch.
+. The source of your site resides on the master branch (though you can use any branch for this purpose).
 . You're using Bundler to manage the dependencies for your project.
 
 then you can use the following [.path]_.gitlab-ci.yml_ file to get starting hosting your Jekyll site on GitLab Pages.
@@ -998,7 +999,7 @@ pages:
     paths:
       - public
   only:
-    - website
+    - master
 ----
 
 This script runs Jekyll on the official Ruby Docker container.
@@ -1018,6 +1019,8 @@ The next time you push to the master branch, the GitLab Pages runner will execut
 
 Like GitHub Pages, you can also have your site respond to a custom domain name, which is explained in the referenced tutorial.
 In this case, update the [.path]__config-gitlab.yml_ file with the appropriate values.
+
+CAUTION: At this time, GitLab Pages only work with projects hosted at GitLab.com or on self-hosted GitLab Enterprise Edition instances. GitLab Community Edition does not support continuous inetegration and cannot host pages.
 
 == Getting Help
 
