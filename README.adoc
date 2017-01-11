@@ -981,7 +981,7 @@ Assuming the following are true:
 . The source of your site resides on the master branch (though you can use any branch for this purpose).
 . You're using Bundler to manage the dependencies for your project.
 
-then you can use the following [.path]_.gitlab-ci.yml_ file to get starting hosting your Jekyll site on GitLab Pages.
+You can then use the following [.path]_.gitlab-ci.yml_ file to get starting hosting your Jekyll site on GitLab Pages.
 
 .gitlab-ci.yml
 [source,yaml]
@@ -1020,7 +1020,8 @@ The next time you push to the master branch, the GitLab Pages runner will execut
 Like GitHub Pages, you can also have your site respond to a custom domain name, which is explained in the referenced tutorial.
 In this case, update the [.path]__config-gitlab.yml_ file with the appropriate values.
 
-CAUTION: At this time, GitLab Pages only work with projects hosted at GitLab.com or on self-hosted GitLab Enterprise Edition instances. GitLab Community Edition does not support continuous inetegration and cannot host pages.
+CAUTION: At this time, GitLab Pages only works with projects hosted at GitLab.com or on self-hosted GitLab Enterprise Edition instances.
+GitLab Community Edition does not support continuous integration and cannot host pages.
 
 == Getting Help
 
