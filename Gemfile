@@ -3,8 +3,5 @@ gemspec
 
 gem 'jekyll', %(~> #{ENV['JEKYLL_VERSION']}) if ENV.key? 'JEKYLL_VERSION'
 
-if RUBY_ENGINE == 'jruby'
-  gem 'pygments.rb', github: 'mojavelinux/pygments.rb', branch: 'support-jruby'
-else
-  gem 'pygments.rb', '~> 0.6.3'
-end
+# NOTE pygments.rb >= 1.1.0 includes support for JRuby
+gem 'pygments.rb', '~> 1.1.1'
