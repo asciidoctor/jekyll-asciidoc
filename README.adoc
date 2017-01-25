@@ -685,7 +685,7 @@ For Graphviz and PlantUML diagram generation, {uri-graphviz}[Graphviz] must be i
 Using Bundler::
 +
 --
-Add `asciidoctor-diagram` gem to your [.path]_Gemfile_:
+Add the `asciidoctor-diagram` gem to your [.path]_Gemfile_:
 
 [source,ruby,subs=attributes+]
 ----
@@ -818,7 +818,18 @@ You need to augment the layout to include resources typically present in a stand
 === Stylesheet for Code Highlighting
 
 Asciidoctor integrates with Pygments to provide code highlighting of source blocks in AsciiDoc content.
-This integration is separate from the Pygments integration in Jekyll.
+This integration is separate from the Pygments integration in Jekyll 2.
+
+To enable Pygments, you must install the `pygments.rb` gem.
+This gem is bundled with Jekyll 2, so no further action is needed when if you're using Jekyll 2.
+To use Pygments with Ruby >= 2.4 or JRuby, you must install pygments.rb >= 1.1.0, which also requires Jekyll >= 3.0.0.
+If you're using Jekyll 3, add the `pygments.rb` gem to your [.path]_Gemfile_:
+
+[source,ruby]
+----
+gem 'pygments.rb', '~> 1.1.1'
+----
+
 As part of this integration, Asciidoctor generates a custom stylesheet tailored specially to work with the HTML that Asciidocotor produces.
 Since this stylesheet is backed by the Pygments API, it provides access to all the themes in Pygments
 
