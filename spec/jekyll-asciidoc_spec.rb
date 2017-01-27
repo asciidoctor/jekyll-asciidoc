@@ -446,6 +446,13 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to include('<p>Lorem ipsum.</p>')
     end
 
+    it 'should apply explicit id and role attributes on section titles' do
+      file = output_file 'section-with-id-and-role.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include(%(<div class="sect1 section-role">\n<h2 id="section-id">Section Title</h2>))
+    end
+
     it 'should not use Liquid preprocessor by default' do
       file = output_file 'no-liquid.html'
       expect(::File).to exist(file)
