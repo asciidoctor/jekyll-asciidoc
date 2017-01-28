@@ -453,6 +453,13 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to include(%(<div class="sect1 section-role">\n<h2 id="section-id">Section Title</h2>))
     end
 
+    it 'should assign AsciiDoc document id, if set, to docid page attribute' do
+      page = find_page 'docid.adoc'
+      expect(page).not_to be_nil
+      expect(page.data.key? 'docid').to be true
+      expect(page.data['docid']).to eq('page-id')
+    end
+
     it 'should not use Liquid preprocessor by default' do
       file = output_file 'no-liquid.html'
       expect(::File).to exist(file)

@@ -58,6 +58,8 @@ module Jekyll
         document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless document.data.key? 'layout'
         return true unless (doc = @converter.load_header document)
 
+        # NOTE id is already reserved in Jekyll for another purpose, so we'll map id to docid instead
+        document.data['docid'] = doc.id if doc.id
         document.data['title'] = doc.doctitle if doc.header?
         document.data['author'] = doc.author if doc.author
         if collection_name == 'posts' && (doc.attr? 'revdate')
