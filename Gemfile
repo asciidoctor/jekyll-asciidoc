@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'jekyll', %(~> #{ENV['JEKYLL_VERSION']}) if ENV.key? 'JEKYLL_VERSION'
+# NOTE Windows does not include zoneinfo files, so load tzinfo-data gem
+gem 'tzinfo-data', platform: :mingw
 
 if (ENV.key? 'JEKYLL_VERSION') && (Gem::Version.new ENV['JEKYLL_VERSION']) < (Gem::Version.new '3.0.0')
   if (Gem::Version.new RUBY_VERSION) < (Gem::Version.new '2.0.0')
