@@ -1188,6 +1188,7 @@ The coding style is as follows:
   end
 
 * For chained method calls, wrap parentheses around nested method call.
+  (NOTE: This produces a warning in Ruby < 2).
 
   asciidoctor_config.replace (Utils.symbolize_keys asciidoctor_config)
 
@@ -1219,7 +1220,7 @@ The coding style is as follows:
 
   if (imagesdir = attrs['imagesdir'])
 
-* Use simple check for nil.
+* Use variable reference to check for nil.
 
   if base
 
@@ -1235,16 +1236,27 @@ The coding style is as follows:
 
   NewLine = %(\n)
 
-* Store each static regular expression in a constant.
-  Add `Rx` suffix to name.
+* Define each static regular expression (regexp) as a constant so it's precompiled.
+  Append `Rx` suffix to name.
 
-  HeaderBoundaryRx = /(?<=\p{Graph})\n\n/
+  ExtensionRx = /^\.adoc$/
+
+* Place the regular expression (regexp) before the string when creating a match.
+
+  ExtensionRx =~ ext
++
+  ExtensionRx.match ext
 
 * Use parentheses in traditional style when writing test assertions.
 
   expect(site.config['asciidoc']['processor']).to eql('asciidoctor')
   expect(result.key? 'icons').to be true
   expect(contents).to match('<div class="page-content">')
+
+* Use `.size` to get the length of a collection and `.length` to get the length of a string.
+
+  "abc".length
+  [1, 2, 3].size
 
 ////
 * use `do; end` for multi-line blocks; use `{}` for single-line blocks
