@@ -1258,6 +1258,10 @@ The coding style is as follows:
   "abc".length
   [1, 2, 3].size
 
+* Pass symbol reference to `.map` when invoking no-args method on iteration variable (parens are required).
+
+  lines.map(&:strip)
+
 ////
 * use `do; end` for multi-line blocks; use `{}` for single-line blocks
 * try to make assignments in condition if scoped to that block
