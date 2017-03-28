@@ -1258,9 +1258,21 @@ The coding style is as follows:
   "abc".length
   [1, 2, 3].size
 
+* Use `+#[0]+` and `+#[-1]+` to get the first and last element of an Array, respectively, rather than `#first` and `#last`.
+  NOTE: You still have to use `#first` and `#last` on an Enumerable object that's not an Array.
+
+  a = [1, 2, 3]
+  a[0]
+  a[-1]
+
 * Pass symbol reference to `.map` when invoking no-args method on iteration variable (parens are required).
 
   lines.map(&:strip)
+
+* When calling `raise` to raise an exception, pass the exception class as the first argument and the message as the second.
+  Write the message as a sentence, but exclude the period.
+
+  raise ::ArgumentError, 'Not a valid argument'
 
 ////
 * use `do; end` for multi-line blocks; use `{}` for single-line blocks
