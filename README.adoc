@@ -1271,6 +1271,10 @@ The coding style is as follows:
 
   raise ::ArgumentError, 'Not a valid argument'
 
+* Use name instead of symbol to alias a method.
+
+  alias copy original
+
 ////
 * use `do; end` for multi-line blocks; use `{}` for single-line blocks
 * try to make assignments in condition if scoped to that block
