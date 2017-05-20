@@ -731,7 +731,9 @@ asciidoctor:
   safe: unsafe
 ----
 
-With this configuration, Asciidoctor Diagram will generate images relative to the generated HTML page (i.e., into the same directory).
+With this configuration, Asciidoctor Diagram will generate images relative to the generated HTML page (i.e., in the same directory) within the destination folder.
+
+WARNING: Jekyll will *delete* the images Asciidoctor Diagram generates unless you follow the instructions in <<Preserving Generated Images>>.
 
 You can use the following example to test your setup:
 
@@ -762,11 +764,13 @@ asciidoctor:
     imagesdir: /images
 ----
 
-With this configuration, all images will be generated into the [.path]_images_ directory inside the destination folder.
+With this configuration, Asciidoctor Diagram will generate images into the [.path]_images_ directory within the destination folder.
+
+WARNING: Jekyll will *delete* the images Asciidoctor Diagram generates unless you follow the instructions in <<Preserving Generated Images>>.
 
 ==== Preserving Generated Images
 
-Since Asciidoctor Diagram writes to the output folder, you have to instruct Jekyll not to remove these generated files.
+Since Asciidoctor Diagram writes to the output folder, you have to instruct Jekyll not to remove these generated files in the middle of the build process.
 One way to do this is to apply a "`monkeypatch`" to Jekyll.
 Add the file [.path]_jekyll-ext.rb_ to the [.path]__plugins_ folder of your project root (creating the folder if it does not already exist) and populate the file with the following content:
 
@@ -782,7 +786,8 @@ An alternative to the monkeypath approach is to identify folders that contain ge
 
 [source,yaml]
 ----
-keep_files: [images]
+keep_files: 
+  - images
 asciidoctor:
   base_dir: :docdir
   safe: unsafe
