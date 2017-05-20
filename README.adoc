@@ -688,7 +688,7 @@ Add the `asciidoctor-diagram` gem to your [.path]_Gemfile_:
 [source,ruby,subs=attributes+]
 ----
 group :jekyll_plugins do
-  gem 'asciidoctor-diagram', '~> 1.4.0' #{conum-guard}<1>
+  gem 'asciidoctor-diagram', '~> 1.5.4' #{conum-guard}<1>
   gem 'jekyll-asciidoc'
   ...
 end
