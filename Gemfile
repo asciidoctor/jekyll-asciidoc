@@ -16,5 +16,5 @@ if (ENV.key? 'JEKYLL_VERSION') && (Gem::Version.new ENV['JEKYLL_VERSION']) < (Ge
   gem 'pygments.rb', '~> 0.6.3'
 else
   # NOTE pygments.rb >= 1.1.0 includes support for JRuby
-  gem 'pygments.rb', '~> 1.1.1'
+  gem 'pygments.rb', '~> 1.1.2'
 end

@@ -825,7 +825,7 @@ If you're using Jekyll 3, add the `pygments.rb` gem to your [.path]_Gemfile_:
 
 [source,ruby]
 ----
-gem 'pygments.rb', '~> 1.1.1'
+gem 'pygments.rb', '~> 1.1.2'
 ----
 
 As part of this integration, Asciidoctor generates a custom stylesheet tailored specially to work with the HTML that Asciidocotor produces.
