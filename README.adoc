@@ -362,7 +362,7 @@ asciidoc:
   page_attribute_prefix: jekyll
 ----
 
-A hyphen is automatically added to the value of this configuration setting if the value is non-empty.
+A hyphen is automatically added to the value of this configuration setting if the value is non-empty (e.g, jekyll-).
 
 Since version 2.0.0 of this plugin, all non-hidden AsciiDoc files are processed by default, even those without a front matter header.
 If you only want files containing a front matter header to be processed (as was the behavior prior to version 2.0.0), add the `require_front_matter_header` option to the `asciidoc` block of your {path-config}:
@@ -447,7 +447,7 @@ asciidoctor:
 CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash structure, you must enclose the value in quotes.
 Beware that there are additional edge cases when the value must be enclosed in quotes.
 
-Since version 2.1.0 of this plugin, you can remove a previously defined attribute by prefixing the name with a hyphen (aka minus):
+Since version 2.1.0 of this plugin, you can remove a previously defined attribute by prefixing the name with a minus sign (without any space between):
 
 [source,yaml]
 ----
@@ -461,7 +461,7 @@ One of those is `base_dir`, which is covered in the next section.
 
 ==== Specifying the Base Directory
 
-In Asciidoctor, the base directory (i.e., `base_dir` option) is used as the root when resolving non-nested, relative includes, among other paths.
+In Asciidoctor, the base directory (i.e., `base_dir` option) is used as the root when resolving relative include paths in top-level documents.
 
 By default, this plugin does not specify a base directory when invoking the Asciidoctor API.
 Asciidoctor will therefore use the current working directory (i.e., the project root) as the base directory.
@@ -476,6 +476,7 @@ asciidoctor:
 ----
 
 If, instead, you want the base directory to track the directory of the document being processed, and you're using Jekyll 3 or better, you can set the value of the `base_dir` option to `:docdir`.
+This behavior matches how Asciidoctor works when running it outside of Jekyll.
 Since the base directory is also the jail, we also recommend setting the `safe` option to `unsafe` so that you can still resolve paths outside of this directory.
 
 [source,yaml]
@@ -490,6 +491,39 @@ IMPORTANT: The `:docdir` setting is not available when using Jekyll 2.
 
 You can also set the `base_dir` option to any relative or absolute path.
 In that case, the same value will be used for all documents.
+
+==== Using AsciiDoc attributes in a Liquid template
+
+Let's say you want to reuse your AsciiDoc attributes in a Liquid template.
+This section describes how to do it.
+
+Liquid can only access simple data structures, not complex ones like the one used to store site-wide AsciiDoc attributes. (Site-wide AsciiDoc attributes are stored deep within the Jekyll configuration data as a Hash with symbol keys).
+This puts them out of the reach of Liquid templates by default.
+
+This plugin must store site-wide AsciiDoc attributes in this way due to how Jekyll is implemented and the lifecycle it exposes for plugins.
+That part can't be changed.
+The plugin is limited by Jekyll's design.
+However, YAML provides a mechanism that we can leverage to expose these attributes to our Liquid templates.
+
+First, you define your AsciiDoc attributes at the top level of your configuration file where Liquid is able to access them.
+If you also assign a YAML reference to this key, you can then pass that Hash to the attributes key in the asciidoctor block, thus allowing the configuration to be shared.
+
+[source,yaml]
+----
+asciidoc_attributes: &asciidoc_attributes
+  imagesdir=/images
+asciidoctor:
+  attributes: *asciidoc_attributes
+  ...
+----
+
+You can now reference one of the site-wide AsciiDoc attributes in the Liquid template as follows:
+
+----
+{{ site.asciidoc_attributes.imagesdir }}
+----
+
+Keep in mind that the value of the attribute will be unmodified from the value defined in the configuration file.
 
 ==== Enabling Hard Line Breaks Globally
 
