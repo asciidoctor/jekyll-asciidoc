@@ -98,6 +98,9 @@ The plugin depends on the [.app]*{uri-gem-asciidoctor}[asciidoctor]* gem, which 
 
 Your method of installation will depend on whether you use Bundler to manage the dependencies for your Jekyll project.
 
+IMPORTANT: Jekyll relies on several native gems, so it's necessary to have the Ruby development headers (e.g., ruby.h) on your machine in order to install AsciiDoc Jekyll (due to the requirements of Jekyll).
+The instructions for how to install the Ruby development headers are platform-specific and outside of the scope of this document.
+
 === Installation Using Bundler
 
 If you're using Bundler to manage the dependencies for your project (as recommended), simply add the [.app]*jekyll-asciidoc* gem to the `:jekyll_plugins` group in your [.path]_Gemfile_:
