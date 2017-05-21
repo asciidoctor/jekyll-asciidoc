@@ -675,8 +675,9 @@ TIP: You can find additional examples of custom templates in the {uri-asciidocto
 In order to use Asciidoctor Diagram in a Jekyll project successfully, *you must use Jekyll >= 3.0.0 and a version of this plugin >= 2.0.0*.
 Other combinations are known to have issues.
 
-[IMPORTANT]
-For Graphviz and PlantUML diagram generation, {uri-graphviz}[Graphviz] must be installed (i.e., the `dot` utility must be available on your `$PATH`.
+IMPORTANT: For Graphviz and PlantUML diagram generation, {uri-graphviz}[Graphviz] must be installed (i.e., the `dot` utility must be available on your `$PATH`.
+
+TIP: To follow a start-to-finish tutorial that covers how to integrate Asciidoctor Diagram, see https://gist.github.com/mojavelinux/968623c493190dd61c059c2d85f9bdc3[this gist].
 
 === Installation
 
