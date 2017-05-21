@@ -759,6 +759,17 @@ describe 'Jekyll::AsciiDoc' do
       end
     end
 
+    it 'should merge singular variables with collection variables' do
+      post = find_post '2016-02-02-post-with-singular-vars.adoc'
+      expect(post).not_to be_nil
+      expect(post.data['categories']).to eql(['code', 'javascript', 'node'])
+      expect(post.data['tags']).to eql(['syntax', 'beginner', 'tip'])
+      if ::Jekyll::MIN_VERSION_3
+        file = output_file 'code/javascript/node/2016/02/02/post-with-singular-vars.html'
+        expect(::File).to exist(file)
+      end
+    end
+
     it 'should convert revdate to local Time object and use it as date of post' do
       # NOTE Time.parse without time zone assumes time zone of site
       date = ::Time.parse('2016-06-15 10:30:00')
