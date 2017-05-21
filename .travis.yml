@@ -26,6 +26,7 @@ deploy:
   on:
     tags: true
     rvm: *release_rvm
+    condition: -z $JEKYLL_VERSION
   provider: rubygems
   api_key:
     secure: ciClQ+wu4bVkDSIAaFi/dqAmObn+H3VVVPvgSGxcT4liTN54b/UFFgpOewpz4k2NyxMY6qQR7NLnM130WI+ly9yksM/KllJOY4Y+LurPEpY77SoAt2r/1G5R+T7rnlZp3FKsgHTBEHorb6JdQ2xWkr5Z+mIcV1AzSO0rEk/gwGo=
