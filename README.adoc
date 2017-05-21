@@ -181,7 +181,7 @@ puts "Hello, World!"
 
 === Page Attributes
 
-AsciiDoc attributes defined in the AsciiDoc document header and whose name begins with ``page-``footnote:[The prefix used to label page attributes can be customized.] get promoted to {uri-variables}[page variables].
+Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins with ``page-``footnote:[The prefix used to label page attributes can be customized.] gets promoted to a {uri-variables}[page variables].
 The part of the name after the `page-` prefix is _lowercased_ and used as the variable name (e.g., page-layout becomes layout).
 The value is processed as {uri-yaml}[YAML] data (single-line form).
 
@@ -210,7 +210,7 @@ To review, here are the different ways to specify a layout using the AsciiDoc at
 
 === Implicit Page Variables
 
-In addition to page attributes defined explicitly, the following implicit AsciiDoc attributes are also promoted to page variables:
+In addition to page attributes defined explicitly (e.g., layout, permalink, etc), the following implicit AsciiDoc attributes are also promoted to page variables:
 
 * doctitle (aka the document title) (becomes title)
 * id (becomes docid)
