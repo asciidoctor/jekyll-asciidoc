@@ -1022,6 +1022,12 @@ TIP: When using this setup, don't forget to add the [.path]_.nojekyll_ file to t
 If you want to take a shortcut that skips all the steps in the previously mentioned tutorial, clone the {uri-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
 JAQ includes a Rake build that is preconfigured to deploy to GitHub Pages from Travis CI and also provides a theme (page layout and CSS) that properly styles body content generated from AsciiDoc.
 
+==== Feeling Responsive
+
+If you're looking for a Jekyll theme that provides comprehensive and mature styles and layouts out of the box, check out the https://github.com/Phlow/feeling-responsive[Feeling Responsive] theme.
+It includes integration with this plugin, which you simply have to enable.
+Refer to the https://phlow.github.io/feeling-responsive/getting-started/[Getting Started] page for a step-by-step guide to get your site started and feeling responsive.
+
 === Using this Plugin on GitLab Pages
 
 Deployment to GitLab Pages is much simpler.
