@@ -79,6 +79,13 @@ module Jekyll
           data.update adoc_data
         end
 
+        { 'category' => 'categories', 'tag' => 'tags' }.each do |sole_key, coll_key|
+          if (sole_val = data.delete sole_key) &&
+              !((coll_val = (data[coll_key] ||= [])).include? sole_val)
+            coll_val << sole_val 
+          end
+        end
+
         case data['layout']
         when nil
           document.content = %(#{StandaloneOptionLine}#{document.content}) unless data.key? 'layout'
