@@ -55,44 +55,44 @@ module Jekyll
       #
       # Returns a [Boolean] indicating whether the document should be published.
       def integrate document, collection_name = nil
-        document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless document.data.key? 'layout'
+        data = document.data
+        document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless data.key? 'layout'
         return true unless (doc = @converter.load_header document)
 
         # NOTE id is already reserved in Jekyll for another purpose, so we'll map id to docid instead
-        document.data['docid'] = doc.id if doc.id
-        document.data['title'] = doc.doctitle if doc.header?
-        document.data['author'] = doc.author if doc.author
+        data['docid'] = doc.id if doc.id
+        data['title'] = doc.doctitle if doc.header?
+        data['author'] = doc.author if doc.author
         if collection_name == 'posts' && (doc.attr? 'revdate')
-          document.data['date'] = ::Jekyll::Utils.parse_date doc.revdate,
+          data['date'] = ::Jekyll::Utils.parse_date doc.revdate,
               %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
           # NOTE Jekyll 2.3 requires date field to be set explicitly
-          document.date = document.data['date'] if document.respond_to? :date=
+          document.date = data['date'] if document.respond_to? :date=
         end
 
         no_prefix = (prefix_size = @page_attr_prefix.length) == 0
-        unless (adoc_header_data = doc.attributes
-            .each_with_object({}) {|(key, val), accum|
+        unless (adoc_data = doc.attributes.each_with_object({}) {|(key, val), accum|
               if no_prefix || ((key.start_with? @page_attr_prefix) && key = key[prefix_size..-1])
                 accum[key] = ::String === val ? (parse_yaml_value val) : val
               end
             }).empty?
-          document.data.update adoc_header_data
+          data.update adoc_data
         end
 
-        case document.data['layout']
+        case data['layout']
         when nil
-          document.content = %(#{StandaloneOptionLine}#{document.content}) unless document.data.key? 'layout'
+          document.content = %(#{StandaloneOptionLine}#{document.content}) unless data.key? 'layout'
         when '', '_auto'
           layout = collection_name ? (collection_name.chomp 's') : 'page'
-          document.data['layout'] = (document.site.layouts.key? layout) ? layout : 'default'
+          data['layout'] = (document.site.layouts.key? layout) ? layout : 'default'
         when false
-          document.data.delete 'layout'
+          data.delete 'layout'
           document.content = %(#{StandaloneOptionLine}#{document.content})
         end
 
         document.extend Document
-        document.extend NoLiquid unless document.data['liquid']
-        document.data.fetch 'published', true
+        document.extend NoLiquid unless data['liquid']
+        data.fetch 'published', true
       end
 
       def generate_pygments_stylesheet site, attrs
