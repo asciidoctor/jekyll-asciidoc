@@ -5,18 +5,21 @@
 This document provides a high-level view of the changes to the {project-name} by release.
 For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
 
-== Unreleased
+== 2.1.0 (2017-05-21) - @mojavelinux
 
-* Add `tocify_asciidoc` Liquid filter for generating a table of contents from the parsed AsciiDoc document (Jekyll 3+ only)
+* Add `tocify_asciidoc` Liquid filter for generating a table of contents from the parsed AsciiDoc document (Jekyll 3+ only) (#37)
 * Remove trailing `@` when resolving attribute reference in value of attribute defined in config
 * Set minimum version of Ruby to 1.9.3 in the gemspec
 * Prefixing attribute defined in config with minus removes previously defined (e.g., built-in) attribute (#123)
 * Convert attribute values in config as follows: true becomes empty string; false becomes nil, number becomes string (#127)
+* Merge category page variable into categories variable and tag page variable into tags variable (#149)
+* Assign document ID to page variable named docid (#146)
 * Enable CI for Windows platform by configuring job on AppVeyor
 * Catch SyntaxError when using Psych YAML parser with Ruby 1.9.3
 * Document that the name of page variable created from a page attribute is automatically lowercased
 * Parse the value of the revdate attribute using `Jekyll::Utils.parse_date`
 * Document how to assign a specific time to a post
+* Document how to make site-wide AsciiDoc attributes accessible to Liquid templates (#137)
 * Fix crash when converting an auto-extracted excerpt when base_dir option is set to :docdir
 * Add additional documentation and make other minor improvements to the README
 
