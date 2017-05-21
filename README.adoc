@@ -723,6 +723,8 @@ gems:
 
 The preceding configurations are equivalent to passing `-r asciidoctor-diagram` to the `asciidoctor` command.
 
+TIP: You can enable other extensions for Asciidoctor, such as asciidoctor-bibtex, using the same technique.
+
 === Generated Image Location
 
 Asciidoctor Diagram needs some context in order to write the images to the proper location.
