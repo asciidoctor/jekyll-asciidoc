@@ -185,6 +185,14 @@ Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins
 The part of the name after the `page-` prefix is _lowercased_ and used as the variable name (e.g., page-layout becomes layout).
 The value is processed as {uri-yaml}[YAML] data (single-line form).
 
+Since the attribute value is processed as YAML data, you can build nested data structure using the inline YAML syntax.
+For example, here's how you can assign a value to the `page.header.image` page variable:
+
+[source,asciidoc]
+----
+:page-header: { image: logo.png }
+----
+
 IMPORTANT: The AsciiDoc document header stops after the first blank line.
 You may use include directives in the the document header, but make sure the included file does not contain a blank line.
 
