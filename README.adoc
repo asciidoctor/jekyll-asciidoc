@@ -1253,11 +1253,12 @@ The coding style is as follows:
 * Indent using 2 spaces, generally.
 
 * Indent successive lines of conditions, method arguments or ternary expressions using 4 spaces (but not data structures or chained method calls).
-// QUESTION are we sure chained method calls should be an exception?
+// Q: are we sure chained method calls should be an exception?
 
 * Don't indent `when` lines in a case block.
 
 * Wrap API docs at 120 characters.
+// 80 or 100 seems more comfortable to read
 
 * Leave a single space inside brackets of a Hash (let it breathe).
 
@@ -1295,6 +1296,7 @@ The coding style is as follows:
   subs = format_mark == '`' ? BASIC_SUBS : NORMAL_SUBS
 
 * Drop parentheses when using fallback values for assignments.
+//Q: what about in method arguments or array entries?
 
   a, b = $1 || $3, $2 || $4
 
