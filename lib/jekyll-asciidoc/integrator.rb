@@ -80,7 +80,7 @@ module Jekyll
         end
 
         { 'category' => 'categories', 'tag' => 'tags' }.each do |sole_key, coll_key|
-          if (sole_val = data.delete sole_key) &&
+          if (sole_val = data[sole_key]) &&
               !((coll_val = (data[coll_key] ||= [])).include? sole_val)
             coll_val << sole_val 
           end
