@@ -25,8 +25,9 @@ notifications:
 deploy:
   on:
     tags: true
+    repo: asciidoctor/jekyll-asciidoc
     rvm: *release_rvm
     condition: -z $JEKYLL_VERSION
   provider: rubygems
   api_key:
-    secure: ciClQ+wu4bVkDSIAaFi/dqAmObn+H3VVVPvgSGxcT4liTN54b/UFFgpOewpz4k2NyxMY6qQR7NLnM130WI+ly9yksM/KllJOY4Y+LurPEpY77SoAt2r/1G5R+T7rnlZp3FKsgHTBEHorb6JdQ2xWkr5Z+mIcV1AzSO0rEk/gwGo=
+    secure: WcoJlksDKr2sot55YvXjkZ4ZodRQtURK58SLHMvZTvvKh/HgHpRCYa3OfO7Xtso0Ff1iZlsL+PmMUXlJbjXI5TTreDkgHVXsDk0+EMLBks/2cV+EPqq/UaTgB0EDUXhEXFG36YsRXcy9Rs85zi/xaA5UajWOSvzAbCeRlzpYxzo=
