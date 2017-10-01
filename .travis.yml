@@ -1,33 +1,36 @@
+dist: trusty
 sudo: false
 git:
-  depth: 1
+  # use depth 2 just in case two refs get pushed at once (like a tag)
+  depth: 2
 language: ruby
 rvm:
-  - &release_rvm 2.4.0
-  - 2.3.3
-  - 2.2.6
-  - 2.1.10
-  - jruby-9.1.7.0
+- &release_rvm 2.4.2
+- 2.3.5
+- 2.2.8
+- 2.1.10
+- jruby-9.1.13.0
 env:
-  - ''
-  - JEKYLL_VERSION=2.3.0
+- ''
+- JEKYLL_VERSION=2.3.0
 matrix:
   exclude:
-    - rvm: 2.4.0
-      env: JEKYLL_VERSION=2.3.0
-    - rvm: jruby-9.1.7.0
-      env: JEKYLL_VERSION=2.3.0
+  - rvm: 2.4.2
+    env: JEKYLL_VERSION=2.3.0
+  - rvm: jruby-9.1.13.0
+    env: JEKYLL_VERSION=2.3.0
 script: bundle exec rake spec
 notifications:
   email:
     on_success: never
     on_failure: change
 deploy:
+  provider: rubygems
+  gem: jekyll-asciidoc
   on:
     tags: true
     repo: asciidoctor/jekyll-asciidoc
     rvm: *release_rvm
     condition: -z $JEKYLL_VERSION
-  provider: rubygems
   api_key:
     secure: WcoJlksDKr2sot55YvXjkZ4ZodRQtURK58SLHMvZTvvKh/HgHpRCYa3OfO7Xtso0Ff1iZlsL+PmMUXlJbjXI5TTreDkgHVXsDk0+EMLBks/2cV+EPqq/UaTgB0EDUXhEXFG36YsRXcy9Rs85zi/xaA5UajWOSvzAbCeRlzpYxzo=
