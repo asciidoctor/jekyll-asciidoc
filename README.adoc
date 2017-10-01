@@ -116,6 +116,8 @@ Then, run the `bundle` command from Bundler to install the gem:
 
  $ bundle
 
+Jekyll will automatically activate any plugins listed in the `:jekyll_plugins` group.
+
 === Manual Installation
 
 If you're not using Bundler to manage the dependencies for your Jekyll project, you'll need to install the gem manually:
@@ -126,6 +128,14 @@ NOTE: The `sudo` prefix is only required if you are installing gems into your sy
 To avoid this bad practice, we recommend using RVM (or another Ruby version manager), which sets up Ruby safely in your home directory.
 
 Then add the [.app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load in your site's {path-config} file:
+
+[source,yaml]
+----
+plugins:
+  - jekyll-asciidoc
+----
+
+If you're running Jekyll < 3.5.0, you'll need to use `gems` in place of `plugins`:
 
 [source,yaml]
 ----
@@ -737,8 +747,16 @@ Once that's done, add the gem to the list gems for Jekyll to load in your site's
 
 [source,ruby]
 ----
+plugins:
+- asciidoctor-extension-xyz
+----
+
+If you're running Jekyll < 3.5.0, you'll need to use `gems` in place of `plugins`:
+
+[source,ruby]
+----
 gems:
-  - asciidoctor-extension-xyz
+- asciidoctor-extension-xyz
 ----
 
 If the extension you want to use is not published as a gem, or is something you're developing, then you'll load it like an ad-hoc Jekyll plugin.
@@ -801,13 +819,22 @@ Install gems manually
 
  $ [sudo] gem install asciidoctor-diagram
 
-Then, add the `asciidoctor-diagram` gem to the list of gems for Jekyll to load in your site's {path-config} file:
+Then, add the `asciidoctor-diagram` gem to the list of plugins for Jekyll to load in your site's {path-config} file:
+
+[source,yaml]
+----
+plugins:
+- asciidoctor-diagram
+- jekyll-asciidoc
+----
+
+If you're running Jekyll < 3.5.0, you'll need to use `gems` in place of `plugins`:
 
 [source,yaml]
 ----
 gems:
-  - asciidoctor-diagram
-  - jekyll-asciidoc
+- asciidoctor-diagram
+- jekyll-asciidoc
 ----
 --
 
