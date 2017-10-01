@@ -132,7 +132,7 @@ Then add the [.app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load 
 [source,yaml]
 ----
 plugins:
-  - jekyll-asciidoc
+- jekyll-asciidoc
 ----
 
 If you're running Jekyll < 3.5.0, you'll need to use `gems` in place of `plugins`:
@@ -140,7 +140,7 @@ If you're running Jekyll < 3.5.0, you'll need to use `gems` in place of `plugins
 [source,yaml]
 ----
 gems:
-  - jekyll-asciidoc
+- jekyll-asciidoc
 ----
 
 == Creating Pages
@@ -426,9 +426,9 @@ The value of this option can either be an Array containing key-value pairs:
 ----
 asciidoctor:
   attributes:
-    - idprefix=_
-    - source-highlighter=pygments
-    - pygments-css=style
+  - idprefix=_
+  - source-highlighter=pygments
+  - pygments-css=style
 ----
 
 or key-value pairs defined as a Hash:
@@ -554,7 +554,7 @@ If you want to enable this behavior for AsciiDoc files, add the `hardbreaks-opti
 ----
 asciidoctor:
   attributes:
-    - hardbreaks-option
+  - hardbreaks-option
 ----
 
 If you want to allow individual files to override this setting, then assign the value `@` to the attribute:
@@ -563,7 +563,7 @@ If you want to allow individual files to override this setting, then assign the 
 ----
 asciidoctor:
   attributes:
-    - hardbreaks-option=@
+  - hardbreaks-option=@
 ----
 
 If you already have AsciiDoc attributes defined in the {path-config}, the new attribute should be added as a sibling entry in the YAML collection.
@@ -577,7 +577,7 @@ If you want to use this plugin when running Jekyll in safe mode, you must add th
 [source,yaml]
 ----
 whitelist:
-  - jekyll-asciidoc
+- jekyll-asciidoc
 ----
 
 Safe mode is enabled either through the `--safe` flag:
@@ -908,7 +908,7 @@ An alternative to the monkeypath approach is to identify folders that contain ge
 [source,yaml]
 ----
 keep_files: 
-  - images
+- images
 asciidoctor:
   base_dir: :docdir
   safe: unsafe
@@ -1049,8 +1049,8 @@ or in the site configuration:
 ----
 asciidoctor:
   attributes:
-    - icons=font
-    ...
+  - icons=font
+  ...
 ----
 
 === Image-based Admonition and Inline Icons
@@ -1072,8 +1072,8 @@ or your site configuration:
 ----
 asciidoctor:
   attributes:
-    - icons
-    - iconsdir=/images/icons
+  - icons
+  - iconsdir=/images/icons
 ----
 
 Then, simply put the icon images that the page needs in the [.path]_images/icons_ directory.
@@ -1130,17 +1130,17 @@ You can then use the following [.path]_.gitlab-ci.yml_ file to get starting host
 image: ruby:2.3
 cache:
   paths:
-    - .bundle
+  - .bundle
 before_script:
-  - bundle --path .bundle/gems
+- bundle --path .bundle/gems
 pages:
   script:
-    - bundle exec jekyll build -d public --config _config.yml,_config-gitlab.yml -q
+  - bundle exec jekyll build -d public --config _config.yml,_config-gitlab.yml -q
   artifacts:
     paths:
-      - public
+    - public
   only:
-    - master
+  - master
 ----
 
 This script runs Jekyll on the official Ruby Docker container.
