@@ -762,10 +762,12 @@ describe 'Jekyll::AsciiDoc' do
     it 'should merge singular variables with collection variables' do
       post = find_post '2016-02-02-post-with-singular-vars.adoc'
       expect(post).not_to be_nil
-      expect(post.data['categories']).to eql(['code', 'javascript', 'node'])
-      expect(post.data['tags']).to eql(['syntax', 'beginner', 'tip'])
+      expect(post.data['category']).to eql('code')
+      expect(post.data['categories']).to eql(['code', 'node', 'javascript'])
+      expect(post.data['tag']).to eql('syntax')
+      expect(post.data['tags']).to eql(['syntax', 'tip', 'beginner'])
       if ::Jekyll::MIN_VERSION_3
-        file = output_file 'code/javascript/node/2016/02/02/post-with-singular-vars.html'
+        file = output_file 'code/node/javascript/2016/02/02/post-with-singular-vars.html'
         expect(::File).to exist(file)
       end
     end
