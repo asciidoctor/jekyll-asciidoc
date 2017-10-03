@@ -4,6 +4,7 @@ git:
   # use depth 2 just in case two refs get pushed at once (like a tag)
   depth: 2
 language: ruby
+# NOTE 1.9.3 is tested on Windows (see appveyor.yml)
 rvm:
 - &release_rvm 2.4.2
 - 2.3.5
