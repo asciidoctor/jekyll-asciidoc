@@ -1,7 +1,7 @@
 = Post With Categories
-:page-category: node
-:page-categories: [code, javascript]
-:page-tag: tip
-:page-tags: [syntax, beginner]
+:page-category: code
+:page-categories: [node, javascript]
+:page-tag: syntax
+:page-tags: [tip, beginner]
 
 Lorem ipsum.
