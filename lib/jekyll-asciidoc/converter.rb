@@ -204,7 +204,7 @@ module Jekyll
       end
 
       def convert content
-        return '' if content.nil_or_empty?
+        return '' if content.nil? || content.empty?
         setup
         if (standalone = content.start_with? StandaloneOptionLine)
           content = content[StandaloneOptionLine.length..-1]
