@@ -109,9 +109,7 @@ module Jekyll
         unless (css_dir = (attrs['stylesdir'] || '').chomp '@').empty? || (css_dir.start_with? '/')
           css_dir = %(/#{css_dir})
         end
-        if (css_name = attrs['pygments-stylesheet']).nil_or_empty?
-          css_name = 'asciidoc-pygments.css'
-        end
+        css_name = attrs['pygments-stylesheet'] || 'asciidoc-pygments.css'
         css_file = ::File.join css_base, css_dir, css_name
         css_style = (attrs['pygments-style'] || 'vs').chomp '@'
         css = ::Asciidoctor::Stylesheets.instance.pygments_stylesheet_data css_style
