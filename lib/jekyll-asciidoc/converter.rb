@@ -204,7 +204,8 @@ module Jekyll
       end
 
       def convert content
-        return '' if content.nil_or_empty?
+        # NOTE don't use nil_or_empty? since that's only provided only by Asciidoctor
+        return '' unless content && !content.empty?
         setup
         if (standalone = content.start_with? StandaloneOptionLine)
           content = content[StandaloneOptionLine.length..-1]
