@@ -1,0 +1,154 @@
+= Coding Style Guide
+
+This document describes the coding style used in this project.
+It also serves as an incubator for the coding style guide used throughout the Asciidoctor project.
+Note that these guidelines are still evolving.
+
+The coding style rules are as follows:
+
+* Indent using 2 spaces, generally.
+
+* Indent successive lines of conditions, method arguments or ternary expressions using 4 spaces (but not data structures or chained method calls).
+// Q: are we sure chained method calls should be an exception?
+
+* Don't indent `when` lines in a case block.
+
+* Wrap API docs at 120 characters.
+// 80 or 100 seems more comfortable to read
+
+* Leave a single space inside brackets of a Hash (let it breathe).
+
+  { "key" => "value" }
+
+* Use JSON-style key-value pair when key is a Symbol.
+
+  { key: "value" }
+
+* Fully qualify the class name (beginning with `::`) of any type not in the current namespace.
+
+  ::File.extname path
+
+* Use triple equals to check for type, placing the type on the left hand side.
+
+  ::Hash === attrs
+
+* Drop parentheses around method arguments of a method definition.
+
+  def integrate document, collection_name = nil
+    ...
+  end
+
+* Drop parentheses around method arguments of an isolated method call.
+
+  source = ::File.expand_path config['source']
++
+  if key.start_with? '!'
+    ...
+  end
+
+* Don't surround expression value of variable assignment in parantheses.
+
+  part = section.sectname == 'part'
+  subs = format_mark == '`' ? BASIC_SUBS : NORMAL_SUBS
+
+* Drop parentheses when using fallback values for assignments.
+//Q: what about in method arguments or array entries?
+
+  a, b = $1 || $3, $2 || $4
+
+* For chained method calls, wrap parentheses around nested method call.
+  (NOTE: This produces a warning in Ruby < 2).
+
+  asciidoctor_config.replace (Utils.symbolize_keys asciidoctor_config)
+
+* Add `%r` prefix to inline regexp when used as the first argument of a method.
+
+  files.grep %r/^spec\//
+
+* Use parentheses outside of a method call when parentheses are required.
+
+  layout = collection_name ? (collection_name.chomp 's') : 'page'
++
+  if (::Jekyll::Utils.method dlg_method.name).arity == -1
+    ...
+  end
+
+* Use parentheses where required, such as around the accumulator seed value for a collection predicate.
+
+  hash.each_with_object({}) {|(key, val), accum| accum[key.to_sym] = val }
+
+* Don't put curly braces around entries in an options Hash (i.e., symbol keys).
+
+  record_path_info document, source_only: true
+
+* Use a trailing condition for single-line statements.
+
+  clear_path_info if Document === document
+
+* Put parentheses around a variable assignment inside a condition.
+
+  if (imagesdir = attrs['imagesdir'])
+
+* Use variable reference to check for nil.
+
+  if base
+
+* Use `%()` instead of double quotes around interpolated strings.
+
+  %(--- #{val})
+
+* Use single quotes around string if interpolation is not required.
+
+  'asciidoctor'
+
+* Name constants using pascal style.
+
+  NewLine = %(\n)
+
+* Define each static regular expression (regexp) as a constant so it's precompiled.
+  Append `Rx` suffix to name.
+
+  ExtensionRx = /^\.adoc$/
+
+* Place the regular expression (regexp) before the string when creating a match.
+
+  ExtensionRx =~ ext
++
+  ExtensionRx.match ext
+
+* Use parentheses in traditional style when writing test assertions.
+
+  expect(site.config['asciidoc']['processor']).to eql('asciidoctor')
+  expect(result.key? 'icons').to be true
+  expect(contents).to match('<div class="page-content">')
+
+* Use `.size` to get the length of a collection and `.length` to get the length of a string.
+
+  "abc".length
+  [1, 2, 3].size
+
+* Use `+#[0]+` and `+#[-1]+` to get the first and last element of an Array, respectively, rather than `#first` and `#last`.
+  NOTE: You still have to use `#first` and `#last` on an Enumerable object that's not an Array.
+
+  a = [1, 2, 3]
+  a[0]
+  a[-1]
+
+* Pass symbol reference to `.map` when invoking no-args method on iteration variable (parens are required).
+
+  lines.map(&:strip)
+
+* When calling `raise` to raise an exception, pass the exception class as the first argument and the message as the second.
+  Write the message as a sentence, but exclude the period.
+
+  raise ::ArgumentError, 'Not a valid argument'
+
+* Use name instead of symbol to alias a method.
+
+  alias copy original
+
+////
+* use `do; end` for multi-line blocks; use `{}` for single-line blocks
+* try to make assignments in condition if scoped to that block
+* close empty block on same line if empty - `rescue ::NameError; end`
+////
