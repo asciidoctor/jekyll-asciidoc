@@ -203,10 +203,20 @@ For example, here's how you can assign a value to the `page.header.image` page v
 :page-header: { image: logo.png }
 ----
 
-IMPORTANT: The AsciiDoc document header stops after the first blank line.
-You may use include directives in the the document header, but make sure the included file does not contain a blank line.
+To define a page attribute that contains multiple words, use either a hyphen or underscore character to connect the words.
 
-TIP: Use either a hyphen or an underscore as a separator for page attributes with multiple words (e.g., page-short-name).
+[source,asciidoc]
+----
+:page-short-name: slug
+----
+
+IMPORTANT: Page attributes must be defined in the document header.
+That means either putting them directly below the document title (the line beginning with a single equals sign in the sample above) or above all other AsciiDoc content if the document title is not defined in AsciiDoc.
+The AsciiDoc document header stops after the first blank line.
+For more details about the document header, see the http://asciidoctor.org/docs/user-manual/#doc-header[Document Header] chapter in the Asciidoctor User Manual.
+
+IMPORTANT: You may use include directives in the the document header.
+However, you must ensure that the file included _does not_ contain blank lines.
 
 === Specifying a Layout
 
