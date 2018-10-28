@@ -1,6 +1,6 @@
 version: '{build}'
 skip_tags: true
-clone_depth: 1
+clone_depth: 2
 environment:
   matrix:
   # For the list of Ruby versions installed, see https://www.appveyor.com/docs/installed-software#ruby
@@ -14,7 +14,7 @@ install:
 - ruby -v
 - gem -v
 - bundle version
-- bundle --jobs=3 --path=.bundle/gems
+- bundle --jobs=3 --path=.bundle\gems
 build_script:
 - bundle exec rake build
 test_script:
