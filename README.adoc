@@ -245,6 +245,45 @@ In addition to page attributes defined explicitly (e.g., layout, permalink, etc)
 * author
 * revdate (becomes date; value is converted to a DateTime object; posts only)
 
+==== Showing the Document Title
+
+By default, when Asciidoctor converts your document, it does not include the document title in the body (aka `content`) part of the document that is passed to the layout.
+Instead, it skims off the document title and assigns it to the model as `page.title`.
+If you don't see the document title on the generated page at first, that's normal.
+
+There are two ways to have the document title included in the page:
+
+. Configure the layout to output the document title explicitly
+. Configure Asciidoctor to include the document title in the body
+
+The first option is the most typical.
+Somewhere in your layout, you should include the following statement:
+
+----
+<h1>{{ page.title }}</h1>
+----
+
+This approach gives you the most control over how the document title appears and what HTML is used to enclose it.
+
+If, instead, you want the document title to be included in the body, add the following configuration to your site's {path-config} file:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - showtitle=@
+----
+
+It's also possible to enable or override this setting per page.
+
+[source,asciidoc]
+----
+= Page Title
+:showtitle:
+----
+
+Using either of these approaches, the document title will be shown on the generated page.
+
 ==== Giving Your Post the Time of Day
 
 By default, all posts are assigned a date that is computed from the file name (e.g., the date for 2016-03-20-welcome.adoc is 2016-03-20).
