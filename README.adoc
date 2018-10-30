@@ -965,6 +965,70 @@ asciidoctor:
     imagesdir: /images
 ----
 
+== Enabling STEM Support
+
+Thanks to Asciidoctor, Jekyll AsciiDoc provides built-in support for processing STEM (Science, Technology, Engineering & Math) equations in your AsciiDoc documents.
+To enable this support, you just need to do a bit of configuration.
+
+=== Activating the STEM processing
+
+The first thing you need to do is activate the STEM processing integration in the processor itself.
+To do that, set the `stem` attribute on the document.
+One way is to set the `stem` attribute in the document header:
+
+[source,asciidoc]
+----
+= Page Title
+:stem:
+----
+
+Alternatively, you can enable it the `stem` attribute globally for all AsciiDoc documents in your site by adding the following to your site's {path-config} file:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - stem
+----
+
+To learn more about the built-in STEM integration, see the https://asciidoctor.org/docs/user-manual/#activating-stem-support[STEM] chapter in the Asciidoctor User Manual.
+
+=== Adding the STEM assets to the page
+
+Technically, Asciidoctor only prepares the STEM equations for interpretation by https://mathjax.org[MathJax].
+That means you have to load MathJax on any page that contains STEM equations (or all pages, if that's easier).
+To do so requires some customization of the page layout.
+
+First, create the file [.path]__includes/mathjax.html_ and populate it with the following contents:
+
+[source,html]
+----
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+----
+
+Then, include this file before the closing `</body>` tag in your page layout.
+
+----
+{% include mathjax.html %}
+----
+
+With that configuration in place, the STEM equations in your AsciiDoc file will be presented beautifully using MathJax.
+
 == Adding Supplemental Assets
 
 Certain Asciidoctor features, such as icons, require additional CSS rules and other assets to work.
