@@ -181,7 +181,7 @@ module Jekyll
         setup
         record_paths document, source_only: true if defined? ::Jekyll::Hooks
         # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
-        header = (document.content.split HeaderBoundaryRx, 2)[0]
+        header = (document.content.split HeaderBoundaryRx, 2)[0] || ''
         case @asciidoc_config['processor']
         when 'asciidoctor'
           opts = @asciidoctor_config.merge parse_header_only: true
