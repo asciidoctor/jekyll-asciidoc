@@ -1,7 +1,6 @@
 module Jekyll
   module AsciiDoc
-    Jekyll3Compatible = (jekyll_version = ::Gem::Version.new ::Jekyll::VERSION) >= (::Gem::Version.new '3.0.0')
-    Jekyll3_1 = (::Gem::Requirement.new '~> 3.1.0').satisfied_by? jekyll_version
+    Jekyll3_1 = (::Gem::Requirement.new '~> 3.1.0').satisfied_by? ::Gem::Version.new ::Jekyll::VERSION
   end
 end
 

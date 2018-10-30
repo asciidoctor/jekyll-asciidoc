@@ -59,7 +59,7 @@ image:https://img.shields.io/travis/asciidoctor/jekyll-asciidoc/master.svg[Build
 image:https://ci.appveyor.com/api/projects/status/3cf1f8p2cyoaoc25/branch/master?svg=true&passingText=green%20bar&failingText=%23fail&pendingText=checking[Build Status (AppVeyor), link={uri-ci-appveyor}]
 endif::[]
 
-A plugin for {uri-jekyll}[Jekyll] (>= 2.3.0) that converts the {uri-asciidoc}[AsciiDoc] source files in your site to HTML pages using {uri-asciidoctor}[Asciidoctor].
+A plugin for {uri-jekyll}[Jekyll] (>= 3.0.0) that converts the {uri-asciidoc}[AsciiDoc] source files in your site to HTML pages using {uri-asciidoctor}[Asciidoctor].
 
 ifeval::['{branch}' == 'master']
 NOTE: You're viewing the documentation for the upcoming release.
@@ -87,7 +87,7 @@ These attributes are merged with the page variables defined in the front matter 
 
 Liquid Filters::
 * `asciidocify` -- Uses the converter from this plugin to convert a string of AsciiDoc content to HTML.
-* `tocify_asciidoc` -- Generates a table of contents in HTML from the parsed AsciiDoc document of the current page (since 2.1.0; only for Jekyll 3 or better and Asciidoctor).
+* `tocify_asciidoc` -- Generates a table of contents in HTML from the parsed AsciiDoc document of the current page (since 2.1.0).
 
 These extensions are registered automatically when the [.app]*jekyll-asciidoc* gem is required.
 
@@ -151,7 +151,7 @@ There are a few conditions that must be met in order for an AsciiDoc file to be 
 . The file must have an AsciiDoc file extension (see <<configuration>>).
 . The name of the file must not begin with a dot (`.`) or an underscore (`_`).footnoteref:[excluded_files,Hidden files and folders are automatically excluded by Jekyll.]
 . The file must not be located in a folder whose name begins with a dot (`.`) or an underscore (`_`) (unless the folder is a designated collection, such as _posts).footnoteref:[excluded_files]
-. _(Optional beginning with version 2.0.0 of this plugin)_ Aside from posts, documents must begin with a {uri-front-matter}[front matter header].
+. While you can use a Jekyll front matter header, it is not required.
 
 Here's a sample AsciiDoc file that meets these criteria:
 
@@ -318,7 +318,7 @@ Note that the revision line must be preceded by the implicit author line.
 
 === Enabling Liquid Preprocessing
 
-Unlike other content files, the {uri-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (as of version 2.0.0 of this plugin).
+Unlike other content files, the {uri-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (since version 2.0.0 of this plugin).
 If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the `liquid` page variable (shown here defined using a page attribute).
 
 [source,asciidoc]
@@ -330,7 +330,7 @@ IMPORTANT: AsciiDoc files may include a {uri-front-matter}[front matter header] 
 If present, the front matter header must be the very first character of the file.
 The front matter header won't be seen--and could distort conversion--if the front matter is preceded by whitespace or a Byte Order Mark (BOM).
 
-NOTE: As of version 2.0.0 of this plugin, you may exclude the front matter header, as shown in the second example above.
+NOTE: Since version 2.0.0 of this plugin, you may exclude the front matter header, as shown in the second example above.
 Prior to version 2.0.0, you had to include at least an empty front matter header (except for posts).
 In these cases, you define all the page variables (e.g., layout) using AsciiDoc page attributes instead of in the front matter.
 You can also use a combination of both.
@@ -351,12 +351,10 @@ You can preview your site at \http://localhost:4000 using:
 
  $ jekyll serve
 
-Since Jekyll 2.4.0, the `serve` command monitors the file system and rebuilds the site whenever a change is detected by default (i.e., watch mode).
-You can enable watch mode explicitly using the `--watch` flag:
+The `serve` command monitors the file system and rebuilds the site whenever a change is detected by default (i.e., watch mode).
+To disable watch mode, use the `--no-watch` flag:
 
- $ jekyll serve --watch
-
-To disable watch mode explicitly, use the `--no-watch` flag instead.
+ $ jekyll serve --no-watch
 
 You can also use the `--watch` flag with the `build` command:
 
@@ -554,8 +552,6 @@ asciidoctor:
   ...
 ----
 
-IMPORTANT: The `:docdir` setting is not available when using Jekyll 2.
-
 You can also set the `base_dir` option to any relative or absolute path.
 In that case, the same value will be used for all documents.
 
@@ -667,7 +663,7 @@ TIP: This filter allows you to compose site-wide data in AsciiDoc, such your sit
 
 === Generating a Table of Contents
 
-Since version 2.1.0 of this plugin, if you're using Jekyll 3 or better, you can use the `tocify_asciidoc` filter to generate a table of contents from the content of any page that is generated from AsciiDoc.
+Since version 2.1.0 of this plugin, you can use the `tocify_asciidoc` filter to generate a table of contents from the content of any page that is generated from AsciiDoc.
 This filter gives you the ability to place this table of contents anywhere inside the page layout, but outside the main content.
 
 You apply the `tocify_asciidoc` filter to `page.document`, the page variable that resolves to the parsed AsciiDoc document, as shown here:
@@ -832,7 +828,7 @@ For a concrete example of using an Asciidoctor extension, refer to the next sect
 == Enabling Asciidoctor Diagram
 
 {uri-asciidoctor-diagram}[Asciidoctor Diagram] is a set of extensions for Asciidoctor that allow you to embed diagrams generated by PlantUML, Graphviz, ditaa, Shaape, and other plain-text diagram tools inside your AsciiDoc documents.
-In order to use Asciidoctor Diagram in a Jekyll project successfully, *you must use Jekyll >= 3.0.0 and a version of this plugin >= 2.0.0*.
+In order to use Asciidoctor Diagram in a Jekyll project successfully, *you must use a version of this plugin >= 2.0.0*.
 Other combinations are known to have issues.
 
 IMPORTANT: For Graphviz and PlantUML diagram generation, {uri-graphviz}[Graphviz] must be installed (i.e., the `dot` utility must be available on your `$PATH`.
@@ -1055,17 +1051,16 @@ You need to augment the layout to include resources typically present in a stand
 === Stylesheet for Code Highlighting
 
 Asciidoctor integrates with Pygments to provide code highlighting of source blocks in AsciiDoc content.
-This integration is separate from the Pygments integration in Jekyll 2.
 
 To enable Pygments, you must install the `pygments.rb` gem.
-This gem is bundled with Jekyll 2, so no further action is needed when if you're using Jekyll 2.
-To use Pygments with Ruby >= 2.4 or JRuby, you must install pygments.rb >= 1.1.0, which also requires Jekyll >= 3.0.0.
-If you're using Jekyll 3, add the `pygments.rb` gem to your [.path]_Gemfile_:
+To do so, add the `pygments.rb` gem to your [.path]_Gemfile_:
 
 [source,ruby]
 ----
 gem 'pygments.rb', '~> 1.1.2'
 ----
+
+IMPORTANT: To use Pygments with Ruby >= 2.4 or JRuby, you must install pygments.rb >= 1.1.0.
 
 As part of this integration, Asciidoctor generates a custom stylesheet tailored specially to work with the HTML that Asciidocotor produces.
 Since this stylesheet is backed by the Pygments API, it provides access to all the themes in Pygments
