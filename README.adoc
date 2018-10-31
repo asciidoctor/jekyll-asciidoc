@@ -240,10 +240,12 @@ To review, here are the different ways to specify a layout using the AsciiDoc at
 
 In addition to page attributes defined explicitly (e.g., layout, permalink, etc), the following implicit AsciiDoc attributes are also promoted to page variables:
 
-* doctitle (aka the document title) (becomes title)
-* id (becomes docid)
+* doctitle (aka the document title) (becomes `title`)
+* id (becomes `docid`)
 * author
-* revdate (becomes date; value is converted to a DateTime object; posts only)
+* revdate (becomes `date`; value is converted to a DateTime object; posts only)
+
+Although not an implicit page variable, another very common page variable to set is `page-description`, which becomes `description` in the model.
 
 ==== Showing the Document Title
 
