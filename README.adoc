@@ -336,6 +336,17 @@ In these cases, you define all the page variables (e.g., layout) using AsciiDoc 
 You can also use a combination of both.
 When intermixed, the page attributes defined in the AsciiDoc header take precedence.
 
+If you're using the Liquid include tag to include HTML into the AsciiDoc document, you need to enclose it in a passthrough block.
+
+----
+++++
+{% include file.html %}
+++++
+----
+
+This is necessary since AsciiDoc will escape HTML by default.
+To pass it through as is requires enclosing in a passthrough block.
+
 == Building and Previewing Your Site
 
 You can build your site into the [.path]__site_ directory using:
