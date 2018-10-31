@@ -544,10 +544,8 @@ describe 'Jekyll::AsciiDoc' do
       expect(::File).to exist(out_file)
       contents = ::File.read out_file
       expect(contents).to include(%(docdir=#{::Dir.pwd}))
-      if ::Jekyll::MIN_VERSION_3
-        expect(contents).to include(%(docfile=#{src_file}))
-        expect(contents).to include(%(docname=#{::File.basename src_file, '.adoc'}))
-      end
+      expect(contents).to include(%(docfile=#{src_file}))
+      expect(contents).to include(%(docname=#{::File.basename src_file, '.adoc'}))
     end
 
     it 'should only register pre and post render hooks once' do
@@ -561,7 +559,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(hooks_registry[:pages][:post_render].size).to eql(1)
       expect(hooks_registry[:documents][:pre_render].size).to eql(1)
       expect(hooks_registry[:documents][:post_render].size).to eql(1)
-    end if ::Jekyll::MIN_VERSION_3
+    end
   end
 
   describe 'explicit site time' do
@@ -688,11 +686,7 @@ describe 'Jekyll::AsciiDoc' do
     it 'should use automatic title if no document title is given' do
       post = find_post '2016-05-31-automatic-title.adoc'
       expect(post).not_to be_nil
-      if ::Jekyll::MIN_VERSION_3
-        expect(post.data['title']).to eql('Automatic Title')
-      else
-        expect(post.data['title']).to be_nil
-      end
+      expect(post.data['title']).to eql('Automatic Title')
       file = output_file '2016/05/31/automatic-title.html'
       expect(::File).to exist(file)
       contents = ::File.read file
@@ -753,10 +747,8 @@ describe 'Jekyll::AsciiDoc' do
       post = find_post '2016-02-01-post-with-categories.adoc'
       expect(post).not_to be_nil
       expect(post.data['categories']).to eql(['code', 'javascript'])
-      if ::Jekyll::MIN_VERSION_3
-        file = output_file 'code/javascript/2016/02/01/post-with-categories.html'
-        expect(::File).to exist(file)
-      end
+      file = output_file 'code/javascript/2016/02/01/post-with-categories.html'
+      expect(::File).to exist(file)
     end
 
     it 'should merge singular variables with collection variables' do
@@ -766,16 +758,14 @@ describe 'Jekyll::AsciiDoc' do
       expect(post.data['categories']).to eql(['code', 'node', 'javascript'])
       expect(post.data['tag']).to eql('syntax')
       expect(post.data['tags']).to eql(['syntax', 'tip', 'beginner'])
-      if ::Jekyll::MIN_VERSION_3
-        file = output_file 'code/node/javascript/2016/02/02/post-with-singular-vars.html'
-        expect(::File).to exist(file)
-      end
+      file = output_file 'code/node/javascript/2016/02/02/post-with-singular-vars.html'
+      expect(::File).to exist(file)
     end
 
     it 'should convert revdate to local Time object and use it as date of post' do
       # NOTE Time.parse without time zone assumes time zone of site
       date = ::Time.parse('2016-06-15 10:30:00')
-      date = date.localtime if ::Jekyll::MIN_VERSION_3
+      date = date.localtime
       slug = 'post-with-date'
       post = find_post %(#{date.strftime '%Y-%m-%d'}-#{slug}.adoc)
       expect(post).not_to be_nil
@@ -789,7 +779,7 @@ describe 'Jekyll::AsciiDoc' do
 
     it 'should convert revdate with time zone to local Time object and use it as date of post' do
       date = ::Time.parse('2016-07-15 04:15:30 -0600')
-      date = date.localtime if ::Jekyll::MIN_VERSION_3
+      date = date.localtime
       slug = 'post-with-date-and-tz'
       post = find_post %(#{date.strftime '%Y-%m-%d'}-#{slug}.adoc)
       expect(post).not_to be_nil
@@ -803,7 +793,7 @@ describe 'Jekyll::AsciiDoc' do
 
     it 'should convert revdate in revision line to local Time object and use it as date of post' do
       date = ::Time.parse('2016-07-20 05:45:25 -0600')
-      date = date.localtime if ::Jekyll::MIN_VERSION_3
+      date = date.localtime
       slug = 'post-with-date-in-revision-line'
       post = find_post %(#{date.strftime '%Y-%m-%d'}-#{slug}.adoc)
       expect(post).not_to be_nil
@@ -877,7 +867,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to include(%(outdir=#{::File.dirname out_file}))
       expect(contents).to include(%(outpath=/about/))
     end
-  end if ::Jekyll::MIN_VERSION_3
+  end
 
   describe 'site with include relative to root' do
     let :name do
@@ -909,12 +899,10 @@ describe 'Jekyll::AsciiDoc' do
       contents = ::File.read out_file
       expect(contents).to include('Doc Writer')
       expect(contents).to include(%(docdir=#{::Dir.pwd}))
-      if ::Jekyll::MIN_VERSION_3
-        expect(contents).to include(%(docfile=#{src_file}))
-        expect(contents).to include(%(outfile=#{out_file}))
-        expect(contents).to include(%(outdir=#{::File.dirname out_file}))
-        expect(contents).to include(%(outpath=/about/))
-      end
+      expect(contents).to include(%(docfile=#{src_file}))
+      expect(contents).to include(%(outfile=#{out_file}))
+      expect(contents).to include(%(outdir=#{::File.dirname out_file}))
+      expect(contents).to include(%(outpath=/about/))
     end
   end
 
@@ -936,12 +924,10 @@ describe 'Jekyll::AsciiDoc' do
       contents = ::File.read out_file
       expect(contents).to include('Doc Writer')
       expect(contents).to include(%(docdir=#{site.source}))
-      if ::Jekyll::MIN_VERSION_3
-        expect(contents).to include(%(docfile=#{src_file}))
-        expect(contents).to include(%(outfile=#{out_file}))
-        expect(contents).to include(%(outdir=#{::File.dirname out_file}))
-        expect(contents).to include(%(outpath=/about/))
-      end
+      expect(contents).to include(%(docfile=#{src_file}))
+      expect(contents).to include(%(outfile=#{out_file}))
+      expect(contents).to include(%(outdir=#{::File.dirname out_file}))
+      expect(contents).to include(%(outpath=/about/))
     end
 
     it 'should not process file that begins with an underscore' do
@@ -988,7 +974,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to include(%(outfile=#{out_file}))
       expect(contents).to include(%(outdir=#{::File.dirname out_file}))
       expect(contents).to include(%(outpath=/blueprints/blueprint-b.html))
-    end if ::Jekyll::MIN_VERSION_3
+    end
   end
 
   describe 'pygments code highlighting' do
@@ -1071,5 +1057,5 @@ describe 'Jekyll::AsciiDoc' do
       expect(aside).to include('<a href="#major-section-a">Major Section A</a>')
       expect(aside).not_to include('Micro Section')
     end
-  end if ::Jekyll::MIN_VERSION_3
+  end
 end

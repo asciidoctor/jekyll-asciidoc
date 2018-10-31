@@ -9,7 +9,10 @@ Gem::Specification.new do |s|
   s.email = ['dan.j.allen@gmail.com']
   s.homepage = 'https://github.com/asciidoctor/jekyll-asciidoc'
   s.license = 'MIT'
-  s.required_ruby_version = '>= 1.9.3'
+  # NOTE the required ruby version is informational only
+  # it matches the minimum version required by Jekyll
+  # we don't enforce it because it can't be overridden and can cause builds to break
+  #s.required_ruby_version = '>= 2.1.0'
 
   files = begin
     output = IO.popen('git ls-files -z', err: File::NULL) {|io| io.read }.split %(\0)
