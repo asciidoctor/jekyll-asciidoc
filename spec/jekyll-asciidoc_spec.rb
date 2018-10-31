@@ -446,6 +446,14 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to include('<p>Lorem ipsum.</p>')
     end
 
+    it 'should convert an AsciiDoc file with only a front matter header' do
+      file = output_file 'with-front-matter-header-only.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include('<title>Front Matter Only</title>')
+      expect(contents).to include(%(<div class="page-content">\n\n</div>))
+    end
+
     it 'should apply explicit id and role attributes on section titles' do
       file = output_file 'section-with-id-and-role.html'
       expect(::File).to exist(file)
