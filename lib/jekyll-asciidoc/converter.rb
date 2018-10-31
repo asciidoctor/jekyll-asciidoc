@@ -83,12 +83,7 @@ module Jekyll
             when ':source'
               asciidoctor_config[:base_dir] = source
             when ':docdir'
-              if defined? ::Jekyll::Hooks
-                asciidoctor_config[:base_dir] = :docdir
-              else
-                @logger.warn MessageTopic, 'Using :docdir as value of base_dir option requires Jekyll 3. Falling back to source directory.'
-                asciidoctor_config[:base_dir] = source
-              end
+              asciidoctor_config[:base_dir] = :docdir
             else
               asciidoctor_config[:base_dir] = ::File.expand_path base if base
             end

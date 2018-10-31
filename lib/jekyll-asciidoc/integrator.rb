@@ -27,7 +27,6 @@ module Jekyll
           (converter.matches page.ext) ? (integrate page) : true
         end
 
-        # NOTE posts were migrated to a collection named 'posts' in Jekyll 3
         site.posts.select! do |post|
           (converter.matches post.ext) ? (integrate post, 'posts') : true
         end if site.respond_to? :posts=
@@ -64,10 +63,7 @@ module Jekyll
         data['title'] = doc.doctitle if doc.header?
         data['author'] = doc.author if doc.author
         if collection_name == 'posts' && (doc.attr? 'revdate')
-          data['date'] = ::Jekyll::Utils.parse_date doc.revdate,
-              %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
-          # NOTE Jekyll 2.3 requires date field to be set explicitly
-          document.date = data['date'] if document.respond_to? :date=
+          data['date'] = ::Jekyll::Utils.parse_date doc.revdate, %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
         end
 
         no_prefix = (prefix_size = @page_attr_prefix.length) == 0
