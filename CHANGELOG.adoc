@@ -5,6 +5,10 @@
 This document provides a high-level view of the changes to the {project-name} by release.
 For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
 
+== Unreleased
+
+* honor layout defined in frontmatter defaults (#187)
+
 == 2.1.0 (2017-05-21) - @mojavelinux
 
 * Add `tocify_asciidoc` Liquid filter for generating a table of contents from the parsed AsciiDoc document (Jekyll 3+ only) (#37)
