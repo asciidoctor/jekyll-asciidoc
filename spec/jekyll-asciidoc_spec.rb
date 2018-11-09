@@ -633,6 +633,28 @@ describe 'Jekyll::AsciiDoc' do
     end
   end
 
+  describe 'use front matter defaults' do
+    let :name do
+      'front_matter_defaults'
+    end
+
+    before(:each) { site.process }
+
+    it 'should use the layout for the default scope when no layout is specified' do
+      file = output_file 'page.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include('<p>Footer for general layout.</p>')
+    end
+
+    it 'should use the layout for the matching scope when no layout is specified' do
+      file = output_file 'docs/page.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include('<p>Footer for docs layout.</p>')
+    end
+  end
+
   describe 'require front matter header' do
     let :name do
       'require_front_matter_header'

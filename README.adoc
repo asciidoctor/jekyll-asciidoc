@@ -206,7 +206,7 @@ To review, here are the different ways to specify a layout using the AsciiDoc at
 * `:page-layout: info` -- use the layout named `info` (e.g., [.path]__layout/info.html_)
 * _not specified_, `:page-layout:` or `:page-layout: _auto` -- use the automatic layout (i.e., `page` for pages, `post` for posts, the singular form of the collection label for a document; if the auto-selected layout isn't available, the layout `default` is used)
 * `:!page-layout:` or `:page-layout: false` -- don't use a layout; instead, generate a standalone HTML document
-* `:page-layout: ~` -- don't use a layout (often results in an incomplete HTML file)
+* `:page-layout: ~` or `:page-layout: none` -- don't use a layout or create a standalone HTML document (often produces an HTML fragment); the `~` value only works when defined as an AsciiDoc page attribute; otherwise, the value `none` must be used
 
 === Implicit Page Variables
 

@@ -1,0 +1,10 @@
+gems:
+  - jekyll-asciidoc
+defaults:
+- values:
+    layout: general
+- scope:
+    path: docs
+    type: pages
+  values:
+    layout: docs
