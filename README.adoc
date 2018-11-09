@@ -103,6 +103,9 @@ Your method of installation will depend on whether you use Bundler to manage the
 IMPORTANT: Jekyll relies on several native gems, so it's necessary to have the Ruby development headers (e.g., ruby.h) on your machine in order to install AsciiDoc Jekyll (due to the requirements of Jekyll).
 The instructions for how to install the Ruby development headers are platform-specific and outside of the scope of this document.
 
+TIP: If you're using RVM, you should add a [.path]_.ruby-version_ file to the project so your shell automatically switches to the correct version of Ruby each time you enter the project.
+For more information, refer to the the page https://rvm.io/workflow/projects[RVM Project Workflow].
+
 === Installation Using Bundler
 
 If you're using Bundler to manage the dependencies for your project (as recommended), simply add the [.app]*jekyll-asciidoc* gem to the `:jekyll_plugins` group in your [.path]_Gemfile_:
@@ -117,6 +120,10 @@ end
 Then, run the `bundle` command from Bundler to install the gem:
 
  $ bundle
+
+If you want to keep the installed gems inside the project, use this command instead:
+
+ $ bundle --path=.bundle/gems
 
 Jekyll will automatically activate any plugins listed in the `:jekyll_plugins` group.
 
