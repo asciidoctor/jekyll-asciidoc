@@ -18,9 +18,8 @@ notifications:
 deploy:
   provider: rubygems
   gem: jekyll-asciidoc
+  api_key: ${RUBYGEMS_API_KEY}
   on:
     tags: true
     repo: asciidoctor/jekyll-asciidoc
     rvm: *release_rvm
-  api_key:
-    secure: WcoJlksDKr2sot55YvXjkZ4ZodRQtURK58SLHMvZTvvKh/HgHpRCYa3OfO7Xtso0Ff1iZlsL+PmMUXlJbjXI5TTreDkgHVXsDk0+EMLBks/2cV+EPqq/UaTgB0EDUXhEXFG36YsRXcy9Rs85zi/xaA5UajWOSvzAbCeRlzpYxzo=
