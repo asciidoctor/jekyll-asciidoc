@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 
 * honor layout defined in frontmatter defaults (#187)
 * don't call nil_or_empty? outside of an Asciidoctor context (#142)
+* handle case when document body is empty (#179)
 
 == 2.1.0 (2017-05-21) - @mojavelinux
 
