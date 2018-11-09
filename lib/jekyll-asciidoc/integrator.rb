@@ -55,7 +55,7 @@ module Jekyll
       # Returns a [Boolean] indicating whether the document should be published.
       def integrate document, collection_name = nil
         data = document.data
-        document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless data.key? 'layout'
+        document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless data['layout']
         return true unless (doc = @converter.load_header document)
 
         # NOTE id is already reserved in Jekyll for another purpose, so we'll map id to docid instead
@@ -91,7 +91,7 @@ module Jekyll
           layout = collection_name ? (collection_name.chomp 's') : 'page'
           data['layout'] = (document.site.layouts.key? layout) ? layout : 'default'
         when false
-          data.delete 'layout'
+          data['layout'] = 'none'
           document.content = %(#{StandaloneOptionLine}#{document.content})
         end
 
