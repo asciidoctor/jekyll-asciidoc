@@ -245,6 +245,18 @@ To review, here are the different ways to specify a layout using the AsciiDoc at
 * `:!page-layout:` or `:page-layout: false` -- don't use a layout; instead, generate a standalone HTML document
 * `:page-layout: ~` or `:page-layout: none` -- don't use a layout or create a standalone HTML document (often produces an HTML fragment); the `~` value only works when defined as an AsciiDoc page attribute; otherwise, the value `none` must be used
 
+=== Disabling Publishing by Page
+
+The prevent a page from being published, set the page attribute named `page-published` to `false` (which, in turn, sets the page variable named `published` to `false`.
+
+[source,asciidoc]
+----
+= Top Secret Info
+:page-published: false
+
+This page should not be published.
+----
+
 === Implicit Page Variables
 
 In addition to page attributes defined explicitly (e.g., layout, permalink, etc), the following implicit AsciiDoc attributes are also promoted to page variables:
