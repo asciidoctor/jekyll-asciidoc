@@ -1,0 +1,4 @@
+// only standalone if page-layout=false is set in site config
+= Standalone Page
+
+Lorem ipsum.

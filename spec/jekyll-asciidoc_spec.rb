@@ -570,6 +570,23 @@ describe 'Jekyll::AsciiDoc' do
     end
   end
 
+  describe 'use site-wide standalone layout' do
+    let :name do
+      'site_wide_standalone_layout'
+    end
+
+    before(:each) { site.process }
+
+    it 'should output a standalone HTML page if the page-layout attribute is false in site config' do
+      file = output_file 'standalone.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include(%(<meta name="generator" content="Asciidoctor #{::Asciidoctor::VERSION}">))
+      expect(contents).to include('<title>Standalone Page</title>')
+      expect(contents).to include('<h1>Standalone Page</h1>')
+    end
+  end
+
   describe 'explicit site time' do
     let :name do
       'explicit_site_time'
