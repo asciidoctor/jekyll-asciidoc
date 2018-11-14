@@ -1,7 +1,7 @@
 gems:
-  - jekyll-asciidoc
+- jekyll-asciidoc
 asciidoctor:
   attributes:
-    - icons=font
-    - sectanchors
-    - table-caption!
+  - icons=font
+  - sectanchors
+  - table-caption!
