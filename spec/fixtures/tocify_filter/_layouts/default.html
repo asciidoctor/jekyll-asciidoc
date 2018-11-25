@@ -8,8 +8,10 @@
 <div class="page-content">
 {{ content }}
 </div>
+{% if page.asciidoc %}
 <aside class="page-toc">
 {{ page.document | tocify_asciidoc: 2 }}
 </aside>
+{% endif %}
 </body>
 </html>

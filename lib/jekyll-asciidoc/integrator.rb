@@ -58,6 +58,7 @@ module Jekyll
         document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless data['layout']
         return true unless (doc = @converter.load_header document)
 
+        data['asciidoc'] = true
         # NOTE id is already reserved in Jekyll for another purpose, so we'll map id to docid instead
         data['docid'] = doc.id if doc.id
         data['title'] = doc.doctitle if doc.header?
