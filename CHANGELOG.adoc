@@ -7,7 +7,20 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 
 == Unreleased
 
+* drop unsupported versions of Ruby and Jekyll
+* handle case when document body is empty (#179)
+* honor layout defined in frontmatter defaults (#187)
+* set asciidoc property to true on all AsciiDoc pages (#189)
 * set asciidoc property to true on any (AsciiDoc) page enriched by this plugin (i.e., page.asciidoc) (#189)
+* don't call nil_or_empty? outside of an Asciidoctor context (#142)
+* don't delete category and tag; sync w/ first entry in array of matching property (#160)
+* document how to enable STEM support (#163)
+* document that a liquid tag that includes HTML must be enclosed in a passthrough block (#180)
+* document that page attributes must be defined in the document header (#172)
+* document both the plugins and gems config keys and when to use one vs the other (#159)
+* document how to disable publishing for a page
+* document how to make a draft post
+* recommend installing gems into project and using a .ruby-version file
 
 == 2.1.1 (2018-11-08) - @mojavelinux
 
