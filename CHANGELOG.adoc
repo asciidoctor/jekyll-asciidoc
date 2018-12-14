@@ -9,8 +9,9 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 
 * drop unsupported versions of Ruby and Jekyll
 * require Jekyll >= 3.0.0
-* handle case when document body is empty (#179)
+* don't crash if document body is empty (#179)
 * honor layout defined in frontmatter defaults (#187)
+* allow page layout to be soft set in site config (#193)
 * set asciidoc property to true on all AsciiDoc pages (#189)
 * set asciidoc property to true on any (AsciiDoc) page enriched by this plugin (i.e., page.asciidoc) (#189)
 * don't call nil_or_empty? outside of an Asciidoctor context (#142)

@@ -55,7 +55,7 @@ module Jekyll
             page_attr_prefix = old_page_attr_prefix_def ? (old_page_attr_prefix_val || '') :
                 ((asciidoc_config.key? 'page_attribute_prefix') ? '' : DefaultPageAttributePrefix)
           end
-          asciidoc_config['page_attribute_prefix'] = page_attr_prefix.chomp '-'
+          asciidoc_config['page_attribute_prefix'] = (page_attr_prefix = page_attr_prefix.chomp '-').empty? ? '' : %(#{page_attr_prefix}-)
           asciidoc_config['require_front_matter_header'] = !!asciidoc_config['require_front_matter_header']
           asciidoc_config.extend Configured
 
@@ -172,11 +172,11 @@ module Jekyll
         @page_context.delete :paths
       end
 
-      def load_header document
+      def load_header document, options = {}
         setup
         record_paths document, source_only: true
-        # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
-        header = (document.content.split HeaderBoundaryRx, 2)[0] || ''
+        # NOTE merely an optimization; if this doesn't match, the header still gets extracted by the processor
+        header = (header = document.content) && HeaderBoundaryRx =~ header ? $` : ''
         case @asciidoc_config['processor']
         when 'asciidoctor'
           opts = @asciidoctor_config.merge parse_header_only: true
@@ -187,6 +187,9 @@ module Jekyll
               paths.delete 'docdir'
             end
             opts[:attributes] = opts[:attributes].merge paths
+          end
+          if (layout_attr = resolve_default_layout document, opts[:attributes])
+            opts[:attributes] = opts[:attributes].merge layout_attr
           end
           # NOTE return instance even if header is empty since attributes may be inherited from config
           doc = ::Asciidoctor.load header, opts
@@ -274,6 +277,30 @@ module Jekyll
         else
           text
         end
+      end
+
+      def resolve_default_layout document, attributes
+        layout_attr_name = %(#{document.site.config['asciidoc']['page_attribute_prefix']}layout)
+        if attributes.key? layout_attr_name
+          if ::String === (layout = attributes[layout_attr_name])
+            if layout == '~@'
+              layout = 'none@'
+            elsif (layout.end_with? '@') && ((document.data.key? 'layout') || document.data['layout'])
+              layout = %(#{(layout = document.data['layout']).nil? ? 'none' : layout}@)
+            else
+              layout = nil
+            end
+          elsif layout.nil?
+            layout = 'none'
+          else
+            layout = layout.to_s
+          end
+        elsif (document.data.key? 'layout') || document.data['layout']
+          layout = %(#{(layout = document.data['layout']).nil? ? 'none' : layout}@)
+        else
+          layout = '@'
+        end
+        layout ? { layout_attr_name => layout } : nil
       end
 
       # Register pre and post render callbacks for saving and clearing contextual AsciiDoc attributes, respectively.

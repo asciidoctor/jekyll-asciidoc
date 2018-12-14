@@ -1,0 +1,4 @@
+= Page Title
+:page-layout: simple
+
+Lorem ipsum.

@@ -1,4 +1,8 @@
-// only standalone if page-layout=false is set in site config
+---
+layout: overridden
+---
+// standalone because page-layout=false is set in site config
 = Standalone Page
+:page-layout: also-overridden
 
 Lorem ipsum.

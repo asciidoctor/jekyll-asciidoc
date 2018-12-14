@@ -19,10 +19,6 @@ module Jekyll
       def generate site
         @converter = converter = (Converter.get_instance site).setup
 
-        unless (@page_attr_prefix = site.config['asciidoc']['page_attribute_prefix']).empty?
-          @page_attr_prefix = %(#{@page_attr_prefix}-)
-        end
-
         site.pages.select! do |page|
           (converter.matches page.ext) ? (integrate page) : true
         end
@@ -54,10 +50,9 @@ module Jekyll
       #
       # Returns a [Boolean] indicating whether the document should be published.
       def integrate document, collection_name = nil
-        data = document.data
-        document.content = [%(:#{@page_attr_prefix}layout: _auto), document.content] * NewLine unless data['layout']
         return true unless (doc = @converter.load_header document)
 
+        data = document.data
         data['asciidoc'] = true
         # NOTE id is already reserved in Jekyll for another purpose, so we'll map id to docid instead
         data['docid'] = doc.id if doc.id
@@ -67,9 +62,10 @@ module Jekyll
           data['date'] = ::Jekyll::Utils.parse_date doc.revdate, %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
         end
 
-        no_prefix = (prefix_size = @page_attr_prefix.length) == 0
+        page_attr_prefix = document.site.config['asciidoc']['page_attribute_prefix']
+        no_prefix = (prefix_size = page_attr_prefix.length) == 0
         unless (adoc_data = doc.attributes.each_with_object({}) {|(key, val), accum|
-              if no_prefix || ((key.start_with? @page_attr_prefix) && key = key[prefix_size..-1])
+              if no_prefix || ((key.start_with? page_attr_prefix) && key = key[prefix_size..-1])
                 accum[key] = ::String === val ? (parse_yaml_value val) : val
               end
             }).empty?
