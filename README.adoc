@@ -1399,18 +1399,3 @@ This plugin was created by Dan Allen and Paul Rayner and has received contributi
 Copyright (C) 2013-2017 Dan Allen, Paul Rayner, and the Asciidoctor Project.
 Free use of this software is granted under the terms of the MIT License.
 See <<LICENSE#,LICENSE>> for details.
-
-////
-[glossary]
-== Glossary
-
-[glossary]
-page variable::
-Data associated with a page, post or document.
-Page variables are defined in the front matter header or as page attributes in the AsciiDoc header.
-
-page attribute::
-Any AsciiDoc attribute that gets promoted to a page variable by this plugin.
-Before being promoted, the designated prefix is removed from the name.
-The value of a page attribute is parse as YAML data.
-////
