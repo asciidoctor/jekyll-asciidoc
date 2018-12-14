@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/asciidoctor/jekyll-asciidoc'
   s.license = 'MIT'
   # NOTE the required ruby version is informational only
-  # it matches the minimum version required by Jekyll
+  # it tracks the minimum version required by Jekyll >= 3.0.0
   # we don't enforce it because it can't be overridden and can cause builds to break
   #s.required_ruby_version = '>= 2.1.0'
 
@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'asciidoctor', '>= 1.5.0'
-  s.add_runtime_dependency 'jekyll', '>= 2.3.0'
+  s.add_runtime_dependency 'jekyll', '>= 3.0.0'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 3.5.0'
