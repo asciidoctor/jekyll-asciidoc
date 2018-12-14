@@ -174,7 +174,7 @@ module Jekyll
 
       def load_header document
         setup
-        record_paths document, source_only: true if defined? ::Jekyll::Hooks
+        record_paths document, source_only: true
         # NOTE merely an optimization; if this doesn't match, the header still gets isolated by the processor
         header = (document.content.split HeaderBoundaryRx, 2)[0] || ''
         case @asciidoc_config['processor']
@@ -194,7 +194,7 @@ module Jekyll
           @logger.warn MessageTopic, %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.)
           doc = nil
         end
-        clear_paths if defined? ::Jekyll::Hooks
+        clear_paths
         doc
       end
 
@@ -280,7 +280,7 @@ module Jekyll
       ::Jekyll::Hooks.tap do |hooks|
         hooks.register [:pages, :documents], :pre_render, &(method :before_render)
         hooks.register [:pages, :documents], :post_render, &(method :after_render)
-      end if defined? ::Jekyll::Hooks
+      end
     end
   end
 end
