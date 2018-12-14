@@ -65,9 +65,7 @@ module Jekyll
                 ::Jekyll::Utils.define_singleton_method dlg_method.name, &dlg_method
               end
             else
-              unless (new_method = dlg_method.owner.method :has_front_matter?).respond_to? :curry
-                new_method = new_method.to_proc # Ruby < 2.2
-              end
+              new_method = dlg_method.owner.method :has_front_matter?
               ::Jekyll::Utils.define_singleton_method dlg_method.name, new_method.curry[dlg_method][asciidoc_ext_re]
             end
           rescue ::NameError; end
