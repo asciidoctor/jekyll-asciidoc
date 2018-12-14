@@ -8,6 +8,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 == Unreleased
 
 * drop unsupported versions of Ruby and Jekyll
+* require Jekyll >= 3.0.0
 * handle case when document body is empty (#179)
 * honor layout defined in frontmatter defaults (#187)
 * set asciidoc property to true on all AsciiDoc pages (#189)
