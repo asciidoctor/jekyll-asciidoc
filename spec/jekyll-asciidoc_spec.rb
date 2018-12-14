@@ -269,7 +269,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(::File).to exist(file)
       contents = ::File.read file
       expect(contents).to match('<div class="page-content">')
-      expect(contents).not_to match('<meta name="generator" content="Asciidoctor 1.5.4">')
+      expect(contents).not_to match(%(<meta name="generator" content="Asciidoctor #{Asciidoctor::VERSION}">))
     end
   end
 
@@ -295,7 +295,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(::File).to exist(file)
       contents = ::File.read file
       expect(contents).to match('<div class="page-content">')
-      expect(contents).not_to match('<meta name="generator" content="Asciidoctor 1.5.4">')
+      expect(contents).not_to match(%(<meta name="generator" content="Asciidoctor #{Asciidoctor::VERSION}">))
     end
   end
 
@@ -386,7 +386,7 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'standalone-a.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<meta name="generator" content="Asciidoctor 1.5.4">')
+      expect(contents).to match(%(<meta name="generator" content="Asciidoctor #{Asciidoctor::VERSION}">))
       expect(contents).to match('<title>Standalone Page A</title>')
       expect(contents).to match('<h1>Standalone Page A</h1>')
     end
@@ -395,7 +395,7 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'standalone-b.html'
       expect(::File).to exist(file)
       contents = ::File.read file
-      expect(contents).to match('<meta name="generator" content="Asciidoctor 1.5.4">')
+      expect(contents).to match(%(<meta name="generator" content="Asciidoctor #{Asciidoctor::VERSION}">))
       expect(contents).to match('<title>Standalone Page B</title>')
       expect(contents).to match('<h1>Standalone Page B</h1>')
     end
