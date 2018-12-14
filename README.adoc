@@ -64,13 +64,13 @@ A plugin for {uri-jekyll}[Jekyll] (>= 3.0.0) that converts the {uri-asciidoc}[As
 ifeval::['{branch}' == 'master']
 NOTE: You're viewing the documentation for the upcoming release.
 If you're looking for the documentation for an older release, please refer to one of the following branches: +
-{uri-repo}/tree/2.1.x#readme[2.1.x]
+{uri-repo}/tree/v2.1.x#readme[2.1.x]
 &hybull;
-{uri-repo}/tree/2.0.x#readme[2.0.x]
+{uri-repo}/tree/v2.0.x#readme[2.0.x]
 &hybull;
-{uri-repo}/tree/1.1.x#readme[1.1.x]
+{uri-repo}/tree/v1.1.x#readme[1.1.x]
 &hybull;
-{uri-repo}/tree/1.0.x#readme[1.0.x]
+{uri-repo}/tree/v1.0.x#readme[1.0.x]
 endif::[]
 
 toc::[]
