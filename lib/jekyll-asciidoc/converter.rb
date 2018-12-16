@@ -95,7 +95,7 @@ module Jekyll
               'site-baseurl' => config['baseurl'],
               'site-url' => config['url']
             }
-            attrs = asciidoctor_config[:attributes] = assemble_attributes asciidoctor_config[:attributes],
+            attrs = asciidoctor_config[:attributes] = compile_attributes asciidoctor_config[:attributes],
                 ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes)
             if (imagesdir = attrs['imagesdir']) && !(attrs.key? 'imagesoutdir') && (imagesdir.start_with? '/')
               attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
@@ -235,7 +235,7 @@ module Jekyll
         hash.each_with_object({}) {|(key, val), accum| accum[key.to_sym] = val }
       end
 
-      def assemble_attributes attrs, initial = {}
+      def compile_attributes attrs, initial = {}
         if (is_array = ::Array === attrs) || ::Hash === attrs
           attrs.each_with_object(initial) {|entry, new_attrs|
             key, val = is_array ? ((entry.split '=', 2) + ['', ''])[0..1] : entry
