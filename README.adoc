@@ -93,6 +93,16 @@ Liquid Filters::
 
 These extensions are registered automatically when the [.app]*jekyll-asciidoc* gem is required.
 
+== Prerequisites
+
+To use this plugin, you must be using Jekyll >= 3.0.0 and Ruby >= 2.1.0 (with development headers installed).
+You should also be familiar with creating sites with Jekyll.
+If you're not, you should first read the {uri-jekyll-docs}[Jekyll documentation] to familiarize yourself with how it works.
+Experience with AsciiDoc and Asciidoctor is also helpful, but not a requirement.
+
+Like Jekyll, this plugin was designed for developers, so some assembly is required.
+That means you'll be expected to edit configuration, modify HTML templates, and customize CSS to use it fully.
+
 == Installation
 
 This plugin is packaged as a gem named [.app]*{uri-gem}[jekyll-asciidoc]* and published to RubyGems.org.
