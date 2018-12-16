@@ -63,9 +63,9 @@ describe 'Jekyll::AsciiDoc' do
       expect(site.config['asciidoc']['ext']).to eql('asciidoc,adoc,ad')
     end
 
-    it 'should use page as page attribute prefix by default' do
+    it 'should use page- as page attribute prefix by default' do
       expect(site.config['asciidoc']).to be_a(::Hash)
-      expect(site.config['asciidoc']['page_attribute_prefix']).to eql('page')
+      expect(site.config['asciidoc']['page_attribute_prefix']).to eql('page-')
     end
 
     it 'should not require a front matter header by default' do
@@ -122,7 +122,7 @@ describe 'Jekyll::AsciiDoc' do
 
     it 'should migrate asciidoc_page_attribute_prefix key' do
       expect(site.config['asciidoc']).to be_a(::Hash)
-      expect(site.config['asciidoc']['page_attribute_prefix']).to eql('jekyll')
+      expect(site.config['asciidoc']['page_attribute_prefix']).to eql('jekyll-')
     end
   end
 
@@ -142,7 +142,7 @@ describe 'Jekyll::AsciiDoc' do
 
     it 'should use new key page_attribute_prefix over legacy key' do
       expect(site.config['asciidoc']).to be_a(::Hash)
-      expect(site.config['asciidoc']['page_attribute_prefix']).to eql('pg')
+      expect(site.config['asciidoc']['page_attribute_prefix']).to eql('pg-')
     end
   end
 
@@ -343,9 +343,9 @@ describe 'Jekyll::AsciiDoc' do
 
     before(:each) { site.process }
 
-    it 'should strip trailing hyphen from page attribute prefix value' do
+    it 'should strip trailing hyphen from page attribute prefix config value' do
       expect(site.config['asciidoc']).to be_a(::Hash)
-      expect(site.config['asciidoc']['page_attribute_prefix']).to eql('jekyll')
+      expect(site.config['asciidoc']['page_attribute_prefix']).to eql('jekyll-')
     end
 
     it 'should recognize page attributes with alternate page attribute prefix' do
@@ -584,6 +584,35 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to include(%(<meta name="generator" content="Asciidoctor #{::Asciidoctor::VERSION}">))
       expect(contents).to include('<title>Standalone Page</title>')
       expect(contents).to include('<h1>Standalone Page</h1>')
+    end
+  end
+
+  describe 'use site-wide fallback layout' do
+    let :name do
+      'site_wide_fallback_layout'
+    end
+
+    before(:each) { site.process }
+
+    it 'should use layout defined in front matter if page-layout is soft set in site config' do
+      file = output_file 'in-front-matter.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include('<p>Footer for simple layout.</p>')
+    end
+
+    it 'should use layout defined in AsciiDoc header if page-layout is soft set in site config' do
+      file = output_file 'in-asciidoc-header.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include('<p>Footer for simple layout.</p>')
+    end
+
+    it 'should use layout defined in site config if not set in page' do
+      file = output_file 'not-set.html'
+      expect(::File).to exist(file)
+      contents = ::File.read file
+      expect(contents).to include('<p>Footer for default layout.</p>')
     end
   end
 
