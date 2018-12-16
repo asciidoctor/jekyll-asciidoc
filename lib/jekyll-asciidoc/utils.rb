@@ -8,6 +8,7 @@ module Jekyll
         (::File.extname path) =~ asciidoc_ext_re ? true : (dlg_method.call path)
       end
 
+      # NOTE use define_method to match signature of original method (and avoid extra call)
       define_method :has_yaml_header?, &(::Jekyll::Utils.method :has_yaml_header?)
     end
   end
