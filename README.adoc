@@ -250,9 +250,9 @@ To review, here are the different ways to specify a layout using the AsciiDoc at
 * `:!page-layout:` or `:page-layout: false` -- don't use a layout; instead, generate a standalone HTML document
 * `:page-layout: none` or `:page-layout: ~` -- don't use a layout or create a standalone HTML document (often produces an HTML fragment); use of the value `~` is discouraged; the value `none` is preferred
 
-=== Disabling Publishing by Page
+=== Disabling Publishing of a Page
 
-The prevent a page from being published, set the page attribute named `page-published` to `false` (which, in turn, sets the page variable named `published` to `false`.
+To prevent a page from being published, set the page attribute named `page-published` to `false` (which, in turn, sets the page variable named `published` to `false`.
 
 [source,asciidoc]
 ----
@@ -343,6 +343,30 @@ Lorem ipsum.
 ----
 
 Note that the revision line must be preceded by the implicit author line.
+
+==== Classifying Your Post
+
+In Jekyll, you classify a post by assigning it to categories and/or tags.
+While you can define them in the front matter, as normal, it's also possible to omit the front matter and assign them in the AsciiDoc header instead.
+
+The AsciiDoc attributes to use to assign categories and tags to your post are `page-categories` and `page-tags`, respectively.
+The attribute value must be expressed using the inline Array syntax for YAML, which is a comma-separated list of items surrounded by square brackets.
+If you only have one item, you can omit the brackets.
+In this case, you can also drop the plural from the attribute name.
+
+[source,asciidoc]
+----
+= Introducing the Jekyll AsciiDoc Plugin
+Author Name
+:page-category: Tech
+:page-tags: [ruby, jekyll, asciidoctor, ssg]
+
+The Jekyll AsciiDoc plugin makes Jekyll awesome.
+Why?
+Because you can write posts like this one in AsciiDoc!
+----
+
+Recall that the value of page attributes is parsed as an inline YAML value.
 
 ==== Publishing a Draft Post
 
