@@ -2,4 +2,4 @@ gems:
 - jekyll-asciidoc
 asciidoctor:
   attributes:
-  - page-layout=false
+    page-layout: false

@@ -260,7 +260,8 @@ module Jekyll
                 end
               else
                 # we may preserve false in the future to mean "unset implicit value but allow doc to override"
-                nil
+                # false already has special meaning for page-layout, so don't coerce it
+                key == 'page-layout' ? val : nil
               end
             end
           }
