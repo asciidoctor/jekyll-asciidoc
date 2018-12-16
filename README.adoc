@@ -121,11 +121,16 @@ Then, run the `bundle` command from Bundler to install the gem:
 
  $ bundle
 
+Jekyll will automatically activate any plugins listed in the `:jekyll_plugins` group.
+
 If you want to keep the installed gems inside the project, use this command instead:
 
  $ bundle --path=.bundle/gems
 
-Jekyll will automatically activate any plugins listed in the `:jekyll_plugins` group.
+TIP: Subsequent calls to `bundle` will retain the `path` setting.
+
+Keep in mind that the gems Bundler installs are linked to the current version of Ruby.
+If you switch Ruby versions, you'll need to run `bundle` again.
 
 === Manual Installation
 
@@ -902,7 +907,7 @@ end
 
 Then, run Bundler's install command to install the new gem:
 
- $ bundle install
+ $ bundle
 --
 
 Without Bundler::
@@ -1283,7 +1288,7 @@ You can then use the following [.path]_.gitlab-ci.yml_ file to get starting host
 .gitlab-ci.yml
 [source,yaml]
 ----
-image: ruby:2.3
+image: ruby:2.5
 cache:
   paths:
   - .bundle
