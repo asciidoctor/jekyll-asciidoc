@@ -513,13 +513,13 @@ idseparator=-
 linkattrs=@
 ....
 
-The following attributes are defined per page:
+The following additional attributes are defined per page:
 
 ....
 outpath=(path of page relative to baseurl)
 ....
 
-You can pass additional attributes to AsciiDoc, or override default attributes provided by the plugin, by using the `attributes` option of the `asciidoctor` block in your {path-config}.
+You can pass custom attributes to AsciiDoc, or override default attributes provided by the plugin, using the `attributes` option of the `asciidoctor` block in your {path-config}.
 The value of this option can either be an Array containing key-value pairs:
 
 [source,yaml]
@@ -551,7 +551,26 @@ asciidoctor:
     sectanchors: ''
 ----
 
-You may use attribute references in the attribute value to reference any implicit or already defined attribute.
+By default, an attribute value defined in {path-config} overrides the same attribute set in the front matter or header of a document.
+For example, if you set `page-layout` in {path-config}, you won't be able to set it per page.
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - page-layout=false
+----
+
+If you want to allow individual pages to be able to override the attribute, append the charcter `@` to the value in {path-config}:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - page-layout=false@
+----
+
+You may use attribute references in the attribute value to reference any attribute that's already defined, including implicit attributes.
 For example, to set the `iconsdir` attribute based on the `imagesdir` attribute, use the following:
 
 [source,yaml]
@@ -562,8 +581,8 @@ asciidoctor:
     iconsdir: '{imagesdir}/icons'
 ----
 
-CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash structure, you must enclose the value in quotes.
-Beware that there are additional edge cases when the value must be enclosed in quotes.
+CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash syntax, you must enclose the value in quotes.
+There are additional edge cases when the value must be enclosed in quotes, so it's generally recommended to use them.
 
 Since version 2.1.0 of this plugin, you can remove a previously defined attribute by prefixing the name with a minus sign (without any space between):
 
@@ -575,7 +594,7 @@ asciidoctor:
 ----
 
 In addition to `attributes`, you may define any other option key (e.g., `safe`) recognized by the {uri-asciidoctor-manual}#ruby-api-options[Asciidoctor API].
-One of those is `base_dir`, which is covered in the next section.
+One of those options is `base_dir`, which is covered in the next section.
 
 ==== Specifying the Base Directory
 
@@ -655,7 +674,7 @@ asciidoctor:
   - hardbreaks-option
 ----
 
-If you want to allow individual files to override this setting, then assign the value `@` to the attribute:
+If you still want to allow individual files to be able to override the attribute, append the charcter `@` to the value in the site configuration:
 
 [source,yaml]
 ----
