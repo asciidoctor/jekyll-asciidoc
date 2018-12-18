@@ -1310,7 +1310,30 @@ You can still automate publishing of the generated site to GitHub Pages using a 
 Refer to the http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] tutorial to find step-by-step instructions.
 You can also refer to the https://github.com/johncarl81/transfuse-site[Transfuse website build^] for an example in practice.
 
-TIP: When using this setup, don't forget to add the [.path]_.nojekyll_ file to the root of the source to tell GitHub Pages not to waste time running Jekyll again on the server.
+In fact, if you're using Travis CI, it's even easier than that.
+Travis CI provides a https://docs.travis-ci.com/user/deployment/pages/[deployer for GitLab Pages]!
+Using this deployer, Travis CI can push your generated site to GitHub Pages after a successful build on your behalf, as long as you've completed these steps:
+
+. Create a personal access token on GitHub that has write access to your GitHub repository (public_repo or repo scope)
+. Define the token as a secure variable name GITHUB_TOKEN on the Travis CI settings page for your repository
+. Add a deploy configuration to your CI job configuration
+
+Here's a sample deploy configuration you can use:
+
+[source,yaml]
+----
+deploy:
+  provider: pages
+  github-token: $GITHUB_TOKEN
+  local-dir: _site
+  target-branch: gh-pages
+  skip-cleanup: true
+  keep-history: true
+  on:
+    branch: master
+----
+
+TIP: When using this setup, don't forget to add the [.path]_.nojekyll_ file to the root of the source directory to tell GitHub Pages not to waste time running Jekyll again on the server.
 
 ==== Jekyll AsciiDoc Quickstart
 
