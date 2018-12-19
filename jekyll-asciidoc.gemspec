@@ -36,5 +36,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'jekyll', '>= 3.0.0'
 
   s.add_development_dependency 'rake', '~> 12.3.2'
+  s.add_development_dependency 'deep-cover-core', '~> 0.7.0'
   s.add_development_dependency 'rspec', '~> 3.8.0'
+  s.add_development_dependency 'simplecov', '~> 0.16.1'
 end
