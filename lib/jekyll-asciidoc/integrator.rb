@@ -5,7 +5,6 @@ module Jekyll
     # source highlighter and configured to use class-based styling.
     class Integrator < ::Jekyll::Generator
       NewLine = Utils::NewLine
-      StandaloneOptionLine = Converter::StandaloneOptionLine
 
       # Enable plugin when running in safe mode; jekyll-asciidoc gem must also be declared in whitelist
       safe true
@@ -83,13 +82,13 @@ module Jekyll
 
         case data['layout']
         when nil
-          document.content = %(#{StandaloneOptionLine}#{document.content}) unless data.key? 'layout'
+          data['standalone'] = true unless data.key? 'layout'
         when '', '_auto'
           layout = collection_name ? (collection_name.chomp 's') : 'page'
           data['layout'] = (document.site.layouts.key? layout) ? layout : 'default'
         when false
           data['layout'] = 'none'
-          document.content = %(#{StandaloneOptionLine}#{document.content})
+          data['standalone'] = true
         end
 
         document.extend Document
