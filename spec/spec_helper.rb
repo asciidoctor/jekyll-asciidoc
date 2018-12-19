@@ -1,7 +1,6 @@
 require 'jekyll'
 require 'fileutils'
 
-Jekyll::MIN_VERSION_3 = (Gem::Version.new Jekyll::VERSION) >= (Gem::Version.new '3.0.0') unless defined? Jekyll::MIN_VERSION_3
 Jekyll.logger.log_level = :error
 
 RSpec.configure do |config|
