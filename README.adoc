@@ -1497,6 +1497,42 @@ Then, run RSpec with the `focus` flag enabled:
 
 You should see that RSpec only runs the specifications that have this flag.
 
+=== Generating Code Coverage
+
+To generate a code coverage report when running tests using simplecov, set the `COVERAGE` environment variable as follows when running the tests:
+
+ $ COVERAGE=true bundle exec rake spec
+
+You'll see a total coverage score as well as a link to the HTML report in the output.
+The HTML report helps you understand which lines and branches were missed, if any.
+
+Despite being fast, the downside of using simplecov is that it misses branches.
+You can use deep-cover to generate a more thorough report.
+To do so, set the `COVERAGE` environment variable as follows when running the tests:
+
+ $ COVERAGE=deep bundle exec rake spec
+
+You'll see a total coverage score, a detailed coverage report, and a link to HTML report in the output.
+The HTML report helps you understand which lines and branches were missed, if any.
+
+////
+As an alternative to deep cover's native HTML reporter, you can also use istanbul / nyc.
+First, you'll need to have the `nyc` command available on your system:
+
+ $ npm install -g nyc
+
+or
+
+ $ yarn global add nyc
+
+Next, in addition to the `COVERAGE` environment variable, also set the `DEEP_COVER_REPORTER` environment variable as follows when running the tests:
+
+ $ COVERAGE=deep DEEP_COVER_REPORTER=istanbul bundle exec rake spec
+
+You'll see a total coverage score, a detailed coverage report, and a link to HTML report in the output.
+The HTML report helps you understand which lines and branches were missed, if any.
+////
+
 === Installing the Gem Locally
 
 You can install the development version of the gem as follows:

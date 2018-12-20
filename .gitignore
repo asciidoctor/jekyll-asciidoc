@@ -2,6 +2,8 @@
 /*.gem
 /.bundle/
 /build/
+/coverage/
+/deep_cover/
 /pkg/
 /Gemfile.lock
 .idea

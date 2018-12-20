@@ -4,9 +4,7 @@ default_tasks = []
 
 begin
   require 'rspec/core/rake_task'
-  RSpec::Core::RakeTask.new(:spec) do |t|
-    t.rspec_opts = ['-c']
-  end
+  RSpec::Core::RakeTask.new :spec
   default_tasks << :spec
 rescue LoadError
 end
