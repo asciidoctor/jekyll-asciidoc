@@ -2,9 +2,7 @@ module Jekyll
   module AsciiDoc
     Jekyll3_1 = (::Gem::Requirement.new '~> 3.1.0').satisfied_by? ::Gem::Version.new ::Jekyll::VERSION
   end
-end
 
-module Jekyll
   class Site
     # Introduce complement to {::Jekyll::Site#find_converter_instance} for generators.
     def find_generator_instance type
@@ -12,3 +10,7 @@ module Jekyll
     end unless method_defined? :find_generator_instance
   end
 end
+
+class Regexp
+  alias match? ===
+end unless Regexp.method_defined? :match?

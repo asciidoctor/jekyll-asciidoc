@@ -5,7 +5,7 @@ module Jekyll
       NewLine = %(\n)
 
       def has_front_matter? dlg_method, asciidoc_ext_re, path
-        (::File.extname path) =~ asciidoc_ext_re ? true : (dlg_method.call path)
+        (asciidoc_ext_re.match? ::File.extname path) || (dlg_method.call path)
       end
 
       # NOTE use define_method to match signature of original method (and avoid extra call)

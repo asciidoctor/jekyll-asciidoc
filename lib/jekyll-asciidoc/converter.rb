@@ -129,7 +129,7 @@ module Jekyll
       end
 
       def matches ext
-        ext =~ @asciidoc_config['ext_re']
+        @asciidoc_config['ext_re'].match? ext
       end
 
       def output_ext ext
