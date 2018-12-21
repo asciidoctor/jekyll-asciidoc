@@ -18,9 +18,9 @@ Gem::Specification.new do |s|
     'source_code_uri' => 'https://github.com/asciidoctor/jekyll-asciidoc'
   }
   # NOTE the required ruby version is informational only
-  # it tracks the minimum version required by Jekyll >= 3.0.0
+  # it tracks the minimum version required by Jekyll >= 3.0.0 (see https://jekyllrb.com/docs/installation/#requirements)
   # we don't enforce it because it can't be overridden and can cause builds to break
-  #s.required_ruby_version = '>= 2.1.0'
+  #s.required_ruby_version = '>= 2.2.0'
 
   files = begin
     (result = Open3.popen3('git ls-files -z') {|_, out| out.read }.split ?\0).empty? ? Dir['**/*'] : result
