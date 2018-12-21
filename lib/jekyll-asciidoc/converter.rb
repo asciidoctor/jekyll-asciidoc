@@ -19,7 +19,6 @@ module Jekyll
       }
       MessageTopic = Utils::MessageTopic
       NewLine = Utils::NewLine
-      StandaloneOptionLine = %([%standalone]#{NewLine})
 
       AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
       HeaderBoundaryRx = /(?<=\p{Graph})#{NewLine * 2}/
@@ -205,12 +204,9 @@ module Jekyll
         # NOTE don't use nil_or_empty? since that's only provided only by Asciidoctor
         return '' unless content && !content.empty?
         setup
-        if (standalone = content.start_with? StandaloneOptionLine)
-          content = content[StandaloneOptionLine.length..-1]
-        end
         case @asciidoc_config['processor']
         when 'asciidoctor'
-          opts = @asciidoctor_config.merge header_footer: standalone
+          opts = @asciidoctor_config.merge header_footer: (@page_context[:data] || {})['standalone']
           if (paths = @page_context[:paths])
             if opts[:base_dir] == :docdir
               opts[:base_dir] = paths['docdir'] # NOTE this assignment happens inside the processor anyway
