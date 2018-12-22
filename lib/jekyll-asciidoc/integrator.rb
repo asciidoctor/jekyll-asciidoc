@@ -22,10 +22,6 @@ module Jekyll
           (converter.matches page.ext) ? (integrate page) : true
         end
 
-        site.posts.select! do |post|
-          (converter.matches post.ext) ? (integrate post, 'posts') : true
-        end if site.respond_to? :posts=
-
         site.collections.each do |name, collection|
           next unless collection.write?
           collection.docs.select! do |doc|
