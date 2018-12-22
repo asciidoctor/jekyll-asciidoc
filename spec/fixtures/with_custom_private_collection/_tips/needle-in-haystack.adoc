@@ -1,0 +1,7 @@
+= Needle In Haystack
+:page-language: js
+
+[source,js]
+----
+if (~haystack.indexOf(needle)) { /* present */ }
+----

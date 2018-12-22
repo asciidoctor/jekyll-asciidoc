@@ -23,7 +23,7 @@ module Jekyll
         end
 
         site.collections.each do |name, collection|
-          next unless collection.write?
+          #next unless collection.write?
           collection.docs.select! do |doc|
             (converter.matches doc.extname) ? (integrate doc, name) : true
           end

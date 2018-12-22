@@ -1,0 +1,15 @@
+---
+---
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tips</title>
+</head>
+<body>
+{% for tip in site.tips %}
+<h1>{{ tip.title }}</h1>
+<h2>Language: {{ tip.language }}</h2>
+{{ tip.content }}
+{% endfor %}
+</body>
+</html>
