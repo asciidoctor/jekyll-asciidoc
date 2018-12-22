@@ -7,8 +7,8 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 
 == Unreleased
 
-* drop unsupported versions of Ruby and Jekyll
-* require Jekyll >= 3.0.0
+* only support Ruby >= 2.2.0 and Jekyll >= 3.0.0
+* update tests to only run against supported versions
 * don't crash if document body is empty (#179)
 * honor layout defined in frontmatter defaults (#187)
 * allow page layout to be soft set in site config (#193)
@@ -24,6 +24,8 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * document how to disable publishing for a page
 * document how to make a draft post
 * recommend installing gems into project and using a .ruby-version file
+* pass standalone option through data instead of prepending to content
+* set up code coverage reports
 
 == 2.1.1 (2018-11-08) - @mojavelinux
 
