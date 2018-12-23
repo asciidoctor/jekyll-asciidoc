@@ -391,7 +391,7 @@ describe 'Jekyll::AsciiDoc' do
 
     before(:each) { site.process }
 
-    it 'should consider a plain AsciiDoc file to have a YAML header' do
+    it 'should add an implicit YAML header to a plain AsciiDoc file' do
       file = source_file 'without-front-matter-header.adoc'
       expect(::Jekyll::Utils.has_yaml_header? file).to be true
     end
@@ -421,7 +421,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to include(%(<p>Just content.\nLorem ipsum.</p>))
     end
 
-    it 'should convert an AsciiDoc with bare AsciiDoc header' do
+    it 'should convert an AsciiDoc that has an AsciiDoc header, but no doctitle' do
       page = find_page 'bare-header.adoc'
       expect(page).not_to be_nil
       expect(page.data.key? 'title').to be false
@@ -433,7 +433,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to include(%(<p>Just content.\nLorem ipsum.</p>))
     end
 
-    it 'should consider an AsciiDoc file with a front matter header to have a YAML header' do
+    it 'should report an AsciiDoc file with a front matter header as having a YAML header' do
       file = source_file 'with-front-matter-header.adoc'
       expect(::Jekyll::Utils.has_yaml_header? file).to be true
     end
@@ -446,7 +446,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(contents).to include('<p>Lorem ipsum.</p>')
     end
 
-    it 'should convert an AsciiDoc file with only a front matter header' do
+    it 'should convert an AsciiDoc file that has only a front matter header, no body' do
       file = output_file 'with-front-matter-header-only.html'
       expect(::File).to exist(file)
       contents = ::File.read file
