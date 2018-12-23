@@ -1,10 +1,9 @@
-# AppVeyor automatically skips the build if the commit contains [ci skip] or [skip ci]
 version: '{build}'
 skip_tags: true
-clone_depth: 10
+clone_depth: 2
 environment:
   matrix:
-  # For the list of Ruby versions installed, see https://www.appveyor.com/docs/linux-images-software/#ruby
+  # see https://www.appveyor.com/docs/build-environment/#ruby for list of installed Ruby runtimes
   - ruby_version: '25'
   - ruby_version: '25-x64'
   - ruby_version: '24'
@@ -12,12 +11,11 @@ environment:
   - ruby_version: '23'
   - ruby_version: '23-x64'
 init:
-# Prepend Ruby path from matrix while removing original Ruby entry (C:\Ruby193\bin)
 - set PATH=C:\Ruby%ruby_version%\bin;%PATH:C:\Ruby193\bin;=%
 - echo %PATH%
 - ruby -v
 - gem -v
-- bundler --version
+- bundle version
 install:
 - bundle --jobs=3 --path=.bundle\gems
 build_script:
