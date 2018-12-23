@@ -21,7 +21,7 @@ module Jekyll
       NewLine = Utils::NewLine
 
       AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
-      HeaderBoundaryRx = /(?<=\p{Graph})#{NewLine * 2}/
+      HeaderBoundaryRx = /(?<=\p{Graph}#{NewLine * 2})/
 
       # Enable plugin when running in safe mode; jekyll-asciidoc gem must also be declared in whitelist
       safe true
@@ -173,7 +173,7 @@ module Jekyll
         setup
         record_paths document, source_only: true
         # NOTE merely an optimization; if this doesn't match, the header still gets extracted by the processor
-        header = (header = document.content) && HeaderBoundaryRx =~ header ? $` : ''
+        header = (content = document.content) ? (HeaderBoundaryRx =~ content ? $` : content) : ''
         case @asciidoc_config['processor']
         when 'asciidoctor'
           opts = @asciidoctor_config.merge parse_header_only: true
