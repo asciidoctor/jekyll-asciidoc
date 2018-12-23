@@ -1539,8 +1539,9 @@ You can install the development version of the gem as follows:
 
  $ bundle exec rake install
 
-This allows you to use an unreleased version of the gem in your site.
-If you want to build the gem and install it manually, use these commands instead:
+This allows you to use an unreleased version of the gem to build your site.
+
+If you want to build the gem and install it yourself, use these commands instead:
 
  $ bundle exec rake build
  $ [sudo] gem install pkg/jekyll-asciidoc-*.dev.gem
