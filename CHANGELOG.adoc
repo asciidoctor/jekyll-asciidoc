@@ -18,6 +18,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * don't call nil_or_empty? outside of an Asciidoctor context (#142)
 * don't delete category and tag; sync w/ first entry in array of matching property (#160)
 * don't coerce a falsy value of page-layout defined in _config.yml to nil
+* integrate collections that are not output (#161)
 * document how to enable STEM support (#163)
 * document that a liquid tag that includes HTML must be enclosed in a passthrough block (#180)
 * document that page attributes must be defined in the document header (#172)

@@ -1061,6 +1061,26 @@ describe 'Jekyll::AsciiDoc' do
     end
   end
 
+  describe 'site with custom private collection' do
+    let :name do
+      'with_custom_private_collection'
+    end
+
+    before(:each) { site.process }
+
+    it 'should integrate pages in collection even when collection is not written' do
+      output_file 'tips/current-branch.html'
+      expect(::File).not_to exist(output_file 'tips/current-branch.html')
+      index_file = output_file 'index.html'
+      expect(::File).to exist(index_file)
+      index_contents = ::File.read index_file
+      expect(index_contents).to include('<h1>Current Branch</h1>')
+      expect(index_contents).to include('<h2>Language: git</h2>')
+      expect(index_contents).to include('<h1>Needle In Haystack</h1>')
+      expect(index_contents).to include('<h2>Language: js</h2>')
+    end
+  end
+
   describe 'pygments code highlighting' do
     let :name do
       'pygments_code_highlighting'

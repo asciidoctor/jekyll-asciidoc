@@ -1,0 +1,6 @@
+gems:
+- jekyll-asciidoc
+collections:
+  tips: {}
+asciidoctor:
+  base_dir: :docdir
