@@ -7,7 +7,7 @@ end
 
 class String
   def nil_or_empty?
-    alias :nil_or_empty? :empty? 
+    alias :nil_or_empty? :empty?
   end
 end
 
