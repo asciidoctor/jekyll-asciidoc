@@ -34,7 +34,6 @@ module Jekyll
         @config = config
         @logger = ::Jekyll.logger
         @page_context = {}
-        @setup = false
 
         # NOTE jekyll-watch reinitializes plugins using a shallow clone of config, so no need to reconfigure
         # NOTE check for Configured only works if value of key is defined in _config.yml as Hash
@@ -100,11 +99,11 @@ module Jekyll
             asciidoctor_config.extend Configured
           end
         end
+
+        load_processor
       end
 
-      def setup
-        return self if @setup
-        @setup = true
+      def load_processor
         case @asciidoc_config['processor']
         when 'asciidoctor'
           begin
@@ -119,7 +118,7 @@ module Jekyll
           @logger.error '', 'Valid options are: asciidoctor'
           @logger.abort_with 'Bailing out; invalid Asciidoctor processor.'
         end
-        self
+        nil
       end
 
       def self.get_instance site
@@ -170,7 +169,6 @@ module Jekyll
       end
 
       def load_header document, options = {}
-        setup
         record_paths document, source_only: true
         # NOTE merely an optimization; if this doesn't match, the header still gets extracted by the processor
         header = (content = document.content) ? (HeaderBoundaryRx =~ content ? $` : content) : ''
@@ -201,7 +199,6 @@ module Jekyll
       def convert content
         # NOTE don't use nil_or_empty? since that's only provided only by Asciidoctor
         return '' unless content && !content.empty?
-        setup
         case @asciidoc_config['processor']
         when 'asciidoctor'
           opts = @asciidoctor_config.merge header_footer: (@page_context[:data] || {})['standalone']

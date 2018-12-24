@@ -16,7 +16,7 @@ module Jekyll
       # This method is triggered each time the site is generated, including after any file has changed when running in
       # watch mode (regardless of incremental setting).
       def generate site
-        @converter = converter = (Converter.get_instance site).setup
+        @converter = converter = Converter.get_instance site
 
         site.pages.select! do |page|
           (converter.matches page.ext) ? (integrate page) : true

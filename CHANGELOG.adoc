@@ -9,6 +9,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 
 * only support Ruby >= 2.2.0 and Jekyll >= 3.0.0
 * update tests to only run against supported versions
+* load processor eagerly (at end of plugin initialization)
 * don't crash if document body is empty (#179)
 * process AsciiDoc header if page has only an AsciiDoc header but no body
 * honor layout defined in frontmatter defaults (#187)
@@ -18,7 +19,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * don't call nil_or_empty? outside of an Asciidoctor context (#142)
 * don't delete category and tag; sync w/ first entry in array of matching property (#160)
 * don't coerce a falsy value of page-layout defined in _config.yml to nil
-* integrate collections that are not output (#161)
+* integrate collections that are not written (output flag is set to false) (#161)
 * document how to enable STEM support (#163)
 * document that a liquid tag that includes HTML must be enclosed in a passthrough block (#180)
 * document that page attributes must be defined in the document header (#172)
