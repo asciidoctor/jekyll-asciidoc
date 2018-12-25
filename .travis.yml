@@ -16,7 +16,9 @@ matrix:
   - rvm: *release_rvm
     env: JEKYLL_VERSION=3.0.0
 install: bundle install --jobs=3 --retry=3
-script: bundle exec rake spec
+script:
+- bundle exec rake spec
+- if [ ! -z $COVERAGE ]; then bundle exec rake lint; fi
 notifications:
   email:
     on_success: never

@@ -28,7 +28,8 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * document how to make a draft post
 * recommend installing gems into project and using a .ruby-version file
 * pass standalone option through data instead of prepending to content
-* set up code coverage reports
+* set up code coverage reports (#196)
+* set up code linter (Rubocop) (#201)
 
 == 2.1.1 (2018-11-08) - @mojavelinux
 
