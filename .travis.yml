@@ -12,6 +12,7 @@ rvm:
 matrix:
   include:
   - rvm: &release_rvm 2.5.3
+    env: COVERAGE=deep
   - rvm: *release_rvm
     env: JEKYLL_VERSION=3.0.0
 install: bundle install --jobs=3 --retry=3
