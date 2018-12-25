@@ -47,17 +47,12 @@ RSpec.configure do |config|
 
   def find_post path
     path = %(_posts/#{path}) unless path.start_with? '_posts/'
-    ((site.respond_to? :posts=) ? site.posts : site.posts.docs).find {|p| p.relative_path == path }
+    site.posts.docs.find {|p| p.relative_path == path }
   end
 
   def find_draft path
     path = %(_drafts/#{path}) unless path.start_with? '_drafts/'
-    if site.respond_to? :posts=
-      path = %(/#{path})
-      site.posts.find {|p| p.relative_path == path }
-    else
-      site.posts.docs.find {|p| p.relative_path == path }
-    end
+    site.posts.docs.find {|p| p.relative_path == path }
   end
 
   def find_doc path, collection_name
