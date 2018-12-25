@@ -57,16 +57,14 @@ module Jekyll
           asciidoc_config['require_front_matter_header'] = !!asciidoc_config['require_front_matter_header']
           asciidoc_config.extend Configured
 
-          begin
-            if (dlg_method = Utils.method :has_yaml_header?) && asciidoc_config['require_front_matter_header']
-              if (::Jekyll::Utils.method dlg_method.name).arity == -1 # not original method
-                ::Jekyll::Utils.define_singleton_method dlg_method.name, &dlg_method
-              end
-            else
-              ::Jekyll::Utils.define_singleton_method dlg_method.name,
-                  (dlg_method.owner.method :has_front_matter?).curry[dlg_method][asciidoc_ext_re]
+          if (dlg_method = Utils.method :has_yaml_header?) && asciidoc_config['require_front_matter_header']
+            if (::Jekyll::Utils.method dlg_method.name).arity == -1 # not original method
+              ::Jekyll::Utils.define_singleton_method dlg_method.name, &dlg_method
             end
-          rescue ::NameError; end
+          else
+            ::Jekyll::Utils.define_singleton_method dlg_method.name,
+                (dlg_method.owner.method :has_front_matter?).curry[dlg_method][asciidoc_ext_re]
+          end
         end
 
         if (@asciidoc_config = asciidoc_config)['processor'] == 'asciidoctor'
