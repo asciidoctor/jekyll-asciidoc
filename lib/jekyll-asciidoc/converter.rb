@@ -57,13 +57,18 @@ module Jekyll
           asciidoc_config['require_front_matter_header'] = !!asciidoc_config['require_front_matter_header']
           asciidoc_config.extend Configured
 
-          if (dlg_method = Utils.method :has_yaml_header?) && asciidoc_config['require_front_matter_header']
-            if (::Jekyll::Utils.method dlg_method.name).arity == -1 # not original method
-              ::Jekyll::Utils.define_singleton_method dlg_method.name, &dlg_method
+          if asciidoc_config['require_front_matter_header']
+            unless (::Jekyll::Utils.method :has_yaml_header?).owner == ::Jekyll::Utils
+              # NOTE restore original method
+              ::Jekyll::Utils.extend (::Module.new do
+                define_method :has_yaml_header?, &(Utils.method :has_yaml_header?)
+              end)
             end
           else
-            ::Jekyll::Utils.define_singleton_method dlg_method.name,
-                (dlg_method.owner.method :has_front_matter?).curry[dlg_method][asciidoc_ext_re]
+            ::Jekyll::Utils.extend (::Module.new do
+              define_method :has_yaml_header?,
+                (Utils.method :has_front_matter?).curry[Utils.method :has_yaml_header?][asciidoc_ext_re]
+            end)
           end
         end
 

@@ -727,7 +727,7 @@ describe 'Jekyll::AsciiDoc' do
       expect(::Jekyll::Utils.has_yaml_header? file).to be true
     end
 
-    it 'should consider an AsciiDoc file without a front matter header to not have a YAML header' do
+    it 'should not consider an AsciiDoc file without a front matter header to have a YAML header' do
       file = source_file 'without-front-matter-header.adoc'
       expect(::Jekyll::Utils.has_yaml_header? file).to be false
     end
