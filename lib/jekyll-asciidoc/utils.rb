@@ -1,8 +1,10 @@
 module Jekyll
   module AsciiDoc
-    module Utils; extend self
+    module Utils
       MessageTopic = 'Jekyll AsciiDoc:'
-      NewLine = %(\n)
+      NewLine = ?\n
+
+      module_function
 
       def has_front_matter? dlg_method, asciidoc_ext_re, path
         (asciidoc_ext_re.match? ::File.extname path) || (dlg_method.call path)

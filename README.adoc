@@ -1533,6 +1533,17 @@ You'll see a total coverage score, a detailed coverage report, and a link to HTM
 The HTML report helps you understand which lines and branches were missed, if any.
 ////
 
+=== Running the Code Linter
+
+Before you commit code, you should run it through the linter to make sure it adheres to the coding style.
+You can run the linter using the following command:
+
+ $ bundle exec rake lint
+
+The coding style is enforced by Rubocop.
+The rules are defined in [.path]_.rubocop.yml_.
+These rules extend from the default rule set provided by Rubocop to match the style of the project.
+
 === Installing the Gem Locally
 
 You can install the development version of the gem as follows:

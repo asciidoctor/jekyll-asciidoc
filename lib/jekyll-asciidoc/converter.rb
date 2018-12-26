@@ -4,7 +4,7 @@ module Jekyll
       DefaultAttributes = {
         'idprefix' => '',
         'idseparator' => '-',
-        'linkattrs' => '@'
+        'linkattrs' => '@',
       }
       DefaultFileExtensions = %w(asciidoc adoc ad)
       DefaultPageAttributePrefix = 'page'
@@ -15,7 +15,7 @@ module Jekyll
         'site-gen-jekyll' => '',
         'builder' => 'jekyll',
         'builder-jekyll' => '',
-        'jekyll-version' => ::Jekyll::VERSION
+        'jekyll-version' => ::Jekyll::VERSION,
       }
       MessageTopic = Utils::MessageTopic
       NewLine = Utils::NewLine
@@ -39,7 +39,8 @@ module Jekyll
         # NOTE check for Configured only works if value of key is defined in _config.yml as Hash
         unless Configured === (asciidoc_config = (config['asciidoc'] ||= {}))
           if ::String === asciidoc_config
-            @logger.warn MessageTopic, 'The AsciiDoc configuration should be defined as Hash under asciidoc key instead of as discrete entries.'
+            @logger.warn MessageTopic,
+                'The AsciiDoc configuration should be defined using Hash on asciidoc key instead of discrete entries.'
             asciidoc_config = config['asciidoc'] = { 'processor' => asciidoc_config }
           else
             asciidoc_config['processor'] ||= 'asciidoctor'
@@ -50,10 +51,11 @@ module Jekyll
           old_page_attr_prefix_def = config.key? 'asciidoc_page_attribute_prefix'
           old_page_attr_prefix_val = config.delete 'asciidoc_page_attribute_prefix'
           unless (page_attr_prefix = asciidoc_config['page_attribute_prefix'])
-            page_attr_prefix = old_page_attr_prefix_def ? (old_page_attr_prefix_val || '') :
-                ((asciidoc_config.key? 'page_attribute_prefix') ? '' : DefaultPageAttributePrefix)
+            page_attr_prefix = old_page_attr_prefix_def ? old_page_attr_prefix_val || '' :
+                (asciidoc_config.key? 'page_attribute_prefix') ? '' : DefaultPageAttributePrefix
           end
-          asciidoc_config['page_attribute_prefix'] = (page_attr_prefix = page_attr_prefix.chomp '-').empty? ? '' : %(#{page_attr_prefix}-)
+          asciidoc_config['page_attribute_prefix'] = (page_attr_prefix = page_attr_prefix.chomp '-').empty? ?
+              '' : %(#{page_attr_prefix}-)
           asciidoc_config['require_front_matter_header'] = !!asciidoc_config['require_front_matter_header']
           asciidoc_config.extend Configured
 
@@ -67,7 +69,7 @@ module Jekyll
           else
             ::Jekyll::Utils.extend (::Module.new do
               define_method :has_yaml_header?,
-                (Utils.method :has_front_matter?).curry[Utils.method :has_yaml_header?][asciidoc_ext_re]
+                  (Utils.method :has_front_matter?).curry[Utils.method :has_yaml_header?][asciidoc_ext_re]
             end)
           end
         end
@@ -75,7 +77,7 @@ module Jekyll
         if (@asciidoc_config = asciidoc_config)['processor'] == 'asciidoctor'
           unless Configured === (@asciidoctor_config = (config['asciidoctor'] ||= {}))
             asciidoctor_config = @asciidoctor_config
-            asciidoctor_config.replace (symbolize_keys asciidoctor_config)
+            asciidoctor_config.replace symbolize_keys asciidoctor_config
             source = ::File.expand_path config['source']
             dest = ::File.expand_path config['destination']
             case (base = asciidoctor_config[:base_dir])
@@ -92,7 +94,7 @@ module Jekyll
               'site-source' => source,
               'site-destination' => dest,
               'site-baseurl' => config['baseurl'],
-              'site-url' => config['url']
+              'site-url' => config['url'],
             }
             attrs = asciidoctor_config[:attributes] = compile_attributes asciidoctor_config[:attributes],
                 ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes)
@@ -112,7 +114,7 @@ module Jekyll
           begin
             require 'asciidoctor' unless defined? ::Asciidoctor::VERSION
           rescue ::LoadError
-            @logger.error MessageTopic, 'You are missing a library required to convert AsciiDoc files. Please install using:'
+            @logger.error MessageTopic, 'You\'re missing a library required to convert AsciiDoc files. Install using:'
             @logger.error '', '$ [sudo] gem install asciidoctor'
             @logger.abort_with 'Bailing out; missing required dependency: asciidoctor'
           end
@@ -132,7 +134,7 @@ module Jekyll
         @asciidoc_config['ext_re'].match? ext
       end
 
-      def output_ext ext
+      def output_ext _ext
         '.html'
       end
 
@@ -150,7 +152,7 @@ module Jekyll
         record_paths document
       end
 
-      def after_render document
+      def after_render _document
         @page_context.clear
       end
 
@@ -158,20 +160,20 @@ module Jekyll
         @page_context[:paths] = paths = {
           'docfile' => (docfile = ::File.join document.site.source, document.relative_path),
           'docdir' => (::File.dirname docfile),
-          'docname' => (::File.basename docfile, (::File.extname docfile))
+          'docname' => (::File.basename docfile, (::File.extname docfile)),
         }
-        paths.update({
+        paths.update(
           'outfile' => (outfile = document.destination document.site.dest),
           'outdir' => (::File.dirname outfile),
           'outpath' => document.url
-        }) unless opts[:source_only]
+        ) unless opts[:source_only]
       end
 
       def clear_paths
         @page_context.delete :paths
       end
 
-      def load_header document, options = {}
+      def load_header document
         record_paths document, source_only: true
         # NOTE merely an optimization; if this doesn't match, the header still gets extracted by the processor
         header = (content = document.content) ? (HeaderBoundaryRx =~ content ? $` : content) : ''
@@ -192,7 +194,8 @@ module Jekyll
           # NOTE return instance even if header is empty since attributes may be inherited from config
           doc = ::Asciidoctor.load header, opts
         else
-          @logger.warn MessageTopic, %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.)
+          @logger.warn MessageTopic,
+              %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.)
           doc = nil
         end
         clear_paths
@@ -202,6 +205,7 @@ module Jekyll
       def convert content
         # NOTE don't use nil_or_empty? since that's only provided only by Asciidoctor
         return '' unless content && !content.empty?
+
         case @asciidoc_config['processor']
         when 'asciidoctor'
           opts = @asciidoctor_config.merge header_footer: (@page_context[:data] || {})['standalone']
@@ -218,7 +222,8 @@ module Jekyll
           end
           ((@page_context[:data] || {})['document'] = ::Asciidoctor.load content, opts).extend(Liquidable).convert
         else
-          @logger.warn MessageTopic, %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
+          @logger.warn MessageTopic,
+              %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
           content
         end
       end
@@ -231,7 +236,7 @@ module Jekyll
 
       def compile_attributes attrs, initial = {}
         if (is_array = ::Array === attrs) || ::Hash === attrs
-          attrs.each_with_object(initial) {|entry, new_attrs|
+          attrs.each_with_object(initial) do |entry, new_attrs|
             key, val = is_array ? ((entry.split '=', 2) + ['', ''])[0..1] : entry
             if key.start_with? '!'
               new_attrs[key[1..-1]] = nil
@@ -241,24 +246,22 @@ module Jekyll
             elsif key.start_with? '-'
               new_attrs.delete key[1..-1]
             else
-              new_attrs[key] = if val
-                case val
-                when ::String
-                  resolve_attribute_refs val, new_attrs
-                when ::Numeric
-                  val.to_s
-                when true
-                  ''
-                else
-                  val
-                end
-              else
+              case val
+              when ::String
+                new_attrs[key] = resolve_attribute_refs val, new_attrs
+              when ::Numeric
+                new_attrs[key] = val.to_s
+              when true
+                new_attrs[key] = ''
+              when nil, false
                 # we may preserve false in the future to mean "unset implicit value but allow doc to override"
                 # false already has special meaning for page-layout, so don't coerce it
-                key == 'page-layout' ? val : nil
+                new_attrs[key] = key == 'page-layout' ? val : nil
+              else
+                new_attrs[key] = val
               end
             end
-          }
+          end
         else
           initial
         end

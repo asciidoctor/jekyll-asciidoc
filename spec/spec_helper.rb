@@ -16,16 +16,20 @@ RSpec.configure do |config|
     ::FileUtils.rm_rf output_dir
   end
 
+  def use_fixture name
+    let (:name) { name.to_s }
+  end
+
   def fixture_site_params path
     {
       'source' => (source_dir path),
       'destination' => (output_dir path),
-      'url' => 'http://example.org'
+      'url' => 'http://example.org',
     }
   end
 
   def source_dir path
-    ::File.join (::File.expand_path '../fixtures', __FILE__) , path
+    ::File.join (::File.expand_path '../fixtures', __FILE__), path
   end
 
   def source_file path
@@ -61,6 +65,6 @@ RSpec.configure do |config|
   end
 
   def windows?
-    ::RbConfig::CONFIG['host_os'] =~ /win|ming/
+    /win|ming/ =~ ::RbConfig::CONFIG['host_os']
   end
 end

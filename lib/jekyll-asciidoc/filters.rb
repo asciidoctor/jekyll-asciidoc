@@ -27,9 +27,8 @@ module Jekyll
       #
       # Returns the table of contents as an HTML-formatted String.
       def tocify_asciidoc document, levels = nil
-        if ::Asciidoctor::Document === document
-          document.converter.convert document, 'outline', toclevels: (levels.nil_or_empty? ? nil : levels.to_i)
-        end
+        ::Asciidoctor::Document === document ?
+          (document.converter.convert document, 'outline', toclevels: (levels.nil_or_empty? ? nil : levels.to_i)) : nil
       end
     end
 

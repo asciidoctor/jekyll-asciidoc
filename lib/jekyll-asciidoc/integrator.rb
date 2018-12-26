@@ -23,7 +23,6 @@ module Jekyll
         end
 
         site.collections.each do |name, collection|
-          #next unless collection.write?
           collection.docs.select! do |doc|
             (converter.matches doc.extname) ? (integrate doc, name) : true
           end
@@ -54,18 +53,18 @@ module Jekyll
         data['title'] = doc.doctitle if doc.header?
         data['author'] = doc.author if doc.author
         if collection_name == 'posts' && (doc.attr? 'revdate')
-          data['date'] = ::Jekyll::Utils.parse_date doc.revdate, %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
+          data['date'] = ::Jekyll::Utils.parse_date doc.revdate,
+              %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
         end
 
         page_attr_prefix = document.site.config['asciidoc']['page_attribute_prefix']
         no_prefix = (prefix_size = page_attr_prefix.length) == 0
-        unless (adoc_data = doc.attributes.each_with_object({}) {|(key, val), accum|
-              if no_prefix || ((key.start_with? page_attr_prefix) && key = key[prefix_size..-1])
-                accum[key] = ::String === val ? (parse_yaml_value val) : val
-              end
-            }).empty?
-          data.update adoc_data
+        adoc_data = doc.attributes.each_with_object({}) do |(key, val), accum|
+          if no_prefix || ((key.start_with? page_attr_prefix) && (key = key[prefix_size..-1]))
+            accum[key] = ::String === val ? (parse_yaml_value val) : val
+          end
         end
+        data.update adoc_data unless adoc_data.empty?
 
         { 'category' => 'categories', 'tag' => 'tags' }.each do |sole_key, coll_key|
           if (sole_val = data[sole_key])
@@ -106,7 +105,7 @@ module Jekyll
         if site.static_files.any? {|f| f.path == css_file }
           ::IO.write css_file, css unless css == (::IO.read css_file)
         else
-          ::Asciidoctor::Helpers.mkdir_p (::File.dirname css_file)
+          ::Asciidoctor::Helpers.mkdir_p ::File.dirname css_file
           ::IO.write css_file, css
           site.static_files << (::Jekyll::StaticFile.new site, css_base, css_dir, css_name)
         end
