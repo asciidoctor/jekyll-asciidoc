@@ -5,7 +5,7 @@
 This document provides a high-level view of the changes to the {project-name} by release.
 For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
 
-== Unreleased
+== 3.0.0.beta.1 (2018-12-29) - @mojavelinux
 
 * only support Ruby >= 2.2.0 and Jekyll >= 3.0.0
 * update tests to only run against supported versions
