@@ -9,6 +9,16 @@ module Jekyll
       generators.find {|candidate| type === candidate } || (raise %(No Generators found for #{type}))
     end unless method_defined? :find_generator_instance
   end
+
+  class Renderer
+    # NOTE fixes "warning: instance variable @layouts not initialized"
+    prepend (Module.new do
+      def layouts
+        @layouts = nil unless defined? @layouts
+        super
+      end
+    end)
+  end if Renderer.method_defined? :layouts
 end
 
 class Regexp
