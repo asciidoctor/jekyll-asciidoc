@@ -1,0 +1,4 @@
+= Post With Excerpt Doctype
+:page-excerpt_doctype: article
+
+Lorem ipsum.

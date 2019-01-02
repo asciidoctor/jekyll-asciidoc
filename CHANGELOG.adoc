@@ -11,6 +11,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * set date page variable from revdate for any document in a collection (posts or otherwise) (#202)
 * allow non-ASCII word character to be used in name of attribute reference in config file
 * use File.write instead of IO.write (as IO.write has extra magic we don't need)
+* auto-generate excerpts for posts and documents written in AsciiDoc (#200)
 
 == 3.0.0.beta.1 (2018-12-29) - @mojavelinux
 

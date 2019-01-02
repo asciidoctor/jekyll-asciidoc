@@ -1,0 +1,7 @@
+= Standalone
+Author Name
+:page-layout: false
+
+Excerpt of post with standalone layout.
+
+This is not part of the excerpt.

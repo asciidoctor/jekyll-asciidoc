@@ -1,0 +1,6 @@
+= No Liquid
+Author Name
+
+{{ page.title }}
+
+This is not part of the excerpt.

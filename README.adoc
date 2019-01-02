@@ -421,7 +421,50 @@ If you're using the Liquid include tag to include HTML into the AsciiDoc documen
 ----
 
 This is necessary since AsciiDoc will escape HTML by default.
-To pass it through as is requires enclosing in a passthrough block.
+To pass it through raw requires enclosing it in a passthrough block.
+
+=== Extracting Excerpts
+
+This plugin will extract an excerpt for any post or document in a collection if the `excerpt` page variable isn't set using the same logic as for Markdown files.
+By default, it will use the content between the header and the first blank line.
+If the `excerpt` page variable is set, that value will be used instead.
+The excerpt will automatically be converted from AsciiDoc to embedded HTML whereever the `excerpt` property is referenced in a Liquid template.
+
+----
+{% post.excerpt %}
+----
+
+IMPORTANT: Since version 3.0.0 of this plugin, you no longer have to run the excerpt through the `asciidocify` filter since the conversion is already done for you.
+In fact, if you do, the HTML in the converted excerpt will be escaped, which is not what you want.
+
+If you want to use a different excerpt separator for AsciiDoc files, set the `excerpt_separator` under the `asciidoc` key in the site configuration.
+For example, you can configure the plugin to use the line comment `//more` as the excerpt separator as follows:
+
+[source,yaml]
+----
+asciidoc:
+  excerpt_separator: "\n//more\n"
+----
+
+If you're only working with AsciiDoc files in your site, you can go ahead and set this for all files by using the top-level property:
+
+[source,yaml]
+----
+excerpt_separator: "\n//more\n"
+----
+
+If the excerpt separator isn't found, the content of the whole document is used instead.
+
+By default, the excerpt is converted to HTML using the article doctype.
+If you want to use a different doctype, such as inline, you can set it in the site configuration as follows:
+
+[source,yaml]
+----
+asciidoc:
+  excerpt_doctype: inline
+----
+
+You can also set the excerpt doctype per page using the page attribute named `page-excerpt_doctype`.
 
 == Building and Previewing Your Site
 
@@ -750,22 +793,22 @@ This plugin defines two additional Liquid filters, `asciidocify` and `tocify_asc
 === Converting a String from AsciiDoc
 
 You can use the `asciidocify` filter to convert an arbitrary AsciiDoc string anywhere in your template.
+This filter allows you to compose site-wide data in AsciiDoc, such your site's description or synopsis, then convert it to HTML for use in the page template(s).
 
-Let's assume the excerpt of the post is written in AsciiDoc.
+Let's assume you've defined a page variable named `synopsis` that you want treat as AsciiDoc.
 You can convert it in your template as follows:
 
 ----
-{{ post.excerpt | asciidocify }}
+{{ page.synopsis | asciidocify }}
 ----
 
-By default, the AsciiDoc content is parsed as a full AsciiDoc document.
+By default, the AsciiDoc content is parsed as an embedded AsciiDoc document.
 If the content represents a single paragraph, and you only want to perform inline substitutions on that content, add the `inline` doctype as the filter's first argument:
 
 ----
-{{ post.excerpt | asciidocify: 'inline' }}
+{{ page.synopsis | asciidocify: 'inline' }}
 ----
 
-TIP: This filter allows you to compose site-wide data in AsciiDoc, such your site's description or synopsis, then convert it to HTML for use in the page template(s).
 
 === Generating a Table of Contents
 

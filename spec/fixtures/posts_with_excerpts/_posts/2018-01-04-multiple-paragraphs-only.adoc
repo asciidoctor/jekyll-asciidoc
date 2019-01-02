@@ -1,0 +1,6 @@
+---
+title: Multiple Paragraphs Only
+---
+This is the _excerpt_.
+
+This is the rest of the body text that comes after the excerpt.

@@ -1,0 +1,8 @@
+---
+excerpt: This is the _excerpt_.
+---
+= Excerpt in Header
+
+This is the first paragraph, but not the excerpt.
+
+This is the rest of the body text.

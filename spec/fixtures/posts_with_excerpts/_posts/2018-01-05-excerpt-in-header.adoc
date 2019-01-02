@@ -1,0 +1,6 @@
+= Excerpt in Header
+:page-excerpt: This is the _excerpt_.
+
+This is the first paragraph, but not the excerpt.
+
+This is the rest of the body text.

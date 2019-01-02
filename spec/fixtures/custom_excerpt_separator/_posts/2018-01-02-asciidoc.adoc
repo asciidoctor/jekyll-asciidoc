@@ -1,0 +1,9 @@
+= Excerpt Separator in AsciiDoc
+
+This is part of the excerpt.
+
+This is also part of the excerpt.
+
+//more
+
+This is not part of the excerpt.

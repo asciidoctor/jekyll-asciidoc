@@ -22,6 +22,7 @@ module Jekyll
 
       AttributeReferenceRx = /\\?\{(\p{Word}[-\p{Word}]*)\}/
       HeaderBoundaryRx = /(?<=\p{Graph}#{NewLine * 2})/
+      HeaderLineRx = /^=[ \t]+.|^:!?\w[-\w]*!?:(?:[ \t]+.)?/
 
       # Enable plugin when running in safe mode; jekyll-asciidoc gem must also be declared in whitelist
       safe true
@@ -140,11 +141,11 @@ module Jekyll
       end
 
       def self.before_render document, payload
-        (get_instance document.site).before_render document, payload if Document === document
+        (get_instance document.site).before_render document, payload if Document === document || Excerpt === document
       end
 
       def self.after_render document
-        (get_instance document.site).after_render document if Document === document
+        (get_instance document.site).after_render document if Document === document || Excerpt === document
       end
 
       def before_render document, payload
@@ -176,11 +177,10 @@ module Jekyll
 
       def load_header document
         record_paths document, source_only: true
-        # NOTE merely an optimization; if this doesn't match, the header still gets extracted by the processor
-        header = (content = document.content) ? (HeaderBoundaryRx =~ content ? $` : content) : ''
         case @asciidoc_config['processor']
         when 'asciidoctor'
           opts = @asciidoctor_config.merge parse_header_only: true
+          header = extract_header document
           if (paths = @page_context[:paths])
             if opts[:base_dir] == :docdir
               opts[:base_dir] = paths['docdir'] # NOTE this assignment happens inside the processor anyway
@@ -217,9 +217,9 @@ module Jekyll
               paths.delete 'docdir'
             end
             opts[:attributes] = opts[:attributes].merge paths
-          # for auto-extracted excerpt, paths are't available since hooks don't get triggered
-          elsif opts[:base_dir] == :docdir
-            opts.delete :base_dir
+          end
+          if (doctype = data['doctype'])
+            opts[:doctype] = doctype
           end
           (data['document'] = ::Asciidoctor.load content, opts).extend(Liquidable).convert
         else
@@ -230,6 +230,33 @@ module Jekyll
       end
 
       private
+
+      # Take up to the AsciiDoc document header (if present), then continue to the excerpt separator, if non-blank.
+      def extract_header document
+        if (content = document.content)
+          header = (header_boundary = HeaderBoundaryRx =~ content) ? $` : content
+          # NOTE at this point, excerpt is already set to an instance of Jekyll::Excerpt unless set in front matter
+          if ::Jekyll::Page === document || !(::Jekyll::Excerpt === document.data['excerpt'])
+            header = '' unless HeaderLineRx.match? header
+          else
+            document.data['excerpt'] = nil
+            if (excerpt_separator = document.data['excerpt_separator'] || @asciidoc_config['excerpt_separator'] ||
+                @config['excerpt_separator']).to_s.empty?
+              header = '' unless HeaderLineRx.match? header
+            else
+              header_boundary = 0 unless header_boundary && (HeaderLineRx.match? header)
+              if (excerpt_boundary = content.index excerpt_separator, header_boundary)
+                header = content.slice 0, excerpt_boundary
+              else
+                header = content
+              end
+            end
+          end
+          header
+        else
+          ''
+        end
+      end
 
       def symbolize_keys hash
         hash.each_with_object({}) {|(key, val), accum| accum[key.to_sym] = val }

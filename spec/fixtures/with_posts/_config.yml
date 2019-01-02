@@ -1,5 +1,7 @@
 gems:
 - jekyll-asciidoc
+asciidoc:
+  excerpt_doctype: inline
 asciidoctor:
   # base_dir is set to :docdir here to verify excerpt conversion doesn't break
   # we probably want to create a dedicated fixture for this scenario
