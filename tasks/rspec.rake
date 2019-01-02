@@ -1,6 +1,9 @@
 begin
   require 'rspec/core/rake_task'
-  RSpec::Core::RakeTask.new :spec
+  RSpec::Core::RakeTask.new :spec do |t|
+    t.verbose = true
+    t.rspec_opts = %w(-w -f progress --order defined)
+  end
 rescue LoadError => e
   task :spec do
     raise 'Failed to load spec task.
