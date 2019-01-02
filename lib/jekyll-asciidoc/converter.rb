@@ -237,14 +237,14 @@ module Jekyll
       def compile_attributes attrs, initial = {}
         if (is_array = ::Array === attrs) || ::Hash === attrs
           attrs.each_with_object(initial) do |entry, new_attrs|
-            key, val = is_array ? ((entry.split '=', 2) + ['', ''])[0..1] : entry
+            key, val = is_array ? (((entry.split '=', 2) + ['', '']).slice 0, 2) : entry
             if key.start_with? '!'
-              new_attrs[key[1..-1]] = nil
+              new_attrs[key.slice 1, key.length] = nil
             elsif key.end_with? '!'
               new_attrs[key.chop] = nil
             # we're reserving -name to mean "unset implicit value but allow doc to override"
             elsif key.start_with? '-'
-              new_attrs.delete key[1..-1]
+              new_attrs.delete key.slice 1, key.length
             else
               case val
               when ::String
@@ -271,7 +271,7 @@ module Jekyll
         if text.empty?
           text
         elsif text.include? '{'
-          text.gsub(AttributeReferenceRx) { ($&.start_with? '\\') ? $&[1..-1] : ((attrs.fetch $1, $&).to_s.chomp '@') }
+          text.gsub(AttributeReferenceRx) { ($&.start_with? '\\') ? ($&.slice 1, $&.length) : ((attrs.fetch $1, $&).to_s.chomp '@') }
         else
           text
         end
