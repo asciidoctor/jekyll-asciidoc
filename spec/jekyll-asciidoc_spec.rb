@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require_relative 'spec_helper'
 
 describe 'Jekyll::AsciiDoc' do
@@ -232,7 +233,7 @@ describe 'Jekyll::AsciiDoc' do
 
     it 'should resolve attribute references in attribute value' do
       result = converter.send :compile_attributes,
-          'foo' => 'foo', 'bar' => 'bar', 'baz' => nil, 'foobar' => '{foo}{bar}{baz}'
+          'foo' => 'foo', 'bar' => 'bar', 'bäz' => nil, 'foobar' => '{foo}{bar}{bäz}'
       (expect result['foobar']).to eql 'foobar'
     end
 

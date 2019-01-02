@@ -20,7 +20,7 @@ module Jekyll
       MessageTopic = Utils::MessageTopic
       NewLine = Utils::NewLine
 
-      AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
+      AttributeReferenceRx = /\\?\{(\p{Word}[-\p{Word}]*)\}/
       HeaderBoundaryRx = /(?<=\p{Graph}#{NewLine * 2})/
 
       # Enable plugin when running in safe mode; jekyll-asciidoc gem must also be declared in whitelist
