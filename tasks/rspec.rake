@@ -2,7 +2,9 @@ begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new :spec do |t|
     t.verbose = true
-    t.rspec_opts = %w(-w -f progress --order defined)
+    rspec_opts = %w(-f progress --order defined)
+    rspec_opts.unshift '-w' if !ENV['CI'] || ENV['COVERAGE']
+    t.rspec_opts = rspec_opts
   end
 rescue LoadError => e
   task :spec do
