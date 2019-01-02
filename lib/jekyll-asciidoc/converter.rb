@@ -271,7 +271,9 @@ module Jekyll
         if text.empty?
           text
         elsif text.include? '{'
-          text.gsub(AttributeReferenceRx) { ($&.start_with? '\\') ? ($&.slice 1, $&.length) : ((attrs.fetch $1, $&).to_s.chomp '@') }
+          text.gsub AttributeReferenceRx do
+            ($&.start_with? '\\') ? ($&.slice 1, $&.length) : ((attrs.fetch $1, $&).to_s.chomp '@')
+          end
         else
           text
         end
