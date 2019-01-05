@@ -28,11 +28,13 @@ module Jekyll
           end
         end
 
-        attrs = site.config['asciidoctor'][:attributes]
-        attrs['localdate'], attrs['localtime'] = (site.time.strftime '%Y-%m-%d %H:%M:%S %Z').split ' ', 2
-        if ((attrs['source-highlighter'] || '').chomp '@') == 'pygments' &&
-            ((attrs['pygments-css'] || '').chomp '@') != 'style' && (attrs.fetch 'pygments-stylesheet', '')
-          generate_pygments_stylesheet site, attrs
+        if site.config['asciidoc']['processor'] == 'asciidoctor'
+          attrs = site.config['asciidoctor'][:attributes]
+          attrs['localdate'], attrs['localtime'] = (site.time.strftime '%Y-%m-%d %H:%M:%S %Z').split ' ', 2
+          if ((attrs['source-highlighter'] || '').chomp '@') == 'pygments' &&
+              ((attrs['pygments-css'] || '').chomp '@') != 'style' && (attrs.fetch 'pygments-stylesheet', '')
+            generate_pygments_stylesheet site, attrs
+          end
         end
       end
 
