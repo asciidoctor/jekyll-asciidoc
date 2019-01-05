@@ -8,6 +8,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 == Unreleased
 
 * allow non-ASCII word character to be used in name of attribute reference in config file
+* use File.write instead of IO.write (as IO.write has extra magic we don't need)
 
 == 3.0.0.beta.1 (2018-12-29) - @mojavelinux
 
