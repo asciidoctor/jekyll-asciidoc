@@ -1311,7 +1311,7 @@ Refer to the http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travis
 You can also refer to the https://github.com/johncarl81/transfuse-site[Transfuse website build^] for an example in practice.
 
 In fact, if you're using Travis CI, it's even easier than that.
-Travis CI provides a https://docs.travis-ci.com/user/deployment/pages/[deployer for GitLab Pages]!
+Travis CI provides a https://docs.travis-ci.com/user/deployment/pages/[deployer for GitHub Pages]!
 Using this deployer, Travis CI can push your generated site to GitHub Pages after a successful build on your behalf, as long as you've completed these steps:
 
 . Create a personal access token on GitHub that has write access to your GitHub repository (public_repo or repo scope)
