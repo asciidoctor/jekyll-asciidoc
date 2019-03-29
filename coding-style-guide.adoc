@@ -151,8 +151,15 @@ The coding style rules are as follows:
 
   alias copy original
 
+* When only one private method, add keyword to method definition; otherwise use block form
+
+* Use `do...end` for multi-line blocks and `{ ... }` for single-line blocks (even when chained)
+
+* Use `{}.tap {|accum| arr.each {|v| accum[v] = v } }` to create a Hash from an Array or Hash
+
+* Use default_ as prefix instead of suffix
+
 ////
-* use `do; end` for multi-line blocks; use `{}` for single-line blocks
 * try to make assignments in condition if scoped to that block
 * close empty block on same line if empty - `rescue ::NameError; end`
 ////
