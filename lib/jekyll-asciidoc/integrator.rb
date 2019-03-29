@@ -5,6 +5,7 @@ module Jekyll
     # source highlighter and configured to use class-based styling.
     class Integrator < ::Jekyll::Generator
       NewLine = Utils::NewLine
+      PygmentsRootSelector = /^(.+?)\.pygments +{/
 
       # Enable plugin when running in safe mode; jekyll-asciidoc gem must also be declared in whitelist
       safe true
@@ -103,7 +104,7 @@ module Jekyll
         css_style = (attrs['pygments-style'] || 'vs').chomp '@'
         css = ::Asciidoctor::Stylesheets.instance.pygments_stylesheet_data css_style
         # NOTE apply stronger CSS rule for general text color
-        css = css.sub %r/^(.+?)\.pygments +{/, '\1.pygments, \1.pygments code {'
+        css = css.sub PygmentsRootSelector, '\1.pygments, \1.pygments code {'
         if site.static_files.any? {|f| f.path == css_file }
           ::File.write css_file, css unless css == (::File.read css_file)
         else
