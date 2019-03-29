@@ -4,14 +4,14 @@ git:
   depth: 2
 language: ruby
 rvm:
-- 2.5.3
+- 2.5.5
 - 2.4.5
 - 2.3.8
-- jruby-9.2.5.0
+- jruby-9.2.6.0
 - jruby-9.1.17.0
 matrix:
   include:
-  - rvm: &release_rvm 2.6.0
+  - rvm: &release_rvm 2.6.2
     env: COVERAGE=deep
   - rvm: *release_rvm
     env: JEKYLL_VERSION=3.0.0
