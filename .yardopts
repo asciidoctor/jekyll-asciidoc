@@ -1,0 +1,11 @@
+--charset UTF-8
+--readme README.adoc
+--no-private
+--hide-api private
+--title "Jekyll AsciiDoc API Docs"
+--output-dir apidoc
+--exclude /(?:core|jekyll)_ext/
+lib/**/*.rb
+-
+CHANGELOG.adoc
+LICENSE.adoc

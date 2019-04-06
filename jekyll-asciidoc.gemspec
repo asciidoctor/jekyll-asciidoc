@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   rescue ::SystemCallError
     Dir['**/*']
   end
-  s.files = files.grep %r/^(?:lib\/.+|Gemfile|(?:CHANGELOG|LICENSE|README)\.adoc|jekyll-asciidoc\.gemspec)$/
+  s.files = files.grep %r/^(?:lib\/.+|Gemfile|(?:CHANGELOG|LICENSE|README)\.adoc|\.yardopts|jekyll-asciidoc\.gemspec)$/
   #s.test_files = files.grep %r/^spec\/./
 
   s.require_paths = ['lib']

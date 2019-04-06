@@ -16,6 +16,10 @@ module Jekyll
 
       # This method is triggered each time the site is generated, including after any file has changed when running in
       # watch mode (regardless of incremental setting).
+      #
+      # @param site [Jekyll::Site] the site being processed.
+      #
+      # @return [nil] Nothing
       def generate site
         @converter = converter = Converter.get_instance site
 
@@ -37,15 +41,17 @@ module Jekyll
             generate_pygments_stylesheet site, attrs
           end
         end
+
+        nil
       end
 
       # Integrate the page-related attributes from the AsciiDoc document header into the data Array of the specified
       # {::Jekyll::Page}, {::Jekyll::Post} or {::Jekyll::Document}.
       #
-      # document        - the Page, Post or Document instance to integrate.
-      # collection_name - the String name of the collection to which this document belongs (optional, default: nil).
+      # @param document [::Jekyll::Page, ::Jekyll::Post, ::Jekyll::Document] the page, post, or document to integrate.
+      # @param collection_name [String] the name of the collection to which this document belongs.
       #
-      # Returns a [Boolean] indicating whether the document should be published.
+      # @return [Boolean] whether the document should be published.
       def integrate document, collection_name = nil
         return true unless (doc = @converter.load_header document)
 
@@ -122,9 +128,10 @@ module Jekyll
       # If the value fails to parse, wrap the value in single quotes (after escaping any single quotes in the value) and
       # parse it as a character sequence. If the value is empty, return an empty String.
       #
-      # val - The String value to parse.
+      # @param val [String] the value to parse.
       #
-      # Returns an [Object] parsed from the string-based YAML value or empty [String] if the specified value is empty.
+      # @return [Object, String] the value parsed from the string-based YAML value or an empty String if the specified
+      # value is empty.
       def parse_yaml_value val
         if val.empty?
           ''

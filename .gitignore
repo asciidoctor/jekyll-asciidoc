@@ -1,10 +1,12 @@
 /.ruby-*
 /*.gem
 /.bundle/
+/.yardoc/
 /build/
 /coverage/
 /deep_cover/
 /pkg/
+/rdoc/
 /Gemfile.lock
 .idea
 *.iml
