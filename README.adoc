@@ -173,8 +173,8 @@ This plugin converts eligible AsciiDoc files located inside the source directory
 There are a few conditions that must be met in order for an AsciiDoc file to be eligible:
 
 . The file must have an AsciiDoc file extension (see <<configuration>>).
-. The name of the file must not begin with a dot (`.`) or an underscore (`_`).footnoteref:[excluded_files,Hidden files and folders are automatically excluded by Jekyll.]
-. The file must not be located in a folder whose name begins with a dot (`.`) or an underscore (`_`) (unless the folder is a designated collection, such as _posts).footnoteref:[excluded_files]
+. The name of the file must not begin with a dot (`.`) or an underscore (`_`).footnote:excluded_files[Hidden files and folders are automatically excluded by Jekyll.]
+. The file must not be located in a folder whose name begins with a dot (`.`) or an underscore (`_`) (unless the folder is a designated collection, such as _posts).footnote:excluded_files[]
 . While you can use a Jekyll front matter header, it is not required.
 
 Here's a sample AsciiDoc file that meets these criteria:
