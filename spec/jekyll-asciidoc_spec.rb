@@ -471,7 +471,14 @@ describe 'Jekyll::AsciiDoc' do
     end
 
     it 'should enable Liquid preprocessor if liquid page variable is set' do
-      file = output_file 'liquid-enabled.html'
+      file = output_file 'liquid-enabled-front-matter.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      (expect contents).to include '<p>Liquid Enabled</p>'
+    end
+
+    it 'should enable Liquid preprocessor if page-liquid page attribute is set' do
+      file = output_file 'liquid-enabled-asciidoc-header.html'
       (expect ::File).to exist file
       contents = ::File.read file
       (expect contents).to include '<p>Liquid Enabled</p>'

@@ -1,0 +1,4 @@
+= Liquid Enabled
+:page-liquid:
+
+{{ page.title }}
