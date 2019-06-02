@@ -61,7 +61,7 @@ module Jekyll
         data['docid'] = doc.id if doc.id
         data['title'] = doc.doctitle if doc.header?
         data['author'] = doc.author if doc.author
-        if collection_name == 'posts' && (doc.attr? 'revdate')
+        if collection_name && (doc.attr? 'revdate')
           data['date'] = ::Jekyll::Utils.parse_date doc.revdate,
               %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
         end

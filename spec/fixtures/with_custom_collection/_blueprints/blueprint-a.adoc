@@ -1,4 +1,5 @@
 = First Blueprint
+:revdate: 2018-01-01
 :page-foo: bar
 
 Lorem ipsum.

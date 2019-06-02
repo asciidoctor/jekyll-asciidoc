@@ -1024,6 +1024,8 @@ describe 'Jekyll::AsciiDoc' do
       doc = find_doc 'blueprint-a.adoc', 'blueprints'
       (expect doc).not_to be_nil
       (expect doc.data['title']).to eql 'First Blueprint'
+      (expect doc.data['date']).to be_a ::Time
+      (expect doc.data['date'].strftime '%Y-%m-%d').to eql '2018-01-01'
       (expect doc.data['foo']).to eql 'bar'
     end
 
