@@ -208,7 +208,7 @@ module Jekyll
 
         case @asciidoc_config['processor']
         when 'asciidoctor'
-          opts = @asciidoctor_config.merge header_footer: (@page_context[:data] || {})['standalone']
+          opts = @asciidoctor_config.merge header_footer: (data = @page_context[:data] || {})['standalone']
           if (paths = @page_context[:paths])
             if opts[:base_dir] == :docdir
               opts[:base_dir] = paths['docdir'] # NOTE this assignment happens inside the processor anyway
@@ -220,7 +220,7 @@ module Jekyll
           elsif opts[:base_dir] == :docdir
             opts.delete :base_dir
           end
-          ((@page_context[:data] || {})['document'] = ::Asciidoctor.load content, opts).extend(Liquidable).convert
+          (data['document'] = ::Asciidoctor.load content, opts).extend(Liquidable).convert
         else
           @logger.warn MessageTopic,
               %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
