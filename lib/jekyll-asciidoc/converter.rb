@@ -281,7 +281,7 @@ module Jekyll
       end
 
       def resolve_default_layout document, attributes
-        layout_attr_name = %(#{document.site.config['asciidoc']['page_attribute_prefix']}layout)
+        layout_attr_name = %(#{@asciidoc_config['page_attribute_prefix']}layout)
         if attributes.key? layout_attr_name
           if ::String === (layout = attributes[layout_attr_name])
             if layout == '~@'
