@@ -1228,6 +1228,7 @@ describe 'Jekyll::AsciiDoc' do
     use_fixture :pygments_code_highlighting
 
     before :each do
+      ::Jekyll::StaticFile.reset_cache
       site.process
     end
 
