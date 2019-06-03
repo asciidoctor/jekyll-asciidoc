@@ -1,0 +1,6 @@
+---
+summary: A *very* welcoming _welcome_ page.
+---
+= Welcome
+
+Welcome, welcome, welcome!

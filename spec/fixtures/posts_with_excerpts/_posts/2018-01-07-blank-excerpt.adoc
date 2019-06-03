@@ -1,0 +1,7 @@
+---
+excerpt_separator: ''
+---
+= Blank Excerpt
+Author Name
+
+This document has a blank excerpt because the excerpt_separator is blank.

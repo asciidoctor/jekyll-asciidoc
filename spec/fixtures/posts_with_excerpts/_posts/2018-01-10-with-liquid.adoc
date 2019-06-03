@@ -1,0 +1,7 @@
+= With Liquid
+Author Name
+:page-liquid:
+
+{{ page.title }}
+
+This is not part of the excerpt.

@@ -1,0 +1,4 @@
+---
+title: Paragraph Only
+---
+This is the excerpt and body text.

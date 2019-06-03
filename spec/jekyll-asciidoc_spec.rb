@@ -902,11 +902,145 @@ describe 'Jekyll::AsciiDoc' do
       (expect ::File).to exist file
     end
 
-    it 'should apply asciidocify filter to excerpt' do
+    it 'should convert excerpt from AsciiDoc using site-wide doctype' do
       file = output_file 'index.html'
       (expect ::File).to exist file
       contents = ::File.read file
-      (expect contents).to include '<p class="excerpt">This is the <em>excerpt</em> of this post.</p>'
+      (expect contents).to include '<div class="excerpt">This is the <em>excerpt</em> of this post.</div>'
+    end
+
+    it 'should convert excerpt from AsciiDoc using page-specific doctype' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      (expect contents).to include %(<div class="paragraph">\n<p>Lorem ipsum.</p>\n</div>)
+    end
+  end
+
+  describe 'posts with excerpts' do
+    use_fixture :posts_with_excerpts
+
+    before :each do
+      site.process
+    end
+
+    it 'should use page contents as excerpt if excerpt separator not found after AsciiDoc header' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="header-and-single-paragraph">(.*?)<\/li>/m
+      (expect $1).to include '<p>This is the excerpt and body text.</p>'
+    end
+
+    it 'should use first paragraph as excerpt if excerpt separator is found after AsciiDoc header' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="header-and-multiple-paragraphs">(.*?)<\/li>/m
+      (expect $1).to include '<p>This is the excerpt.</p>'
+      (expect $1).not_to include '<p>This is the rest of the body text that comes after the excerpt.</p>'
+    end
+
+    it 'should use page contents as excerpt if excerpt separator not found with no AsciiDoc header' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="single-paragraph-only">(.*?)<\/li>/m
+      (expect $1).to include '<p>This is the excerpt and body text.</p>'
+    end
+
+    it 'should use first paragraph as excerpt if excerpt separator is found with no AsciiDoc header' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="multiple-paragraphs-only">(.*?)<\/li>/m
+      (expect $1).to include '<p>This is the <em>excerpt</em>.</p>'
+      (expect $1).not_to include '<p>This is the rest of the body text that comes after the excerpt.</p>'
+    end
+
+    it 'should use excerpt defined as page attribute in AsciiDoc header' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="excerpt-in-header">(.*?)<\/li>/m
+      (expect $1).to include '<p>This is the <em>excerpt</em>.</p>'
+      (expect $1).not_to include '<p>This is the first paragraph, but not the excerpt.</p>'
+    end
+
+    it 'should use excerpt defined in front matter' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="excerpt-in-front-matter">(.*?)<\/li>/m
+      (expect $1).to include '<p>This is the <em>excerpt</em>.</p>'
+      (expect $1).not_to include '<p>This is the first paragraph, but not the excerpt.</p>'
+    end
+
+    it 'should set excerpt to blank if excerpt_separator is blank' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="blank-excerpt">(.*?)<\/li>/m
+      (expect $1).to include '<p class="excerpt"></p>'
+    end
+
+    it 'should set excerpt to blank if document only has a header' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="header-only">(.*?)<\/li>/m
+      (expect $1).to include '<p class="excerpt"></p>'
+    end
+
+    it 'should not process liquid in excerpt by default' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="no-liquid">(.*?)<\/li>/m
+      (expect $1).to include '<p>{{ page.title }}</p>'
+    end
+
+    it 'should process liquid in excerpt if liquid page variable is set' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="with-liquid">(.*?)<\/li>/m
+      (expect $1).to include '<p>With Liquid</p>'
+    end
+
+    it 'should extract excerpt correctly even when post uses standalone layout' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="standalone-layout">(.*?)<\/li>/m
+      (expect $1).to include '<p>Excerpt of post with standalone layout.</p>'
+      (expect $1).not_to include '<p>This is not part of the excerpt.</p>'
+    end
+  end
+
+  describe 'custom excerpt separator' do
+    use_fixture :custom_excerpt_separator
+
+    before :each do
+      site.process
+    end
+
+    it 'should use excerpt_separator for markdown posts' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="markdown">(.*?)<\/li>/m
+      (expect $1).to include 'This is also part of the excerpt'
+      (expect $1).not_to include 'This is not part of the excerpt'
+    end
+
+    it 'should use page-excerpt_separator for AsciiDoc posts' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      contents =~ %r/<li data-slug="asciidoc">(.*?)<\/li>/m
+      (expect $1).to include 'This is also part of the excerpt'
+      (expect $1).not_to include 'This is not part of the excerpt'
     end
   end
 
@@ -1144,6 +1278,21 @@ describe 'Jekyll::AsciiDoc' do
       (expect ::File).to exist file
       contents = ::File.read file
       (expect contents).to include '<img src="/images/sunset.jpg" alt="Sunset" width="408" height="230"/>'
+    end
+  end
+
+  describe 'asciidocify filter' do
+    use_fixture :asciidocify_filter
+
+    before :each do
+      site.process
+    end
+
+    it 'should run content through asciidocify filter using specified doctype' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      (expect contents).to include '<p class="summary">A <strong>very</strong> welcoming <em>welcome</em> page.</p>'
     end
   end
 

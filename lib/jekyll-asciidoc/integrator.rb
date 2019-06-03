@@ -84,6 +84,12 @@ module Jekyll
           end
         end
 
+        # NOTE excerpt must be set before layout is assigned since excerpt cannot have a layout (or be standalone)
+        unless ::Jekyll::Page === document
+          data['excerpt'] = Excerpt.new document, ((excerpt = data['excerpt']) || doc.source)
+          data['excerpt_origin'] = excerpt ? ((adoc_data.key? 'excerpt') ? 'asciidoc-header' : 'front-matter') : 'body'
+        end
+
         case data['layout']
         when nil
           data['standalone'] = true unless data.key? 'layout'

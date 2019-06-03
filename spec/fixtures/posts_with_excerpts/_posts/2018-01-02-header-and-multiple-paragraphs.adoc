@@ -1,0 +1,6 @@
+= Header and Multiple Paragraphs
+Author Name
+
+This is the excerpt.
+
+This is the rest of the body text that comes after the excerpt.

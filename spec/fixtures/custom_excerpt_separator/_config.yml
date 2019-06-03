@@ -1,0 +1,5 @@
+gems:
+- jekyll-asciidoc
+excerpt_separator: "<!--more-->"
+asciidoc:
+  excerpt_separator: "\n//more\n"
