@@ -1087,6 +1087,13 @@ describe 'Jekyll::AsciiDoc' do
       (expect contents).to include %(outdir=#{::File.dirname out_file})
       (expect contents).to include %(outpath=/about/)
     end
+
+    it 'should resolve attribute defined in included file' do
+      file = output_file 'parent.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      (expect contents).to include '<p>value</p>'
+    end
   end
 
   describe 'site with include relative to root' do
