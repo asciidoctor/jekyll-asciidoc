@@ -1,9 +1,9 @@
 = {project-name} Changelog
 :project-name: Jekyll AsciiDoc Plugin
-:uri-repo: https://github.com/asciidoctor/jekyll-asciidoc
+:url-repo: https://github.com/asciidoctor/jekyll-asciidoc
 
 This document provides a high-level view of the changes to the {project-name} by release.
-For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
+For a detailed view of what has changed, refer to the {url-repo}/commits/master[commit history] on GitHub.
 
 == Unreleased
 
@@ -105,15 +105,15 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * Document how to use plugin with GitLab Pages (#47)
 * Document `asciidocify` Liquid filter
 
-{uri-repo}/issues?q=milestone%3Av2.0.0[issues resolved] |
-{uri-repo}/releases/tag/v2.0.0[git tag]
+{url-repo}/issues?q=milestone%3Av2.0.0[issues resolved] |
+{url-repo}/releases/tag/v2.0.0[git tag]
 
 == 1.1.2 (2016-05-10) - @mkobit
 
 * Apply fix for documents that did not contain at least one attribute beginning with `page-` (#60)
 
-{uri-repo}/issues?q=milestone%3Av1.1.2[issues resolved] |
-{uri-repo}/releases/tag/v1.1.2[git tag]
+{url-repo}/issues?q=milestone%3Av1.1.2[issues resolved] |
+{url-repo}/releases/tag/v1.1.2[git tag]
 
 == 1.1.1 (2016-05-07) - @mkobit
 
@@ -126,8 +126,8 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 * Only configure the Asciidoctor options once (previously it was being called twice in serve mode)
 * Set `env` attribute to `site` instead of `jekyll` (#55)
 
-{uri-repo}/issues?q=milestone%3Av1.1.1[issues resolved] |
-{uri-repo}/releases/tag/v1.1.1[git tag]
+{url-repo}/issues?q=milestone%3Av1.1.1[issues resolved] |
+{url-repo}/releases/tag/v1.1.1[git tag]
 
 == 1.0.1 (2016-03-19) - @mkobit
 
@@ -138,12 +138,12 @@ It is still compatible with Jekyll 2.
 * Documentation and onboarding improvements (#25, #24)
 * Improvements to release process (#28)
 
-{uri-repo}/issues?q=milestone%3Av1.0.1[issues resolved] |
-{uri-repo}/releases/tag/v1.0.1[git tag]
+{url-repo}/issues?q=milestone%3Av1.0.1[issues resolved] |
+{url-repo}/releases/tag/v1.0.1[git tag]
 
 == 1.0.0 (2015-01-04) - @paulrayner
 
 Initial release.
 
-{uri-repo}/issues?q=milestone%3Av1.0.0[issues resolved] |
-{uri-repo}/releases/tag/v1.0.0[git tag]
+{url-repo}/issues?q=milestone%3Av1.0.0[issues resolved] |
+{url-repo}/releases/tag/v1.0.0[git tag]

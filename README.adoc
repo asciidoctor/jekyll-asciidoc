@@ -24,53 +24,53 @@ endif::[]
 :conum-guard: {sp}
 ifndef::icons[:conum-guard: {sp}#{sp}]
 // URIs:
-:uri-repo: https://github.com/asciidoctor/jekyll-asciidoc
-:uri-issues: {uri-repo}/issues
-:uri-search-issues: {uri-repo}/search?type=Issues
-:uri-chat: https://gitter.im/asciidoctor/asciidoctor
-:uri-ci-travis: https://travis-ci.org/asciidoctor/jekyll-asciidoc
-:uri-ci-appveyor: https://ci.appveyor.com/project/asciidoctor/jekyll-asciidoc
-:uri-gem: http://rubygems.org/gems/jekyll-asciidoc
-:uri-gem-asciidoctor: http://rubygems.org/gems/asciidoctor
-:uri-asciidoc: http://asciidoc.org
-:uri-asciidoctor: http://asciidoctor.org
-:uri-asciidoctor-backends: https://github.com/asciidoctor/asciidoctor-backends
-:uri-asciidoctor-docs: {uri-asciidoctor}/docs
-:uri-asciidoctor-diagram: {uri-asciidoctor-docs}/asciidoctor-diagram
-:uri-asciidoctor-discuss: http://discuss.asciidoctor.org
-:uri-asciidoctor-manual: {uri-asciidoctor-docs}/user-manual
-:uri-asciidoc-practices: {uri-asciidoctor-docs}/asciidoc-recommended-practices
-:uri-jaq: https://github.com/asciidoctor/jekyll-asciidoc-quickstart
-:uri-jekyll: https://jekyllrb.com
-:uri-jekyll-docs: {uri-jekyll}/docs
-:uri-jekyll-discuss: https://talk.jekyllrb.com
-:uri-front-matter: {uri-jekyll-docs}/frontmatter
-:uri-liquid-templates: {uri-jekyll-docs}/templates
-:uri-variables: {uri-jekyll-docs}/variables
-:uri-graphviz: http://www.graphviz.org
-:uri-tilt: https://github.com/rtomayko/tilt
-:uri-yaml: https://en.wikipedia.org/wiki/YAML
-:uri-guide-publish-gem: http://guides.rubygems.org/publishing/#publishing-to-rubygemsorg
+:url-repo: https://github.com/asciidoctor/jekyll-asciidoc
+:url-issues: {url-repo}/issues
+:url-search-issues: {url-repo}/search?type=Issues
+:url-chat: https://gitter.im/asciidoctor/asciidoctor
+:url-ci-travis: https://travis-ci.org/asciidoctor/jekyll-asciidoc
+:url-ci-appveyor: https://ci.appveyor.com/project/asciidoctor/jekyll-asciidoc
+:url-gem: http://rubygems.org/gems/jekyll-asciidoc
+:url-gem-asciidoctor: http://rubygems.org/gems/asciidoctor
+:url-asciidoc: http://asciidoc.org
+:url-asciidoctor: http://asciidoctor.org
+:url-asciidoctor-backends: https://github.com/asciidoctor/asciidoctor-backends
+:url-asciidoctor-docs: {url-asciidoctor}/docs
+:url-asciidoctor-diagram: {url-asciidoctor-docs}/asciidoctor-diagram
+:url-asciidoctor-discuss: http://discuss.asciidoctor.org
+:url-asciidoctor-manual: {url-asciidoctor-docs}/user-manual
+:url-asciidoc-practices: {url-asciidoctor-docs}/asciidoc-recommended-practices
+:url-jaq: https://github.com/asciidoctor/jekyll-asciidoc-quickstart
+:url-jekyll: https://jekyllrb.com
+:url-jekyll-docs: {url-jekyll}/docs
+:url-jekyll-discuss: https://talk.jekyllrb.com
+:url-front-matter: {url-jekyll-docs}/frontmatter
+:url-liquid-templates: {url-jekyll-docs}/templates
+:url-variables: {url-jekyll-docs}/variables
+:url-graphviz: http://www.graphviz.org
+:url-tilt: https://github.com/rtomayko/tilt
+:url-yaml: https://en.wikipedia.org/wiki/YAML
+:url-guide-publish-gem: http://guides.rubygems.org/publishing/#publishing-to-rubygemsorg
 
 ifdef::status[]
-image:https://img.shields.io/gem/v/jekyll-asciidoc.svg[Latest Release, link={uri-gem}]
+image:https://img.shields.io/gem/v/jekyll-asciidoc.svg[Latest Release, link={url-gem}]
 image:https://img.shields.io/badge/license-MIT-blue.svg[MIT License, link=#copyright-and-license]
-image:https://img.shields.io/travis/asciidoctor/jekyll-asciidoc/master.svg[Build Status (Travis CI), link={uri-ci-travis}]
-image:https://ci.appveyor.com/api/projects/status/3cf1f8p2cyoaoc25/branch/master?svg=true&passingText=green%20bar&failingText=%23fail&pendingText=checking[Build Status (AppVeyor), link={uri-ci-appveyor}]
+image:https://img.shields.io/travis/asciidoctor/jekyll-asciidoc/master.svg[Build Status (Travis CI), link={url-ci-travis}]
+image:https://ci.appveyor.com/api/projects/status/3cf1f8p2cyoaoc25/branch/master?svg=true&passingText=green%20bar&failingText=%23fail&pendingText=checking[Build Status (AppVeyor), link={url-ci-appveyor}]
 endif::[]
 
-A plugin for {uri-jekyll}[Jekyll] (>= 3.0.0) that converts {uri-asciidoc}[AsciiDoc] source files in your site to HTML pages using {uri-asciidoctor}[Asciidoctor].
+A plugin for {url-jekyll}[Jekyll] (>= 3.0.0) that converts {url-asciidoc}[AsciiDoc] source files in your site to HTML pages using {url-asciidoctor}[Asciidoctor].
 
 ifeval::['{branch}' == 'master']
 NOTE: You're viewing the documentation for the upcoming release.
 If you're looking for the documentation for an older release, please refer to one of the following branches: +
-{uri-repo}/tree/v2.1.x#readme[2.1.x]
+{url-repo}/tree/v2.1.x#readme[2.1.x]
 &hybull;
-{uri-repo}/tree/v2.0.x#readme[2.0.x]
+{url-repo}/tree/v2.0.x#readme[2.0.x]
 &hybull;
-{uri-repo}/tree/v1.1.x#readme[1.1.x]
+{url-repo}/tree/v1.1.x#readme[1.1.x]
 &hybull;
-{uri-repo}/tree/v1.0.x#readme[1.0.x]
+{url-repo}/tree/v1.0.x#readme[1.0.x]
 endif::[]
 
 toc::[]
@@ -97,7 +97,7 @@ These extensions are registered automatically when the [.app]*jekyll-asciidoc* g
 
 To use this plugin, you must be using Jekyll >= 3.0.0 and Ruby >= 2.3.0 (with development headers installed).
 You should also be familiar with creating sites with Jekyll.
-If you're not, you should first read the {uri-jekyll-docs}[Jekyll documentation] to familiarize yourself with how it works.
+If you're not, you should first read the {url-jekyll-docs}[Jekyll documentation] to familiarize yourself with how it works.
 Experience with AsciiDoc and Asciidoctor is also helpful, but not a requirement.
 
 Like Jekyll, this plugin was designed for developers, so some assembly is required.
@@ -105,8 +105,8 @@ That means you'll be expected to edit configuration, modify HTML templates, and 
 
 == Installation
 
-This plugin is packaged as a gem named [.app]*{uri-gem}[jekyll-asciidoc]* and published to RubyGems.org.
-The plugin depends on the [.app]*{uri-gem-asciidoctor}[asciidoctor]* gem, which gets installed automatically.
+This plugin is packaged as a gem named [.app]*{url-gem}[jekyll-asciidoc]* and published to RubyGems.org.
+The plugin depends on the [.app]*{url-gem-asciidoctor}[asciidoctor]* gem, which gets installed automatically.
 
 Your method of installation will depend on whether you use Bundler to manage the dependencies for your Jekyll project.
 
@@ -187,10 +187,10 @@ layout: info
 permalink: /sample/
 ---
 = Sample Page
-:uri-asciidoctor: http://asciidoctor.org
+:url-asciidoctor: http://asciidoctor.org
 
 This is a sample page composed in AsciiDoc.
-Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
+Jekyll converts it to HTML using {url-asciidoctor}[Asciidoctor].
 
 [source,ruby]
 puts "Hello, World!"
@@ -204,10 +204,10 @@ Alternatively, you can define the page variables directly in the AsciiDoc header
 = Sample Page
 :page-layout: info
 :page-permalink: /sample/
-:uri-asciidoctor: http://asciidoctor.org
+:url-asciidoctor: http://asciidoctor.org
 
 This is a sample page composed in AsciiDoc.
-Jekyll converts it to HTML using {uri-asciidoctor}[Asciidoctor].
+Jekyll converts it to HTML using {url-asciidoctor}[Asciidoctor].
 
 [source,ruby]
 puts "Hello, World!"
@@ -215,9 +215,9 @@ puts "Hello, World!"
 
 === Page Attributes
 
-Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins with ``page-``footnote:[The prefix used to label page attributes can be customized.] gets promoted to a {uri-variables}[page variables].
+Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins with ``page-``footnote:[The prefix used to label page attributes can be customized.] gets promoted to a {url-variables}[page variables].
 The part of the name after the `page-` prefix is _lowercased_ and used as the variable name (e.g., page-layout becomes layout).
-The value is processed as {uri-yaml}[YAML] data (single-line form).
+The value is processed as {url-yaml}[YAML] data (single-line form).
 
 Since the attribute value is processed as YAML data, you can build nested data structure using the inline YAML syntax.
 For example, here's how you can assign a value to the `page.header.image` page variable:
@@ -394,7 +394,7 @@ When you're ready to publish the post, move the file from the [.path]_{empty}_dr
 
 === Enabling Liquid Preprocessing
 
-Unlike other content files, the {uri-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (since version 2.0.0 of this plugin).
+Unlike other content files, the {url-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (since version 2.0.0 of this plugin).
 If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the `liquid` page variable (shown here defined using a page attribute).
 
 [source,asciidoc]
@@ -402,7 +402,7 @@ If you want the Liquid template preprocessor to be applied to an AsciiDoc file (
 :page-liquid:
 ----
 
-IMPORTANT: AsciiDoc files may include a {uri-front-matter}[front matter header] for defining page variables.
+IMPORTANT: AsciiDoc files may include a {url-front-matter}[front matter header] for defining page variables.
 If present, the front matter header must be the very first character of the file.
 The front matter header won't be seen--and could distort conversion--if the front matter is preceded by whitespace or a Byte Order Mark (BOM).
 
@@ -627,7 +627,7 @@ asciidoctor:
     -idprefix:
 ----
 
-In addition to `attributes`, you may define any other option key (e.g., `safe`) recognized by the {uri-asciidoctor-manual}#ruby-api-options[Asciidoctor API].
+In addition to `attributes`, you may define any other option key (e.g., `safe`) recognized by the {url-asciidoctor-manual}#ruby-api-options[Asciidoctor API].
 One of those options is `base_dir`, which is covered in the next section.
 
 ==== Specifying the Base Directory
@@ -719,7 +719,7 @@ asciidoctor:
 
 If you already have AsciiDoc attributes defined in the {path-config}, the new attribute should be added as a sibling entry in the YAML collection.
 
-WARNING: Keep in mind, if you enable hard line breaks, you won't be able to use the {uri-asciidoc-practices}#one-sentence-per-line[one sentence-per-line writing technique].
+WARNING: Keep in mind, if you enable hard line breaks, you won't be able to use the {url-asciidoc-practices}#one-sentence-per-line[one sentence-per-line writing technique].
 
 == Running in Safe Mode
 
@@ -805,7 +805,7 @@ content
 == Customizing the Generated HTML
 
 You can use templates to customize the HTML output that Asciidoctor generates for your site.
-Template files can be composed in any templating language that is supported by {uri-tilt}[Tilt].
+Template files can be composed in any templating language that is supported by {url-tilt}[Tilt].
 Each template file corresponds to a node in the AsciiDoc document tree (aka AST).
 
 Below are the steps you need to take to configure Asciidoctor to use custom templates with your site.
@@ -873,7 +873,7 @@ Name the file [.path]_ulist.html.slim_.
 
 The next time you build your site, Asciidoctor will use your custom template to generate the HTML for unordered lists.
 
-TIP: You can find additional examples of custom templates in the {uri-asciidoctor-backends}[asciidoctor-backends] repository.
+TIP: You can find additional examples of custom templates in the {url-asciidoctor-backends}[asciidoctor-backends] repository.
 
 == Enabling Asciidoctor Extensions
 
@@ -933,11 +933,11 @@ For a concrete example of using an Asciidoctor extension, refer to the next sect
 
 == Enabling Asciidoctor Diagram
 
-{uri-asciidoctor-diagram}[Asciidoctor Diagram] is a set of extensions for Asciidoctor that allow you to embed diagrams generated by PlantUML, Graphviz, ditaa, Shaape, and other plain-text diagram tools inside your AsciiDoc documents.
+{url-asciidoctor-diagram}[Asciidoctor Diagram] is a set of extensions for Asciidoctor that allow you to embed diagrams generated by PlantUML, Graphviz, ditaa, Shaape, and other plain-text diagram tools inside your AsciiDoc documents.
 In order to use Asciidoctor Diagram in a Jekyll project successfully, *you must use a version of this plugin >= 2.0.0*.
 Other combinations are known to have issues.
 
-IMPORTANT: For Graphviz and PlantUML diagram generation, {uri-graphviz}[Graphviz] must be installed (i.e., the `dot` utility must be available on your `$PATH`.
+IMPORTANT: For Graphviz and PlantUML diagram generation, {url-graphviz}[Graphviz] must be installed (i.e., the `dot` utility must be available on your `$PATH`.
 
 TIP: To follow a start-to-finish tutorial that covers how to integrate Asciidoctor Diagram, see https://gist.github.com/mojavelinux/968623c493190dd61c059c2d85f9bdc3[this gist].
 
@@ -1137,7 +1137,7 @@ Certain Asciidoctor features, such as icons, require additional CSS rules and ot
 These CSS rules and other assets do not get automatically included in the pages generated by Jekyll.
 This section documents how to configure these additional resources.
 
-TIP: If you want to take a shortcut that skips all this configuration, clone the {uri-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
+TIP: If you want to take a shortcut that skips all this configuration, clone the {url-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
 JAQ provides a page layout out of the box configured to fully style body content generated from AsciiDoc.
 
 === Setup
@@ -1337,7 +1337,7 @@ TIP: When using this setup, don't forget to add the [.path]_.nojekyll_ file to t
 
 ==== Jekyll AsciiDoc Quickstart
 
-If you want to take a shortcut that skips all the steps in the previously mentioned tutorial, clone the {uri-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
+If you want to take a shortcut that skips all the steps in the previously mentioned tutorial, clone the {url-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
 JAQ includes a Rake build that is preconfigured to deploy to GitHub Pages from Travis CI and also provides a theme (page layout and CSS) that properly styles body content generated from AsciiDoc.
 
 ==== Feeling Responsive
@@ -1408,17 +1408,17 @@ But we can't achieve that goal without your input.
 Your questions and feedback help steer the project, so speak up!
 Activity drives progress.
 
-When seeking answers, always start with the official documentation for Jekyll, which can be found on the {uri-jekyll}[Jekyll website].
-If you have general questions about Jekyll, we recommend you visit the {uri-jekyll-discuss}[Jekyll Talk] forum to get assistance.
-For questions related to this extension specifically, or general questions about AsciiDoc, please post to the {uri-asciidoctor-discuss}[Asciidoctor discussion list].
-You can also join us in the {uri-chat}[asciidoctor/asciidoctor channel] on Gitter.
-For general information about AsciiDoc, look no further than the {uri-asciidoctor-manual}[Asciidoctor User Manual].
+When seeking answers, always start with the official documentation for Jekyll, which can be found on the {url-jekyll}[Jekyll website].
+If you have general questions about Jekyll, we recommend you visit the {url-jekyll-discuss}[Jekyll Talk] forum to get assistance.
+For questions related to this extension specifically, or general questions about AsciiDoc, please post to the {url-asciidoctor-discuss}[Asciidoctor discussion list].
+You can also join us in the {url-chat}[asciidoctor/asciidoctor channel] on Gitter.
+For general information about AsciiDoc, look no further than the {url-asciidoctor-manual}[Asciidoctor User Manual].
 
 === Filing Bug Reports and Feature Requests
 
-This project uses the {uri-issues}[GitHub issue tracker] to manage bug reports and feature requests.
-If you encounter a problem, please {uri-search-issues}[browse or search] the issues to find out if your problem has already been reported.
-If it has not, you may {uri-issues}/new[submit a new issue].
+This project uses the {url-issues}[GitHub issue tracker] to manage bug reports and feature requests.
+If you encounter a problem, please {url-search-issues}[browse or search] the issues to find out if your problem has already been reported.
+If it has not, you may {url-issues}/new[submit a new issue].
 
 The best way to get a timely response and quick fix for your issue is to write a detailed report and respond to replies in a timely manner.
 
@@ -1437,11 +1437,11 @@ Follow the instructions below to learn how to clone the source, run the tests an
 === Retrieve the Source Code
 
 You can retrieve the source code from GitHub using git.
-Simply copy the URL of the {uri-repo}[GitHub repository] and pass it to the `git clone` command:
+Simply copy the URL of the {url-repo}[GitHub repository] and pass it to the `git clone` command:
 
 [subs=attributes+]
 ....
-git clone {uri-repo}
+git clone {url-repo}
 ....
 
 Next, switch to the project directory.
@@ -1570,13 +1570,13 @@ Next, package, tag and release the gem to RubyGems.org, run the following rake t
 
  $ bundle exec rake release
 
-IMPORTANT: Ensure you have the proper credentials setup as described in the guide {uri-guide-publish-gem}[Publishing to RubyGems.org].
+IMPORTANT: Ensure you have the proper credentials setup as described in the guide {url-guide-publish-gem}[Publishing to RubyGems.org].
 
 Once you finish the release, you should update the version to the next micro version in the sequence using the `.dev` suffix (e.g., 3.0.1.dev).
 
 == About the Project
 
-The Jekyll AsciiDoc plugin, a plugin for the static site generator {uri-jekyll}[Jekyll], is a member project of the Asciidoctor organization.
+The Jekyll AsciiDoc plugin, a plugin for the static site generator {url-jekyll}[Jekyll], is a member project of the Asciidoctor organization.
 This plugin is developed and supported by volunteers in the Asciidoctor community.
 
 === Authors
