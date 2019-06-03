@@ -279,7 +279,7 @@ In addition to page attributes defined explicitly (e.g., layout, permalink, etc)
 * doctitle (aka the document title) (becomes `title`)
 * id (becomes `docid`)
 * author
-* revdate (becomes `date`; value is converted to a DateTime object; posts only)
+* revdate (becomes `date`; value is converted to a DateTime object; not applied to pages)
 
 Although not an implicit page variable, another very common page variable to set is `page-description`, which becomes `description` in the model.
 
