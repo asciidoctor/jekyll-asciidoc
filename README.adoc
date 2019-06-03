@@ -412,6 +412,8 @@ In these cases, you define all the page variables (e.g., layout) using AsciiDoc 
 You can also use a combination of both.
 When intermixed, the page attributes defined in the AsciiDoc header take precedence.
 
+Liquid processing does not extend to files included using the AsciiDoc include directive (see {url-issues}/166[#166]).
+
 If you're using the Liquid include tag to include HTML into the AsciiDoc document, you need to enclose it in a passthrough block.
 
 ----
