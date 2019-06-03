@@ -1,7 +1,10 @@
 gems:
 - jekyll-asciidoc
-asciidoctor:
+asciidoc:
+  processor: asciidoctor
   attributes:
     icons: font
+asciidoctor:
+  attributes:
     sectanchors: ''
     table-caption: null
