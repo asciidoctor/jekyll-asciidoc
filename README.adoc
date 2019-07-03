@@ -986,6 +986,8 @@ IMPORTANT: For Graphviz and PlantUML diagram generation, {url-graphviz}[Graphviz
 
 TIP: To follow a start-to-finish tutorial that covers how to integrate Asciidoctor Diagram, see https://gist.github.com/mojavelinux/968623c493190dd61c059c2d85f9bdc3[this gist].
 
+Note that you can also simplify the image generation stage by <<Using data-URIs instead of generated images,using data URIs>>.
+
 === Installation
 
 Using Bundler::
@@ -1111,6 +1113,21 @@ asciidoctor:
   attributes:
     imagesdir: /images
 ----
+
+=== Using data-URIs instead of generated images
+
+Instead of generating images, AsciiDoctor and the Diagram plugin can use https://en.wikipedia.org/wiki/Data_URI_scheme[data-URIs] to embed images directly in the generated HTML. This has some downsides - this https://caniuse.com/#feat=datauri[won't work in ancient browsers], images can't be linked to directly, and there are size limits (32K for IE8) - but this makes image generation simple and avoids needing to worry about preserving images.
+
+You can set this per-page by adding :data-uri: to the document header, or globally by setting an attribute in your _config.yml :
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    data-uri: ''
+----
+
+See https://asciidoctor.org/docs/user-manual/#managing-images[the Asciidoctor docs] for more details.
 
 == Enabling STEM Support
 
