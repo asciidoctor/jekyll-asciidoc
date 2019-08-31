@@ -1312,6 +1312,47 @@ asciidoctor:
   ...
 ----
 
+Circled callout numbers are also linked to the `icons=font` setting, even though they don't rely on the Font Awesome font.
+To enable them, you need to add the following additional CSS to the [.path]_css/asciidoc.css_ file:
+
+[source,css]
+----
+.conum[data-value] {
+  display: inline-block;
+  color: #fff !important;
+  background: rgba(0,0,0,.8);
+  -webkit-border-radius: 1em;
+  border-radius: 1em;
+  text-align: center;
+  font-size: .75em;
+  width: 1.67em;
+  height: 1.67em;
+  line-height: 1.67em;
+  font-family: "Open Sans", "DejaVu Sans", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.conum[data-value] * {
+  color: #fff !important;
+}
+.conum[data-value] + b {
+  display: none;
+}
+.conum[data-value]::after {
+  content: attr(data-value);
+}
+pre .conum[data-value] {
+  position: relative;
+  top: -.125em;
+}
+b.conum * {
+  color: inherit !important;
+}
+.conum:not([data-value]):empty {
+  display: none;
+}
+----
+
 === Image-based Admonition and Inline Icons
 
 As an alternative to font-based icons, you can configure Asciidoctor to use image-based icons.
