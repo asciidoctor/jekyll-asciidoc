@@ -560,7 +560,9 @@ describe 'Jekyll::AsciiDoc' do
 
     it 'should only register pre and post render hooks once' do
       hooks_registry = ::Jekyll::Hooks.instance_variable_get :@registry
-      owned_by_plugin = proc {|hooks| hooks.select {|it| it.source_location[0].end_with? '/jekyll-asciidoc/converter.rb' } }
+      owned_by_plugin = proc do |hooks|
+        hooks.select {|it| it.source_location[0].end_with? '/jekyll-asciidoc/converter.rb' }
+      end
       (expect owned_by_plugin[hooks_registry[:pages][:pre_render]].size).to eql 1
       (expect owned_by_plugin[hooks_registry[:pages][:post_render]].size).to eql 1
       (expect owned_by_plugin[hooks_registry[:documents][:pre_render]].size).to eql 1

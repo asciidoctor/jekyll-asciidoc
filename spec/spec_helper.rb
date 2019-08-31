@@ -15,16 +15,20 @@ RSpec.configure do |config|
   config.before :suite do
     ::FileUtils.rm_rf output_dir
     if ENV['JEKYLL_VERSION'] == '3.0.0'
+      plugins_rx = /([*&])?plugins(:)?/
+      plugins_to_gems_sub = '\1gems\2'
       Dir[%(#{fixtures_dir}/**/_config.yml)].each do |filename|
-        ::File.write filename, ((::File.read filename).gsub %r/([*&])?plugins(:)?/, '\1gems\2')
+        ::File.write filename, ((::File.read filename).gsub plugins_rx, plugins_to_gems_sub)
       end
     end
   end
 
   config.after :suite do
     if ENV['JEKYLL_VERSION'] == '3.0.0'
+      gems_rx = /([*&])?gems(:)?/
+      gems_to_plugins_sub = '\1plugins\2'
       Dir[%(#{fixtures_dir}/**/_config.yml)].each do |filename|
-        ::File.write filename, ((::File.read filename).gsub %r/([*&])?gems(:)?/, '\1plugins\2')
+        ::File.write filename, ((::File.read filename).gsub gems_rx, gems_to_plugins_sub)
       end
     else
       Dir[%(#{fixtures_dir}/**/.jekyll-cache)].each {|dirname| FileUtils.rm_rf dirname }
@@ -52,11 +56,11 @@ RSpec.configure do |config|
   end
 
   def fixtures_dir
-    ::File.expand_path '../fixtures', __FILE__
+    ::File.absolute_path 'fixtures', __dir__
   end
 
   def output_dir path = nil
-    base = ::File.expand_path '../../build/test-output', __FILE__
+    base = ::File.absolute_path '../build/test-output', __dir__
     path ? (::File.join base, path) : base
   end
 
