@@ -1,5 +1,6 @@
 = Jekyll AsciiDoc Plugin (powered by Asciidoctor)
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>; Paul Rayner <https://github.com/paulrayner[@paulrayner]>
+v3.0.0, 2019-08-31
 // Settings:
 :idprefix:
 :idseparator: -
@@ -9,7 +10,6 @@ ifdef::env-github,env-browser[]
 :toclevels: 1
 endif::[]
 ifdef::env-github[]
-:branch: master
 :status:
 :outfilesuffix: .adoc
 :!toc-title:
