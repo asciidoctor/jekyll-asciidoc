@@ -1249,7 +1249,7 @@ To enable font-based admonition and inline icons, you first need to add Font Awe
 
 [source,html]
 ----
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 ----
 
 NOTE: You can also link to a local copy of Font Awesome.
