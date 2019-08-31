@@ -1,7 +1,7 @@
 dist: trusty
 git:
-  # use depth 2 just in case two refs get pushed at once (like a tag)
-  depth: 2
+  # use depth 5 just in case two refs get pushed at once (like a tag)
+  depth: 5
 language: ruby
 rvm:
 - 2.5.5
@@ -17,7 +17,7 @@ matrix:
     env: JEKYLL_VERSION=3.0.0
   - rvm: *release_rvm
     env: ASCIIDOCTOR_VERSION=1.5.8
-install: bundle install --jobs=3 --retry=3
+bundler_args: --jobs=3 --retry=3 --without=docs
 script:
 - bundle exec rake spec
 - if [ ! -z $COVERAGE ]; then bundle exec rake lint; fi
@@ -27,8 +27,8 @@ notifications:
     on_failure: change
 deploy:
   provider: rubygems
-  api_key: ${RUBYGEMS_API_KEY}
   gem: jekyll-asciidoc
+  api_key: ${RUBYGEMS_API_KEY}
   on:
     tags: true
     repo: asciidoctor/jekyll-asciidoc
