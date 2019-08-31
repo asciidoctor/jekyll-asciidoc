@@ -14,6 +14,21 @@ Jekyll.logger.log_level = :error
 RSpec.configure do |config|
   config.before :suite do
     ::FileUtils.rm_rf output_dir
+    if ENV['JEKYLL_VERSION'] == '3.0.0'
+      Dir[%(#{fixtures_dir}/**/_config.yml)].each do |filename|
+        ::File.write filename, ((::File.read filename).gsub %r/([*&])?plugins(:)?/, '\1gems\2')
+      end
+    end
+  end
+
+  config.after :suite do
+    if ENV['JEKYLL_VERSION'] == '3.0.0'
+      Dir[%(#{fixtures_dir}/**/_config.yml)].each do |filename|
+        ::File.write filename, ((::File.read filename).gsub %r/([*&])?gems(:)?/, '\1plugins\2')
+      end
+    else
+      Dir[%(#{fixtures_dir}/**/.jekyll-cache)].each {|dirname| FileUtils.rm_rf dirname }
+    end
   end
 
   def use_fixture name
@@ -29,11 +44,15 @@ RSpec.configure do |config|
   end
 
   def source_dir path
-    ::File.join (::File.expand_path '../fixtures', __FILE__), path
+    ::File.join fixtures_dir, path
   end
 
   def source_file path
     ::File.join site.config['source'], path
+  end
+
+  def fixtures_dir
+    ::File.expand_path '../fixtures', __FILE__
   end
 
   def output_dir path = nil

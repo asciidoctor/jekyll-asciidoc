@@ -1,4 +1,4 @@
-gems: &gems
+plugins: &plugins
 - jekyll-asciidoc
 safe: true
-whitelist: *gems
+whitelist: *plugins

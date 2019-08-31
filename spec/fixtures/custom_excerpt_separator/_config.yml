@@ -1,4 +1,4 @@
-gems:
+plugins:
 - jekyll-asciidoc
 excerpt_separator: "<!--more-->"
 asciidoc:
