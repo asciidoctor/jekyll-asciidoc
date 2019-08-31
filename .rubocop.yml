@@ -1,10 +1,15 @@
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
 Layout/SpaceInsideBlockBraces:
   SpaceBeforeBlockParameters: false
+Layout/AlignArguments:
+  EnforcedStyle: with_fixed_indentation
+  IndentationWidth: 4
 Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
   IndentationWidth: 4
+Layout/IndentFirstArgument:
+  Enabled: false
 Layout/LeadingCommentSpace:
   Enabled: false
 Layout/MultilineOperationIndentation:
