@@ -1,0 +1,4 @@
+= Not Published
+:page-published: false
+
+This page should be published only when unpublished config is given.
