@@ -1377,4 +1377,17 @@ describe 'Jekyll::AsciiDoc' do
       (expect contents.index('<footer>this is the footer</footer>')).to be > custom_loc
     end
   end
+
+  describe 'unpublished config is set' do
+    use_fixture :unpublished_site_config
+
+    before :each do
+      site.process
+    end
+
+    it 'should publish pages regardless of published page variable if unpublished site config is set' do
+      file = output_file 'not-published.html'
+      (expect ::File).to exist file
+    end
+  end
 end
