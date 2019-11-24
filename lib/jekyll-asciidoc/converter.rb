@@ -192,6 +192,11 @@ module Jekyll
           if (layout_attr = resolve_default_layout document, opts[:attributes])
             opts[:attributes] = opts[:attributes].merge layout_attr
           end
+          if document.site.config['unpublished']
+            opts[:attributes] = opts[:attributes].merge(
+              %(#{@asciidoc_config['page_attribute_prefix']}published) => true
+            )
+          end
           # NOTE return instance even if header is empty since attributes may be inherited from config
           doc = ::Asciidoctor.load header, opts
         else
