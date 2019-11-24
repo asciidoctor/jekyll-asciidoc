@@ -103,7 +103,7 @@ module Jekyll
 
         document.extend Document
         document.extend NoLiquid unless data['liquid']
-        (data.fetch 'published', true) || document.site.config['unpublished']
+        data.fetch 'published', true
       end
 
       def generate_pygments_stylesheet site, attrs
