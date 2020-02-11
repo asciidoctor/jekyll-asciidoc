@@ -1244,7 +1244,7 @@ describe 'Jekyll::AsciiDoc' do
         src_content = ::File.read src_file
         out_content = ::File.read out_file
         (expect src_content).to eql out_content
-        (expect src_content).to include '.pygments .tok-c'
+        (expect src_content).to include '.pygments .tok-c' # comment color
       ensure
         if ::File.exist? src_file
           ::File.delete src_file
@@ -1261,7 +1261,57 @@ describe 'Jekyll::AsciiDoc' do
         out_content = ::File.read src_file
         attrs = site.config['asciidoctor'][:attributes]
         attrs['pygments-style'] = 'monokai'
-        integrator.generate_pygments_stylesheet site, attrs
+        integrator.generate_stylesheet 'pygments', site, attrs
+        (expect ::File.read src_file).not_to eql src_content
+        ::Jekyll::StaticFile.reset_cache
+        site.process
+        new_out_content = ::File.read out_file
+        (expect new_out_content).not_to eql out_content
+        (expect new_out_content).to include 'background-color: #49483e'
+      ensure
+        if ::File.exist? src_file
+          ::File.delete src_file
+          ::Dir.rmdir ::File.dirname src_file
+        end
+      end
+    end
+  end
+
+  describe 'rouge code highlighting' do
+    use_fixture :rouge_code_highlighting
+
+    before :each do
+      ::Jekyll::StaticFile.reset_cache
+      site.process
+    end
+
+    it 'should write the rouge stylesheet to the stylesdir' do
+      src_file = source_file 'css/asciidoc-rouge.css'
+      out_file = output_file 'css/asciidoc-rouge.css'
+      begin
+        (expect ::File).to exist src_file
+        (expect ::File).to exist out_file
+        src_content = ::File.read src_file
+        out_content = ::File.read out_file
+        (expect src_content).to eql out_content
+        (expect src_content).to include '.rouge .cm' # comment color
+      ensure
+        if ::File.exist? src_file
+          ::File.delete src_file
+          ::Dir.rmdir ::File.dirname src_file
+        end
+      end
+    end
+
+    it 'should overwrite rouge stylesheet if style has changed' do
+      src_file = source_file 'css/asciidoc-rouge.css'
+      out_file = output_file 'css/asciidoc-rouge.css'
+      begin
+        src_content = ::File.read src_file
+        out_content = ::File.read src_file
+        attrs = site.config['asciidoctor'][:attributes]
+        attrs['rouge-style'] = 'monokai'
+        integrator.generate_stylesheet 'rouge', site, attrs
         (expect ::File.read src_file).not_to eql src_content
         ::Jekyll::StaticFile.reset_cache
         site.process
