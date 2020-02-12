@@ -1201,7 +1201,9 @@ You need to augment the layout to include resources typically present in a stand
 
 === Stylesheet for Code Highlighting
 
-Asciidoctor integrates with Pygments to provide code highlighting of source blocks in AsciiDoc content.
+Asciidoctor integrates with Pygments and Rouge to provide code highlighting of source blocks in AsciiDoc content.
+
+Rouge is the default highlighter for Jekyll versions 4.0 and later, so it is already installed with Jekyll.
 
 To enable Pygments, you must install the `pygments.rb` gem.
 To do so, add the `pygments.rb` gem to your [.path]_Gemfile_:
@@ -1214,20 +1216,20 @@ gem 'pygments.rb', '~> 1.1.2'
 IMPORTANT: To use Pygments with Ruby >= 2.4 or JRuby, you must install pygments.rb >= 1.1.0.
 
 As part of this integration, Asciidoctor generates a custom stylesheet tailored specially to work with the HTML that Asciidocotor produces.
-Since this stylesheet is backed by the Pygments API, it provides access to all the themes in Pygments
+Since this stylesheet is backed by the Pygments API, it provides access to all the themes in Pygments.
 
-This plugin will automatically generate a stylesheet for Pygments into the source directory if the AsciiDoc attributes in your site's {path-config} are configured as follows:
+This plugin will automatically generate a stylesheet for Pygments or Rouge into the source directory if the AsciiDoc attributes in your site's {path-config} are configured as follows:
 
-* `source-highlighter` has the value `pygments`
-* `pygments-css` has the value `class` or is not set
-* `pygments-stylesheet` is not unset (if set, it can have any value)
+* `source-highlighter` has the value `pygments` or `rouge`
+* `pygments-css` (or `rouge-css`, respectively) has the value `class` or is not set
+* `pygments-stylesheet` (or `rouge-stylesheet`, respectively) is not unset (if set, it can have any value)
 
-By default, the stylesheet is written to `stylesdir` + `pygments-stylesheet`.
-If the `pygments-stylesheet` attribute is not specified, the value defaults to `asciidoc-pygments.css`.
+By default, the stylesheet is written to `stylesdir` + `{pygments,rouge}-stylesheet`, depending on the value of `source-highlighter`.
+If the `pygments-stylesheet` or `rouge-stylesheet` attribute is not specified, the value defaults to `asciidoc-{pygments,rouge}.css`.
 You can customize this value to your liking.
 
-The Pygments theme is selected by the value of the `pygments-style` attribute.
-If this attribute is not set, it defaults to `vs`.
+The theme is selected by the value of the `pygments-style` or `rouge-style` attribute, respectively.
+If this attribute is not set, it defaults to `vs` for Pygments and `github` for Rouge.
 
 The stylesheet file will be created if it does not yet exist or the theme has been changed.
 Jekyll will handle copying the file to the output directory.
@@ -1239,7 +1241,16 @@ You'll need to add a line to your template to link to this stylesheet, such as:
 <link rel="stylesheet" href="{{ "/css/asciidoc-pygments.css" | prepend: site.baseurl }}">
 ----
 
-To disable this feature, either set the `pygments-css` to `style` (to enable inline styles) or unset the `pygments-stylesheet` attribute in your site's {path-config}.
+for Pygments or
+
+[source,html]
+----
+<link rel="stylesheet" href="{{ "/css/asciidoc-rouge.css" | prepend: site.baseurl }}">
+----
+
+or Rouge, respectively.
+
+To disable this feature, either set the `{pygments,rouge}-css` attribute to `style` (to enable inline styles) or unset the `pygments-stylesheet` and `rouge-stylesheet` attributes in your site's {path-config}.
 
 NOTE: It may still be necessary to make some tweaks to your site's stylesheet to accomodate this integration.
 
