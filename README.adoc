@@ -167,6 +167,23 @@ gems:
 - jekyll-asciidoc
 ----
 
+=== Plugin Ordering
+
+Since the [.app]*jekyll-asciidoc* plugin promotes <<page-attributes,page attributes>> to the front matter, it must run first.
+To make sure it does, rearrange the sequence of plugins in your Gemfile or {path-config} file so the [.app]*jekyll-asciidoc* plugin is listed before other plugins.
+By doing so, other plugins will be able to access any front matter that this plugin assigns.
+
+Let's consider the case of using the [.app]*jekyll-archives* plugin alongside the [.app]*jekyll-asciidoc* plugin.
+
+[source,ruby]
+----
+group :jekyll_plugins do
+  gem 'jekyll-asciidoc'
+  gem 'jekyll-archives' <1>
+end
+----
+<1> The [.app]*jekyll-archives* plugin should be listed after the [.app]*jekyll-asciidoc* plugin since it needs to access front matter that is promoted from the header of the AsciiDoc document.
+
 == Creating Pages
 
 This plugin converts eligible AsciiDoc files located inside the source directory (by default, the project root) to HTML pages in the generated site.
@@ -242,21 +259,8 @@ For more details about the document header, see the http://asciidoctor.org/docs/
 IMPORTANT: You may use include directives in the the document header.
 However, you must ensure that the file included _does not_ contain blank lines.
 
-[CAUTION]
---
-If an Asciidoc attribute defined in the Asciidoc document header isn't visible to another plugin or 
-in a liquid script then rearrange the plugin sequence in your Gemfile and put jekyll-asciidoc in front of the others. 
-
-.For example
-[source,ruby]
-----
-group :jekyll_plugins do
-  gem 'jekyll-asciidoc'
-  gem 'jekyll-archives' <1>
-end
-----
-<1> jekyll-archives fetches the attributes after they are promoted by jekyll-asciidoc.
---
+CAUTION: If an attribute defined in the header of an AsciiDoc document is not visible to another plugin or Liquid template, you may have a plugin ordering problem.
+See <<Plugin Ordering>> to learn how to fix it.
 
 === Specifying a Layout
 
