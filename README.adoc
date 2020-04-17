@@ -242,6 +242,22 @@ For more details about the document header, see the http://asciidoctor.org/docs/
 IMPORTANT: You may use include directives in the the document header.
 However, you must ensure that the file included _does not_ contain blank lines.
 
+[CAUTION]
+--
+If an Asciidoc attribute defined in the Asciidoc document header isn't visible to another plugin or 
+in a liquid script then rearrange the plugin sequence in your Gemfile and put jekyll-asciidoc in front of the others. 
+
+.For example
+[source,ruby]
+----
+group :jekyll_plugins do
+  gem 'jekyll-asciidoc'
+  gem 'jekyll-archives' <1>
+end
+----
+<1> jekyll-archives fetches the attributes after they are promoted by jekyll-asciidoc.
+--
+
 === Specifying a Layout
 
 The most commonly defined page variable is layout, which determines which template is used to wrap the generated content.
