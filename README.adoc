@@ -713,7 +713,7 @@ asciidoctor:
 
 If, instead, you want the base directory to track the directory of the document being processed, and you're using Jekyll 3 or better, you can set the value of the `base_dir` option to `:docdir`.
 This behavior matches how Asciidoctor works when running it outside of Jekyll.
-Since the base directory is also the jail, we also recommend setting the `safe` option to `unsafe` so that you can still resolve paths outside of this directory.
+Since the base directory is also the jail, we also recommend setting the `safe` option to enable unsafe mode so you can still resolve paths outside of this directory.
 
 [source,yaml]
 ----
