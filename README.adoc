@@ -867,6 +867,21 @@ content
 content
 ----
 
+By default, the `tocify_asciidoc` filter will insert a table of contents on any page that has even one section below the page title.
+It's possible to conditionally disable this by using a Liquid `if` statement in your template with a custom attribute, similar to:
+
+----
+{% if page.show-toc != false %}
+ <div class="toc">
+   {{ page.document | tocify_asciidoc }}
+ </div>
+{% endif %}
+----
+
+Then in the front matter of pages where you do not want a table of contents to appear, use the attribute `:page-show-toc: false`.
+Note that since this example uses a custom attribute, its name can be anything you'd like, it only needs to start with with `page-`.
+If you change the attribute name from this example, be sure to update the it in the `if` statement as appropriate.
+
 == Customizing the Generated HTML
 
 You can use templates to customize the HTML output that Asciidoctor generates for your site.
@@ -1123,7 +1138,7 @@ An alternative to the monkeypath approach is to identify folders that contain ge
 
 [source,yaml]
 ----
-keep_files: 
+keep_files:
 - images
 asciidoctor:
   base_dir: :docdir
@@ -1459,7 +1474,7 @@ Refer to the https://phlow.github.io/feeling-responsive/getting-started/[Getting
 Deployment to GitLab Pages is much simpler.
 That's because GitLab allows you to control the execution of Jekyll yourself.
 There's no need to mess around with CI jobs and authentication tokens.
-You can find all about how to use Jekyll with GitLab Pages in the tutorial https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#option-b-gitlab-ci-for-jekyll-websites[Hosting on GitLab.com with GitLab Pages]. 
+You can find all about how to use Jekyll with GitLab Pages in the tutorial https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#option-b-gitlab-ci-for-jekyll-websites[Hosting on GitLab.com with GitLab Pages].
 More in-depth information regarding setting up your repository for GitLab Pages can be found in the  https://docs.gitlab.com/ee/pages/README.html[GitLab Enterprise Edition / Pages] documentation.
 
 Assuming the following are true:
