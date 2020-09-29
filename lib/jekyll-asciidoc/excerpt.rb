@@ -44,6 +44,14 @@ module Jekyll
         #::Jekyll::Hooks.trigger collection.label.to_sym, hook_name, self, *args if collection
         ::Jekyll::Hooks.trigger :documents, hook_name, self, *args
       end
+
+      def permalink
+        nil
+      end
+
+      def write?
+        false
+      end
     end
   end
 end
