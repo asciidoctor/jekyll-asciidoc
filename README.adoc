@@ -1271,7 +1271,7 @@ You'll need to add a line to your template to link to this stylesheet, such as:
 
 [source,html]
 ----
-<link rel="stylesheet" href="{{ "/css/asciidoc-pygments.css" | prepend: site.baseurl }}">
+<link rel="stylesheet" href="{{ '/css/asciidoc-pygments.css' | prepend: site.baseurl }}">
 ----
 
 To disable this feature, either set the `pygments-css` to `style` (to enable inline styles) or unset the `pygments-stylesheet` attribute in your site's {path-config}.
