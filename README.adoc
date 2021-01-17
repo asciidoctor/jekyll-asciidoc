@@ -1231,7 +1231,7 @@ You need to augment the layout to include resources typically present in a stand
 +
 [source,html]
 ----
-<link rel="stylesheet" href="{{ "/css/asciidoc.css" | prepend: site.baseurl }}">
+<link rel="stylesheet" href="{{ '/css/asciidoc.css' | prepend: site.baseurl }}">
 ----
 
 === Stylesheet for Code Highlighting
