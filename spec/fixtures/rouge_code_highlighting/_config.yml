@@ -1,0 +1,6 @@
+plugins:
+- jekyll-asciidoc
+asciidoctor:
+  attributes:
+  - stylesdir=/css
+  - source-highlighter=rouge@

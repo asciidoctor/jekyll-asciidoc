@@ -1,11 +1,18 @@
 module Jekyll
   module AsciiDoc
     # Promotes eligible AsciiDoc attributes to page variables and applies page-level settings to all documents handled
-    # by the converter included with this plugin. It also copies the custom Pygments stylesheet if Pygments is the
-    # source highlighter and configured to use class-based styling.
+    # by the converter included with this plugin. It also copies the custom Pygments or Rouge stylesheet if Pygments
+    # or Rouge is the source highlighter and configured to use class-based styling.
     class Integrator < ::Jekyll::Generator
       NewLine = Utils::NewLine
-      PygmentsRootSelector = /^(.+?)\.pygments +{/
+      RootSelector = {
+        pygments: /^(.+?)\.pygments +{/,
+        rouge: /^(.+?)\.rouge +{/,
+      }
+      BaseStyles = {
+        pygments: 'vs',
+        rouge: 'github',
+      }
 
       # Enable plugin when running in safe mode; jekyll-asciidoc gem must also be declared in whitelist
       safe true
@@ -36,9 +43,12 @@ module Jekyll
         if site.config['asciidoc']['processor'] == 'asciidoctor'
           attrs = site.config['asciidoctor'][:attributes]
           attrs['localdate'], attrs['localtime'] = (site.time.strftime '%Y-%m-%d %H:%M:%S %Z').split ' ', 2
-          if ((attrs['source-highlighter'] || '').chomp '@') == 'pygments' &&
-              ((attrs['pygments-css'] || '').chomp '@') != 'style' && (attrs.fetch 'pygments-stylesheet', '')
-            generate_pygments_stylesheet site, attrs
+          highlighter = (attrs['source-highlighter'] || '').chomp '@'
+          if %w(pygments rouge).include? highlighter
+            if ((attrs["#{highlighter}-css"] || '').chomp '@') != 'style' &&
+                (attrs.fetch "#{highlighter}-stylesheet", '')
+              generate_stylesheet highlighter, site, attrs
+            end
           end
         end
 
@@ -106,17 +116,17 @@ module Jekyll
         data.fetch 'published', true
       end
 
-      def generate_pygments_stylesheet site, attrs
+      def generate_stylesheet highlighter, site, attrs
         css_base = site.source
         unless (css_dir = (attrs['stylesdir'] || '').chomp '@').empty? || (css_dir.start_with? '/')
           css_dir = %(/#{css_dir})
         end
-        css_name = attrs['pygments-stylesheet'] || 'asciidoc-pygments.css'
+        css_name = attrs["#{highlighter}-stylesheet"] || "asciidoc-#{highlighter}.css"
         css_file = ::File.join css_base, css_dir, css_name
-        css_style = (attrs['pygments-style'] || 'vs').chomp '@'
-        css = ::Asciidoctor::Stylesheets.instance.pygments_stylesheet_data css_style
+        css_style = (attrs["#{highlighter}-style"] || BaseStyles[highlighter.to_sym]).chomp '@'
+        css = (::Asciidoctor::SyntaxHighlighter.for highlighter).read_stylesheet css_style
         # NOTE apply stronger CSS rule for general text color
-        css = css.sub PygmentsRootSelector, '\1.pygments, \1.pygments code {'
+        css = css.sub RootSelector[highlighter.to_sym], "\1.#{highlighter}, \1.#{highlighter} code {"
         if site.static_files.any? {|f| f.path == css_file }
           ::File.write css_file, css unless css == (::File.read css_file)
         else
