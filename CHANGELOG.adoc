@@ -5,6 +5,10 @@
 This document provides a high-level view of the changes to the {project-name} by release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/master[commit history] on GitHub.
 
+== 3.0.0? @djencks
+
+* Minimum asciidoctor version 2.0, ruby 2.4, jruby 9.2.7. Earlier ruby versions don't seem to be supported on CI infrastructure. (#237)
+
 == 3.0.0.beta.2 (2019-06-03) - @mojavelinux
 
 * allow site-wide AsciiDoc attributes to also be defined on `asciidoc` key in site configuration (#126)
