@@ -1324,4 +1324,23 @@ describe 'Jekyll::AsciiDoc' do
       (expect aside).not_to include 'Micro Section'
     end
   end
+
+  describe 'docinfo filter' do
+    use_fixture :docinfo_filter
+
+    before :each do
+      site.process
+    end
+
+    it 'should include docinfo content when docinfo filter is applied to page.document' do
+      file = output_file 'index.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      head = (contents.match %r/<head>.*<\/head>/m)[0]
+      (expect head).to include '<div>this is the head</div>'
+      (expect header_loc = contents.index('<header>this is the header</header>')).to be > contents.index(head)
+      (expect custom_loc = contents.index('<div class="custom">this is custom</div>')).to be > header_loc
+      (expect contents.index('<footer>this is the footer</footer>')).to be > custom_loc
+    end
+  end
 end

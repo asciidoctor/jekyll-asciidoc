@@ -30,6 +30,24 @@ module Jekyll
         ::Asciidoctor::Document === document ?
           (document.converter.convert document, 'outline', toclevels: (levels.nil_or_empty? ? nil : levels.to_i)) : nil
       end
+
+      # A Liquid filter for accessing docinfo from Asciidoctor.
+      #
+      # @param document [Asciidoctor::Document] the parsed AsciiDoc document.
+      # @param location [Symbol] "head" (default), "header" or "footer" are the standard locations for html.
+      #   In the built-in Asciidoctor converter, "head" content is inserted just before the closing </head> tag.
+      #   "header" content is inserted just before the default <header> tag (if used), and
+      #   "footer" content is inserted just after the default <footer> tag (if used).
+      #   In jekyll layouts, you can use any location you want, and insert it anywhere you want.
+      #   Consult the Asciidoctor documentation for how to configure the docinfo and docinfodir attributes
+      #   so that your docinfo files will be found, and the Asciidoctor extensions documentation for docinfo processors.
+      # @param suffix [String] The suffix of the docinfo file(s). If not set, the extension
+      #           will be set to the outfilesuffix. (default: nil)
+      # @return [String] the docinfo text for the specified location.
+      def asciidoc_docinfo document, location = :head, suffix = nil
+        ::Asciidoctor::Document === document ?
+          (document.docinfo location.to_sym, suffix) : nil
+      end
     end
 
     ::Liquid::Template.register_filter Filters
