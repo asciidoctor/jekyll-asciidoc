@@ -1,0 +1,74 @@
+= Working with AsciiDoc Content in Templates
+
+Jekyll uses the Liquid templating language to process templates.
+This plugin defines two additional Liquid filters, `asciidocify` and `tocify_asciidoc`, for working with AsciiDoc content in those templates.
+
+== Converting a String from AsciiDoc
+
+You can use the `asciidocify` filter to convert an arbitrary AsciiDoc string anywhere in your template.
+This filter allows you to compose site-wide data in AsciiDoc, such your site's description or synopsis, then convert it to HTML for use in the page template(s).
+
+Let's assume you've defined a page variable named `synopsis` that you want treat as AsciiDoc.
+You can convert it in your template as follows:
+
+----
+{{ page.synopsis | asciidocify }}
+----
+
+By default, the AsciiDoc content is parsed as an embedded AsciiDoc document.
+If the content represents a single paragraph, and you only want to perform inline substitutions on that content, add the `inline` doctype as the filter's first argument:
+
+----
+{{ page.synopsis | asciidocify: 'inline' }}
+----
+
+
+== Generating a Table of Contents
+
+Since version 2.1.0 of this plugin, you can use the `tocify_asciidoc` filter to generate a table of contents from the content of any page that is generated from AsciiDoc.
+This filter gives you the ability to place this table of contents anywhere inside the page layout, but outside the main content.
+
+You apply the `tocify_asciidoc` filter to `page.document`, the page variable that resolves to the parsed AsciiDoc document, as shown here:
+
+----
+{{ page.document | tocify_asciidoc }}
+----
+
+The number of section levels (i.e., depth) shown in the table of contents defaults to the value defined by the `toclevels` attribute in the AsciiDoc document.
+To tune the number of levels, pass a numeric value as the filter's first argument.
+
+----
+{{ page.document | tocify_asciidoc: 3 }}
+----
+
+When you use the `tocify_asciidoc` filter, you'll also want to disable the `toc` attribute in your document.
+You can do this using a conditional preprocessor directive.
+
+[source,asciidoc]
+----
+= Guide
+ifndef::env-site[:toc: left]
+
+== Section A
+
+content
+
+== Section B
+
+content
+----
+
+By default, the `tocify_asciidoc` filter will insert a table of contents on any page that has even one section below the page title.
+It's possible to conditionally disable this by using a Liquid `if` statement in your template with a custom attribute, similar to:
+
+----
+{% if page.show-toc != false %}
+ <div class="toc">
+   {{ page.document | tocify_asciidoc }}
+ </div>
+{% endif %}
+----
+
+Then in the front matter of pages where you do not want a table of contents to appear, use the attribute `:page-show-toc: false`.
+Note that since this example uses a custom attribute, its name can be anything you'd like, it only needs to start with with `page-`.
+If you change the attribute name from this example, be sure to update the it in the `if` statement as appropriate.

@@ -1,0 +1,56 @@
+= Enabling Asciidoctor Extensions
+
+You enable Asciidoctor extensions in much the same way as this plugin.
+You just need to get Jekyll to load the source.
+
+If the extension you want to use is published as a gem, and you're using Bundler to manage the dependencies for your project (as recommended), then you simply add the gem to the `jekyll_plugins` group in your [.path]_Gemfile_:
+
+[source,ruby]
+----
+group :jekyll_plugins do
+  gem 'asciidoctor-extension-xyz'
+end
+----
+
+Then, run the `bundle` command from Bundler to install the gem:
+
+ $ bundle
+
+If you're not using Bundler to manage the dependencies for your Jekyll project, you'll need to install the gem manually.
+Once that's done, add the gem to the list gems for Jekyll to load in your site's {path-config} file:
+
+[source,ruby]
+----
+plugins:
+- asciidoctor-extension-xyz
+----
+
+If you're running Jekyll < 3.5.0, you'll need to use `gems` in place of `plugins`:
+
+[source,ruby]
+----
+gems:
+- asciidoctor-extension-xyz
+----
+
+If the extension you want to use is not published as a gem, or is something you're developing, then you'll load it like an ad-hoc Jekyll plugin.
+Add the file [.path]_asciidoctor-extensions.rb_ to the [.path]__plugins_ folder of your project root (creating the folder if it does not already exist) and populate the file with the following content:
+
+._plugins/asciidoctor-extensions.rb
+[source,ruby]
+----
+require 'asciidoctor/extensions'
+
+Asciidoctor::Extensions.register do
+  treeprocessor do
+    process do |doc|
+      doc
+    end
+  end
+end
+----
+
+Asciidoctor will automatically enable the extensions in this file when it is loaded by Jekyll.
+
+For a concrete example of using an Asciidoctor extension, refer to the next section.
+

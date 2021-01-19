@@ -1,0 +1,40 @@
+= Building and Previewing Your Site
+
+You can build your site into the [.path]__site_ directory using:
+
+ $ jekyll build
+
+If you're using Bundler, prefix each command with `bundle exec`:
+
+[subs=+quotes]
+$ *bundle exec* jekyll build
+
+You can preview your site at \http://localhost:4000 using:
+
+ $ jekyll serve
+
+The `serve` command monitors the file system and rebuilds the site whenever a change is detected by default (i.e., watch mode).
+To disable watch mode, use the `--no-watch` flag:
+
+ $ jekyll serve --no-watch
+
+You can also use the `--watch` flag with the `build` command:
+
+ $ jekyll build --watch
+
+If you only want Jekyll to build files which have changed, and not the whole site, add the `--incremental` flag:
+
+ $ jekyll serve --incremental
+
+or
+
+ $ jekyll build --watch --incremental
+
+To see a report of all the files that are processed, add the `--verbose` flag:
+
+ $ jekyll build --verbose
+
+IMPORTANT: If you add the `--safe` flag, third-party plugins such as this one are disabled by default.
+To reenable the plugin, you must add the name of the gem to the whitelist.
+See xref:safe-mode.adoc[] for details.
+

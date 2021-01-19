@@ -1,0 +1,32 @@
+= Page Attributes
+
+Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins with ``page-``footnote:[The prefix used to label page attributes can be customized.] gets promoted to a {url-variables}[page variables].
+The part of the name after the `page-` prefix is _lowercased_ and used as the variable name (e.g., page-layout becomes layout).
+The value is processed as {url-yaml}[YAML] data (single-line form).
+
+Since the attribute value is processed as YAML data, you can build nested data structure using the inline YAML syntax.
+For example, here's how you can assign a value to the `page.header.image` page variable:
+
+[source,asciidoc]
+----
+:page-header: { image: logo.png }
+----
+
+To define a page attribute that contains multiple words, use either a hyphen or underscore character to connect the words.
+
+[source,asciidoc]
+----
+:page-short-name: slug
+----
+
+IMPORTANT: Page attributes must be defined in the document header.
+That means either putting them directly below the document title (the line beginning with a single equals sign in the sample above) or above all other AsciiDoc content if the document title is not defined in AsciiDoc.
+The AsciiDoc document header stops after the first blank line.
+For more details about the document header, see the http://asciidoctor.org/docs/user-manual/#doc-header[Document Header] chapter in the Asciidoctor User Manual.
+
+IMPORTANT: You may use include directives in the the document header.
+However, you must ensure that the file included _does not_ contain blank lines.
+
+CAUTION: If an attribute defined in the header of an AsciiDoc document is not visible to another plugin or Liquid template, you may have a plugin ordering problem.
+See the xref:installation.adoc#plugin-ordering[discussion here] to learn how to fix it.
+

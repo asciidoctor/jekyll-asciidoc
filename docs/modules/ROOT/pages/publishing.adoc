@@ -1,0 +1,108 @@
+= Publishing Your Site
+
+This section covers several options you have available for publishing your site, including GitHub Pages and GitLab Pages.
+
+== Using this Plugin on GitHub Pages
+
+GitHub doesn't (yet) whitelist the AsciiDoc plugin, so you must run Jekyll either on your own computer or on a continuous integration (CI) server.
+
+[IMPORTANT]
+GitHub needs to hear from enough users that need this plugin to persuade them to enable it.
+Our recommendation is to https://github.com/contact[contact support] and keep asking for it.
+Refer to the help page https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site[Adding Jekyll Plugins to a GitHub Pages site] for a list of plugins currently supported on GitHub Pages.
+
+_But don't despair!_
+You can still automate publishing of the generated site to GitHub Pages using a continuous integration job.
+Refer to the http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] tutorial to find step-by-step instructions.
+You can also refer to the https://github.com/johncarl81/transfuse-site[Transfuse website build^] for an example in practice.
+
+In fact, if you're using Travis CI, it's even easier than that.
+Travis CI provides a https://docs.travis-ci.com/user/deployment/pages/[deployer for GitHub Pages]!
+Using this deployer, Travis CI can push your generated site to GitHub Pages after a successful build on your behalf, as long as you've completed these steps:
+
+. Create a personal access token on GitHub that has write access to your GitHub repository (public_repo or repo scope)
+. Define the token as a secure variable name GITHUB_TOKEN on the Travis CI settings page for your repository
+. Add a deploy configuration to your CI job configuration
+
+Here's a sample deploy configuration you can use:
+
+[source,yaml]
+----
+deploy:
+  provider: pages
+  github-token: $GITHUB_TOKEN
+  local-dir: _site
+  target-branch: gh-pages
+  skip-cleanup: true
+  keep-history: true
+  on:
+    branch: master
+----
+
+TIP: When using this setup, don't forget to add the [.path]_.nojekyll_ file to the root of the source directory to tell GitHub Pages not to waste time running Jekyll again on the server.
+
+=== Jekyll AsciiDoc Quickstart
+
+If you want to take a shortcut that skips all the steps in the previously mentioned tutorial, clone the {url-jaq}[Jekyll AsciiDoc Quickstart (JAQ)] repository and use it as a starting point for your site.
+JAQ includes a Rake build that is preconfigured to deploy to GitHub Pages from Travis CI and also provides a theme (page layout and CSS) that properly styles body content generated from AsciiDoc.
+
+=== Feeling Responsive
+
+If you're looking for a Jekyll theme that provides comprehensive and mature styles and layouts out of the box, check out the https://github.com/Phlow/feeling-responsive[Feeling Responsive] theme.
+It includes integration with this plugin, which you simply have to enable.
+Refer to the https://phlow.github.io/feeling-responsive/getting-started/[Getting Started] page for a step-by-step guide to get your site started and feeling responsive.
+
+== Using this Plugin on GitLab Pages
+
+Deployment to GitLab Pages is much simpler.
+That's because GitLab allows you to control the execution of Jekyll yourself.
+There's no need to mess around with CI jobs and authentication tokens.
+You can find all about how to use Jekyll with GitLab Pages in the tutorial https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#option-b-gitlab-ci-for-jekyll-websites[Hosting on GitLab.com with GitLab Pages].
+More in-depth information regarding setting up your repository for GitLab Pages can be found in the  https://docs.gitlab.com/ee/pages/README.html[GitLab Enterprise Edition / Pages] documentation.
+
+Assuming the following are true:
+
+. The source of your site resides on the master branch (though you can use any branch for this purpose).
+. You're using Bundler to manage the dependencies for your project.
+
+You can then use the following [.path]_.gitlab-ci.yml_ file to get starting hosting your Jekyll site on GitLab Pages.
+
+.gitlab-ci.yml
+[source,yaml]
+----
+image: ruby:2.5
+cache:
+  paths:
+  - .bundle
+before_script:
+- bundle --path .bundle/gems
+pages:
+  script:
+  - bundle exec jekyll build -d public --config _config.yml,_config-gitlab.yml -q
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+----
+
+This script runs Jekyll on the official Ruby Docker container.
+
+You also need to add an additional configuration file, [.path]__config-gitlab.yml_, to set the `url` and `baseurl` options when deploying your site to GitLab Pages.
+
+._config-gitlab.yml
+[source,yaml,subs=attributes+]
+----
+url: https://<username>.gitlab.io #{conum-guard}<1>
+baseurl: /<projectname> #{conum-guard}<2>
+----
+<1> Replace `<username>` with your GitLab username or group.
+<2> Replace `<projectname>` with the basename of your project repository.
+
+The next time you push to the master branch, the GitLab Pages runner will execute Jekyll and deploy your site to [.uri]_\https://<username>.gitlab.io/<projectname>_, where `<username>` is your GitLab username or group and `<projectname>` is the basename of your project repository.
+
+Like GitHub Pages, you can also have your site respond to a custom domain name, which is explained in the referenced tutorial.
+In this case, update the [.path]__config-gitlab.yml_ file with the appropriate values.
+
+CAUTION: At this time, GitLab Pages only works with projects hosted at GitLab.com or on self-hosted GitLab Enterprise Edition instances.
+GitLab Community Edition does not support continuous integration and cannot host pages.

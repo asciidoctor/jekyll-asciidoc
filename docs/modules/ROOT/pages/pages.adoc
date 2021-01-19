@@ -1,0 +1,45 @@
+= Creating Pages
+
+This plugin converts eligible AsciiDoc files located inside the source directory (by default, the project root) to HTML pages in the generated site.
+There are a few conditions that must be met in order for an AsciiDoc file to be eligible:
+
+. The file must have an AsciiDoc file extension (see xref:configuration.adoc[]).
+. The name of the file must not begin with a dot (`.`) or an underscore (`_`).footnote:excluded_files[Hidden files and folders are automatically excluded by Jekyll.]
+. The file must not be located in a folder whose name begins with a dot (`.`) or an underscore (`_`) (unless the folder is a designated collection, such as _posts).footnote:excluded_files[]
+. While you can use a Jekyll front matter header, it is not required.
+
+Here's a sample AsciiDoc file that meets these criteria:
+
+.sample.adoc
+[source,asciidoc]
+----
+---
+layout: info
+permalink: /sample/
+---
+= Sample Page
+:url-asciidoctor: http://asciidoctor.org
+
+This is a sample page composed in AsciiDoc.
+Jekyll converts it to HTML using {url-asciidoctor}[Asciidoctor].
+
+[source,ruby]
+puts "Hello, World!"
+----
+
+Alternatively, you can define the page variables directly in the AsciiDoc header, which we recommend:
+
+.sample.adoc
+[source,asciidoc]
+----
+= Sample Page
+:page-layout: info
+:page-permalink: /sample/
+:url-asciidoctor: http://asciidoctor.org
+
+This is a sample page composed in AsciiDoc.
+Jekyll converts it to HTML using {url-asciidoctor}[Asciidoctor].
+
+[source,ruby]
+puts "Hello, World!"
+----

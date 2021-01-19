@@ -1,0 +1,13 @@
+= Getting Help
+
+The Jekyll AsciiDoc plugin is developed to help you publish your content quickly and easily.
+But we can't achieve that goal without your input.
+Your questions and feedback help steer the project, so speak up!
+Activity drives progress.
+
+When seeking answers, always start with the official documentation for Jekyll, which can be found on the {url-jekyll}[Jekyll website].
+If you have general questions about Jekyll, we recommend you visit the {url-jekyll-discuss}[Jekyll Talk] forum to get assistance.
+For questions related to this extension specifically, or general questions about AsciiDoc, please post to the {url-asciidoctor-discuss}[Asciidoctor discussion list].
+You can also join us in the {url-chat}[asciidoctor/asciidoctor channel] on Gitter.
+For general information about AsciiDoctor, look no further than the xref:asciidoctor:index.adoc[Asciidoctor User Manual].
+

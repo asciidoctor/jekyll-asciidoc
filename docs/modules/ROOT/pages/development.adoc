@@ -1,0 +1,145 @@
+= Development
+
+To help develop the Jekyll AsciiDoc plugin, or to simply use the development version, you need to retrieve the source from GitHub.
+Follow the instructions below to learn how to clone the source, run the tests and install the development version.
+
+== Retrieve the Source Code
+
+You can retrieve the source code from GitHub using git.
+Simply copy the URL of the {url-repo}[GitHub repository] and pass it to the `git clone` command:
+
+[subs=attributes+]
+....
+git clone {url-repo}
+....
+
+Next, switch to the project directory.
+
+ $ cd jekyll-asciidoc
+
+== Install the Dependencies
+
+The dependencies needed to develop the Jekyll AsciiDoc plugin are defined in the [.path]_Gemfile_ at the root of the project.
+You'll use Bundler to install these dependencies.
+
+To check if you have Bundler installed, use the `bundle` command to query for the version:
+
+ $ bundle --version
+
+If Bundler is not installed, use the `gem` command to install it.
+
+ $ [sudo] gem install bundler
+
+Finally, invoke the `bundle` command (which is provided by the bundler gem) from the root of the project to install the dependencies into the project:
+
+ $ bundle --path=.bundle/gems
+
+IMPORTANT: Since we've installed dependencies inside the project, it's necessary to prefix all commands (e.g., rake) with `bundle exec`.
+
+== Running the Tests
+
+The tests are based on RSpec.
+The test suite is located in the [.path]_spec_ directory.
+
+You can run the tests using Rake.
+
+ $ bundle exec rake spec
+
+For more fine-grained control, you can also run the tests using RSpec directly.
+
+ $ bundle exec rspec
+
+If you only want to run a selection of tests, you can do so by assigning those specifications a tag and filtering the test run accordingly.
+
+Start by adding the `focus` tag to one or more specifications:
+
+[source,ruby]
+----
+it 'should register AsciiDoc converter', focus: true do
+  expect(site.converters.any? {|c| ::Jekyll::AsciiDoc::Converter == c }).to be true
+end
+----
+
+Then, run RSpec with the `focus` flag enabled:
+
+ $ bundle exec rspec -t focus
+
+You should see that RSpec only runs the specifications that have this flag.
+
+== Generating Code Coverage
+
+To generate a code coverage report when running tests using simplecov, set the `COVERAGE` environment variable as follows when running the tests:
+
+ $ COVERAGE=true bundle exec rake spec
+
+You'll see a total coverage score as well as a link to the HTML report in the output.
+The HTML report helps you understand which lines and branches were missed, if any.
+
+Despite being fast, the downside of using simplecov is that it misses branches.
+You can use deep-cover to generate a more thorough report.
+To do so, set the `COVERAGE` environment variable as follows when running the tests:
+
+ $ COVERAGE=deep bundle exec rake spec
+
+You'll see a total coverage score, a detailed coverage report, and a link to HTML report in the output.
+The HTML report helps you understand which lines and branches were missed, if any.
+
+////
+As an alternative to deep cover's native HTML reporter, you can also use istanbul / nyc.
+First, you'll need to have the `nyc` command available on your system:
+
+ $ npm install -g nyc
+
+or
+
+ $ yarn global add nyc
+
+Next, in addition to the `COVERAGE` environment variable, also set the `DEEP_COVER_REPORTER` environment variable as follows when running the tests:
+
+ $ COVERAGE=deep DEEP_COVER_REPORTER=istanbul bundle exec rake spec
+
+You'll see a total coverage score, a detailed coverage report, and a link to HTML report in the output.
+The HTML report helps you understand which lines and branches were missed, if any.
+////
+
+== Running the Code Linter
+
+Before you commit code, you should run it through the linter to make sure it adheres to the coding style.
+You can run the linter using the following command:
+
+ $ bundle exec rake lint
+
+The coding style is enforced by Rubocop.
+The rules are defined in [.path]_.rubocop.yml_.
+These rules extend from the default rule set provided by Rubocop to match the style of the project.
+
+== Installing the Gem Locally
+
+You can install the development version of the gem as follows:
+
+ $ bundle exec rake install
+
+This allows you to use an unreleased version of the gem to build your site.
+
+If you want to build the gem and install it yourself, use these commands instead:
+
+ $ bundle exec rake build
+ $ [sudo] gem install pkg/jekyll-asciidoc-*.dev.gem
+
+== Releasing the Gem
+
+When you are ready for a release, first set the version in the file [.path]_lib/jekyll-asciidoc/version.rb_.
+Then, commit the change using the following commit message template:
+
+ Release X.Y.Z
+
+where `X.Y.Z` is the version number of the gem.
+
+Next, package, tag and release the gem to RubyGems.org, run the following rake task:
+
+ $ bundle exec rake release
+
+IMPORTANT: Ensure you have the proper credentials setup as described in the guide {url-guide-publish-gem}[Publishing to RubyGems.org].
+
+Once you finish the release, you should update the version to the next micro version in the sequence using the `.dev` suffix (e.g., 3.0.1.dev).
+

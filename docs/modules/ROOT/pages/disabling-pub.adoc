@@ -1,0 +1,12 @@
+= Disabling Publishing of a Page
+
+To prevent a page from being published, set the page attribute named `page-published` to `false` (which, in turn, sets the page variable named `published` to `false`.
+
+[source,asciidoc]
+----
+= Top Secret Info
+:page-published: false
+
+This page should not be published.
+----
+

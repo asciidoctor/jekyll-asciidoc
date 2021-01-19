@@ -1,0 +1,10 @@
+= Implicit Page Variables
+
+In addition to page attributes defined explicitly (e.g., layout, permalink, etc), the following implicit AsciiDoc attributes are also promoted to page variables:
+
+* doctitle (aka the document title) (becomes `title`)
+* id (becomes `docid`)
+* author
+* revdate (becomes `date`; value is converted to a DateTime object; not applied to pages)
+
+Although not an implicit page variable, another very common page variable to set is `page-description`, which becomes `description` in the model.
