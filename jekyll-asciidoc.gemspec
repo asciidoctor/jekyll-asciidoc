@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
 
   s.require_paths = ['lib']
 
-  s.add_runtime_dependency 'asciidoctor', '>= 1.5.0'
+  s.add_runtime_dependency 'asciidoctor', '~> 2.0'
   s.add_runtime_dependency 'jekyll', '>= 3.0.0'
 
   s.add_development_dependency 'deep-cover-core', '~> 0.7.0'
