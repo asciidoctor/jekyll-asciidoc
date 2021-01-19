@@ -1,0 +1,7 @@
+= Page Title
+:docinfo: shared
+//:docinfodir: spec/fixtures/docinfo_filter
+
+== Major Section A
+
+content

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ page.title }}</title>
+{{ page.document | asciidoc_docinfo }}
+</head>
+{{ page.document | asciidoc_docinfo: "header" }}
+<body>
+<div class="page-content">
+{{ content }}
+</div>
+{{ page.document | asciidoc_docinfo: "custom" }}
+</body>
+{{ page.document | asciidoc_docinfo: "footer" }}
+</html>
