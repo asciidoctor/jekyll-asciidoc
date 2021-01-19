@@ -4,12 +4,12 @@ clone_depth: 2
 environment:
   matrix:
   # see https://www.appveyor.com/docs/build-environment/#ruby for list of installed Ruby runtimes
+  - ruby_version: '26'
+  - ruby_version: '26-x64'
   - ruby_version: '25'
   - ruby_version: '25-x64'
   - ruby_version: '24'
   - ruby_version: '24-x64'
-  - ruby_version: '23'
-  - ruby_version: '23-x64'
 init:
 - set PATH=C:\Ruby%ruby_version%\bin;%PATH:C:\Ruby193\bin;=%
 - echo %PATH%
