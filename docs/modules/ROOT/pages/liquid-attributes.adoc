@@ -1,0 +1,33 @@
+= Using AsciiDoc attributes in a Liquid template
+
+Let's say you want to reuse your AsciiDoc attributes in a Liquid template.
+This section describes how to do it.
+
+Liquid can only access simple data structures, not complex ones like the one used to store site-wide AsciiDoc attributes. (Site-wide AsciiDoc attributes are stored deep within the Jekyll configuration data as a Hash with symbol keys).
+This puts them out of the reach of Liquid templates by default.
+
+This plugin must store site-wide AsciiDoc attributes in this way due to how Jekyll is implemented and the lifecycle it exposes for plugins.
+That part can't be changed.
+The plugin is limited by Jekyll's design.
+However, YAML provides a mechanism that we can leverage to expose these attributes to our Liquid templates.
+
+First, you define your AsciiDoc attributes at the top level of your configuration file where Liquid is able to access them.
+If you also assign a YAML reference to this key, you can then pass that Hash to the attributes key in the asciidoctor block, thus allowing the configuration to be shared.
+
+[source,yaml]
+----
+asciidoc_attributes: &asciidoc_attributes
+  imagesdir=/images
+asciidoctor:
+  attributes: *asciidoc_attributes
+  ...
+----
+
+You can now reference one of the site-wide AsciiDoc attributes in the Liquid template as follows:
+
+----
+{{ site.asciidoc_attributes.imagesdir }}
+----
+
+Keep in mind that the value of the attribute will be unmodified from the value defined in the configuration file.
+

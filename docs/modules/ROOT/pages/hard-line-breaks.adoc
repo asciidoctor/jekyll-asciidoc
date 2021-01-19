@@ -1,0 +1,27 @@
+= Enabling Hard Line Breaks Globally
+
+Many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), which preserves hard line breaks in paragraph content.
+Asciidoctor supports this feature for AsciiDoc files.
+(In fact, previous versions of this plugin enabled this behavior by default).
+If you want to enable this behavior for AsciiDoc files, add the `hardbreaks` attribute to the Asciidoctor attributes configuration in your site's {path-config} file:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - hardbreaks
+----
+
+If you still want to allow individual files to be able to override the attribute, append the charcter `@` to the value in the site configuration:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - hardbreaks=@
+----
+
+If you already have AsciiDoc attributes defined in the {path-config}, the new attribute should be added as a sibling entry in the YAML collection.
+
+WARNING: Keep in mind, if you enable hard line breaks, you won't be able to use the 'ventilated prose' or one-sentence-per-line writing technique.
+

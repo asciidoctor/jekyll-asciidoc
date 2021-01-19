@@ -1,0 +1,20 @@
+= Running in Safe Mode
+
+If you want to use this plugin when running Jekyll in safe mode, you must add the [.app]*jekyll-asciidoc* gem to the whitelist in your site's {path-config} file:
+
+[source,yaml]
+----
+whitelist:
+- jekyll-asciidoc
+----
+
+Safe mode is enabled either through the `--safe` flag:
+
+ $ jekyll build --safe
+
+or the `safe` configuration option in your site's {path-config} file:
+
+[source,yaml]
+----
+safe: true
+----

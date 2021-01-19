@@ -1,0 +1,32 @@
+= Giving Your Post the Time of Day
+
+By default, all posts are assigned a date that is computed from the file name (e.g., the date for 2016-03-20-welcome.adoc is 2016-03-20).
+If you want to give your post a specific time as well, you can set the `revdate` attribute in the AsciiDoc header.
+
+We recommend using the format `YYYY-MM-DD HH:MM:SS Z` as shown in this example:
+
+[source,asciidoc]
+----
+= Post Title
+Author Name
+:revdate: 2016-03-20 10:30:00 -0600
+
+Lorem ipsum.
+----
+
+If you don't provide a time zone in the date, the date is assumed to be in the same time zone as the site (which is your local time zone by default).
+
+Alternatively, you can specify the date in the implicit revision line.
+In this case, you must substitute the colons in the time part with "h", "m", and "s", respectively, since the colon demarcates the revision remark.
+
+[source,asciidoc]
+----
+= Post Title
+Author Name
+2016-03-20 10h30m00s -0600
+
+Lorem ipsum.
+----
+
+Note that the revision line must be preceded by the implicit author line.
+

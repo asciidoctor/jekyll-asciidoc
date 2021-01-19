@@ -1,0 +1,15 @@
+= Filing Bug Reports and Feature Requests
+
+This project uses the {url-issues}[GitHub issue tracker] to manage bug reports and feature requests.
+If you encounter a problem, please {url-search-issues}[browse or search] the issues to find out if your problem has already been reported.
+If it has not, you may {url-issues}/new[submit a new issue].
+
+The best way to get a timely response and quick fix for your issue is to write a detailed report and respond to replies in a timely manner.
+
+If you know Ruby (or you're willing to learn), we encourage you to submit a pull request.
+Please include an RSpec behavior that describes how your feature should work or demonstrates the problem you're encountering.
+Make sure to send your pull request from a branch in your fork.
+If the pull request resolves an issue, please name the branch using the issue number (e.g., issue-N, where N is the issue number).
+
+If you aren't able to submit a pull request, please provide a sample so that the developers can reproduce your scenario.
+

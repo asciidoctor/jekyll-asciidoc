@@ -1,0 +1,40 @@
+name: jekyll-asciidoc
+version: 3.0
+start_page: index.adoc
+nav:
+ - modules/ROOT/nav.adoc
+
+asciidoc:
+  attributes:
+   path-config: pass:q[[.path]___config.yml__]
+   conum-guard: ' '
+#   conum-guard: { sp }
+      #    ifndef::icons[:conum-guard: { sp}#{ sp } ]
+#     URIs:
+   url-repo: https://github.com/asciidoctor/jekyll-asciidoc
+   url-issues: https://github.com/asciidoctor/jekyll-asciidoc/issues
+   url-search-issues: https://github.com/asciidoctor/jekyll-asciidoc/search\?type=Issues
+   url-chat: https://gitter.im/asciidoctor/asciidoctor
+   url-ci-travis: https://travis-ci.org/asciidoctor/jekyll-asciidoc
+   url-ci-appveyor: https://ci.appveyor.com/project/asciidoctor/jekyll-asciidoc
+   url-gem: http://rubygems.org/gems/jekyll-asciidoc
+   url-gem-asciidoctor: http://rubygems.org/gems/asciidoctor
+   url-asciidoc: http://asciidoc.org
+   url-asciidoctor: http://asciidoctor.org
+   url-asciidoctor-backends: https://github.com/asciidoctor/asciidoctor-backends
+#   url-asciidoctor-docs: http://asciidoctor.org/docs
+   url-asciidoctor-diagram: url-asciidoctor-docs/asciidoctor-diagram
+   url-asciidoctor-discuss: http://discuss.asciidoctor.org
+#   url-asciidoctor-manual: url-asciidoctor-docs/user-manual
+#   url-asciidoc-practices: url-asciidoctor-docs/asciidoc-recommended-practices
+   url-jaq: https://github.com/asciidoctor/jekyll-asciidoc-quickstart
+   url-jekyll: https://jekyllrb.com
+   url-jekyll-docs: url-jekyll/docs
+   url-jekyll-discuss: https://talk.jekyllrb.com
+   url-front-matter: url-jekyll/docs/frontmatter
+   url-liquid-templates: url-jekyll/docs/templates
+   url-variables: url-jekyll/docs/variables
+   url-graphviz: http://www.graphviz.org
+   url-tilt: https://github.com/rtomayko/tilt
+   url-yaml: https://en.wikipedia.org/wiki/YAML
+   url-guide-publish-gem: http://guides.rubygems.org/publishing/#publishing-to-rubygemsorg
