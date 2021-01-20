@@ -38,7 +38,7 @@ IMPORTANT: To use Pygments with Ruby >= 2.4 or JRuby, you must install pygments.
 As part of this integration, Asciidoctor generates a custom stylesheet tailored specially to work with the HTML that Asciidocotor produces.
 Since this stylesheet is backed by the Pygments API, it provides access to all the themes in Pygments
 
-This plugin will automatically generate a stylesheet for Pygments into the source directory if the AsciiDoc attributes in your site's {path-config} are configured as follows:
+This plugin will automatically generate a stylesheet for Pygments into the source directory if the AsciiDoc attributes in your site's `_config.yml` are configured as follows:
 
 * `source-highlighter` has the value `pygments`
 * `pygments-css` has the value `class` or is not set
@@ -61,7 +61,7 @@ You'll need to add a line to your template to link to this stylesheet, such as:
 <link rel="stylesheet" href="{{ '/css/asciidoc-pygments.css' | prepend: site.baseurl }}">
 ----
 
-To disable this feature, either set the `pygments-css` to `style` (to enable inline styles) or unset the `pygments-stylesheet` attribute in your site's {path-config}.
+To disable this feature, either set the `pygments-css` to `style` (to enable inline styles) or unset the `pygments-stylesheet` attribute in your site's `_config.yml`.
 
 NOTE: It may still be necessary to make some tweaks to your site's stylesheet to accomodate this integration.
 

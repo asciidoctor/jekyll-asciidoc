@@ -1,0 +1,9 @@
+= Jekyll Blog Support
+
+Jekyll has built-in support for several features related to blogs:
+
+* Tags and categories
+* Revision date
+* Drafts
+
+This section details how to take advantage of these features with Asciidoc documents.

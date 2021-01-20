@@ -31,7 +31,7 @@ Next, create a new folder in your site named [.path]__templates_ to store your t
 
 == Step {counter:step}: Configure Asciidoctor to Load Templates
 
-In your site's {path-config} file, configure Asciidoctor to load the templates by telling it the location where the templates are stored.
+In your site's `_config.yml` file, configure Asciidoctor to load the templates by telling it the location where the templates are stored.
 
 [source,yaml]
 ----

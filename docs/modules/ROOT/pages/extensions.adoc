@@ -17,7 +17,7 @@ Then, run the `bundle` command from Bundler to install the gem:
  $ bundle
 
 If you're not using Bundler to manage the dependencies for your Jekyll project, you'll need to install the gem manually.
-Once that's done, add the gem to the list gems for Jekyll to load in your site's {path-config} file:
+Once that's done, add the gem to the list gems for Jekyll to load in your site's `_config.yml` file:
 
 [source,ruby]
 ----

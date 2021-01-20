@@ -2,7 +2,7 @@
 
 == Prerequisites
 
-To use this plugin, you must be using Jekyll >= 3.0.0 and Ruby >= 2.3.0 (with development headers installed).
+To use this plugin, you must be using Jekyll >= 3.0.0 and Ruby >= 2.4.0 (with development headers installed).
 You should also be familiar with creating sites with Jekyll.
 If you're not, you should first read the {url-jekyll-docs}[Jekyll documentation] to familiarize yourself with how it works.
 Experience with AsciiDoc and Asciidoctor is also helpful, but not a requirement.
@@ -12,20 +12,20 @@ That means you'll be expected to edit configuration, modify HTML templates, and 
 
 == Installation
 
-This plugin is packaged as a gem named [.app]*{url-gem}[jekyll-asciidoc]* and published to RubyGems.org.
-The plugin depends on the [.app]*{url-gem-asciidoctor}[asciidoctor]* gem, which gets installed automatically.
+This plugin is packaged as a gem named {url-gem}[jekyll-asciidoc] and published to RubyGems.org.
+The plugin depends on the {url-gem-asciidoctor}[asciidoctor] gem, which gets installed automatically.
 
 Your method of installation will depend on whether you use Bundler to manage the dependencies for your Jekyll project.
 
 IMPORTANT: Jekyll relies on several native gems, so it's necessary to have the Ruby development headers (e.g., ruby.h) on your machine in order to install AsciiDoc Jekyll (due to the requirements of Jekyll).
 The instructions for how to install the Ruby development headers are platform-specific and outside of the scope of this document.
 
-TIP: If you're using RVM, you should add a [.path]_.ruby-version_ file to the project so your shell automatically switches to the correct version of Ruby each time you enter the project.
+TIP: If you're using RVM, you should add a _.ruby-version_ file to the project so your shell automatically switches to the correct version of Ruby each time you enter the project.
 For more information, refer to the the page https://rvm.io/workflow/projects[RVM Project Workflow].
 
 === Installation Using Bundler
 
-If you're using Bundler to manage the dependencies for your project (as recommended), simply add the [.app]*jekyll-asciidoc* gem to the `:jekyll_plugins` group in your [.path]_Gemfile_:
+If you're using Bundler to manage the dependencies for your project (as recommended), simply add the `jekyll-asciidoc` gem to the `:jekyll_plugins` group in your _Gemfile_:
 
 [source,ruby]
 ----
@@ -58,7 +58,7 @@ If you're not using Bundler to manage the dependencies for your Jekyll project, 
 NOTE: The `sudo` prefix is only required if you are installing gems into your system.
 To avoid this bad practice, we recommend using RVM (or another Ruby version manager), which sets up Ruby safely in your home directory.
 
-Then add the [.app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load in your site's {path-config} file:
+Then add the [.app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load in your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -76,11 +76,11 @@ gems:
 
 == Plugin Ordering
 
-Since the [.app]*jekyll-asciidoc* plugin promotes xref:page-attributes.adoc[] to the front matter, it must run first.
-To make sure it does, rearrange the sequence of plugins in your Gemfile or {path-config} file so the [.app]*jekyll-asciidoc* plugin is listed before other plugins.
+Since the `jekyll-asciidoc` plugin promotes xref:page-attributes.adoc[] to the front matter, it must run first.
+To make sure it does, rearrange the sequence of plugins in your Gemfile or `_config.yml` file so the `jekyll-asciidoc` plugin is listed before other plugins.
 By doing so, other plugins will be able to access any front matter that this plugin assigns.
 
-Let's consider the case of using the [.app]*jekyll-archives* plugin alongside the [.app]*jekyll-asciidoc* plugin.
+Let's consider the case of using the `jekyll-archives` plugin alongside the `jekyll-asciidoc` plugin.
 
 [source,ruby]
 ----
@@ -89,5 +89,5 @@ group :jekyll_plugins do
   gem 'jekyll-archives' <1>
 end
 ----
-<1> The [.app]*jekyll-archives* plugin should be listed after the [.app]*jekyll-asciidoc* plugin since it needs to access front matter that is promoted from the header of the AsciiDoc document.
+<1> The `jekyll-archives` plugin should be listed after the `jekyll-asciidoc` plugin since it needs to access front matter that is promoted from the header of the AsciiDoc document.
 

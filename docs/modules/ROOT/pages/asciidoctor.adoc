@@ -26,7 +26,7 @@ The following additional attributes are defined per page:
 outpath=(path of page relative to baseurl)
 ....
 
-You can pass custom attributes to AsciiDoc, or override default attributes provided by the plugin, using the `attributes` option of the `asciidoctor` block in your {path-config}.
+You can pass custom attributes to AsciiDoc, or override default attributes provided by the plugin, using the `attributes` option of the `asciidoctor` block in your `_config.yml`.
 The value of this option can either be an Array containing key-value pairs:
 
 [source,yaml]
@@ -58,8 +58,8 @@ asciidoctor:
     sectanchors: ''
 ----
 
-By default, an attribute value defined in {path-config} overrides the same attribute set in the front matter or header of a document.
-For example, if you set `page-layout` in {path-config}, you won't be able to set it per page.
+By default, an attribute value defined in `_config.yml` overrides the same attribute set in the front matter or header of a document.
+For example, if you set `page-layout` in `_config.yml`, you won't be able to set it per page.
 
 [source,yaml]
 ----
@@ -68,7 +68,7 @@ asciidoctor:
   - page-layout=false
 ----
 
-If you want to allow individual pages to be able to override the attribute, append the charcter `@` to the value in {path-config}:
+If you want to allow individual pages to be able to override the attribute, append the character `@` to the value in `_config.yml`:
 
 [source,yaml]
 ----

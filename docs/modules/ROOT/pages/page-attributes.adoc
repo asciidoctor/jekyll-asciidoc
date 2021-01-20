@@ -1,10 +1,10 @@
 = Page Attributes
 
-Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins with ``page-``footnote:[The prefix used to label page attributes can be customized.] gets promoted to a {url-variables}[page variables].
-The part of the name after the `page-` prefix is _lowercased_ and used as the variable name (e.g., page-layout becomes layout).
-The value is processed as {url-yaml}[YAML] data (single-line form).
+Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins with `page-` (<<customizing-the-page-prefix, cf this>>) gets promoted to a {url-variables}[page variable].
+The part of the name after the `page-` prefix is _lowercased_ and used as the variable name (e.g., page-LayOut becomes layout).
+The variable value is the {url-yaml}[YAML] data (single-line form) translation of the attribute string value.
 
-Since the attribute value is processed as YAML data, you can build nested data structure using the inline YAML syntax.
+Since the attribute value is processed into YAML data, you can build nested data structure using the inline YAML syntax.
 For example, here's how you can assign a value to the `page.header.image` page variable:
 
 [source,asciidoc]
@@ -12,7 +12,7 @@ For example, here's how you can assign a value to the `page.header.image` page v
 :page-header: { image: logo.png }
 ----
 
-To define a page attribute that contains multiple words, use either a hyphen or underscore character to connect the words.
+To define a page attribute name that contains multiple words, use either a hyphen or underscore character to connect the words.
 
 [source,asciidoc]
 ----
@@ -21,12 +21,37 @@ To define a page attribute that contains multiple words, use either a hyphen or 
 
 IMPORTANT: Page attributes must be defined in the document header.
 That means either putting them directly below the document title (the line beginning with a single equals sign in the sample above) or above all other AsciiDoc content if the document title is not defined in AsciiDoc.
-The AsciiDoc document header stops after the first blank line.
-For more details about the document header, see the http://asciidoctor.org/docs/user-manual/#doc-header[Document Header] chapter in the Asciidoctor User Manual.
+The AsciiDoc document header ends at the first blank line.
+For more details about the document header, see the xref:asciidoc:document:header.adoc[] documentation.
 
 IMPORTANT: You may use include directives in the the document header.
-However, you must ensure that the file included _does not_ contain blank lines.
+Note that the document header will end before any blank line included.
 
 CAUTION: If an attribute defined in the header of an AsciiDoc document is not visible to another plugin or Liquid template, you may have a plugin ordering problem.
 See the xref:installation.adoc#plugin-ordering[discussion here] to learn how to fix it.
+
+== Customizing the `page-` prefix
+
+The prefix identifying the attributes mapped to Jekyll page variables may be set with the asciidoc key `page_attribute_prefix` in _config.yml.
+For example,
+
+[source,yml]
+----
+asciidoc:
+  page_attribute_prefix: ji # for "jekyll integration"
+----
+
+Now
+
+[source,adoc]
+----
+= My Fabulous Page
+:ji-quality: infinite
+
+Yes, it's fabulous!
+----
+
+will result in the page variable `quality` with value `infinite`.
+A hyphen is automatically added to the value of this configuration setting if the value is non-empty (e.g, `jekyll` becomes `jekyll-`).
+
 

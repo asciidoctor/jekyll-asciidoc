@@ -15,7 +15,7 @@ One way is to set the `stem` attribute in the document header:
 :stem:
 ----
 
-Alternatively, you can enable it the `stem` attribute globally for all AsciiDoc documents in your site by adding the following to your site's {path-config} file:
+Alternatively, you can enable it the `stem` attribute globally for all AsciiDoc documents in your site by adding the following to your site's `_config.yml` file:
 
 [source,yaml]
 ----

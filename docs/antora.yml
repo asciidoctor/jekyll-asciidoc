@@ -29,11 +29,11 @@ asciidoc:
 #   url-asciidoc-practices: url-asciidoctor-docs/asciidoc-recommended-practices
    url-jaq: https://github.com/asciidoctor/jekyll-asciidoc-quickstart
    url-jekyll: https://jekyllrb.com
-   url-jekyll-docs: url-jekyll/docs
+   url-jekyll-docs: https://jekyllrb.com/docs
    url-jekyll-discuss: https://talk.jekyllrb.com
-   url-front-matter: url-jekyll/docs/frontmatter
-   url-liquid-templates: url-jekyll/docs/templates
-   url-variables: url-jekyll/docs/variables
+   url-front-matter: https://jekyllrb.com/docs/frontmatter
+   url-liquid-templates: https://jekyllrb.com/docs/templates
+   url-variables: https://jekyllrb.com/docs/variables
    url-graphviz: http://www.graphviz.org
    url-tilt: https://github.com/rtomayko/tilt
    url-yaml: https://en.wikipedia.org/wiki/YAML
