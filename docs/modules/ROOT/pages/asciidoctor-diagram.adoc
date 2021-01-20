@@ -37,7 +37,7 @@ Install gems manually
 
  $ [sudo] gem install asciidoctor-diagram
 
-Then, add the `asciidoctor-diagram` gem to the list of plugins for Jekyll to load in your site's {path-config} file:
+Then, add the `asciidoctor-diagram` gem to the list of plugins for Jekyll to load in your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -61,7 +61,7 @@ The preceding configurations are equivalent to passing `-r asciidoctor-diagram` 
 == Generated Image Location
 
 Asciidoctor Diagram needs some context in order to write the images to the proper location.
-At a minimum, you must set the following configuration in {path-config}:
+At a minimum, you must set the following configuration in `_config.yml`:
 
 [source,yaml]
 ----
@@ -121,7 +121,7 @@ class Jekyll::Cleaner
 end
 ----
 
-An alternative to the monkeypath approach is to identify folders that contain generated images in the `keep_files` option in {path-config}:
+An alternative to the monkeypath approach is to identify folders that contain generated images in the `keep_files` option in `_config.yml`:
 
 [source,yaml]
 ----

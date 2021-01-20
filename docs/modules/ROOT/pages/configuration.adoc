@@ -2,7 +2,7 @@
 
 This section describes the configuration options for this plugin, which are _optional_.
 
-You should at least assign an empty Hash as a default (e.g., `{}`) to the `asciidoc` and `asciidoctor` keys in {path-config}, respectively, if you don't plan on making any further customizations.
+You should at least assign an empty Hash as a default (e.g., `{}`) to the `asciidoc` and `asciidoctor` keys in `_config.yml`, respectively, if you don't plan on making any further customizations.
 
 [source,yaml]
 ----
@@ -18,7 +18,7 @@ NOTE: Prior to version 2.0.0 of this plugin, the configuration keys in this sect
 These names are now deprecated, but still supported.
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
-Because Asciidoctor is currently the only option, the default setting is equivalent to the following configuration in {path-config}:
+Because Asciidoctor is currently the only option, the default setting is equivalent to the following configuration in `_config.yml`:
 
 [source,yaml]
 ----
@@ -26,10 +26,10 @@ asciidoc:
   processor: asciidoctor
 ----
 
-IMPORTANT: The `asciidoc` block should only appear _once_ inside {path-config}.
+IMPORTANT: The `asciidoc` block should only appear _once_ inside `_config.yml`.
 If you define any other options that are documented in this section, you should append them to the `asciidoc` block.
 
-To tell Jekyll which file extensions to match as AsciiDoc files, append the `ext` option to the `asciidoc` block of your {path-config}:
+To tell Jekyll which file extensions to match as AsciiDoc files, append the `ext` option to the `asciidoc` block of your `_config.yml`:
 
 [source,yaml]
 ----
@@ -39,20 +39,10 @@ asciidoc:
 
 The extensions shown in the previous listing are the default values, so you don't need to specify this option if those defaults are sufficient.
 
-AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to page variables.
-The part of the name after the `page-` prefix is used as the key (e.g., page-layout becomes layout).
-If you want to change this attribute prefix, append the `page_attribute_prefix` option to the `asciidoc` block of your {path-config}:
-
-[source,yaml]
-----
-asciidoc:
-  page_attribute_prefix: jekyll
-----
-
-A hyphen is automatically added to the value of this configuration setting if the value is non-empty (e.g, jekyll-).
+See xref:page-attributes.adoc[] for a discussion of the `page_attribute_prefix` key and page variables.
 
 Since version 2.0.0 of this plugin, all non-hidden AsciiDoc files are processed by default, even those without a front matter header.
-If you only want files containing a front matter header to be processed (as was the behavior prior to version 2.0.0), add the `require_front_matter_header` option to the `asciidoc` block of your {path-config}:
+If you only want files containing a front matter header to be processed (as was the behavior prior to version 2.0.0), add the `require_front_matter_header` option to the `asciidoc` block of your `_config.yml`:
 
 [source,yaml]
 ----

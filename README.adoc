@@ -151,7 +151,7 @@ If you're not using Bundler to manage the dependencies for your Jekyll project, 
 NOTE: The `sudo` prefix is only required if you are installing gems into your system.
 To avoid this bad practice, we recommend using RVM (or another Ruby version manager), which sets up Ruby safely in your home directory.
 
-Then add the [.app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load in your site's {path-config} file:
+Then add the [.app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load in your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -170,7 +170,7 @@ gems:
 === Plugin Ordering
 
 Since the [.app]*jekyll-asciidoc* plugin promotes <<page-attributes,page attributes>> to the front matter, it must run first.
-To make sure it does, rearrange the sequence of plugins in your Gemfile or {path-config} file so the [.app]*jekyll-asciidoc* plugin is listed before other plugins.
+To make sure it does, rearrange the sequence of plugins in your Gemfile or `_config.yml` file so the [.app]*jekyll-asciidoc* plugin is listed before other plugins.
 By doing so, other plugins will be able to access any front matter that this plugin assigns.
 
 Let's consider the case of using the [.app]*jekyll-archives* plugin alongside the [.app]*jekyll-asciidoc* plugin.
@@ -323,7 +323,7 @@ Somewhere in your layout, you should include the following statement:
 
 This approach gives you the most control over how the document title appears and what HTML is used to enclose it.
 
-If, instead, you want the document title to be included in the body, add the following configuration to your site's {path-config} file:
+If, instead, you want the document title to be included in the body, add the following configuration to your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -532,7 +532,7 @@ See <<Running in Safe Mode>> for details.
 
 This section describes the configuration options for this plugin, which are _optional_.
 
-You should at least assign an empty Hash as a default (e.g., `{}`) to the `asciidoc` and `asciidoctor` keys in {path-config}, respectively, if you don't plan on making any further customizations.
+You should at least assign an empty Hash as a default (e.g., `{}`) to the `asciidoc` and `asciidoctor` keys in `_config.yml`, respectively, if you don't plan on making any further customizations.
 
 [source,yaml]
 ----
@@ -548,7 +548,7 @@ NOTE: Prior to version 2.0.0 of this plugin, the configuration keys in this sect
 These names are now deprecated, but still supported.
 
 By default, this plugin uses Asciidoctor to convert AsciiDoc files.
-Because Asciidoctor is currently the only option, the default setting is equivalent to the following configuration in {path-config}:
+Because Asciidoctor is currently the only option, the default setting is equivalent to the following configuration in `_config.yml`:
 
 [source,yaml]
 ----
@@ -556,10 +556,10 @@ asciidoc:
   processor: asciidoctor
 ----
 
-IMPORTANT: The `asciidoc` block should only appear _once_ inside {path-config}.
+IMPORTANT: The `asciidoc` block should only appear _once_ inside `_config.yml`.
 If you define any other options that are documented in this section, you should append them to the `asciidoc` block.
 
-To tell Jekyll which file extensions to match as AsciiDoc files, append the `ext` option to the `asciidoc` block of your {path-config}:
+To tell Jekyll which file extensions to match as AsciiDoc files, append the `ext` option to the `asciidoc` block of your `_config.yml`:
 
 [source,yaml]
 ----
@@ -571,7 +571,7 @@ The extensions shown in the previous listing are the default values, so you don'
 
 AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to page variables.
 The part of the name after the `page-` prefix is used as the key (e.g., page-layout becomes layout).
-If you want to change this attribute prefix, append the `page_attribute_prefix` option to the `asciidoc` block of your {path-config}:
+If you want to change this attribute prefix, append the `page_attribute_prefix` option to the `asciidoc` block of your `_config.yml`:
 
 [source,yaml]
 ----
@@ -582,7 +582,7 @@ asciidoc:
 A hyphen is automatically added to the value of this configuration setting if the value is non-empty (e.g, jekyll-).
 
 Since version 2.0.0 of this plugin, all non-hidden AsciiDoc files are processed by default, even those without a front matter header.
-If you only want files containing a front matter header to be processed (as was the behavior prior to version 2.0.0), add the `require_front_matter_header` option to the `asciidoc` block of your {path-config}:
+If you only want files containing a front matter header to be processed (as was the behavior prior to version 2.0.0), add the `require_front_matter_header` option to the `asciidoc` block of your `_config.yml`:
 
 [source,yaml]
 ----
@@ -618,7 +618,7 @@ The following additional attributes are defined per page:
 outpath=(path of page relative to baseurl)
 ....
 
-You can pass custom attributes to AsciiDoc, or override default attributes provided by the plugin, using the `attributes` option of the `asciidoctor` block in your {path-config}.
+You can pass custom attributes to AsciiDoc, or override default attributes provided by the plugin, using the `attributes` option of the `asciidoctor` block in your `_config.yml`.
 The value of this option can either be an Array containing key-value pairs:
 
 [source,yaml]
@@ -650,8 +650,8 @@ asciidoctor:
     sectanchors: ''
 ----
 
-By default, an attribute value defined in {path-config} overrides the same attribute set in the front matter or header of a document.
-For example, if you set `page-layout` in {path-config}, you won't be able to set it per page.
+By default, an attribute value defined in `_config.yml` overrides the same attribute set in the front matter or header of a document.
+For example, if you set `page-layout` in `_config.yml`, you won't be able to set it per page.
 
 [source,yaml]
 ----
@@ -660,7 +660,7 @@ asciidoctor:
   - page-layout=false
 ----
 
-If you want to allow individual pages to be able to override the attribute, append the charcter `@` to the value in {path-config}:
+If you want to allow individual pages to be able to override the attribute, append the charcter `@` to the value in `_config.yml`:
 
 [source,yaml]
 ----
@@ -764,7 +764,7 @@ Keep in mind that the value of the attribute will be unmodified from the value d
 Many Jekyll users are used to writing in GitHub-flavored Markdown (GFM), which preserves hard line breaks in paragraph content.
 Asciidoctor supports this feature for AsciiDoc files.
 (In fact, previous versions of this plugin enabled this behavior by default).
-If you want to enable this behavior for AsciiDoc files, add the `hardbreaks` attribute to the Asciidoctor attributes configuration in your site's {path-config} file:
+If you want to enable this behavior for AsciiDoc files, add the `hardbreaks` attribute to the Asciidoctor attributes configuration in your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -782,13 +782,13 @@ asciidoctor:
   - hardbreaks=@
 ----
 
-If you already have AsciiDoc attributes defined in the {path-config}, the new attribute should be added as a sibling entry in the YAML collection.
+If you already have AsciiDoc attributes defined in the `_config.yml`, the new attribute should be added as a sibling entry in the YAML collection.
 
 WARNING: Keep in mind, if you enable hard line breaks, you won't be able to use the {url-asciidoc-practices}#one-sentence-per-line[one sentence-per-line writing technique].
 
 == Running in Safe Mode
 
-If you want to use this plugin when running Jekyll in safe mode, you must add the [.app]*jekyll-asciidoc* gem to the whitelist in your site's {path-config} file:
+If you want to use this plugin when running Jekyll in safe mode, you must add the [.app]*jekyll-asciidoc* gem to the whitelist in your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -800,7 +800,7 @@ Safe mode is enabled either through the `--safe` flag:
 
  $ jekyll build --safe
 
-or the `safe` configuration option in your site's {path-config} file:
+or the `safe` configuration option in your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -915,7 +915,7 @@ Next, create a new folder in your site named [.path]__templates_ to store your t
 
 === Step {counter:step}: Configure Asciidoctor to Load Templates
 
-In your site's {path-config} file, configure Asciidoctor to load the templates by telling it the location where the templates are stored.
+In your site's `_config.yml` file, configure Asciidoctor to load the templates by telling it the location where the templates are stored.
 
 [source,yaml]
 ----
@@ -974,7 +974,7 @@ Then, run the `bundle` command from Bundler to install the gem:
  $ bundle
 
 If you're not using Bundler to manage the dependencies for your Jekyll project, you'll need to install the gem manually.
-Once that's done, add the gem to the list gems for Jekyll to load in your site's {path-config} file:
+Once that's done, add the gem to the list gems for Jekyll to load in your site's `_config.yml` file:
 
 [source,ruby]
 ----
@@ -1050,7 +1050,7 @@ Install gems manually
 
  $ [sudo] gem install asciidoctor-diagram
 
-Then, add the `asciidoctor-diagram` gem to the list of plugins for Jekyll to load in your site's {path-config} file:
+Then, add the `asciidoctor-diagram` gem to the list of plugins for Jekyll to load in your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -1074,7 +1074,7 @@ The preceding configurations are equivalent to passing `-r asciidoctor-diagram` 
 === Generated Image Location
 
 Asciidoctor Diagram needs some context in order to write the images to the proper location.
-At a minimum, you must set the following configuration in {path-config}:
+At a minimum, you must set the following configuration in `_config.yml`:
 
 [source,yaml]
 ----
@@ -1134,7 +1134,7 @@ class Jekyll::Cleaner
 end
 ----
 
-An alternative to the monkeypath approach is to identify folders that contain generated images in the `keep_files` option in {path-config}:
+An alternative to the monkeypath approach is to identify folders that contain generated images in the `keep_files` option in `_config.yml`:
 
 [source,yaml]
 ----
@@ -1164,7 +1164,7 @@ One way is to set the `stem` attribute in the document header:
 :stem:
 ----
 
-Alternatively, you can enable it the `stem` attribute globally for all AsciiDoc documents in your site by adding the following to your site's {path-config} file:
+Alternatively, you can enable it the `stem` attribute globally for all AsciiDoc documents in your site by adding the following to your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -1251,7 +1251,7 @@ IMPORTANT: To use Pygments with Ruby >= 2.4 or JRuby, you must install pygments.
 As part of this integration, Asciidoctor generates a custom stylesheet tailored specially to work with the HTML that Asciidocotor produces.
 Since this stylesheet is backed by the Pygments API, it provides access to all the themes in Pygments
 
-This plugin will automatically generate a stylesheet for Pygments into the source directory if the AsciiDoc attributes in your site's {path-config} are configured as follows:
+This plugin will automatically generate a stylesheet for Pygments into the source directory if the AsciiDoc attributes in your site's `_config.yml` are configured as follows:
 
 * `source-highlighter` has the value `pygments`
 * `pygments-css` has the value `class` or is not set
@@ -1274,7 +1274,7 @@ You'll need to add a line to your template to link to this stylesheet, such as:
 <link rel="stylesheet" href="{{ '/css/asciidoc-pygments.css' | prepend: site.baseurl }}">
 ----
 
-To disable this feature, either set the `pygments-css` to `style` (to enable inline styles) or unset the `pygments-stylesheet` attribute in your site's {path-config}.
+To disable this feature, either set the `pygments-css` to `style` (to enable inline styles) or unset the `pygments-stylesheet` attribute in your site's `_config.yml`.
 
 NOTE: It may still be necessary to make some tweaks to your site's stylesheet to accomodate this integration.
 

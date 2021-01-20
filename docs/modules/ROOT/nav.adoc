@@ -6,9 +6,9 @@
 ** xref:disabling-pub.adoc[]
 ** xref:implicit-page-vars.adoc[]
 ** xref:doctitle.adoc[]
-* Jekyll Blog Support
-** xref:time.adoc[]
+* xref:blog.adoc[]
 ** xref:classifying.adoc[]
+** xref:time.adoc[]
 ** xref:drafts.adoc[]
 * xref:liquid.adoc[]
 * xref:excerpts.adoc[]
