@@ -1,4 +1,4 @@
-= Asciidoctor
+= Asciidoctor intrinsic and global attributes
 
 In addition to the built-in attributes in AsciiDoc, the following additional AsciiDoc attributes are automatically defined by this plugin and available to all AsciiDoc-based pages:
 
@@ -91,7 +91,7 @@ asciidoctor:
 CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash syntax, you must enclose the value in quotes.
 There are additional edge cases when the value must be enclosed in quotes, so it's generally recommended to use them.
 
-Since version 2.1.0 of this plugin, you can remove a previously defined attribute by prefixing the name with a minus sign (without any space between):
+You can remove a previously defined attribute by prefixing the name with a minus sign (without any space between):
 
 [source,yaml]
 ----

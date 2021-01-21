@@ -1,10 +1,9 @@
 = Classifying Your Post
 
 In Jekyll, you classify a post by assigning it to categories and/or tags.
-While you can define them in the front matter, as normal, it's also possible to omit the front matter and assign them in the AsciiDoc header instead.
+We recommend defining these with the Asciidoc page attributes `page-categories` and `page-tags`, but it is also possible to define them in the front matter with the Jekyll page variables `categories` and `tags`.
 
-The AsciiDoc attributes to use to assign categories and tags to your post are `page-categories` and `page-tags`, respectively.
-The attribute value must be expressed using the inline Array syntax for YAML, which is a comma-separated list of items surrounded by square brackets.
+The attribute value must be expressed using the inline Array syntax for YAML: a comma-separated list of items surrounded by square brackets.
 If you only have one item, you can omit the brackets.
 In this case, you can also drop the plural from the attribute name.
 
@@ -19,6 +18,4 @@ The Jekyll AsciiDoc plugin makes Jekyll awesome.
 Why?
 Because you can write posts like this one in AsciiDoc!
 ----
-
-Recall that the value of page attributes is parsed as an inline YAML value.
 

@@ -25,7 +25,7 @@ For more information, refer to the the page https://rvm.io/workflow/projects[RVM
 
 === Installation Using Bundler
 
-If you're using Bundler to manage the dependencies for your project (as recommended), simply add the `jekyll-asciidoc` gem to the `:jekyll_plugins` group in your _Gemfile_:
+If you're using Bundler to manage the dependencies for your project (as recommended), simply add the `jekyll-asciidoc` gem to the `:jekyll_plugins` group in your `Gemfile`:
 
 [source,ruby]
 ----
@@ -34,17 +34,17 @@ group :jekyll_plugins do
 end
 ----
 
-Then, run the `bundle` command from Bundler to install the gem:
-
- $ bundle
-
-Jekyll will automatically activate any plugins listed in the `:jekyll_plugins` group.
-
-If you want to keep the installed gems inside the project, use this command instead:
+In order to keep the installed gems inside the project (recommended), run the`bundle` command from Bundler to install the gem:
 
  $ bundle --path=.bundle/gems
 
 TIP: Subsequent calls to `bundle` will retain the `path` setting.
+
+If you want a global installation, run:
+
+ $ bundle
+
+Jekyll will automatically activate any plugins listed in the `:jekyll_plugins` group.
 
 Keep in mind that the gems Bundler installs are linked to the current version of Ruby.
 If you switch Ruby versions, you'll need to run `bundle` again.
@@ -58,7 +58,7 @@ If you're not using Bundler to manage the dependencies for your Jekyll project, 
 NOTE: The `sudo` prefix is only required if you are installing gems into your system.
 To avoid this bad practice, we recommend using RVM (or another Ruby version manager), which sets up Ruby safely in your home directory.
 
-Then add the [.app]*jekyll-asciidoc* gem to the list of gems for Jekyll to load in your site's `_config.yml` file:
+Then add the `jekyll-asciidoc` gem to the list of gems for Jekyll to load in your site's `_config.yml` file:
 
 [source,yaml]
 ----
@@ -76,9 +76,8 @@ gems:
 
 == Plugin Ordering
 
-Since the `jekyll-asciidoc` plugin promotes xref:page-attributes.adoc[] to the front matter, it must run first.
-To make sure it does, rearrange the sequence of plugins in your Gemfile or `_config.yml` file so the `jekyll-asciidoc` plugin is listed before other plugins.
-By doing so, other plugins will be able to access any front matter that this plugin assigns.
+Since the `jekyll-asciidoc` plugin promotes xref:page-attributes.adoc[] to page variables, it must run before any plugin that uses those page variables.
+To make sure it does, rearrange the sequence of plugins in your Gemfile or `_config.yml` file so the `jekyll-asciidoc` plugin is listed before other such plugins.
 
 Let's consider the case of using the `jekyll-archives` plugin alongside the `jekyll-asciidoc` plugin.
 
@@ -89,5 +88,5 @@ group :jekyll_plugins do
   gem 'jekyll-archives' <1>
 end
 ----
-<1> The `jekyll-archives` plugin should be listed after the `jekyll-asciidoc` plugin since it needs to access front matter that is promoted from the header of the AsciiDoc document.
+<1> The `jekyll-archives` plugin should be listed after the `jekyll-asciidoc` plugin since it needs to access page variables that is promoted from the header of the AsciiDoc document.
 

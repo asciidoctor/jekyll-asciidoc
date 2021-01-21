@@ -1,10 +1,10 @@
 = Page Attributes
 
-Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins with `page-` (<<customizing-the-page-prefix, cf this>>) gets promoted to a {url-variables}[page variable].
+Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins with `page-` (<<customizing-the-page-prefix, cf this>>) gets promoted to a {url-jekyll-variables}[page variable].
 The part of the name after the `page-` prefix is _lowercased_ and used as the variable name (e.g., page-LayOut becomes layout).
 The variable value is the {url-yaml}[YAML] data (single-line form) translation of the attribute string value.
 
-Since the attribute value is processed into YAML data, you can build nested data structure using the inline YAML syntax.
+Since the Asciidoc string attribute value is processed into YAML data as a page variable, you can build nested data structure using the inline YAML syntax.
 For example, here's how you can assign a value to the `page.header.image` page variable:
 
 [source,asciidoc]
@@ -27,7 +27,9 @@ For more details about the document header, see the xref:asciidoc:document:heade
 IMPORTANT: You may use include directives in the the document header.
 Note that the document header will end before any blank line included.
 
-CAUTION: If an attribute defined in the header of an AsciiDoc document is not visible to another plugin or Liquid template, you may have a plugin ordering problem.
+NOTE: If a page attribute (e.g. `page-quality`) is defined in the document header and the corresponding page variable (e.g. `quality`) is defined in the document front matter, the page attribute overides the page variable.
+
+CAUTION: If a `'page-'` attribute defined in the header of an AsciiDoc document is not visible to another plugin or Liquid template, you may have a plugin ordering problem.
 See the xref:installation.adoc#plugin-ordering[discussion here] to learn how to fix it.
 
 == Customizing the `page-` prefix

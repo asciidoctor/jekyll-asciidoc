@@ -39,7 +39,7 @@ deploy:
     branch: master
 ----
 
-TIP: When using this setup, don't forget to add the [.path]_.nojekyll_ file to the root of the source directory to tell GitHub Pages not to waste time running Jekyll again on the server.
+TIP: When using this setup, don't forget to add the `.nojekyll` file to the root of the source directory to tell GitHub Pages not to waste time running Jekyll again on the server.
 
 === Jekyll AsciiDoc Quickstart
 
@@ -65,7 +65,7 @@ Assuming the following are true:
 . The source of your site resides on the master branch (though you can use any branch for this purpose).
 . You're using Bundler to manage the dependencies for your project.
 
-You can then use the following [.path]_.gitlab-ci.yml_ file to get starting hosting your Jekyll site on GitLab Pages.
+You can then use the following `.gitlab-ci.yml` file to get starting hosting your Jekyll site on GitLab Pages.
 
 .gitlab-ci.yml
 [source,yaml]
@@ -88,7 +88,7 @@ pages:
 
 This script runs Jekyll on the official Ruby Docker container.
 
-You also need to add an additional configuration file, [.path]__config-gitlab.yml_, to set the `url` and `baseurl` options when deploying your site to GitLab Pages.
+You also need to add an additional configuration file, `_config-gitlab.yml`, to set the `url` and `baseurl` options when deploying your site to GitLab Pages.
 
 ._config-gitlab.yml
 [source,yaml,subs=attributes+]
@@ -102,7 +102,7 @@ baseurl: /<projectname> #{conum-guard}<2>
 The next time you push to the master branch, the GitLab Pages runner will execute Jekyll and deploy your site to [.uri]_\https://<username>.gitlab.io/<projectname>_, where `<username>` is your GitLab username or group and `<projectname>` is the basename of your project repository.
 
 Like GitHub Pages, you can also have your site respond to a custom domain name, which is explained in the referenced tutorial.
-In this case, update the [.path]__config-gitlab.yml_ file with the appropriate values.
+In this case, update the `_config-gitlab.yml` file with the appropriate values.
 
 CAUTION: At this time, GitLab Pages only works with projects hosted at GitLab.com or on self-hosted GitLab Enterprise Edition instances.
 GitLab Community Edition does not support continuous integration and cannot host pages.

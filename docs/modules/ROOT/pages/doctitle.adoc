@@ -24,7 +24,7 @@ If, instead, you want the document title to be included in the body, add the fol
 ----
 asciidoctor:
   attributes:
-  - showtitle=@
+    showtitle@: true
 ----
 
 It's also possible to enable or override this setting per page.

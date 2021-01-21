@@ -19,13 +19,14 @@ Here's a sample AsciiDoc file that meets these criteria:
 
 This is a sample page composed in AsciiDoc.
 Jekyll converts it to HTML using {url-asciidoctor}[Asciidoctor].
+It is presented in the `{page-layout}` layout.
 
 [source,ruby]
 puts "Hello, World!"
 ----
 We recommend defining Jekyll page variables as xref:page-attributes.adoc[].
 However, it is also possible to define them in traditional Jekyll front matter.
-In this case the variables will not be available as Asciidoc attributes.
+In this case the variables will not be available as Asciidoc attributes:
 
 .sample.adoc
 [source,asciidoc]
@@ -39,7 +40,9 @@ permalink: /sample/
 
 This is a sample page composed in AsciiDoc.
 Jekyll converts it to HTML using {url-asciidoctor}[Asciidoctor].
+//It is presented in the `{page-layout}` layout. <1>
 
 [source,ruby]
 puts "Hello, World!"
 ----
+<1> Since the layout is defined in the front matter, it is not available as an Asciidoc attribute.

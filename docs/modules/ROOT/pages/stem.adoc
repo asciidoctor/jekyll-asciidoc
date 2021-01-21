@@ -24,7 +24,7 @@ asciidoctor:
   - stem
 ----
 
-To learn more about the built-in STEM integration, see the https://asciidoctor.org/docs/user-manual/#activating-stem-support[STEM] chapter in the Asciidoctor User Manual.
+To learn more about the built-in STEM integration, see the xref:asciidoctor::stem.adoc[].
 
 == Adding the STEM assets to the page
 
@@ -32,7 +32,7 @@ Technically, Asciidoctor only prepares the STEM equations for interpretation by 
 That means you have to load MathJax on any page that contains STEM equations (or all pages, if that's easier).
 To do so requires some customization of the page layout.
 
-First, create the file [.path]__includes/mathjax.html_ and populate it with the following contents:
+First, create the file `_includes/mathjax.html` and populate it with the following contents:
 
 [source,html]
 ----
