@@ -1,17 +1,22 @@
 = Building and Previewing Your Site
 
-You can build your site into the [.path]__site_ directory using:
+You can build your site into the `_site' directory using:
 
  $ jekyll build
 
 If you're using Bundler, prefix each command with `bundle exec`:
 
-[subs=+quotes]
+[source,subs=+quotes]
 $ *bundle exec* jekyll build
 
 You can preview your site at \http://localhost:4000 using:
 
  $ jekyll serve
+
+or
+
+[source,subs=+quotes]
+$ *bundle exec* jekyll serve
 
 The `serve` command monitors the file system and rebuilds the site whenever a change is detected by default (i.e., watch mode).
 To disable watch mode, use the `--no-watch` flag:

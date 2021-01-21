@@ -1,6 +1,6 @@
 = Enabling Liquid Preprocessing
 
-Unlike other content files, the {url-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (since version 2.0.0 of this plugin).
+Unlike other content files, the {url-jekyll-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default.
 If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the `liquid` page variable, shown here defined using a page attribute.
 
 [source,asciidoc]
@@ -9,18 +9,6 @@ If you want the Liquid template preprocessor to be applied to an AsciiDoc file (
 ----
 
 It is also possible to set the `page-liquid` asciidoc attribute globally in `_config.yml` or to set the `liquid` page variable directly in Jekyll front matter.
-
-////
-IMPORTANT: AsciiDoc files may include a {url-front-matter}[front matter header] for defining page variables.
-If present, the front matter header must be the very first character of the file.
-The front matter header won't be seen--and could distort conversion--if the front matter is preceded by whitespace or a Byte Order Mark (BOM).
-
-NOTE: Since version 2.0.0 of this plugin, you may exclude the front matter header, as shown in the second example above.
-Prior to version 2.0.0, you had to include at least an empty front matter header (except for posts).
-In these cases, you define all the page variables (e.g., layout) using AsciiDoc page attributes instead of in the front matter.
-You can also use a combination of both.
-When intermixed, the page attributes defined in the AsciiDoc header take precedence.
-////
 
 == Asciidoc Inclusions
 
@@ -43,5 +31,5 @@ If you're using the Liquid include tag to include HTML into the AsciiDoc documen
 ++++
 ----
 
-Otherwise AsciiDoc will escape the HTML.
+Otherwise Asciidoctor will escape the HTML.
 

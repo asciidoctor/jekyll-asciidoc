@@ -1,6 +1,6 @@
 = Using AsciiDoc attributes in a Liquid template
 
-Let's say you want to reuse your AsciiDoc attributes in a Liquid template.
+Let's say you want to reuse your global AsciiDoc attributes in a Liquid template.
 This section describes how to do it.
 
 Liquid can only access simple data structures, not complex ones like the one used to store site-wide AsciiDoc attributes. (Site-wide AsciiDoc attributes are stored deep within the Jekyll configuration data as a Hash with symbol keys).

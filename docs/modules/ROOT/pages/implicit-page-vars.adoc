@@ -1,10 +1,26 @@
 = Implicit Page Variables
 
-In addition to page attributes defined explicitly (e.g., layout, permalink, etc), the following implicit AsciiDoc attributes are also promoted to page variables:
+In addition to page attributes defined explicitly (e.g., `page-layout`, `page-permalink`, etc), the following implicit AsciiDoc attributes are also promoted to page variables:
 
-* doctitle (aka the document title) (becomes `title`)
-* id (becomes `docid`)
-* author
-* revdate (becomes `date`; value is converted to a DateTime object; not applied to pages)
+[cols='1,1a',opts=header]
+|===
+| AsciiDoc intrinsic attribute
+| Jekyll page variable
 
-Although not an implicit page variable, another very common page variable to set is `page-description`, which becomes `description` in the model.
+| doctitle (aka the document title)
+| title
+
+| id
+| docid
+
+| author
+| author
+
+| revdate
+| date
+
+* Value is converted to a DateTime object
+* Applied only to documents in a collection such as `_posts`
+|===
+
+Although not an implicit page attribute, another very common page attribute to set is `page-description`, which becomes `description` in the Jekyll page model.

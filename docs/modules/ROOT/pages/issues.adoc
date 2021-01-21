@@ -4,7 +4,7 @@ This project uses the {url-issues}[GitHub issue tracker] to manage bug reports a
 If you encounter a problem, please {url-search-issues}[browse or search] the issues to find out if your problem has already been reported.
 If it has not, you may {url-issues}/new[submit a new issue].
 
-The best way to get a timely response and quick fix for your issue is to write a detailed report and respond to replies in a timely manner.
+The best way to get a timely response and quick fix for your issue is to write a detailed report, preferably with a project or an RSpec test that reproduces the problem, and to respond to replies in a timely manner.
 
 If you know Ruby (or you're willing to learn), we encourage you to submit a pull request.
 Please include an RSpec behavior that describes how your feature should work or demonstrates the problem you're encountering.

@@ -1,6 +1,6 @@
 = Customizing the Generated HTML
 
-You can use templates to customize the HTML output that Asciidoctor generates for your site.
+You can use Asciidoctor converter templates to customize the HTML output that Asciidoctor generates for your site.
 Template files can be composed in any templating language that is supported by {url-tilt}[Tilt].
 Each template file corresponds to a node in the AsciiDoc document tree (aka AST).
 
@@ -8,7 +8,7 @@ Below are the steps you need to take to configure Asciidoctor to use custom temp
 
 == Step {counter:step}: Add Required Gems
 
-You'll first need to add the thread_safe gem as well as the gem for the templating language you plan to use.
+You'll first need to add the thread_safe gem as well as the gem for the templating language you plan to use into your projects `Gemfile`.
 We'll assume that you are using Slim.
 
 [source,ruby]
@@ -25,7 +25,7 @@ Now run the `bundle` command to install the new gems.
 
 == Step {counter:step}: Create a Templates Folder
 
-Next, create a new folder in your site named [.path]__templates_ to store your templates.
+Next, create a new folder in your site named `_templates` to store your templates.
 
  $ mkdir _templates
 
@@ -44,7 +44,7 @@ asciidoctor:
 
 The final step is to compose a template.
 We'll be customizing the unordered list node.
-Name the file [.path]_ulist.html.slim_.
+Name the file `ulist.html.slim`.
 
 .ulist.html.slim
 [source,slim]

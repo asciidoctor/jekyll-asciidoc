@@ -1,9 +1,14 @@
 = Enabling Asciidoctor Extensions
 
 You enable Asciidoctor extensions in much the same way as this plugin.
-You just need to get Jekyll to load the source.
+You just need to configure Jekyll to load the source.
 
-If the extension you want to use is published as a gem, and you're using Bundler to manage the dependencies for your project (as recommended), then you simply add the gem to the `jekyll_plugins` group in your [.path]_Gemfile_:
+This process works for self-registering Asciidoctor extensions.
+If you are using a published extension that is not self-registering, you will need to add registration code as an <<unpublished-extensions,unpublished extension>>.
+
+== Extensions published as Gems
+
+If the extension you want to use is published as a gem, and you're using Bundler to manage the dependencies for your project (as recommended), then you simply add the gem to the `jekyll_plugins` group in your `Gemfile`:
 
 [source,ruby]
 ----
@@ -33,8 +38,10 @@ gems:
 - asciidoctor-extension-xyz
 ----
 
+== Unpublished extensions
+
 If the extension you want to use is not published as a gem, or is something you're developing, then you'll load it like an ad-hoc Jekyll plugin.
-Add the file [.path]_asciidoctor-extensions.rb_ to the [.path]__plugins_ folder of your project root (creating the folder if it does not already exist) and populate the file with the following content:
+Add the file `asciidoctor-extensions.rb` to the `_plugins` folder of your project root (creating the folder if it does not already exist) and populate the file with the extension registration and implementation code, such as:
 
 ._plugins/asciidoctor-extensions.rb
 [source,ruby]
@@ -42,7 +49,9 @@ Add the file [.path]_asciidoctor-extensions.rb_ to the [.path]__plugins_ folder 
 require 'asciidoctor/extensions'
 
 Asciidoctor::Extensions.register do
+# registration code
   treeprocessor do
+# processor implementation
     process do |doc|
       doc
     end
@@ -52,5 +61,5 @@ end
 
 Asciidoctor will automatically enable the extensions in this file when it is loaded by Jekyll.
 
-For a concrete example of using an Asciidoctor extension, refer to the next section.
+For a concrete example of using an existing, published, Asciidoctor extension, refer to the next section.
 

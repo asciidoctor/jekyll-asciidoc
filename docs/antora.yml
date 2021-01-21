@@ -1,4 +1,5 @@
 name: jekyll-asciidoc
+title: Jekyll Asciidoc
 version: 3.0
 start_page: index.adoc
 nav:
@@ -6,7 +7,6 @@ nav:
 
 asciidoc:
   attributes:
-   path-config: pass:q[[.path]___config.yml__]
    conum-guard: ' '
 #   conum-guard: { sp }
       #    ifndef::icons[:conum-guard: { sp}#{ sp } ]
@@ -29,11 +29,15 @@ asciidoc:
 #   url-asciidoc-practices: url-asciidoctor-docs/asciidoc-recommended-practices
    url-jaq: https://github.com/asciidoctor/jekyll-asciidoc-quickstart
    url-jekyll: https://jekyllrb.com
-   url-jekyll-docs: https://jekyllrb.com/docs
    url-jekyll-discuss: https://talk.jekyllrb.com
-   url-front-matter: https://jekyllrb.com/docs/frontmatter
-   url-liquid-templates: https://jekyllrb.com/docs/templates
-   url-variables: https://jekyllrb.com/docs/variables
+   url-jekyll-docs: https://jekyllrb.com/docs
+   url-jekyll-collections: https://jekyllrb.com/docs/collections
+   url-jekyll-excerpts: https://jekyllrb.com/docs/posts/#post-excerpts
+   url-jekyll-front-matter: https://jekyllrb.com/docs/frontmatter
+   url-jekyll-layouts: https://jekyllrb.com/docs/layouts
+   url-jekyll-liquid-templates: https://jekyllrb.com/docs/templates
+   url-jekyll-global-config: https://jekyllrb.com/docs/configuration/options/#global-configuration
+   url-jekyll-variables: https://jekyllrb.com/docs/variables
    url-graphviz: http://www.graphviz.org
    url-tilt: https://github.com/rtomayko/tilt
    url-yaml: https://en.wikipedia.org/wiki/YAML

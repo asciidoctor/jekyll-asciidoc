@@ -13,8 +13,8 @@ The Jekyll AsciiDoc plugin converts AsciiDoc to embeddable HTML.
 This HTML is then inserted into the page layout.
 You need to augment the layout to include resources typically present in a standalone HTML document that Asciidoctor produces.
 
-. Create a stylesheet in the [.path]_css_ directory named [.path]_asciidoc.css_ to hold additional CSS for body content generated from AsciiDoc.
-. Add this stylesheet to the HTML `<head>` in [.path]_{empty}_includes/head.html_ under the main.css declaration:
+. Create a stylesheet in the `css` directory named `asciidoc.css` to hold additional CSS for body content generated from AsciiDoc.
+. Add this stylesheet to the HTML `<head>` in `_includes/head.html` under the main.css declaration:
 +
 [source,html]
 ----
@@ -26,7 +26,7 @@ You need to augment the layout to include resources typically present in a stand
 Asciidoctor integrates with Pygments to provide code highlighting of source blocks in AsciiDoc content.
 
 To enable Pygments, you must install the `pygments.rb` gem.
-To do so, add the `pygments.rb` gem to your [.path]_Gemfile_:
+To do so, add the `pygments.rb` gem to your `Gemfile`:
 
 [source,ruby]
 ----
@@ -67,7 +67,7 @@ NOTE: It may still be necessary to make some tweaks to your site's stylesheet to
 
 == Font-based Admonition and Inline Icons
 
-To enable font-based admonition and inline icons, you first need to add Font Awesome to [.path]_{empty}_includes/head.html_ file under the asciidoc.css declaration:
+To enable font-based admonition and inline icons, you first need to add Font Awesome to `_includes/head.html` file under the asciidoc.css declaration:
 
 [source,html]
 ----
@@ -76,7 +76,7 @@ To enable font-based admonition and inline icons, you first need to add Font Awe
 
 NOTE: You can also link to a local copy of Font Awesome.
 
-Next, you need to add the following CSS rules from the default Asciidoctor stylesheet to the [.path]_css/asciidoc.css_ file:
+Next, you need to add the following CSS rules from the default Asciidoctor stylesheet to the `css/asciidoc.css` file:
 
 [source,css]
 ----
@@ -130,14 +130,14 @@ or in the site configuration:
 ----
 asciidoctor:
   attributes:
-  - icons=font
+    icons: font
   ...
 ----
 
 === Circled Callout Numbers
 
 Circled callout numbers are also linked to the `icons=font` setting, even though they don't rely on the Font Awesome font.
-To enable them, you need to add the following additional CSS to the [.path]_css/asciidoc.css_ file:
+To enable them, you need to add the following additional CSS to the `css/asciidoc.css` file:
 
 [source,css]
 ----
@@ -200,4 +200,4 @@ asciidoctor:
   - iconsdir=/images/icons
 ----
 
-Then, simply put the icon images that the page needs in the [.path]_images/icons_ directory.
+Then, simply put the icon images that the page needs in the `images/icons` directory.

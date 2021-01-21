@@ -9,5 +9,5 @@ When seeking answers, always start with the official documentation for Jekyll, w
 If you have general questions about Jekyll, we recommend you visit the {url-jekyll-discuss}[Jekyll Talk] forum to get assistance.
 For questions related to this extension specifically, or general questions about AsciiDoc, please post to the {url-asciidoctor-discuss}[Asciidoctor discussion list].
 You can also join us in the {url-chat}[asciidoctor/asciidoctor channel] on Gitter.
-For general information about AsciiDoctor, look no further than the xref:asciidoctor:index.adoc[Asciidoctor User Manual].
+For general information about AsciiDoctor, look no further than the xref:asciidoctor::index.adoc[Asciidoctor User Manual].
 

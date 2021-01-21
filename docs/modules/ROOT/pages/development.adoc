@@ -19,7 +19,7 @@ Next, switch to the project directory.
 
 == Install the Dependencies
 
-The dependencies needed to develop the Jekyll AsciiDoc plugin are defined in the [.path]_Gemfile_ at the root of the project.
+The dependencies needed to develop the Jekyll AsciiDoc plugin are defined in the `Gemfile` at the root of the project.
 You'll use Bundler to install these dependencies.
 
 To check if you have Bundler installed, use the `bundle` command to query for the version:
@@ -39,7 +39,7 @@ IMPORTANT: Since we've installed dependencies inside the project, it's necessary
 == Running the Tests
 
 The tests are based on RSpec.
-The test suite is located in the [.path]_spec_ directory.
+The test suite is located in the `spec` directory.
 
 You can run the tests using Rake.
 
@@ -84,7 +84,6 @@ To do so, set the `COVERAGE` environment variable as follows when running the te
 You'll see a total coverage score, a detailed coverage report, and a link to HTML report in the output.
 The HTML report helps you understand which lines and branches were missed, if any.
 
-////
 As an alternative to deep cover's native HTML reporter, you can also use istanbul / nyc.
 First, you'll need to have the `nyc` command available on your system:
 
@@ -100,7 +99,6 @@ Next, in addition to the `COVERAGE` environment variable, also set the `DEEP_COV
 
 You'll see a total coverage score, a detailed coverage report, and a link to HTML report in the output.
 The HTML report helps you understand which lines and branches were missed, if any.
-////
 
 == Running the Code Linter
 
@@ -110,7 +108,7 @@ You can run the linter using the following command:
  $ bundle exec rake lint
 
 The coding style is enforced by Rubocop.
-The rules are defined in [.path]_.rubocop.yml_.
+The rules are defined in `.rubocop.yml`.
 These rules extend from the default rule set provided by Rubocop to match the style of the project.
 
 == Installing the Gem Locally
@@ -126,16 +124,16 @@ If you want to build the gem and install it yourself, use these commands instead
  $ bundle exec rake build
  $ [sudo] gem install pkg/jekyll-asciidoc-*.dev.gem
 
-== Releasing the Gem
+== Releasing the Gem (for maintainers)
 
-When you are ready for a release, first set the version in the file [.path]_lib/jekyll-asciidoc/version.rb_.
+When you are ready for a release, first set the version in the file `lib/jekyll-asciidoc/version.rb`.
 Then, commit the change using the following commit message template:
 
  Release X.Y.Z
 
 where `X.Y.Z` is the version number of the gem.
 
-Next, package, tag and release the gem to RubyGems.org, run the following rake task:
+Next, to package, tag and release the gem to RubyGems.org, run the following rake task:
 
  $ bundle exec rake release
 

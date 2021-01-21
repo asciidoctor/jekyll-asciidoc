@@ -1,7 +1,7 @@
 = Publishing a Draft Post
 
 You can defer adding a date to a post until it's ready to publish by making it a draft.
-To make a draft post, just place it in the [.path]_{empty}_drafts_ folder instead of the [.path]_posts_ folder.
+To make a draft post, just place it in the `_drafts` folder instead of the `_posts` folder.
 But don't include the date in the filename or AsciiDoc header.
 
 To include the drafts when building the site, pass the `--drafts` flag to the `jekyll` command:
@@ -10,5 +10,5 @@ To include the drafts when building the site, pass the `--drafts` flag to the `j
 
 The date of each draft post will be based on the file's last modification time.
 
-When you're ready to publish the post, move the file from the [.path]_{empty}_drafts_ folder to the [.path]_posts_ folder and assign a date to it either by adding it to the filename or by defining the `revdate` attribute in the AsciiDoc header.
+When you're ready to publish the post, move the file from the `_drafts` folder to the `_posts` folder and assign a date to it either by adding it to the filename or by defining the `revdate` attribute in the AsciiDoc header.
 
