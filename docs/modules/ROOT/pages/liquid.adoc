@@ -1,13 +1,16 @@
 = Enabling Liquid Preprocessing
 
 Unlike other content files, the {url-liquid-templates}[Liquid template preprocessor] is not applied to AsciiDoc files by default (since version 2.0.0 of this plugin).
-If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the `liquid` page variable (shown here defined using a page attribute).
+If you want the Liquid template preprocessor to be applied to an AsciiDoc file (prior to the content being passed to the AsciiDoc processor), you must enable it by setting the `liquid` page variable, shown here defined using a page attribute.
 
 [source,asciidoc]
 ----
 :page-liquid:
 ----
 
+It is also possible to set the `page-liquid` asciidoc attribute globally in `_config.yml` or to set the `liquid` page variable directly in Jekyll front matter.
+
+////
 IMPORTANT: AsciiDoc files may include a {url-front-matter}[front matter header] for defining page variables.
 If present, the front matter header must be the very first character of the file.
 The front matter header won't be seen--and could distort conversion--if the front matter is preceded by whitespace or a Byte Order Mark (BOM).
@@ -17,10 +20,22 @@ Prior to version 2.0.0, you had to include at least an empty front matter header
 In these cases, you define all the page variables (e.g., layout) using AsciiDoc page attributes instead of in the front matter.
 You can also use a combination of both.
 When intermixed, the page attributes defined in the AsciiDoc header take precedence.
+////
 
-Liquid processing does not extend to files included using the AsciiDoc include directive (see {url-issues}/166[#166]).
+== Asciidoc Inclusions
 
-If you're using the Liquid include tag to include HTML into the AsciiDoc document, you need to enclose it in a passthrough block.
+The Liquid preprocessor does not process content included using the AsciiDoc include directive (see {url-issues}/166[#166]).
+
+However, if those files are otherwise publishable, they are processed independently with the Liquid preprocessor and will appear in your site.
+If this is not desired, exclude them from independent processing by one of:
+
+* Placing them in an automatically excluded location, such as a directory starting with `_`, e.g. `_includes`.
+* Naming them so as to be automatically excluded, such as starting the name with `_`, e.g. `_excluded-include.yml`.
+* Configuring the link:https://jekyllrb.com/docs/configuration/options/[Jekyll excludes] so as to apply to the file.
+
+== Liquid Inclusions
+
+If you're using the Liquid include tag to include HTML into the AsciiDoc document, enclose it in a passthrough block.
 
 ----
 ++++
@@ -28,6 +43,5 @@ If you're using the Liquid include tag to include HTML into the AsciiDoc documen
 ++++
 ----
 
-This is necessary since AsciiDoc will escape HTML by default.
-To pass it through raw requires enclosing it in a passthrough block.
+Otherwise AsciiDoc will escape the HTML.
 
