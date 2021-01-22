@@ -1,7 +1,7 @@
 = Working with AsciiDoc Content in Templates
 
 Jekyll uses the Liquid templating language to process templates.
-This plugin defines two additional Liquid filters, `asciidocify` and `tocify_asciidoc`, for working with AsciiDoc content in those templates.
+This plugin defines three additional Liquid filters, `asciidocify`, `tocify_asciidoc`, and `asciidoc_docinfo`, for working with AsciiDoc content in those templates.
 
 == Converting a String from AsciiDoc
 
@@ -25,7 +25,7 @@ If the content represents a single paragraph, and you only want to perform inlin
 
 == Generating a Table of Contents
 
-Since version 2.1.0 of this plugin, you can use the `tocify_asciidoc` filter to generate a table of contents from the content of any page that is generated from AsciiDoc.
+The `tocify_asciidoc` filter generates a table of contents from the content of any page that is generated from AsciiDoc.
 This filter gives you the ability to place this table of contents anywhere inside the page layout, but outside the main content.
 
 You apply the `tocify_asciidoc` filter to `page.document`, the page variable that resolves to the parsed AsciiDoc document, as shown here:
@@ -72,3 +72,57 @@ It's possible to conditionally disable this by using a Liquid `if` statement in 
 Then in the front matter of pages where you do not want a table of contents to appear, use the attribute `:page-show-toc: false`.
 Note that since this example uses a custom attribute, its name can be anything you'd like, it only needs to start with with `page-`.
 If you change the attribute name from this example, be sure to update the it in the `if` statement as appropriate.
+
+== Incorporating DocInfo content into layout templates
+
+The `asciidoc_docinfo` filter will insert the docinfo for a location into the template.
+The content may be from xref:asciidoctor::docinfo.adoc[docinfo files] or from xref:asciidoctor:extensions:processors/docinfo-processor.adoc[docinfo extensions].
+The Asciidoctor html5 converter supports three standard location names:
+
+`head`::
+  Content, typically comprised of `meta` tags and scripts, that goes at the end of the `head` tag.
+`header`::
+  Content that goes immediately before the body.
+In the standard Asciidoctor page this is most useful for replacing the `header` tag, together with the `noheader` attribute.
+`footer`::
+  Content that goes immediately after the standard footer.
+In the standard Asciidoctor page this can be used to replace the footer by setting the attribute `nofooter`.
+
+Bear this in mind when using pre-existing docinfo files or extensions intended for use with standard Asciidoctor.
+
+In `jekyll-asciidoc`, there are no limitations on the location name.
+However, if you use non-standard locations, or violate the expectations for the standard location content, your docinfo files or extensions will not be useable elsewhere.
+
+To place docinfo head content in a template:
+
+----
+{{ page.document | asciidoc_docinfo }}
+----
+
+For header content:
+
+----
+{{ page.document | asciidoc_docinfo: "header" }}
+----
+
+For footer content:
+
+----
+{{ page.document | asciidoc_docinfo: "footer" }}
+----
+
+For a non-standard location:
+
+----
+{{ page.document | asciidoc_docinfo: "custom" }}
+----
+
+In this case a docinfo file for all pages would be named `docinfo-custom.html`.
+
+=== Locating docinfo files
+
+By default, all docinfo files are looked up in `base_dir` which if not configured is the current working directory.
+Consult xref:base-dir.adoc[] for ways to configure `base_dir`.
+
+Beyond configuring `base_dir`, if the asciidoctor attribute `docinfodir` is set globally in `_config.yml` or in a document header, docinfo files will be looked up in that location, resolved relative to `base_dir`.
+

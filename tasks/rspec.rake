@@ -2,7 +2,7 @@ begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new :spec do |t|
     t.verbose = true
-    rspec_opts = %W[-f progress #{Random.rand 1000}]
+    rspec_opts = %W[-f progress --seed #{Random.rand 1000}]
     rspec_opts.unshift '-w' if !ENV['CI'] || ENV['COVERAGE']
     t.rspec_opts = rspec_opts
   end
