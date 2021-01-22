@@ -55,7 +55,7 @@ gems:
 ----
 --
 
-This results in xref:diagram-extension:latest:index.adoc#enabling-extensions[installing all available diagram converters].
+This results in xref:diagram-extension::index.adoc#enabling-extensions[installing all available diagram converters].
 There is no easy way to install only one or a subset.
 
 == Generated Image Location and reference configuration
