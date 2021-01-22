@@ -5,7 +5,7 @@
 This document provides a high-level view of the changes to the {project-name} by release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/master[commit history] on GitHub.
 
-== 3.0.0? @djencks
+== 3.1.0 @djencks
 
 * Convert documentation from README.adoc to an Antora component in the Asciidoctor docs site. (#238)
 * Minimum asciidoctor version 2.0, ruby 2.4, jruby 9.2.7. Earlier ruby versions don't seem to be supported on CI infrastructure. (#237)
