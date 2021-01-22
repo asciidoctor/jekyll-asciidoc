@@ -24,7 +24,7 @@ asciidoctor:
   - stem
 ----
 
-To learn more about the built-in STEM integration, see the xref:asciidoctor::stem.adoc[].
+To learn more about the built-in STEM integration, see the xref:asciidoctor:stem:index.adoc[].
 
 == Adding the STEM assets to the page
 
