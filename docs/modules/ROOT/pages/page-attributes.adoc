@@ -1,7 +1,7 @@
 = Page Attributes
 
-Any AsciiDoc attribute defined in the AsciiDoc document header whose name begins with `page-` (<<customizing-the-page-prefix, cf this>>) gets promoted to a {url-jekyll-variables}[page variable].
-The part of the name after the `page-` prefix is _lowercased_ and used as the variable name (e.g., page-LayOut becomes layout).
+Any AsciiDoc attribute defined globally or in the AsciiDoc document header whose name begins with `page-` (<<customizing-the-page-prefix, cf this>>) gets promoted to a {url-jekyll-variables}[page variable].
+The part of the name after the `page-` prefix is lowercased and used as the variable name (e.g., page-LayOut becomes layout).
 The variable value is the {url-yaml}[YAML] data (single-line form) translation of the attribute string value.
 
 Since the Asciidoc string attribute value is processed into YAML data as a page variable, you can build nested data structure using the inline YAML syntax.
@@ -23,6 +23,7 @@ IMPORTANT: Page attributes must be defined in the document header.
 That means either putting them directly below the document title (the line beginning with a single equals sign in the sample above) or above all other AsciiDoc content if the document title is not defined in AsciiDoc.
 The AsciiDoc document header ends at the first blank line.
 For more details about the document header, see the xref:asciidoc:document:header.adoc[] documentation.
+Attributes may be defined elsewhere in the document, and they will be available after the definition, but they will not be available outside the document, for instance for translation to page variables.
 
 IMPORTANT: You may use include directives in the the document header.
 Note that the document header will end before any blank line included.

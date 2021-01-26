@@ -1,0 +1,28 @@
+= Asciidoctor intrinsic attributes
+
+In addition to the built-in attributes in AsciiDoc, the following additional AsciiDoc attributes are automatically defined by this plugin and available to all AsciiDoc-based pages:
+
+....
+site-root=(absolute path of root directory)
+site-source=(absolute path of source directory)
+site-destination=(absolute path of output directory)
+site-baseurl=(value of the baseurl config option)
+site-url=(value of the url config option)
+env=site
+env-site
+site-gen=jekyll
+site-gen-jekyll
+builder=jekyll
+builder-jekyll
+jekyll-version=(value of the Jekyll::VERSION constant)
+idprefix
+idseparator=-
+linkattrs=@
+....
+
+The following additional attributes are defined per page:
+
+....
+outpath=(path of page relative to baseurl)
+....
+

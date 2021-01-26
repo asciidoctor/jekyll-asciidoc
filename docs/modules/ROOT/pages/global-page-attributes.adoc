@@ -1,0 +1,92 @@
+= Global AsciiDoc page attributes
+:reftext: global AsciiDoc page attributes
+:navtitle: Global AsciiDoc page attributes
+
+Global page attributes are defined in _config.yml and available to any page.
+They may be defined with the `attributes` key under either the `asciidoc` key or the `asciidoctor` key.
+The value of a global attribute defined in the `asciidoctor.attributes` key overrides the value from the same global attribute defined in the `asciidoc.attributes` key.
+
+The value of the `attributes` key can either be an Array containing key-value assignments:
+
+.Example using the `asciidoc` top level key with the attributes as an Array:
+[source,yaml]
+----
+asciidoc:
+  attributes:
+  - idprefix=_
+  - source-highlighter=pygments
+  - pygments-css=style
+----
+
+or a Hash containing key-value pairs:
+
+.Example using the `asciidoctor` top level key with the attributes as a Hash:
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    idprefix: _
+    source-highlighter: pygments
+    pygments-css: style
+----
+
+When using the Hash syntax, you must use an empty string value to set a valueless attribute such as `sectanchors`:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    sectanchors: ''
+----
+
+By default, an attribute value defined in `_config.yml` overrides the same attribute set in the front matter or header of a document.
+For example, if you set `page-layout` in `_config.yml`, you won't be able to set it per page.
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - page-layout=false
+----
+
+If you want to allow individual pages to be able to override the attribute, append the character `@` to the value in `_config.yml`:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - page-layout=false@
+----
+
+or
+
+[source,yaml]
+----
+asciidoc:
+  attributes:
+    page-layout: false@
+----
+
+You may use attribute references in the attribute value to reference any attribute that's already defined, including implicit attributes.
+For example, to set the `iconsdir` attribute based on the `imagesdir` attribute, use the following:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    imagesdir: /images
+    iconsdir: '{imagesdir}/icons'
+----
+
+CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash syntax, you must enclose the value in quotes.
+There are additional edge cases when the value must be enclosed in quotes, so it's generally recommended to use them.
+
+You can remove a previously defined attribute by prefixing the name with a minus sign (without any space between):
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    -idprefix:
+----
+

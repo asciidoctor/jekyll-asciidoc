@@ -93,8 +93,8 @@ You also need to add an additional configuration file, `_config-gitlab.yml`, to 
 ._config-gitlab.yml
 [source,yaml,subs=attributes+]
 ----
-url: https://<username>.gitlab.io #{conum-guard}<1>
-baseurl: /<projectname> #{conum-guard}<2>
+url: https://<username>.gitlab.io # <1>
+baseurl: /<projectname> # <2>
 ----
 <1> Replace `<username>` with your GitLab username or group.
 <2> Replace `<projectname>` with the basename of your project repository.

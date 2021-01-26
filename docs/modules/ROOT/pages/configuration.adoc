@@ -12,38 +12,19 @@ asciidoctor: {}
 
 Using these placeholder values prevents initialization from being performed more than once when using watch mode (see https://github.com/jekyll/jekyll/issues/4858[issue jekyll#4858]).
 
-== AsciiDoc
+NOTE: This needs to be verified, as that issue is closed.
 
-By default, this plugin uses Asciidoctor to convert AsciiDoc files.
-Because Asciidoctor is currently the only option, the default setting is equivalent to the following configuration in `_config.yml`:
+== Configuration location
 
-[source,yaml]
-----
-asciidoc:
-  processor: asciidoctor
-----
+There are two top level keys used for configuration of this plugin.
 
-IMPORTANT: The `asciidoc` block should only appear _once_ inside `_config.yml`.
-If you define any other options that are documented in this section, you should append them to the `asciidoc` block.
+`asciidoc`::
+The `asciidoc` key is used for configuration of the general relationship of Jekyll to this plugin, including the singular choice of Asciidoctor as the AsciiDoc processor.
+`asciidoctor`::
+The `asciidoctor` key is used for configuration of the Asciidoctor instance set up by this plugin.
 
-To tell Jekyll which file extensions to match as AsciiDoc files, append the `ext` option to the `asciidoc` block of your `_config.yml`:
+In addition, xref:global-page-attributes.adoc[] can be set under either the `asciidoc` key or the `asciidoctor` key.
+Through the xref:page-attributes.adoc[page attribute to page variable translation] this may result in global configuration of Jekyll page variables .
 
-[source,yaml]
-----
-asciidoc:
-  ext: asciidoc,adoc,ad
-----
-
-The extensions shown in the previous listing are the default values, so you don't need to specify this option if those defaults are sufficient.
-
-See xref:page-attributes.adoc[] for a discussion of the `page_attribute_prefix` key and page variables.
-
-All non-hidden AsciiDoc files are processed by default, including those without a front matter header.
-If you only want files containing a front matter header to be processed, add the `require_front_matter_header` option to the `asciidoc` block of your `_config.yml`:
-
-[source,yaml]
-----
-asciidoc:
-  require_front_matter_header: true
-----
+As with any YAML, these keys should appear at most once in your `_config.yml` file.
 

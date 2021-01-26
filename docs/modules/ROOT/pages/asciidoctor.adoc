@@ -1,105 +1,13 @@
-= Asciidoctor intrinsic and global attributes
+= Configuration under the `asciidoctor` key
 
-In addition to the built-in attributes in AsciiDoc, the following additional AsciiDoc attributes are automatically defined by this plugin and available to all AsciiDoc-based pages:
+The configuration under the `asciidoctor` key is all supplied to Asciidoctor.
+Top-level keys set xref:asciidoctor:api:options.adoc[options].
 
-....
-site-root=(absolute path of root directory)
-site-source=(absolute path of source directory)
-site-destination=(absolute path of output directory)
-site-baseurl=(value of the baseurl config option)
-site-url=(value of the url config option)
-env=site
-env-site
-site-gen=jekyll
-site-gen-jekyll
-builder=jekyll
-builder-jekyll
-jekyll-version=(value of the Jekyll::VERSION constant)
-idprefix
-idseparator=-
-linkattrs=@
-....
+In addition, xref:global-page-attributes.adoc[] can be set under the `asciidoctor` key.
 
-The following additional attributes are defined per page:
+The `base_dir` option has special handling in relation to Jekyll as explained xref:base-dir.adoc[here].
 
-....
-outpath=(path of page relative to baseurl)
-....
-
-You can pass custom attributes to AsciiDoc, or override default attributes provided by the plugin, using the `attributes` option of the `asciidoctor` block in your `_config.yml`.
-The value of this option can either be an Array containing key-value pairs:
-
-[source,yaml]
-----
-asciidoctor:
-  attributes:
-  - idprefix=_
-  - source-highlighter=pygments
-  - pygments-css=style
-----
-
-or key-value pairs defined as a Hash:
-
-[source,yaml]
-----
-asciidoctor:
-  attributes:
-    idprefix: _
-    source-highlighter: pygments
-    pygments-css: style
-----
-
-When using the Hash syntax, you must use an empty string value to set a valueless attribute such as `sectanchors`:
-
-[source,yaml]
-----
-asciidoctor:
-  attributes:
-    sectanchors: ''
-----
-
-By default, an attribute value defined in `_config.yml` overrides the same attribute set in the front matter or header of a document.
-For example, if you set `page-layout` in `_config.yml`, you won't be able to set it per page.
-
-[source,yaml]
-----
-asciidoctor:
-  attributes:
-  - page-layout=false
-----
-
-If you want to allow individual pages to be able to override the attribute, append the character `@` to the value in `_config.yml`:
-
-[source,yaml]
-----
-asciidoctor:
-  attributes:
-  - page-layout=false@
-----
-
-You may use attribute references in the attribute value to reference any attribute that's already defined, including implicit attributes.
-For example, to set the `iconsdir` attribute based on the `imagesdir` attribute, use the following:
-
-[source,yaml]
-----
-asciidoctor:
-  attributes:
-    imagesdir: /images
-    iconsdir: '{imagesdir}/icons'
-----
-
-CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash syntax, you must enclose the value in quotes.
-There are additional edge cases when the value must be enclosed in quotes, so it's generally recommended to use them.
-
-You can remove a previously defined attribute by prefixing the name with a minus sign (without any space between):
-
-[source,yaml]
-----
-asciidoctor:
-  attributes:
-    -idprefix:
-----
-
-In addition to `attributes`, you may define any other option key (e.g., `safe`) in the Asciidoctor xref:asciidoctor:api:options.adoc[].
-One of those options is `base_dir`, which is covered in the next section.
+The Asciidoctor `safe` option defaults to `safe` if not set.
+See xref:asciidoctor:api:set-safe-mode.adoc[here] for more information on the Asciidoctor safe option.
+Note that there is also a distinct Jekyll safe mode, dicussed xref:safe-mode.adoc[here].
 
