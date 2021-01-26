@@ -1,4 +1,4 @@
-= The jekyll-asciidoc Jekyll Site Generator Extension
+= Jekyll AsciiDoc Integration
 
 A plugin for {url-jekyll}[Jekyll] (>= 3.0.0) that converts {url-asciidoc}[AsciiDoc] source files in your site to HTML pages using {url-asciidoctor}[Asciidoctor].
 

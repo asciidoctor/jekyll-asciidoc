@@ -1,7 +1,6 @@
-name: jekyll-asciidoc
-title: Jekyll Asciidoc
+name: jekyll-integration
+title: Jekyll Integration
 version: 3.0
-start_page: index.adoc
 nav:
  - modules/ROOT/nav.adoc
 
