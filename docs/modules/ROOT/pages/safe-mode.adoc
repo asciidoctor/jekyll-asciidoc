@@ -18,3 +18,5 @@ or the `safe` configuration option in your site's `_config.yml` file:
 ----
 safe: true
 ----
+
+Note that Asciidoctor has an independent xref:asciidoctor:api:set-safe-mode.adoc[safe mode] that this plugin sets to 'safe' by default.

@@ -1,0 +1,43 @@
+= Configuration under the `asciidoc` key
+
+[cols=3,opts=headers]
+|===
+| Key
+| Default value
+| Description
+
+| processor
+| asciidoctor
+| The AsciiDoc processor used by this plugin.
+Currently, `asciidoctor` is the only choice.
+
+| ext
+| asciidoc,adoc,ad
+| Non-hidden source files with these extensions will be processed by this plugin.
+
+| require_front_matter_header
+| false
+| By default, all non hidden files with the specified extensions will be processed by this plugin.
+Set to `true` for this plugin to only process files with a front matter header.
+
+| page_attribute_prefix
+| page
+| The prefix to recognize which Asciidoctor page attributes should be provided as Jekyll page variables.
+The Jekyll variable name is constructed by removing the `page-attribute-prefix` and following `-`.
+See xref:page-attributes.adoc[] for a more complete discussion.
+|===
+
+In addition, xref:global-page-attributes.adoc[] can be set under the `asciidoc` key.
+
+As an example, a full configuration might look like this:
+
+[source,yaml]
+----
+asciidoc:
+  processor: asciidoctor
+  ext: adoc
+  require_front_matter_header: true
+  page_attribute_prefix: jekyll
+----
+
+

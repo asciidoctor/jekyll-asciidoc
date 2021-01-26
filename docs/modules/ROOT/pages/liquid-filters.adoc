@@ -76,7 +76,9 @@ If you change the attribute name from this example, be sure to update the it in 
 == Incorporating DocInfo content into layout templates
 
 The `asciidoc_docinfo` filter will insert the docinfo for a location into the template.
-The content may be from xref:asciidoctor::docinfo.adoc[docinfo files] or from xref:asciidoctor:extensions:processors/docinfo-processor.adoc[docinfo extensions].
+The content may be from xref:asciidoctor::docinfo.adoc[docinfo files] or from
+//xref:asciidoctor:extensions:processors/docinfo-processor.adoc[docinfo extensions].
+xref:asciidoctor:extensions:docinfo-processor.adoc[docinfo extensions].
 The Asciidoctor html5 converter supports three standard location names:
 
 `head`::

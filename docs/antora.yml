@@ -1,15 +1,12 @@
 name: jekyll-integration
 title: Jekyll Integration
-version: 3.0
+version: 3.1
+prerelease: -alpha.1
 nav:
  - modules/ROOT/nav.adoc
 
 asciidoc:
   attributes:
-   conum-guard: ' '
-#   conum-guard: { sp }
-      #    ifndef::icons[:conum-guard: { sp}#{ sp } ]
-#     URIs:
    url-repo: https://github.com/asciidoctor/jekyll-asciidoc
    url-issues: https://github.com/asciidoctor/jekyll-asciidoc/issues
    url-search-issues: https://github.com/asciidoctor/jekyll-asciidoc/search\?type=Issues
@@ -21,11 +18,7 @@ asciidoc:
    url-asciidoc: http://asciidoc.org
    url-asciidoctor: http://asciidoctor.org
    url-asciidoctor-backends: https://github.com/asciidoctor/asciidoctor-backends
-#   url-asciidoctor-docs: http://asciidoctor.org/docs
-   url-asciidoctor-diagram: url-asciidoctor-docs/asciidoctor-diagram
    url-asciidoctor-discuss: http://discuss.asciidoctor.org
-#   url-asciidoctor-manual: url-asciidoctor-docs/user-manual
-#   url-asciidoc-practices: url-asciidoctor-docs/asciidoc-recommended-practices
    url-jaq: https://github.com/asciidoctor/jekyll-asciidoc-quickstart
    url-jekyll: https://jekyllrb.com
    url-jekyll-discuss: https://talk.jekyllrb.com
