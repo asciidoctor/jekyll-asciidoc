@@ -8,5 +8,6 @@
 /pkg/
 /rdoc/
 /Gemfile.lock
+.nyc_output
 .idea
 *.iml
