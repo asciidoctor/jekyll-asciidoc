@@ -140,6 +140,10 @@ module Jekyll
         '.html'
       end
 
+      Jekyll::Hooks.register :excerpts, :pre_render do |excerpt, payload|
+        before_render excerpt, payload
+      end
+
       def self.before_render document, payload
         (get_instance document.site).before_render document, payload if Document === document || Excerpt === document
       end
