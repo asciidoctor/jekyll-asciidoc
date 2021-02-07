@@ -41,8 +41,7 @@ module Jekyll
       alias to_liquid data if Jekyll3_0
 
       def trigger_hooks hook_name, *args
-        #::Jekyll::Hooks.trigger collection.label.to_sym, hook_name, self, *args if collection
-        ::Jekyll::Hooks.trigger :documents, hook_name, self, *args
+        ::Jekyll::Hooks.trigger :excerpts, hook_name, self, *args
       end
     end
   end
