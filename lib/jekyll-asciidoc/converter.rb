@@ -103,6 +103,7 @@ module Jekyll
             if (imagesdir = attrs['imagesdir']) && !(attrs.key? 'imagesoutdir') && (imagesdir.start_with? '/')
               attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
             end
+            attrs[%(#{asciidoc_config['page_attribute_prefix']}published)] = '' if config['unpublished']
             asciidoctor_config.extend Configured
           end
         end
