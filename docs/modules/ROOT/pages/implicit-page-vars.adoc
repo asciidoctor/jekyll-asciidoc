@@ -1,5 +1,7 @@
 = Implicit Page Variables
 
+== Built-in implicit page variables
+
 In addition to page attributes defined explicitly (e.g., `page-layout`, `page-permalink`, etc), the following implicit AsciiDoc attributes are also promoted to page variables:
 
 [cols='1,1a',opts=header]
@@ -24,3 +26,58 @@ In addition to page attributes defined explicitly (e.g., `page-layout`, `page-pe
 |===
 
 Although not an implicit page attribute, another very common page attribute to set is `page-description`, which becomes `description` in the Jekyll page model.
+
+== Configured implicit page variables
+
+Under the `asciidoc` key in `_config.yml`, the `implicit_page_variables` key allows you to specify additional implicit page variables.
+The value may be specified as a single-line or multi-line array, or as a comma separated string.
+The specified page attributes are directly promoted to Jekyll page variables.
+A `page-` page attribute value overides a configured implicit page variable.
+For instance, these configurations are equivalent:
+
+[source,yml]
+----
+asciidoc:
+  implicit_page_variables:
+    - surprising
+    - un-expected
+    - when
+----
+
+[source,yml]
+----
+asciidoc:
+  implicit_page_variables: [surprising, un-expected, when]
+----
+
+[source,yml]
+----
+asciidoc:
+  implicit_page_variables: surprising, un-expected, when
+----
+
+Given a page:
+
+[source,adoc]
+----
+= Implicit Page Variables
+:surprising: It is surprising that
+:un-expected: an unexpected event could occur
+:when: when programming Ruby.
+:page-when: when writing in AsciiDoc.
+:not-implicit: Surprise!
+----
+
+and a layout containing the liquid template expression
+
+[source,html]
+----
+<p class="ipv">{{ page.surprising }} {{ page.un-expected }}{{ page.not-implicit }} {{ page.when }}</p>
+----
+
+the generated page will contain
+
+[source,html]
+----
+<p class="ipv">It is surprising that an unexpected event could occur when writing in AsciiDoc.</p>
+----

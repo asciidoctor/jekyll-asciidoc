@@ -1,4 +1,3 @@
 plugins:
 - jekyll-asciidoc
 - jekyll-mentions
-source: ..

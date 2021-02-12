@@ -1,0 +1,8 @@
+= Implicit Page Variables
+:surprising: It is surprising that
+:un-expected: an unexpected event could occur
+:when: when programming Ruby.
+:page-when: when writing in AsciiDoc.
+:not-implicit: Surprise!
+
+Lorem ipsum.
