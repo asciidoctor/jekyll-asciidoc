@@ -1,0 +1,8 @@
+plugins:
+  - jekyll-asciidoc
+
+asciidoc:
+  implicit_page_variables:
+    - surprising
+    - un-expected
+    - when

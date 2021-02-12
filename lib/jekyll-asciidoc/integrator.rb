@@ -66,6 +66,13 @@ module Jekyll
               %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
         end
 
+        implicit_vars = document.site.config['asciidoc']['implicit_page_variables']
+        implicit_vars = (implicit_vars.split ',').collect(&:strip) if ::String === implicit_vars
+        implicit_vars&.each do |implicit_var|
+          val = doc.attributes[implicit_var]
+          data[implicit_var] = ::String === val ? (parse_yaml_value val) : val if val
+        end
+
         page_attr_prefix = document.site.config['asciidoc']['page_attribute_prefix']
         no_prefix = (prefix_size = page_attr_prefix.length) == 0
         adoc_data = doc.attributes.each_with_object({}) do |(key, val), accum|
