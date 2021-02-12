@@ -2,27 +2,82 @@
 
 In addition to the built-in attributes in AsciiDoc, the following additional AsciiDoc attributes are automatically defined by this plugin and available to all AsciiDoc-based pages:
 
-....
-site-root=(absolute path of root directory)
-site-source=(absolute path of source directory)
-site-destination=(absolute path of output directory)
-site-baseurl=(value of the baseurl config option)
-site-url=(value of the url config option)
-env=site
-env-site
-site-gen=jekyll
-site-gen-jekyll
-builder=jekyll
-builder-jekyll
-jekyll-version=(value of the Jekyll::VERSION constant)
-idprefix
-idseparator=-
-linkattrs=@
-....
+== Global attributes
 
-The following additional attributes are defined per page:
+[cols=2*,opts=header]
+|===
+| Attribute
+| Value
 
-....
-outpath=(path of page relative to baseurl)
-....
+| `site-root`
+| absolute path of root directory
+
+| `site-source`
+| absolute path of source directory
+
+| `site-destination`
+| absolute path of output directory
+
+|`site-baseurl`
+| value of the baseurl config option
+
+| `site-url`
+| value of the url config option
+
+| `env`
+| `site`
+
+| `env-site`
+| (set)
+
+| `site-gen`
+| `jekyll`
+
+| `site-gen-jekyll`
+| (set)
+
+| `builder`
+| `jekyll`
+
+| `builder-jekyll`
+| (set)
+
+| `jekyll-version`
+| value of the Jekyll::VERSION constant
+
+| `idprefix`
+| (empty string)
+
+| `idseparator`
+| `-`
+
+| `linkattrs`
+| `@`
+|===
+
+== Per-page attributes
+
+[cols=2*,opts=header]
+|===
+| Attribute
+| Value
+
+| `outpath`
+| path of page relative to baseurl
+|===
+
+== Jekyll configuration promoted to AsciiDoc page attributes:
+
+[cols=4*,opts=header]
+|===
+| Jekyll key
+| Value
+| AsciiDoc page attribute
+| Value
+
+| `unpublished`
+| (set)
+| `page-published`
+| `true`
+|===
 

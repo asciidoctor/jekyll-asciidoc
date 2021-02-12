@@ -1,6 +1,6 @@
 = Configuration under the `asciidoc` key
 
-[cols=3,opts=headers]
+[cols=3,opts=header]
 |===
 | Key
 | Default value
