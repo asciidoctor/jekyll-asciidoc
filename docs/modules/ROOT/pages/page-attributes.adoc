@@ -12,6 +12,21 @@ For example, here's how you can assign a value to the `page.header.image` page v
 :page-header: { image: logo.png }
 ----
 
+For longer expressions that are inconvenient to write on one line, line continuations may be used:
+[source,asciidoc]
+----
+:page-complex-object: { data: \
+  { detail: \
+    {subdetail: \
+      [ item1, \
+       item2] \
+    } \
+  } \
+}
+
+----
+Note that this is still in yaml single-line syntax.
+
 To define a page attribute name that contains multiple words, use either a hyphen or underscore character to connect the words.
 
 [source,asciidoc]
