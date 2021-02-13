@@ -66,18 +66,32 @@ module Jekyll
               %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
         end
 
+        # key => [original, stringified]
+        merged_attributes = document.site.config['asciidoctor'][:merged_attributes]
+
         implicit_vars = document.site.config['asciidoc']['implicit_page_variables']
         implicit_vars = (implicit_vars.split ',').collect(&:strip) if ::String === implicit_vars
         implicit_vars&.each do |implicit_var|
-          val = doc.attributes[implicit_var]
-          data[implicit_var] = ::String === val ? (parse_yaml_value val) : val if val
+          if doc.attributes.key? implicit_var
+            val = ::String === (val = doc.attributes[implicit_var]) ?
+                                        (parse_and_deep_merge merged_attributes[implicit_var], val) : val
+          else
+            val = merged_attributes[implicit_var]
+          end
+          data[implicit_var] = val if val
         end
 
         page_attr_prefix = document.site.config['asciidoc']['page_attribute_prefix']
         no_prefix = (prefix_size = page_attr_prefix.length) == 0
         adoc_data = doc.attributes.each_with_object({}) do |(key, val), accum|
-          if no_prefix || ((key.start_with? page_attr_prefix) && (key = key[prefix_size..-1]))
-            accum[key] = ::String === val ? (parse_yaml_value val) : val
+          if (short_key = shorten key, page_attr_prefix, no_prefix, prefix_size)
+            accum[short_key || key] = ::String === val ?
+              (parse_and_deep_merge merged_attributes[key], val) : val
+          end
+        end
+        merged_attributes.each do |(key, val)|
+          if (short_key = shorten key, page_attr_prefix, no_prefix, prefix_size)
+            adoc_data[short_key] = val unless adoc_data.key? short_key
           end
         end
         data.update adoc_data unless adoc_data.empty?
@@ -156,6 +170,33 @@ module Jekyll
             ::SafeYAML.load %(--- \'#{val}\')
           end
         end
+      end
+
+      def parse_and_deep_merge old, new
+        return (parse_yaml_value new) unless old
+
+        if old == new
+          parse_yaml_value old
+        else
+          deep_merge parse_yaml_value(old), parse_yaml_value(new)
+        end
+      end
+
+      # Simple deep merge implementation that only merges hashes.
+      def deep_merge old, new
+        return new unless old
+        return old unless new
+
+        old.merge new do |_, oldval, newval|
+          (::Hash === oldval) && (::Hash === newval) ?
+            deep_merge(oldval, newval) : newval
+        end
+      end
+
+      # Is there a way to make this a closure so only the key is passed?
+      def shorten key, prefix, no_prefix, prefix_size
+        key if no_prefix
+        (key.start_with? prefix) && (key[prefix_size..-1])
       end
     end
   end

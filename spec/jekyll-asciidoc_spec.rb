@@ -277,13 +277,20 @@ describe 'Jekyll::AsciiDoc' do
 
     it 'should assign numeric value as string if value is numeric' do
       result = converter.send :compile_attributes, 'count' => 1
-      (expect result['count']).to eql'1'
+      (expect result['count']).to eql '1'
     end
 
-    it 'should pass through Date value to attribute if value is Date' do
-      date = ::Date.parse '2016-01-01'
+    # it 'should pass through Date value to attribute if value is Date' do
+    #   date = ::Date.parse '2016-01-01'
+    #   result = converter.send :compile_attributes, 'localdate' => date
+    #   (expect result['localdate']).to eql date
+    # end
+
+    it 'should convert Date object to json value to attribute if value is Date' do
+      date_string = '2016-01-01'
+      date = ::Date.parse date_string
       result = converter.send :compile_attributes, 'localdate' => date
-      (expect result['localdate']).to eql date
+      (expect result['localdate']).to eql %("#{date_string}")
     end
   end
 
@@ -1388,6 +1395,51 @@ describe 'Jekyll::AsciiDoc' do
     it 'should publish pages regardless of published page variable if unpublished site config is set' do
       file = output_file 'not-published.html'
       (expect ::File).to exist file
+    end
+  end
+
+  describe 'merged_attributes' do
+    use_fixture :merged_attributes
+
+    before :each do
+      site.process
+    end
+
+    it 'should merge yaml properly' do
+      file = output_file 'merge.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      header = (contents.match %r/<header>.*<\/header>/m)[0]
+      (expect header).to include '<p>one-value-override</p>'
+      (expect header).to include '<p>d</p>'
+      (expect header).to include '<p>e</p>'
+      (expect header).to include '<p>221-value-override</p>'
+      (expect header).to include '<p>222-value</p>'
+      (expect header).to include '<p>231-value</p>'
+      (expect header).to include '<p>three-value</p>'
+      # This verifies the example in the doc works as advertised:
+      (expect header).to include '{"foo1"=>"not bar!", "foo2"=>{"bar1"=>["z"], "bar2"=>"baz"}}'
+      # implicit page variables
+      (expect header).to include '{"one"=>["c", "d"]}'
+      (expect header).to include '{"one"=>["e", "f"]}'
+    end
+
+    it 'configured value should be present with no overrides' do
+      file = output_file 'no-merge.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      header = (contents.match %r/<header>.*<\/header>/m)[0]
+      (expect header).to include '<p>one-value</p>'
+      (expect header).to include '<p>a</p>'
+      (expect header).to include '<p>b</p>'
+      (expect header).to include '<p>c</p>'
+      (expect header).to include '<p>221-value</p>'
+      (expect header).to include '<p>222-value</p>'
+      (expect header).to include '<p>231-value</p>'
+      (expect header).to include '<p>three-value</p>'
+      # implicit page variables
+      (expect header).to include '{"one"=>["a", "b"]}'
+      (expect header).to include '{"one"=>["a", "b"]}'
     end
   end
 end

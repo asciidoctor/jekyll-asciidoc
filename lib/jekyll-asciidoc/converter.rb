@@ -100,6 +100,15 @@ module Jekyll
             attrs = asciidoctor_config[:attributes] = compile_attributes asciidoctor_config[:attributes],
                 (compile_attributes asciidoc_config['attributes'],
                     ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes))
+            merged_attributes = asciidoctor_config[:merged_attributes] || []
+            merged_attributes = (merged_attributes.split ',').collect(&:strip) if ::String === merged_attributes
+            merged_attributes.each_with_object(asciidoctor_config[:merged_attributes] = {}) do |key, m_attr|
+              next unless (attrs.key? key) && !(val = attrs[key]).nil?
+
+              attrs.delete key
+              attrs[key + '@'] = val
+              m_attr[key] = val
+            end
             if (imagesdir = attrs['imagesdir']) && !(attrs.key? 'imagesoutdir') && (imagesdir.start_with? '/')
               attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
             end
@@ -291,7 +300,7 @@ module Jekyll
                 # false already has special meaning for page-layout, so don't coerce it
                 new_attrs[key] = key == 'page-layout' ? val : nil
               else
-                new_attrs[key] = val
+                new_attrs[key] = resolve_attribute_refs ::JSON.dump(val), new_attrs
               end
             end
           end
