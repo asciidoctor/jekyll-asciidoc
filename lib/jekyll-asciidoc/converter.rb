@@ -104,6 +104,7 @@ module Jekyll
               attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
             end
             attrs[%(#{asciidoc_config['page_attribute_prefix']}published)] = '' if config['unpublished']
+            asciidoctor_config[:merge_attributes] = {} unless asciidoctor_config[:merge_attributes]
             asciidoctor_config.extend Configured
           end
         end

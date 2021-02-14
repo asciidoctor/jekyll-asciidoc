@@ -10,15 +10,16 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/master[
 * Convert documentation from README.adoc to an Antora component in the Asciidoctor docs site. (#238)
 * Minimum asciidoctor version 2.0, ruby 2.4, jruby 9.2.7.
 Earlier ruby versions don't seem to be supported on CI infrastructure. (#237)
-* Explain liquid include interactions (docs) (#223)
+* Explain liquid include interactions (docs). (#223)
 * Explain asciidoctor-diagram data-uri and svg options (docs).
-Based on (#217)
+Based on (#217).
 * Provide asciidoc_docinfo liquid filter to allow including docinfo content in layouts. (#164)
 * Correct excerpt hook handling so excerpts can be used with other Jekyll plugins. (#230)
 * Enhance test setup to allow multiple `_config.yml` files per fixture.
 * Switch to GitHub Actions based CI: drop travis and appveyor. (#240)
-* Implement `implicit_page_variables` asciidoc key support (#207)
-* Support Jekyll `unpublished` key overrriding AsciiDoc `page-published` attribute (#257)
+* Implement `implicit_page_variables` asciidoc key support. (#207)
+* Support Jekyll `unpublished` key overrriding AsciiDoc `page-published` attribute. (#257)
+* Document existing behavior around yaml page attributes and implement a way to merge config and page attributes for page variables. (#158)
 
 == 3.0.0.beta.2 (2019-06-03) - @mojavelinux
 
