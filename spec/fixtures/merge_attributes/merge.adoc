@@ -16,3 +16,11 @@
 :page-implicit2: {one: [e,f]}
 
 Ludicrous content!
+
+{page-attr}
+
+{page-complex}
+
+{implicit1}
+
+{implicit2}

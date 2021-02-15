@@ -7,7 +7,7 @@ asciidoc:
     - implicit2
 
 asciidoctor:
-  merge_attributes:
+  attributes:
     page-attr:
       one: one-value
       two:
@@ -36,3 +36,8 @@ asciidoctor:
       one:
         - a
         - b
+  merge_attributes:
+    - page-attr
+    - page-complex
+    - implicit1
+    - implicit2

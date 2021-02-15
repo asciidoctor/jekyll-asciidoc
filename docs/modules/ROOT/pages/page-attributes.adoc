@@ -32,8 +32,9 @@ Note that this is still in yaml single-line syntax.
 
 If an attribute that becomes a page variable is defined both in `_config.yml` and the page header, one value or the other is used, depending on the xref:global-page-attributes.adoc#global-attribute-override-behavior[override setting] on the global value.
 For values that parse to complex objects it can be useful to merge global and page objects.
-Specify such objects under the `asciidoctor.merge_attributes` key in `_config.yml`.
-The object value provided there will be deep-merged with any value provided in a page header to generate the Jekyll page variable value.
+Specify the names of these attributes under the `asciidoctor.merge_attributes` key in `_config.yml` as a yaml array or comma-separated string.
+The object value of each named attribute will be deep-merged with any value provided in a page header to generate the Jekyll page variable value.
+The attributes named in the merge_attributes key are not provided to the page.
 The deep-merge only takes account of hash keys; unlike some deep-merge implementations array values are simply replaced.
 Also, there is no way to remove a key, although it can be set to nil.
 
@@ -42,7 +43,7 @@ For instance:
 [source,yaml]
 ----
 asciidoctor:
-  merge_attributes:
+  attributes:
     page-complex:
       foo1: bar
       foo2:
@@ -50,6 +51,8 @@ asciidoctor:
           - x
           - y
         bar2: baz
+  merge_attributes:
+    - page-complex
 ----
 
 [source,adoc]
