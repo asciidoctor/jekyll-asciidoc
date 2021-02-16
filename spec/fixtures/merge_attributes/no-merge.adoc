@@ -1,0 +1,11 @@
+= Page with merge_attributes, no overrides
+
+Ludicrous content!
+
+{page-attr}
+
+{page-complex}
+
+{implicit1}
+
+{implicit2}

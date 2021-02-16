@@ -1,0 +1,43 @@
+plugins:
+- jekyll-asciidoc
+
+asciidoc:
+  implicit_page_variables:
+    - implicit1
+    - implicit2
+
+asciidoctor:
+  attributes:
+    page-attr:
+      one: one-value
+      two:
+        two-sub-one:
+          - a
+          - b
+          - c
+        two-sub-two:
+          two-sub-two-sub-one: 221-value
+          two-sub-two-sub-two: 222-value
+        two-sub-three:
+          two-sub-three-sub-one: 231-value
+      three: three-value
+    page-complex:
+      foo1: bar
+      foo2:
+        bar1:
+          - x
+          - y
+        bar2: baz
+    implicit1:
+      one:
+        - a
+        - b
+    implicit2:
+      one:
+        - a
+        - b
+  merge_attributes:
+    - page-attr
+    - page-complex
+    - implicit1
+    - implicit2

@@ -1,0 +1,26 @@
+= Page with merge_attributes and overrides
+:page-attr: {one: one-value-override, \
+  two: { \
+    two-sub-one: \
+      [d, e], \
+    two-sub-two: \
+      { two-sub-two-sub-one: 221-value-override } \
+  } \
+}
+:page-complex: {foo1: not bar!, \
+  foo2: { \
+    bar1: [z] \
+}}
+:implicit1: {one: [c,d]}
+:implicit2: {one: [c,d]}
+:page-implicit2: {one: [e,f]}
+
+Ludicrous content!
+
+{page-attr}
+
+{page-complex}
+
+{implicit1}
+
+{implicit2}
