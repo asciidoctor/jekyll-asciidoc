@@ -66,6 +66,7 @@ module Jekyll
               %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
         end
 
+        # key => [original, stringified]
         merge_attributes = document.site.config['asciidoctor'][:merge_attributes]
 
         implicit_vars = document.site.config['asciidoc']['implicit_page_variables']
@@ -73,7 +74,7 @@ module Jekyll
         implicit_vars&.each do |implicit_var|
           if doc.attributes.key? implicit_var
             val = ::String === (val = doc.attributes[implicit_var]) ?
-                                        (deep_merge merge_attributes[implicit_var], (parse_yaml_value val)) : val
+                                        (parse_and_deep_merge merge_attributes[implicit_var], val) : val
           else
             val = merge_attributes[implicit_var]
           end
@@ -85,7 +86,7 @@ module Jekyll
         adoc_data = doc.attributes.each_with_object({}) do |(key, val), accum|
           if (short_key = shorten key, page_attr_prefix, no_prefix, prefix_size)
             accum[short_key || key] = ::String === val ?
-              (deep_merge merge_attributes[key], (parse_yaml_value val)) : val
+              (parse_and_deep_merge merge_attributes[key], val) : val
           end
         end
         merge_attributes.each do |(key, val)|
@@ -168,6 +169,16 @@ module Jekyll
             val = val.gsub '\'', '\'\'' if val.include? '\''
             ::SafeYAML.load %(--- \'#{val}\')
           end
+        end
+      end
+
+      def parse_and_deep_merge old_info, new
+        return (parse_yaml_value new) unless old_info
+
+        if old_info[1] == new
+          old_info[0]
+        else
+          deep_merge old_info[0], (parse_yaml_value new)
         end
       end
 
