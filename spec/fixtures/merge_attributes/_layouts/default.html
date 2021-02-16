@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ page.title }}</title>
+</head>
+<body>
+<article class="merge-attributes">
+<header>
+    <p>{{ page.attr.one }}</p>
+    <p>{{ page.attr.two.two-sub-one[0]}}</p>
+    <p>{{ page.attr.two.two-sub-one[1]}}</p>
+    <p>{{ page.attr.two.two-sub-one[2]}}</p>
+    <p>{{ page.attr.two.two-sub-two.two-sub-two-sub-one}}</p>
+    <p>{{ page.attr.two.two-sub-two.two-sub-two-sub-two}}</p>
+    <p>{{ page.attr.two.two-sub-three.two-sub-three-sub-one}}</p>
+    <p>{{ page.attr.three }}</p>
+    <p>{{ page.complex }}</p>
+    <p>{{ page.implicit1 }}</p>
+    <p>{{ page.implicit2 }}</p>
+</header>
+<div class="post-content">
+{{ content }}
+</div>
+</article>
+<footer>
+<p>Footer for merge_attributes layout.</p>
+</footer>
+</body>
+</html>

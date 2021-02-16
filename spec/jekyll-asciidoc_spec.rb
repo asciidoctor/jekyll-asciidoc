@@ -1390,4 +1390,49 @@ describe 'Jekyll::AsciiDoc' do
       (expect ::File).to exist file
     end
   end
+
+  describe 'merge_attributes' do
+    use_fixture :merge_attributes
+
+    before :each do
+      site.process
+    end
+
+    it 'should merge yaml properly' do
+      file = output_file 'merge.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      header = (contents.match %r/<header>.*<\/header>/m)[0]
+      (expect header).to include '<p>one-value-override</p>'
+      (expect header).to include '<p>d</p>'
+      (expect header).to include '<p>e</p>'
+      (expect header).to include '<p>221-value-override</p>'
+      (expect header).to include '<p>222-value</p>'
+      (expect header).to include '<p>231-value</p>'
+      (expect header).to include '<p>three-value</p>'
+      # This verifies the example in the doc works as advertised:
+      (expect header).to include '{"foo1"=>"not bar!", "foo2"=>{"bar1"=>["z"], "bar2"=>"baz"}}'
+      # implicit page variables
+      (expect header).to include '{"one"=>["c", "d"]}'
+      (expect header).to include '{"one"=>["e", "f"]}'
+    end
+
+    it 'configured value should be present with no overrides' do
+      file = output_file 'no-merge.html'
+      (expect ::File).to exist file
+      contents = ::File.read file
+      header = (contents.match %r/<header>.*<\/header>/m)[0]
+      (expect header).to include '<p>one-value</p>'
+      (expect header).to include '<p>a</p>'
+      (expect header).to include '<p>b</p>'
+      (expect header).to include '<p>c</p>'
+      (expect header).to include '<p>221-value</p>'
+      (expect header).to include '<p>222-value</p>'
+      (expect header).to include '<p>231-value</p>'
+      (expect header).to include '<p>three-value</p>'
+      # implicit page variables
+      (expect header).to include '{"one"=>["a", "b"]}'
+      (expect header).to include '{"one"=>["a", "b"]}'
+    end
+  end
 end

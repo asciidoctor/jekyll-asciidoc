@@ -2,7 +2,8 @@
 
 Any AsciiDoc attribute defined globally or in the AsciiDoc document header whose name begins with `page-` (<<customizing-the-page-prefix, cf this>>) gets promoted to a {url-jekyll-variables}[page variable].
 The part of the name after the `page-` prefix is lowercased and used as the variable name (e.g., page-LayOut becomes layout).
-The variable value is the {url-yaml}[YAML] data (single-line form) translation of the attribute string value.
+Since such a global attribute set in `_config.yml` is already parsed as yaml, its value as a page variable is already naturally a Ruby object.
+For attributes set in the document header, the variable value is the {url-yaml}[YAML] data (single-line form) translation of the attribute string value.
 
 Since the Asciidoc string attribute value is processed into YAML data as a page variable, you can build nested data structure using the inline YAML syntax.
 For example, here's how you can assign a value to the `page.header.image` page variable:
@@ -26,6 +27,51 @@ For longer expressions that are inconvenient to write on one line, line continua
 
 ----
 Note that this is still in yaml single-line syntax.
+
+== Merging attribute values
+
+If an attribute that becomes a page variable is defined both in `_config.yml` and the page header, one value or the other is used, depending on the xref:global-page-attributes.adoc#global-attribute-override-behavior[override setting] on the global value.
+For values that parse to complex objects it can be useful to merge global and page objects.
+Specify the names of these attributes under the `asciidoctor.merge_attributes` key in `_config.yml` as a yaml array or comma-separated string.
+The object value of each named attribute will be deep-merged with any value provided in a page header to generate the Jekyll page variable value.
+The attributes named in the merge_attributes key are not provided to the page.
+The deep-merge only takes account of hash keys; unlike some deep-merge implementations array values are simply replaced.
+Also, there is no way to remove a key, although it can be set to nil.
+
+For instance:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    page-complex:
+      foo1: bar
+      foo2:
+        bar1:
+          - x
+          - y
+        bar2: baz
+  merge_attributes:
+    - page-complex
+----
+
+[source,adoc]
+----
+= merge_attributes demo
+:page-complex: {foo1: not bar!, \
+  foo2: { \
+    bar1: [z] \
+}}
+----
+
+yields (Ruby object `.to_s` representation)
+
+[source,yaml]
+----
+{"foo1"=>"not bar!", "foo2"=>{"bar1"=>["z"], "bar2"=>"baz"}}
+----
+
+== Tips and tricks
 
 To define a page attribute name that contains multiple words, use either a hyphen or underscore character to connect the words.
 

@@ -39,6 +39,8 @@ asciidoctor:
     sectanchors: ''
 ----
 
+== Global attribute override behavior
+
 By default, an attribute value defined in `_config.yml` overrides the same attribute set in the front matter or header of a document.
 For example, if you set `page-layout` in `_config.yml`, you won't be able to set it per page.
 

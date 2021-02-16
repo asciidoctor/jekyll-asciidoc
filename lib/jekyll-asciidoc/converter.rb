@@ -100,6 +100,11 @@ module Jekyll
             attrs = asciidoctor_config[:attributes] = compile_attributes asciidoctor_config[:attributes],
                 (compile_attributes asciidoc_config['attributes'],
                     ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes))
+            merge_attributes = asciidoctor_config[:merge_attributes] || []
+            merge_attributes = (merge_attributes.split ',').collect(&:strip) if ::String === merge_attributes
+            merge_attributes.each_with_object(asciidoctor_config[:merge_attributes] = {}) do |key, m_attr|
+              m_attr[key] = attrs.delete key
+            end
             if (imagesdir = attrs['imagesdir']) && !(attrs.key? 'imagesoutdir') && (imagesdir.start_with? '/')
               attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
             end
