@@ -94,6 +94,8 @@ asciidoctor:
 
 == Yaml expressions as global attribute values
 
+=== Default, deprecated behavior, or with `asciidoctor.enable_attribute_value_coercion` false
+
 Jekyll parses the entire `_config.yml` file as yaml, so by default any attribute values that happen to be yaml expressions will be converted to objects.
 The object will be rendered using the Ruby `.to_s` method.
 To preserve the original string, quote the value:
@@ -110,7 +112,7 @@ asciidoctor:
 ----
 <1> Unquoted value will render as `{"key1"=>"foo", "key2"=>"bar"}`, the string representation of the Ruby object.
 <2> Quoted value can be used as a string valued Asciidoc page attribute, rendering as the original string, `{key1: foo, key2: bar}`.
-If it is also used in liquid templates, the yaml will be parsed to an object before being made available to the liquid template.
+This cannot be used as an object in liquid templates.
 <3> Multi-line attributes cannot be defined in an AsciiDoc document, but this shows a way to set a global multi-line valued attribute. This will be rendered as:
 
 ....
@@ -119,3 +121,19 @@ key2: bar
 ....
 
 Note that all leading spaces are removed.
+The original string value will be supplied to liquid templates.
+
+=== New, recommended, behavior with `asciidoctor.enable_attribute_value_coercion` true
+
+Jekyll parses the entire `_config.yml` file as yaml, so by default any attribute values that happen to be yaml expressions will be converted to objects.
+Before setting the Asciidoctor page attribute value, the object will be converted back to a single-line yaml or json string.
+As with page attributes set in the document header, the value will be converted back to an object page variable for use in liquid templates.
+
+[source,yaml]
+----
+asciidoctor:
+  enable_attribute_value_coercion: true
+  attributes:
+    page-yaml: {key1: foo, key2: bar} # <1>
+----
+<1> The value will render as `{"key1": "foo", "key2": "bar"}`, the json/single line yaml string representation of the Ruby object.

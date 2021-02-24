@@ -97,10 +97,13 @@ module Jekyll
               'site-baseurl' => config['baseurl'],
               'site-url' => config['url'],
             }
+            enable_attribute_value_coercion = asciidoctor_config[:enable_attribute_value_coercion]
             attrs = asciidoctor_config[:attributes] = compile_attributes asciidoctor_config[:attributes],
                 (compile_attributes asciidoc_config['attributes'],
-                    ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes))
-            merged_attributes = asciidoctor_config[:merged_attributes] || []
+                    ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes),
+                    enable_attribute_value_coercion),
+                enable_attribute_value_coercion
+            merged_attributes = (enable_attribute_value_coercion && asciidoctor_config[:merged_attributes]) || []
             merged_attributes = (merged_attributes.split ',').collect(&:strip) if ::String === merged_attributes
             merged_attributes.each_with_object(asciidoctor_config[:merged_attributes] = {}) do |key, m_attr|
               next unless (attrs.key? key) && !(val = attrs[key]).nil?
@@ -276,7 +279,7 @@ module Jekyll
         hash.each_with_object({}) {|(key, val), accum| accum[key.to_sym] = val }
       end
 
-      def compile_attributes attrs, initial = {}
+      def compile_attributes attrs, initial = {}, enable_attribute_value_coercion = false
         if (is_array = ::Array === attrs) || ::Hash === attrs
           attrs.each_with_object(initial) do |entry, new_attrs|
             key, val = is_array ? (((entry.split '=', 2) + ['', '']).slice 0, 2) : entry
@@ -300,7 +303,9 @@ module Jekyll
                 # false already has special meaning for page-layout, so don't coerce it
                 new_attrs[key] = key == 'page-layout' ? val : nil
               else
-                new_attrs[key] = resolve_attribute_refs ::JSON.dump(val), new_attrs
+                new_attrs[key] = enable_attribute_value_coercion ?
+                                   (resolve_attribute_refs ::JSON.dump(val), new_attrs) :
+                                   val
               end
             end
           end

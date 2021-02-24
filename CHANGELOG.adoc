@@ -19,7 +19,9 @@ Based on (#217).
 * Switch to GitHub Actions based CI: drop travis and appveyor. (#240)
 * Implement `implicit_page_variables` asciidoc key support. (#207)
 * Support Jekyll `unpublished` key overrriding AsciiDoc `page-published` attribute. (#257)
-* Document existing behavior around yaml page attributes and implement a way to merge config and page attributes for page variables. (#158)
+* Document existing behavior around yaml page attributes and implement a way to merge config and page attributes for page variables.
+Merging requires a backwards incompatible change for object-valued page attributes from `_config.yml`; control this behavior with an `enable_attribute_value_coercion` option (false by default).
+The existing behavior is now deprecated and will be removed in version 4. (#158)
 
 == 3.0.0.beta.2 (2019-06-03) - @mojavelinux
 
