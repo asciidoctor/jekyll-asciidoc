@@ -280,16 +280,18 @@ describe 'Jekyll::AsciiDoc' do
       (expect result['count']).to eql '1'
     end
 
-    # it 'should pass through Date value to attribute if value is Date' do
-    #   date = ::Date.parse '2016-01-01'
-    #   result = converter.send :compile_attributes, 'localdate' => date
-    #   (expect result['localdate']).to eql date
-    # end
+    #Remove for v4
+    it 'should pass through Date value to attribute if value is Date' do
+      date = ::Date.parse '2016-01-01'
+      result = converter.send :compile_attributes, 'localdate' => date
+      (expect result['localdate']).to eql date
+    end
 
+    #Remove flag for v4
     it 'should convert Date object to json value to attribute if value is Date' do
       date_string = '2016-01-01'
       date = ::Date.parse date_string
-      result = converter.send :compile_attributes, 'localdate' => date
+      result = converter.send :compile_attributes, { 'localdate' => date }, {}, true
       (expect result['localdate']).to eql %("#{date_string}")
     end
   end

@@ -30,6 +30,8 @@ Note that this is still in yaml single-line syntax.
 
 == Merging attribute values
 
+NOTE: Until version 4, this behavior is enabled only with the `asciidoctor.enable_attribute_value_coercion` option set to true.
+
 If an attribute that becomes a page variable is defined both in `_config.yml` and the page header, one value or the other is used, depending on the xref:global-page-attributes.adoc#global-attribute-override-behavior[override setting] on the global value.
 For values that parse to complex objects it can be useful to merge global and page objects.
 Specify the names of these attributes under the `asciidoctor.merged_attributes` key in `_config.yml` as a yaml array or comma-separated string.
