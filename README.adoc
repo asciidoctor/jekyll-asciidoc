@@ -1341,13 +1341,13 @@ or in the site configuration:
 ----
 asciidoctor:
   attributes:
-  - icons=font
+    icons: font
   ...
 ----
 
 ==== Circled Callout Numbers
 
-Circled callout numbers are also linked to the `icons=font` setting, even though they don't rely on the Font Awesome font.
+Circled callout numbers are also linked to the `icons: font` setting, even though they don't rely on the Font Awesome font.
 To enable them, you need to add the following additional CSS to the [.path]_css/asciidoc.css_ file:
 
 [source,css]
