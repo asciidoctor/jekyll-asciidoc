@@ -410,7 +410,8 @@ To include the drafts when building the site, pass the `--drafts` flag to the `j
 
 The date of each draft post will be based on the file's last modification time.
 
-When you're ready to publish the post, move the file from the [.path]_{empty}_drafts_ folder to the [.path]_{empty}_posts_ folder and assign a date to it either by adding it to the filename or by defining the `revdate` attribute in the AsciiDoc header.
+When you're ready to publish the post, move the file from the [.path]_{empty}_drafts_ folder to the [.path]_{empty}_posts_ folder and add a date prefix to the filename in the form `YYYY-mm-dd-` (e.g., `2021-06-26-`).
+You can further refine this date, such as to specify the time and time zone, by defining the `revdate` attribute in the AsciiDoc header.
 
 === Enabling Liquid Preprocessing
 
