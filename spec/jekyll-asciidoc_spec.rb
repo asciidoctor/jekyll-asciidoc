@@ -520,7 +520,7 @@ describe 'Jekyll::AsciiDoc' do
       (expect contents).to include '<p>Liquid Enabled</p>'
     end
 
-    it 'should not publish a page if the published page variable is set in the AsciiDoc header' do
+    it 'should not publish a page if the published page variable is set to false in AsciiDoc header' do
       file = output_file 'not-published.html'
       (expect ::File).not_to exist file
     end
