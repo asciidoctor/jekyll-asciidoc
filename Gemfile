@@ -22,4 +22,4 @@ group :lint do
   gem 'rubocop', '~> 1.57.0', require: false
   gem 'rubocop-rake', '~> 0.6.0', require: false
   gem 'rubocop-rspec', '~> 2.25.0', require: false
-end
+end unless (Gem::Version.new RUBY_VERSION) < (Gem::Version.new '2.6.0')
