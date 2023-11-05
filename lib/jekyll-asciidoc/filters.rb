@@ -14,7 +14,7 @@ module Jekyll
       # @return [String] the converted result as an HTML-formatted String.
       def asciidocify input, doctype = nil
         (@context.registers[:cached_asciidoc_converter] ||= (Converter.get_instance @context.registers[:site]))
-          .convert(doctype ? %(:doctype: #{doctype}#{Utils::NewLine}#{input}) : (input || ''))
+          .convert doctype ? %(:doctype: #{doctype}#{Utils::NewLine}#{input}) : (input || '')
       end
 
       # A Liquid filter for generating an HTML table of contents from a parsed AsciiDoc document.

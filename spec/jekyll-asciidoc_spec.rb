@@ -2,7 +2,7 @@
 
 describe 'Jekyll::AsciiDoc' do
   let :config do
-    Jekyll.configuration fixture_site_params(name, config_path)
+    Jekyll.configuration (fixture_site_params name, config_path)
   end
 
   let :site do
@@ -39,7 +39,7 @@ describe 'Jekyll::AsciiDoc' do
 
     it 'should use .html as output extension' do
       (expect converter).not_to be_nil
-      (expect converter.output_ext '.adoc').to eql('.html')
+      (expect converter.output_ext '.adoc').to eql '.html'
     end
 
     it 'should mark configuration as configured to prevent duplicate initialization' do
@@ -575,7 +575,7 @@ describe 'Jekyll::AsciiDoc' do
       file = output_file 'nil-layout.html'
       (expect File).to exist file
       contents = File.read file
-      (expect contents).to include(%(div class="paragraph">\n<p>Lorem ipsum.</p>\n</div>))
+      (expect contents).to include %(div class="paragraph">\n<p>Lorem ipsum.</p>\n</div>)
     end
 
     it 'should convert an empty page attribute value to empty string' do
@@ -1384,7 +1384,7 @@ describe 'Jekyll::AsciiDoc' do
       contents = File.read file
       head = (contents.match %r/<head>.*<\/head>/m)[0]
       (expect head).to include '<div>this is the head</div>'
-      (expect (header_loc = contents.index '<header>this is the header</header>')).to be > contents.index(head)
+      (expect (header_loc = contents.index '<header>this is the header</header>')).to be > (contents.index head)
       (expect (custom_loc = contents.index '<div class="custom">this is custom</div>')).to be > header_loc
       (expect contents.index '<footer>this is the footer</footer>').to be > custom_loc
     end

@@ -85,7 +85,7 @@ module Jekyll
 
         page_attr_prefix = document.site.config['asciidoc']['page_attribute_prefix']
         no_prefix = (prefix_size = page_attr_prefix.length) == 0
-        adoc_data = doc.attributes.each_with_object({}) do |(key, val), accum|
+        adoc_data = doc.attributes.each_with_object ::Hash.new do |(key, val), accum| # rubocop:disable Style/EmptyLiteral
           if (short_key = shorten key, page_attr_prefix, no_prefix, prefix_size)
             accum[short_key || key] = ::String === val ?
               (parse_and_deep_merge merged_attributes[key], val) : val
@@ -175,12 +175,12 @@ module Jekyll
       end
 
       def parse_and_deep_merge old, new
-        return (parse_yaml_value new) unless old
+        return parse_yaml_value new unless old
 
         if old == new
           parse_yaml_value old
         else
-          deep_merge parse_yaml_value(old), parse_yaml_value(new)
+          deep_merge (parse_yaml_value old), (parse_yaml_value new)
         end
       end
 
@@ -190,8 +190,7 @@ module Jekyll
         return old unless new
 
         old.merge new do |_, oldval, newval|
-          (::Hash === oldval) && (::Hash === newval) ?
-            deep_merge(oldval, newval) : newval
+          (::Hash === oldval) && (::Hash === newval) ? (deep_merge oldval, newval) : newval
         end
       end
 

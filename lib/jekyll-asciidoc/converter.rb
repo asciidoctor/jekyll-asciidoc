@@ -108,7 +108,7 @@ module Jekyll
               enable_attribute_value_coercion
             merged_attributes = (enable_attribute_value_coercion && asciidoctor_config[:merged_attributes]) || []
             merged_attributes = (merged_attributes.split ',').collect(&:strip) if ::String === merged_attributes
-            merged_attributes.each_with_object(asciidoctor_config[:merged_attributes] = {}) do |key, m_attr|
+            merged_attributes.each_with_object (asciidoctor_config[:merged_attributes] = {}) do |key, m_attr|
               next unless (attrs.key? key) && !(val = attrs[key]).nil?
 
               attrs.delete key
@@ -241,7 +241,7 @@ module Jekyll
           if (doctype = data['doctype'])
             opts[:doctype] = doctype
           end
-          (data['document'] = ::Asciidoctor.load content, opts).extend(Liquidable).convert
+          ((data['document'] = ::Asciidoctor.load content, opts).extend Liquidable).convert
         else
           @logger.warn MessageTopic,
             %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
@@ -307,8 +307,7 @@ module Jekyll
                 new_attrs[key] = key == 'page-layout' ? val : nil
               else
                 new_attrs[key] = enable_attribute_value_coercion ?
-                                   (resolve_attribute_refs ::JSON.dump(val), new_attrs) :
-                                   val
+                  (resolve_attribute_refs (::JSON.dump val), new_attrs) : val
               end
             end
           end
