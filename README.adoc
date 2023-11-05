@@ -10,7 +10,7 @@ ifdef::env-github,env-browser[]
 :toclevels: 1
 endif::[]
 ifdef::env-github[]
-:branch: master
+:branch: main
 :status:
 :outfilesuffix: .adoc
 :!toc-title:
@@ -62,9 +62,11 @@ endif::[]
 
 A plugin for {url-jekyll}[Jekyll] (>= 3.0.0) that converts {url-asciidoc}[AsciiDoc] source files in your site to HTML pages using {url-asciidoctor}[Asciidoctor].
 
-ifeval::['{branch}' == 'master']
+ifeval::['{branch}' == 'main']
 NOTE: You're viewing the documentation for the upcoming release.
 If you're looking for the documentation for an older release, please refer to one of the following branches: +
+{url-repo}/tree/v3.0.x#readme[3.0.x]
+&hybull;
 {url-repo}/tree/v2.1.x#readme[2.1.x]
 &hybull;
 {url-repo}/tree/v2.0.x#readme[2.0.x]
