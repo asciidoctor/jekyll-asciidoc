@@ -1149,17 +1149,14 @@ describe 'Jekyll::AsciiDoc' do
       (Jekyll.configuration fixture_site_params name).merge 'source' => (File.join (source_dir name), 'source')
     end
 
-    let :old_pwd do
-      Dir.pwd
+    let :new_pwd do
+      source_dir name
     end
 
     before do
-      Dir.chdir source_dir name
-      site.process
-    end
-
-    after do
-      Dir.chdir old_pwd
+      Dir.chdir new_pwd do
+        site.process
+      end
     end
 
     it 'should not set base_dir if base_dir config key has no value' do
@@ -1172,7 +1169,7 @@ describe 'Jekyll::AsciiDoc' do
       (expect File).to exist out_file
       contents = File.read out_file
       (expect contents).to include 'Doc Writer'
-      (expect contents).to include %(docdir=#{Dir.pwd})
+      (expect contents).to include %(docdir=#{new_pwd})
       (expect contents).to include %(docfile=#{src_file})
       (expect contents).to include %(outfile=#{out_file})
       (expect contents).to include %(outdir=#{File.dirname out_file})
