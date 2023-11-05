@@ -1106,14 +1106,14 @@ describe 'Jekyll::AsciiDoc' do
       (::Jekyll.configuration fixture_site_params name).merge('source' => (::File.join (source_dir name), 'source'))
     end
 
-    before :each do
-      @old_pwd = ::Dir.pwd
-      ::Dir.chdir source_dir name
-      site.process
+    let :new_pwd do
+      source_dir name
     end
 
-    after :each do
-      ::Dir.chdir @old_pwd
+    before :each do
+      ::Dir.chdir source_dir name do
+        site.process
+      end
     end
 
     it 'should not set base_dir if base_dir config key has no value' do
