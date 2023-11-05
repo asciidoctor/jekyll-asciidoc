@@ -15,14 +15,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        ruby: ['2.4', '3.2']
+        ruby: ['2.4', '2.7', '3.2']
         exclude:
         # remove entry to mark as primary
         - os: ubuntu-latest
-          ruby: '3.2'
+          ruby: '2.7'
         include:
         - os: ubuntu-latest
-          ruby: '3.2'
+          ruby: '2.7'
           primary: primary
     runs-on: ${{ matrix.os }}
     env:
