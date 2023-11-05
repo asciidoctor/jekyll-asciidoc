@@ -10,6 +10,8 @@ Layout/AlignParameters:
   IndentationWidth: 4
 Layout/IndentFirstArgument:
   Enabled: false
+Layout/IndentHeredoc:
+  Enabled: false
 Layout/LeadingCommentSpace:
   Enabled: false
 Layout/MultilineOperationIndentation:
@@ -39,6 +41,8 @@ Metrics/PerceivedComplexity:
 Naming/ConstantName:
   Enabled: false
 Naming/FileName:
+  Enabled: false
+Naming/HeredocDelimiterNaming:
   Enabled: false
 Naming/PredicateName:
   NameWhitelist:
@@ -80,8 +84,12 @@ Style/PercentLiteralDelimiters:
     '%r': //
 Style/PerlBackrefs:
   Enabled: false
+Style/RegexpLiteral:
+  Enabled: false
 Style/RescueStandardError:
   EnforcedStyle: implicit
+Style/SpecialGlobalVars:
+  Enabled: false
 Style/SymbolArray:
   EnforcedStyle: brackets
 # I'd like to enable this one, but rubocop gets confused
