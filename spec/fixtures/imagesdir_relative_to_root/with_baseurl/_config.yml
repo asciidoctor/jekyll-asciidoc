@@ -1,0 +1,6 @@
+plugins:
+- jekyll-asciidoc
+baseurl: /projectname
+asciidoctor:
+  attributes:
+    imagesdir: /images@
