@@ -8,7 +8,7 @@ begin
       $VERBOSE || ENV['COVERAGE'] ? '-w' : nil,
       ENV['CI'] && ENV['COVERAGE'] ? '-fd' : '-fp',
       ENV['GITHUB_RUN_ID'] ? %(--seed #{ENV['GITHUB_RUN_ID']}) : %(--seed #{Random.rand 1000}),
-    ].compact
+    ].compact.join ' '
   end
 rescue LoadError
   warn $!.message
