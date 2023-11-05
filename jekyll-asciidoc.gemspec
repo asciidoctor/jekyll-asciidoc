@@ -35,11 +35,9 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'asciidoctor', '~> 2.0'
   s.add_runtime_dependency 'jekyll', '>= 3.0.0'
 
-  s.add_development_dependency 'deep-cover-core', '~> 1.1.0'
   s.add_development_dependency 'jekyll-mentions', '~> 1.6.0'
   s.add_development_dependency 'kramdown-parser-gfm', '~> 1.1.0'
   s.add_development_dependency 'pygments.rb', '~> 2.1.0'
   s.add_development_dependency 'rake', '~> 12.3.2'
   s.add_development_dependency 'rspec', '~> 3.8.0'
-  s.add_development_dependency 'simplecov', '~> 0.17.0'
 end
