@@ -2,7 +2,7 @@ require:
 - rubocop-rake
 - rubocop-rspec
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 2.7
 Capybara:
   Enabled: false
 FactoryBot:
