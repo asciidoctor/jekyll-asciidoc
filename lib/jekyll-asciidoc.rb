@@ -7,7 +7,6 @@ module Jekyll
     Jekyll3_1 = !Jekyll3_0 && ((::Gem::Requirement.new '~> 3.1.0').satisfied_by? jekyll_gem_version)
   end
 end
-require_relative 'jekyll-asciidoc/core_ext'
 require_relative 'jekyll-asciidoc/jekyll_ext'
 require_relative 'jekyll-asciidoc/utils'
 require_relative 'jekyll-asciidoc/mixins'
