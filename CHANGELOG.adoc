@@ -5,6 +5,14 @@
 This document provides a high-level view of the changes to the {project-name} by release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/master[commit history] on GitHub.
 
+== Unreleased
+
+_No changes since previous release._
+
+== 3.0.0 (2019-08-31) - @mojavelinux
+
+_No changes since previous release._
+
 == 3.0.0.beta.2 (2019-06-03) - @mojavelinux
 
 * allow site-wide AsciiDoc attributes to also be defined on `asciidoc` key in site configuration (#126)
