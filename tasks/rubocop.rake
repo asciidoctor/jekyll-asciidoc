@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 begin
   require 'rubocop/rake_task'
-  RuboCop::RakeTask.new :lint
+  RuboCop::RakeTask.new :lint do |t|
+    t.patterns = Dir['lib/**/*.rb'] + %w(Rakefile Gemfile tasks/*.rake spec/**/*.rb)
+  end
 rescue LoadError => e
   task :lint do
     raise 'Failed to load lint task.

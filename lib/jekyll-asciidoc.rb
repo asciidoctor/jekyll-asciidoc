@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module AsciiDoc
     jekyll_gem_version = ::Gem::Version.new ::Jekyll::VERSION

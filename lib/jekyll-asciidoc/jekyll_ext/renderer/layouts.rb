@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   class Renderer
     # NOTE fixes "warning: instance variable @layouts not initialized"

@@ -41,6 +41,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pygments.rb', '~> 2.1.0'
   s.add_development_dependency 'rake', '~> 12.3.2'
   s.add_development_dependency 'rspec', '~> 3.8.0'
-  s.add_development_dependency 'rubocop', '~> 0.74.0'
   s.add_development_dependency 'simplecov', '~> 0.17.0'
 end

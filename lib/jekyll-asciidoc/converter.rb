@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module AsciiDoc
     class Converter < ::Jekyll::Converter
@@ -32,6 +34,7 @@ module Jekyll
       highlighter_suffix nil
 
       def initialize config
+        super
         @config = config
         @logger = ::Jekyll.logger
         @page_context = {}
@@ -41,7 +44,7 @@ module Jekyll
         unless Configured === (asciidoc_config = (config['asciidoc'] ||= {}))
           if ::String === asciidoc_config
             @logger.warn MessageTopic,
-                'The AsciiDoc configuration should be defined using Hash on asciidoc key instead of discrete entries.'
+              'The AsciiDoc configuration should be defined using Hash on asciidoc key instead of discrete entries.'
             asciidoc_config = config['asciidoc'] = { 'processor' => asciidoc_config }
           else
             asciidoc_config['processor'] ||= 'asciidoctor'
@@ -53,11 +56,11 @@ module Jekyll
           old_page_attr_prefix_val = config.delete 'asciidoc_page_attribute_prefix'
           unless (page_attr_prefix = asciidoc_config['page_attribute_prefix'])
             page_attr_prefix = old_page_attr_prefix_def ? old_page_attr_prefix_val || '' :
-                (asciidoc_config.key? 'page_attribute_prefix') ? '' : DefaultPageAttributePrefix
+              (asciidoc_config.key? 'page_attribute_prefix') ? '' : DefaultPageAttributePrefix
           end
           asciidoc_config['page_attribute_prefix'] = (page_attr_prefix = page_attr_prefix.chomp '-').empty? ?
               '' : %(#{page_attr_prefix}-)
-          asciidoc_config['require_front_matter_header'] = !!asciidoc_config['require_front_matter_header']
+          asciidoc_config['require_front_matter_header'] = asciidoc_config['require_front_matter_header'] ? true : false
           asciidoc_config.extend Configured
 
           if asciidoc_config['require_front_matter_header']
@@ -70,13 +73,13 @@ module Jekyll
           else
             ::Jekyll::Utils.extend (::Module.new do
               define_method :has_yaml_header?,
-                  (Utils.method :has_front_matter?).curry[Utils.method :has_yaml_header?][asciidoc_ext_re]
+                (Utils.method :has_front_matter?).curry[Utils.method :has_yaml_header?][asciidoc_ext_re]
             end)
           end
         end
 
         if (@asciidoc_config = asciidoc_config)['processor'] == 'asciidoctor'
-          unless Configured === (@asciidoctor_config = (config['asciidoctor'] ||= {}))
+          unless Configured === (@asciidoctor_config = (config['asciidoctor'] ||= {})) # rubocop:disable Style/SoleNestedConditional
             asciidoctor_config = @asciidoctor_config
             asciidoctor_config.replace symbolize_keys asciidoctor_config
             source = ::File.expand_path config['source']
@@ -99,10 +102,10 @@ module Jekyll
             }
             enable_attribute_value_coercion = asciidoctor_config[:enable_attribute_value_coercion]
             attrs = asciidoctor_config[:attributes] = compile_attributes asciidoctor_config[:attributes],
-                (compile_attributes asciidoc_config['attributes'],
-                    ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes),
-                    enable_attribute_value_coercion),
-                enable_attribute_value_coercion
+              (compile_attributes asciidoc_config['attributes'],
+                ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes),
+                enable_attribute_value_coercion),
+              enable_attribute_value_coercion
             merged_attributes = (enable_attribute_value_coercion && asciidoctor_config[:merged_attributes]) || []
             merged_attributes = (merged_attributes.split ',').collect(&:strip) if ::String === merged_attributes
             merged_attributes.each_with_object(asciidoctor_config[:merged_attributes] = {}) do |key, m_attr|
@@ -181,7 +184,7 @@ module Jekyll
           'docdir' => (::File.dirname docfile),
           'docname' => (::File.basename docfile, (::File.extname docfile)),
         }
-        paths.update(
+        (paths.update \
           'outfile' => (outfile = document.destination document.site.dest),
           'outdir' => (::File.dirname outfile),
           'outpath' => document.url
@@ -213,7 +216,7 @@ module Jekyll
           doc = ::Asciidoctor.load header, opts
         else
           @logger.warn MessageTopic,
-              %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.)
+            %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Cannot load document header.)
           doc = nil
         end
         clear_paths
@@ -241,7 +244,7 @@ module Jekyll
           (data['document'] = ::Asciidoctor.load content, opts).extend(Liquidable).convert
         else
           @logger.warn MessageTopic,
-              %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
+            %(Unknown AsciiDoc processor: #{@asciidoc_config['processor']}. Passing through unparsed content.)
           content
         end
       end
@@ -276,12 +279,12 @@ module Jekyll
       end
 
       def symbolize_keys hash
-        hash.each_with_object({}) {|(key, val), accum| accum[key.to_sym] = val }
+        hash.transform_keys {|k| k.to_sym }
       end
 
       def compile_attributes attrs, initial = {}, enable_attribute_value_coercion = false
         if (is_array = ::Array === attrs) || ::Hash === attrs
-          attrs.each_with_object(initial) do |entry, new_attrs|
+          attrs.each_with_object initial do |entry, new_attrs|
             key, val = is_array ? (((entry.split '=', 2) + ['', '']).slice 0, 2) : entry
             if key.start_with? '!'
               new_attrs[key.slice 1, key.length] = nil
@@ -315,14 +318,12 @@ module Jekyll
       end
 
       def resolve_attribute_refs text, attrs
-        if text.empty?
+        if text.empty? || !(text.include? '{')
           text
-        elsif text.include? '{'
+        else
           text.gsub AttributeReferenceRx do
             ($&.start_with? '\\') ? ($&.slice 1, $&.length) : ((attrs.fetch $1, $&).to_s.chomp '@')
           end
-        else
-          text
         end
       end
 

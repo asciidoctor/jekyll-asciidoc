@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module AsciiDoc
     # Promotes eligible AsciiDoc attributes to page variables and applies page-level settings to all documents handled
@@ -63,7 +65,7 @@ module Jekyll
         data['author'] = doc.author if doc.author
         if collection_name && (doc.attr? 'revdate')
           data['date'] = ::Jekyll::Utils.parse_date doc.revdate,
-              %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
+            %(Document '#{document.relative_path}' does not have a valid revdate in the AsciiDoc header.)
         end
 
         # key => [original, stringified]
@@ -74,7 +76,7 @@ module Jekyll
         implicit_vars&.each do |implicit_var|
           if doc.attributes.key? implicit_var
             val = ::String === (val = doc.attributes[implicit_var]) ?
-                                        (parse_and_deep_merge merged_attributes[implicit_var], val) : val
+              (parse_and_deep_merge merged_attributes[implicit_var], val) : val
           else
             val = merged_attributes[implicit_var]
           end
@@ -90,8 +92,8 @@ module Jekyll
           end
         end
         merged_attributes.each do |(key, val)|
-          if (short_key = shorten key, page_attr_prefix, no_prefix, prefix_size)
-            adoc_data[short_key] = val unless adoc_data.key? short_key
+          if (short_key = shorten key, page_attr_prefix, no_prefix, prefix_size) && !(adoc_data.key? short_key)
+            adoc_data[short_key] = val
           end
         end
         data.update adoc_data unless adoc_data.empty?
@@ -166,8 +168,8 @@ module Jekyll
           begin
             ::SafeYAML.load %(--- #{val})
           rescue ::StandardError, ::SyntaxError
-            val = val.gsub '\'', '\'\'' if val.include? '\''
-            ::SafeYAML.load %(--- \'#{val}\')
+            val = val.gsub ?', '\'\'' if val.include? ?'
+            ::SafeYAML.load %(--- '#{val}')
           end
         end
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gemspec
@@ -9,4 +11,10 @@ gem 'tzinfo-data', platform: [:x64_mingw, :mingw], require: false
 
 group :docs do
   gem 'yard', require: false
+end
+
+group :lint do
+  gem 'rubocop', '~> 1.57.0', require: false
+  gem 'rubocop-rake', '~> 0.6.0', require: false
+  gem 'rubocop-rspec', '~> 2.25.0', require: false
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   class Site
     # Introduce complement to {::Jekyll::Site#find_converter_instance} for generators.

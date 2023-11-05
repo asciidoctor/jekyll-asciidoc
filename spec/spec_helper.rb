@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if ENV['COVERAGE'] == 'deep'
   ENV['DEEP_COVER'] = 'true'
   require 'deep_cover'
@@ -13,12 +15,12 @@ Jekyll.logger.log_level = :error
 
 RSpec.configure do |config|
   config.before :suite do
-    ::FileUtils.rm_rf output_dir
+    FileUtils.rm_rf output_dir
     if ENV['JEKYLL_VERSION'] == '3.0.0'
       plugins_rx = /([*&])?plugins(:)?/
       plugins_to_gems_sub = '\1gems\2'
       Dir[%(#{fixtures_dir}/**/_config.yml)].each do |filename|
-        ::File.write filename, ((::File.read filename).gsub plugins_rx, plugins_to_gems_sub)
+        File.write filename, ((File.read filename).gsub plugins_rx, plugins_to_gems_sub)
       end
     end
   end
@@ -28,15 +30,15 @@ RSpec.configure do |config|
       gems_rx = /([*&])?gems(:)?/
       gems_to_plugins_sub = '\1plugins\2'
       Dir[%(#{fixtures_dir}/**/_config.yml)].each do |filename|
-        ::File.write filename, ((::File.read filename).gsub gems_rx, gems_to_plugins_sub)
+        File.write filename, ((File.read filename).gsub gems_rx, gems_to_plugins_sub)
       end
     else
       Dir[%(#{fixtures_dir}/**/.jekyll-cache)].each {|dirname| FileUtils.rm_rf dirname }
     end
   end
 
-  config.before :each do
-    (expect ::File.exist? source_dir(::File.join(name.to_s, config_path.to_s, '_config.yml'))).to be_truthy
+  config.before do
+    (expect File.exist? source_dir(File.join(name.to_s, config_path.to_s, '_config.yml'))).to be_truthy
   end
 
   def use_fixture name, config_path = ''
@@ -49,29 +51,29 @@ RSpec.configure do |config|
       'source' => (source_dir path),
       'destination' => (output_dir path),
       'url' => 'http://example.org',
-      config_path && 'config' => ::File.join((source_dir path), config_path, '_config.yml'),
+      config_path && 'config' => File.join((source_dir path), config_path, '_config.yml'),
     }
   end
 
   def source_dir path
-    ::File.join fixtures_dir, path
+    File.join fixtures_dir, path
   end
 
   def source_file path
-    ::File.join site.config['source'], path
+    File.join site.config['source'], path
   end
 
   def fixtures_dir
-    ::File.absolute_path 'fixtures', __dir__
+    File.absolute_path 'fixtures', __dir__
   end
 
   def output_dir path = nil
-    base = ::File.absolute_path '../build/test-output', __dir__
-    path ? (::File.join base, path) : base
+    base = File.absolute_path '../build/test-output', __dir__
+    path ? (File.join base, path) : base
   end
 
   def output_file path
-    ::File.join site.config['destination'], path
+    File.join site.config['destination'], path
   end
 
   def find_page path
@@ -94,6 +96,6 @@ RSpec.configure do |config|
   end
 
   def windows?
-    /win|ming/ =~ ::RbConfig::CONFIG['host_os']
+    /win|ming/ =~ RbConfig::CONFIG['host_os']
   end
 end
