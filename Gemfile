@@ -9,7 +9,7 @@ gem 'tzinfo-data', platform: [:x64_mingw, :mingw], require: false
 
 group :coverage do
   gem 'deep-cover-core', '~> 1.1.0', require: false
-  gem 'simplecov', '~> 0.17.0', require: false
+  gem 'simplecov', '~> 0.18.0', require: false
 end
 
 group :docs do
