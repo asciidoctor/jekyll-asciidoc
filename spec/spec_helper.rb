@@ -51,7 +51,7 @@ RSpec.configure do |config|
       'source' => (source_dir path),
       'destination' => (output_dir path),
       'url' => 'http://example.org',
-      config_path && 'config' => File.join((source_dir path), config_path, '_config.yml'),
+      config_path && 'config' => (File.join (source_dir path), config_path, '_config.yml'),
     }
   end
 
