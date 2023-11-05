@@ -1,10 +1,10 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths-ignore: ['*.adoc', 'docs/**']
   pull_request:
-    branches: [main]
+    branches: [master]
     paths-ignore: ['*.adoc', 'docs/**']
   #schedule:
   #- cron: '30 2 * * MON'
