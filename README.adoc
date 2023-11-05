@@ -329,7 +329,7 @@ If, instead, you want the document title to be included in the body, add the fol
 ----
 asciidoctor:
   attributes:
-  - showtitle=@
+    showtitle: '@'
 ----
 
 It's also possible to enable or override this setting per page.
@@ -620,18 +620,7 @@ outpath=(path of page relative to baseurl)
 ....
 
 You can pass custom attributes to AsciiDoc, or override default attributes provided by the plugin, using the `attributes` option of the `asciidoctor` block in your `_config.yml`.
-The value of this option can either be an Array containing key-value pairs:
-
-[source,yaml]
-----
-asciidoctor:
-  attributes:
-  - idprefix=_
-  - source-highlighter=pygments
-  - pygments-css=style
-----
-
-or key-value pairs defined as a Hash:
+The value of this option can either be a Hash of key-value pairs:
 
 [source,yaml]
 ----
@@ -642,7 +631,32 @@ asciidoctor:
     pygments-css: style
 ----
 
-When using the Hash syntax, you must use an empty string value to set a valueless attribute such as `sectanchors`:
+or an Array containing key-value pairs:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - idprefix=_
+  - source-highlighter=pygments
+  - pygments-css=style
+----
+
+When using the Hash syntax, you may find that you need to enclose the value in single quotes for it to be accepted as valid YAML.
+
+NOTE: The examples elsewhere in this README use the Hash syntax, though you can use the Array syntax if you prefer.
+YAML does not allow the syntax forms to be mixed, so pick one and stick with it.
+
+When using the Array syntax, you can set a valueless attribute by using the name along, such as `sectanchors`:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+  - sectanchors
+----
+
+When using the Hash syntax, you must use an empty string value to indicate that you want to set the attribute:
 
 [source,yaml]
 ----
@@ -658,7 +672,7 @@ For example, if you set `page-layout` in `_config.yml`, you won't be able to set
 ----
 asciidoctor:
   attributes:
-  - page-layout=false
+    page-layout: false
 ----
 
 If you want to allow individual pages to be able to override the attribute, append the charcter `@` to the value in `_config.yml`:
@@ -667,7 +681,7 @@ If you want to allow individual pages to be able to override the attribute, appe
 ----
 asciidoctor:
   attributes:
-  - page-layout=false@
+    page-layout: false@
 ----
 
 You may use attribute references in the attribute value to reference any attribute that's already defined, including implicit attributes.
@@ -682,7 +696,7 @@ asciidoctor:
 ----
 
 CAUTION: If the value begins with an attribute reference, and you're defining the attributes using the Hash syntax, you must enclose the value in quotes.
-There are additional edge cases when the value must be enclosed in quotes, so it's generally recommended to use them.
+There are other cases when the value must be enclosed in quotes, so it's generally recommended to use them.
 
 Since version 2.1.0 of this plugin, you can remove a previously defined attribute by prefixing the name with a minus sign (without any space between):
 
@@ -746,7 +760,7 @@ If you also assign a YAML reference to this key, you can then pass that Hash to 
 [source,yaml]
 ----
 asciidoc_attributes: &asciidoc_attributes
-  imagesdir=/images
+  imagesdir: /images
 asciidoctor:
   attributes: *asciidoc_attributes
   ...
@@ -771,7 +785,7 @@ If you want to enable this behavior for AsciiDoc files, add the `hardbreaks` att
 ----
 asciidoctor:
   attributes:
-  - hardbreaks
+    hardbreaks: ''
 ----
 
 If you still want to allow individual files to be able to override the attribute, append the charcter `@` to the value in the site configuration:
@@ -780,7 +794,7 @@ If you still want to allow individual files to be able to override the attribute
 ----
 asciidoctor:
   attributes:
-  - hardbreaks=@
+    hardbreaks: '@'
 ----
 
 If you already have AsciiDoc attributes defined in the `_config.yml`, the new attribute should be added as a sibling entry in the YAML collection.
@@ -1171,7 +1185,7 @@ Alternatively, you can enable it the `stem` attribute globally for all AsciiDoc 
 ----
 asciidoctor:
   attributes:
-  - stem
+    stem: ''
 ----
 
 To learn more about the built-in STEM integration, see the https://asciidoctor.org/docs/user-manual/#activating-stem-support[STEM] chapter in the Asciidoctor User Manual.
@@ -1342,8 +1356,8 @@ or in the site configuration:
 ----
 asciidoctor:
   attributes:
-  - icons=font
-  ...
+    icons: font
+    ...
 ----
 
 ==== Circled Callout Numbers
@@ -1408,8 +1422,8 @@ or your site configuration:
 ----
 asciidoctor:
   attributes:
-  - icons
-  - iconsdir=/images/icons
+    icons: ''
+    iconsdir: /images/icons
 ----
 
 Then, simply put the icon images that the page needs in the [.path]_images/icons_ directory.
