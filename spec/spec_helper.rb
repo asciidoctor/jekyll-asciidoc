@@ -35,6 +35,10 @@ RSpec.configure do |config|
     end
   end
 
+  config.before :each do
+    (expect ::File.exist? (source_dir (::File.join name.to_s, '_config.yml'))).to be_truthy
+  end
+
   def use_fixture name
     let (:name) { name.to_s }
   end
