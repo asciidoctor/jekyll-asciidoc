@@ -1278,7 +1278,7 @@ You'll need to add a line to your template to link to this stylesheet (assuming 
 
 To disable this feature, either set the `pygments-css` to `style` (to enable inline styles) or unset the `pygments-stylesheet` attribute in your site's {path-config}.
 
-NOTE: It may still be necessary to make some tweaks to your site's stylesheet to accomodate this integration.
+NOTE: It may still be necessary to make some tweaks to your site's stylesheet to accommodate this integration.
 
 === Font-based Admonition and Inline Icons
 
