@@ -446,6 +446,16 @@ If you're using the Liquid include tag to include HTML into the AsciiDoc documen
 This is necessary since AsciiDoc will escape HTML by default.
 To pass it through raw requires enclosing it in a passthrough block.
 
+=== Preventing Liquid Processing on AsciiDoc Includes
+
+The Liquid preprocessor does not process content included using the AsciiDoc include directive.
+However, if those files are otherwise publishable, they are processed independently by Jekyll with the Liquid preprocessor and will appear in your site.
+If this is not the behavior you want, you can exclude them from being processed independently using one of the following techniques:
+
+* Place them in an automatically excluded location, such as a directory starting with `_` (e.g. [.path]___includes__).
+* Name them in such a way that they are automatically excluded, such as starting the name with `_` ([.path]___excluded-include.yml__).
+* Adding them to the https://jekyllrb.com/docs/configuration/options/[excludes] key in the Jekyll configuration.
+
 === Extracting Excerpts
 
 This plugin will extract an excerpt for any post or document in a collection if the `excerpt` page variable isn't set using the same logic as for Markdown files.
