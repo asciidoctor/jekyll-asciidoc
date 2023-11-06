@@ -16,7 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         ruby: ['2.4', '2.7', '3.2']
-        pygments-version: ~
+        pygments-version: [~]
         exclude:
         # remove entry to mark as primary
         - os: ubuntu-latest
