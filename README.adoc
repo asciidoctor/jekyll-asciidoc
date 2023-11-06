@@ -1281,6 +1281,15 @@ This plugin will automatically generate a stylesheet for Pygments into the sourc
 * `pygments-stylesheet` is not unset (if set, it can have any value)
 
 By default, the stylesheet is written to `stylesdir` + `pygments-stylesheet`.
+If you want the stylesheet to be written to the [.path]_css_ directory, add the following configuration to your site's `_config.yml` file:
+
+[source,yaml]
+----
+asciidoctor:
+  attributes:
+    stylesdir: css
+----
+
 If the `pygments-stylesheet` attribute is not specified, the value defaults to `asciidoc-pygments.css`.
 You can customize this value to your liking.
 
@@ -1290,7 +1299,7 @@ If this attribute is not set, it defaults to `vs`.
 The stylesheet file will be created if it does not yet exist or the theme has been changed.
 Jekyll will handle copying the file to the output directory.
 
-You'll need to add a line to your template to link to this stylesheet, such as:
+You'll need to add a line to your template to link to this stylesheet (assuming `stylesdir=css`), such as:
 
 [source,html]
 ----
