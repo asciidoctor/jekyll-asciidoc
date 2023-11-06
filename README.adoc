@@ -1238,10 +1238,8 @@ To do so, add the `pygments.rb` gem to your [.path]_Gemfile_:
 
 [source,ruby]
 ----
-gem 'pygments.rb', '~> 1.1.2'
+gem 'pygments.rb', '~> 2.3.0'
 ----
-
-IMPORTANT: To use Pygments with Ruby >= 2.4 or JRuby, you must install pygments.rb >= 1.1.0.
 
 As part of this integration, Asciidoctor generates a custom stylesheet tailored specially to work with the HTML that Asciidocotor produces.
 Since this stylesheet is backed by the Pygments API, it provides access to all the themes in Pygments
