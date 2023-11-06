@@ -7,6 +7,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/master[
 
 == Unreleased
 
+* clear `:base_dir` option if value is `:docdir` and paths with docdir information is not available (such as to `asciidocify` filter) (#270)
 * convert documentation from README.adoc to an Antora component in the Asciidoctor docs site. (#238)
 * bump requirements: Asciidoctor 2.0, Ruby 2.7, JRuby 9.4 (#237)
 * explain Liquid include interactions in docs (#223)

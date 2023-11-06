@@ -5,6 +5,9 @@
 </head>
 <body>
 <div class="page-content">
+{% if page.asciidocifyme %}
+<p>{{ page.asciidocifyme | asciidocify 'inline' }}</p>
+{% endif %}
 {{ content }}
 </div>
 </body>

@@ -11,8 +11,9 @@
 <ul class="posts">
 {% for post in site.posts %}
 <li>
-<a href="{{ post.url }}">{{ post.title }}</a>
-{% if post.excerpt != '' %}<div class="excerpt">{{ post.excerpt }}</div>{% endif %}
+<a href="{{ post.url }}">{{ post.title }}</a>{% if post.synopsis %}
+<div class="synopsis">{{ post.synopsis | asciidocify: 'inline' }}</div>{% endif %}{% if post.excerpt != '' %}
+<div class="excerpt">{{ post.excerpt }}</div>{% endif %}
 </li>
 {% endfor %}
 </ul>
