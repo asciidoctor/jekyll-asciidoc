@@ -1268,7 +1268,7 @@ To do so, add the `pygments.rb` gem to your [.path]_Gemfile_:
 
 [source,ruby]
 ----
-gem 'pygments.rb', '~> 2.1.0'
+gem 'pygments.rb', '~> 2.4.0'
 ----
 
 As part of this integration, Asciidoctor generates a custom stylesheet tailored specially to work with the HTML that Asciidoctor produces.
