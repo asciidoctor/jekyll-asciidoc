@@ -5,10 +5,14 @@
 This document provides a high-level view of the changes to the {project-name} by release.
 For a detailed view of what has changed, refer to the {url-repo}/commits/master[commit history] on GitHub.
 
-== Unreleased
+== 3.0.1 (2023-11-06) - @mojavelinux
 
 * clear `:base_dir` option if value is `:docdir` and paths with docdir information is not available (such as to `asciidocify` filter) (#270)
 * prepend baseurl to value of imagesdir if imagesdir value is root-relative (#177)
+
+=== Details
+
+{url-repo}/releases/tag/v3.0.1[git tag] | {url-repo}/compare/v3.0.0\...v3.0.1[full diff]
 
 == 3.0.0 (2019-08-31) - @mojavelinux
 
