@@ -41,6 +41,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Set Jekyll version
+      if: matrix.jekyll-version
+      run: echo 'JEKYLL_VERSION=${{ matrix.jekyll-version }}' >> $GITHUB_ENV
+    - name: Set Pygments version
+      if: matrix.pygments-version
+      run: echo 'PYGMENTS_VERSION=${{ matrix.pygments-version }}' >> $GITHUB_ENV
+    - name: Install prerequisites for Pygments ~> 1.2.0 (Linux)
+      if: matrix.os == 'ubuntu-latest' && matrix.pygments-version == '1.2.0'
+      run: sudo apt-get install python2
     - name: Enable lint and coverage (primary only)
       if: matrix.primary
       run: |
@@ -56,9 +65,6 @@ jobs:
       run: |
         bundle config --local path vendor/bundle
         bundle --jobs 3 --retry 3
-    - name: Install prerequisites for Pygments ~> 1.2.0 (Linux)
-      if: matrix.os == 'ubuntu-latest' && matrix.pygments-version == '1.2.0'
-      run: sudo apt-get install python2
     - name: Run linter (primary only)
       if: matrix.primary
       run: bundle exec rake lint
