@@ -217,6 +217,8 @@ module Jekyll
               paths.delete 'docdir'
             end
             opts[:attributes] = opts[:attributes].merge paths
+          elsif opts[:base_dir] == :docdir
+            opts.delete :base_dir
           end
           if (doctype = data['doctype'])
             opts[:doctype] = doctype

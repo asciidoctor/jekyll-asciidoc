@@ -7,7 +7,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/master[
 
 == Unreleased
 
-_No changes since previous release._
+* clear `:base_dir` option if value is `:docdir` and paths with docdir information is not available (such as to `asciidocify` filter) (#270)
 
 == 3.0.0 (2019-08-31) - @mojavelinux
 
