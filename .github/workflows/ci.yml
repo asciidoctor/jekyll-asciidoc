@@ -22,6 +22,8 @@ jobs:
         - os: ubuntu-latest
           ruby: '3.2'
         include:
+        - os: ubuntu-latest
+          ruby: jruby-9.4
         - os: windows-latest
           ruby: '3.2'
         - os: ubuntu-latest
