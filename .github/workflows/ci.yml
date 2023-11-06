@@ -14,13 +14,15 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         ruby: ['2.7', '3.2']
         exclude:
         # remove entry to mark as primary
         - os: ubuntu-latest
           ruby: '3.2'
         include:
+        - os: windows-latest
+          ruby: '3.2'
         - os: ubuntu-latest
           ruby: '3.2'
           primary: primary

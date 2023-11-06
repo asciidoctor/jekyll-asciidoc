@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'jekyll-mentions', '~> 1.6.0'
   s.add_development_dependency 'kramdown-parser-gfm', '~> 1.1.0'
-  s.add_development_dependency 'pygments.rb', '~> 2.1.0'
+  s.add_development_dependency 'pygments.rb', '~> 2.4.0'
   s.add_development_dependency 'rake', '~> 13.1.0'
   s.add_development_dependency 'rspec', '~> 3.8.0'
 end
