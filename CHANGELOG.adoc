@@ -8,7 +8,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/master[
 == Unreleased
 
 * convert documentation from README.adoc to an Antora component in the Asciidoctor docs site. (#238)
-* bump requirements: Asciidoctor 2.0, Ruby 2.4, JRuby 9.2.7 (#237)
+* bump requirements: Asciidoctor 2.0, Ruby 2.7, JRuby 9.4 (#237)
 * explain Liquid include interactions in docs (#223)
 * explain asciidoctor-diagram data-uri and svg options in docs (#217)
 * provide `asciidoc_docinfo` Liquid filter to allow including docinfo content in layouts (#164)

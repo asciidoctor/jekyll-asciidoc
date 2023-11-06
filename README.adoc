@@ -98,7 +98,7 @@ These extensions are registered automatically when the [.app]*jekyll-asciidoc* g
 
 == Prerequisites
 
-To use this plugin, you must be using Jekyll >= 3.0.0 and Ruby >= 2.3.0 (with development headers installed).
+To use this plugin, you must be using Jekyll >= 3.0.0 and Ruby >= 2.7.0 (with development headers installed).
 You should also be familiar with creating sites with Jekyll.
 If you're not, you should first read the {url-jekyll-docs}[Jekyll documentation] to familiarize yourself with how it works.
 Experience with AsciiDoc and Asciidoctor is also helpful, but not a requirement.
