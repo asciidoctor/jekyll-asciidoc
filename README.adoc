@@ -28,7 +28,7 @@ ifndef::icons[:conum-guard: {sp}#{sp}]
 :url-repo: https://github.com/asciidoctor/jekyll-asciidoc
 :url-issues: {url-repo}/issues
 :url-search-issues: {url-repo}/search?type=Issues
-:url-chat: https://gitter.im/asciidoctor/asciidoctor
+:url-chat: https://chat.asciidoctor.org
 :url-gem: http://rubygems.org/gems/jekyll-asciidoc
 :url-gem-asciidoctor: http://rubygems.org/gems/asciidoctor
 :url-asciidoc: http://asciidoc.org
@@ -36,7 +36,6 @@ ifndef::icons[:conum-guard: {sp}#{sp}]
 :url-asciidoctor-backends: https://github.com/asciidoctor/asciidoctor-backends
 :url-asciidoctor-docs: {url-asciidoctor}/docs
 :url-asciidoctor-diagram: {url-asciidoctor-docs}/asciidoctor-diagram
-:url-asciidoctor-discuss: http://discuss.asciidoctor.org
 :url-asciidoctor-manual: {url-asciidoctor-docs}/user-manual
 :url-asciidoc-practices: {url-asciidoctor-docs}/asciidoc-recommended-practices
 :url-jaq: https://github.com/asciidoctor/jekyll-asciidoc-quickstart
@@ -55,6 +54,7 @@ ifdef::status[]
 image:https://img.shields.io/gem/v/jekyll-asciidoc.svg[Latest Release, link={url-gem}]
 image:https://img.shields.io/badge/license-MIT-blue.svg[MIT License, link=#copyright-and-license]
 image:{url-repo}/actions/workflows/ci.yml/badge.svg?branch={branch}[Build Status (GitHub Actions),link={url-repo}/actions/workflows/ci.yml?query=branch%3A{branch}]
+image:https://img.shields.io/badge/zulip-join_chat-brightgreen.svg[Project Chat (Zulip),link={url-chat}]
 endif::[]
 
 A plugin for {url-jekyll}[Jekyll] (>= 3.0.0) that converts {url-asciidoc}[AsciiDoc] source files in your site to HTML pages using {url-asciidoctor}[Asciidoctor].
@@ -1546,8 +1546,7 @@ Activity drives progress.
 
 When seeking answers, always start with the official documentation for Jekyll, which can be found on the {url-jekyll}[Jekyll website].
 If you have general questions about Jekyll, we recommend you visit the {url-jekyll-discuss}[Jekyll Talk] forum to get assistance.
-For questions related to this extension specifically, or general questions about AsciiDoc, please post to the {url-asciidoctor-discuss}[Asciidoctor discussion list].
-You can also join us in the {url-chat}[asciidoctor/asciidoctor channel] on Gitter.
+For questions related to this extension specifically, or general questions about AsciiDoc or Asciidoctor, please post to the #users stream in the {url-chat}[project chat].
 For general information about AsciiDoc, look no further than the {url-asciidoctor-manual}[Asciidoctor User Manual].
 
 === Filing Bug Reports and Feature Requests
