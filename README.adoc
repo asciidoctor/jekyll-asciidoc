@@ -1726,7 +1726,7 @@ This plugin was created by Dan Allen and Paul Rayner and has received contributi
 
 Copyright (C) 2013-2018 Dan Allen, Paul Rayner, and the Asciidoctor Project.
 Free use of this software is granted under the terms of the MIT License.
-See <<LICENSE#,LICENSE>> for details.
+See link:LICENSE[LICENSE] for details.
 
 ////
 [glossary]
