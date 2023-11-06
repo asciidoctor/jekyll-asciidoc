@@ -16,6 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         ruby: ['2.4', '2.7', '3.2']
+        jekyll-version: [~]
         pygments-version: [~]
         exclude:
         # remove entry to mark as primary
@@ -25,6 +26,9 @@ jobs:
         - os: ubuntu-latest
           ruby: '2.7'
           pygments-version: '1.2.0'
+        - os: ubuntu-latest
+          ruby: '2.7'
+          jekyll-version: '3.9.0'
         - os: ubuntu-latest
           ruby: '2.7'
           primary: primary
