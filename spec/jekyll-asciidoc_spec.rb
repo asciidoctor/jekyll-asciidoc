@@ -910,6 +910,7 @@ describe 'Jekyll::AsciiDoc' do
       (expect ::File).to exist file
       contents = ::File.read file
       (expect contents).to include '<div class="excerpt">This is the <em>excerpt</em> of this post.</div>'
+      (expect contents).to include '<div class="synopsis">This is the <em>synopsis</em> of this post.</div>'
     end
 
     it 'should convert excerpt from AsciiDoc using page-specific doctype' do
@@ -1083,6 +1084,7 @@ describe 'Jekyll::AsciiDoc' do
       out_file = output_file 'about/index.html'
       (expect ::File).to exist out_file
       contents = ::File.read out_file
+      (expect contents).to include '<strong>Who</strong> we are.'
       (expect contents).to include 'Doc Writer'
       (expect contents).to include %(docfile=#{src_file})
       (expect contents).to include %(docdir=#{::File.dirname src_file})

@@ -1,0 +1,4 @@
+= Post With Synopsis
+:page-synopsis: This is the _synopsis_ of this post.
+
+Lorem ipsum.
