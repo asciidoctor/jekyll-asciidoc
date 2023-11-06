@@ -29,10 +29,10 @@ ifndef::icons[:conum-guard: {sp}#{sp}]
 :url-issues: {url-repo}/issues
 :url-search-issues: {url-repo}/search?type=Issues
 :url-chat: https://chat.asciidoctor.org
-:url-gem: http://rubygems.org/gems/jekyll-asciidoc
-:url-gem-asciidoctor: http://rubygems.org/gems/asciidoctor
-:url-asciidoc: http://asciidoc.org
-:url-asciidoctor: http://asciidoctor.org
+:url-gem: https://rubygems.org/gems/jekyll-asciidoc
+:url-gem-asciidoctor: https://rubygems.org/gems/asciidoctor
+:url-asciidoc: https://asciidoc.org
+:url-asciidoctor: https://asciidoctor.org
 :url-asciidoctor-backends: https://github.com/asciidoctor/asciidoctor-backends
 :url-asciidoctor-docs: {url-asciidoctor}/docs
 :url-asciidoctor-diagram: {url-asciidoctor-docs}/asciidoctor-diagram
@@ -45,10 +45,10 @@ ifndef::icons[:conum-guard: {sp}#{sp}]
 :url-front-matter: {url-jekyll-docs}/frontmatter
 :url-liquid-templates: {url-jekyll-docs}/templates
 :url-variables: {url-jekyll-docs}/variables
-:url-graphviz: http://www.graphviz.org
+:url-graphviz: https://www.graphviz.org
 :url-tilt: https://github.com/rtomayko/tilt
 :url-yaml: https://en.wikipedia.org/wiki/YAML
-:url-guide-publish-gem: http://guides.rubygems.org/publishing/#publishing-to-rubygemsorg
+:url-guide-publish-gem: https://guides.rubygems.org/publishing/#publishing-to-rubygemsorg
 
 ifdef::status[]
 image:https://img.shields.io/gem/v/jekyll-asciidoc.svg[Latest Release, link={url-gem}]
@@ -204,7 +204,7 @@ layout: info
 permalink: /sample/
 ---
 = Sample Page
-:url-asciidoctor: http://asciidoctor.org
+:url-asciidoctor: https://asciidoctor.org
 
 This is a sample page composed in AsciiDoc.
 Jekyll converts it to HTML using {url-asciidoctor}[Asciidoctor].
@@ -221,7 +221,7 @@ Alternatively, you can define the page variables directly in the AsciiDoc header
 = Sample Page
 :page-layout: info
 :page-permalink: /sample/
-:url-asciidoctor: http://asciidoctor.org
+:url-asciidoctor: https://asciidoctor.org
 
 This is a sample page composed in AsciiDoc.
 Jekyll converts it to HTML using {url-asciidoctor}[Asciidoctor].
@@ -254,7 +254,7 @@ To define a page attribute that contains multiple words, use either a hyphen or 
 IMPORTANT: Page attributes must be defined in the document header.
 That means either putting them directly below the document title (the line beginning with a single equals sign in the sample above) or above all other AsciiDoc content if the document title is not defined in AsciiDoc.
 The AsciiDoc document header stops after the first blank line.
-For more details about the document header, see the http://asciidoctor.org/docs/user-manual/#doc-header[Document Header] chapter in the Asciidoctor User Manual.
+For more details about the document header, see the https://asciidoctor.org/docs/user-manual/#doc-header[Document Header] chapter in the Asciidoctor User Manual.
 
 IMPORTANT: You may use include directives in the the document header.
 However, you must ensure that the file included _does not_ contain blank lines.
@@ -1443,7 +1443,7 @@ Refer to the help page https://help.github.com/articles/adding-jekyll-plugins-to
 
 _But don't despair!_
 You can still automate publishing of the generated site to GitHub Pages using a continuous integration job.
-Refer to the http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] tutorial to find step-by-step instructions.
+Refer to the https://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html[Automate GitHub Pages publishing with Jekyll and Travis CI^] tutorial to find step-by-step instructions.
 You can also refer to the https://github.com/johncarl81/transfuse-site[Transfuse website build^] for an example in practice.
 
 In fact, if you're using Travis CI, it's even easier than that.
