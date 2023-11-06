@@ -54,7 +54,7 @@ ifndef::icons[:conum-guard: {sp}#{sp}]
 ifdef::status[]
 image:https://img.shields.io/gem/v/jekyll-asciidoc.svg[Latest Release, link={url-gem}]
 image:https://img.shields.io/badge/license-MIT-blue.svg[MIT License, link=#copyright-and-license]
-image:{url-repo}/workflows/CI/badge.svg[Build Status (GitHub Actions),link={url-repo}/actions?query=workflow%3ACI+branch%3A{branch}]
+image:{url-repo}/actions/workflows/ci.yml/badge.svg?branch={branch}[Build Status (GitHub Actions),link={url-repo}/actions/workflows/ci.yml?query=branch%3A{branch}]
 endif::[]
 
 A plugin for {url-jekyll}[Jekyll] (>= 3.0.0) that converts {url-asciidoc}[AsciiDoc] source files in your site to HTML pages using {url-asciidoctor}[Asciidoctor].
