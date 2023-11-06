@@ -97,7 +97,7 @@ module Jekyll
               'site-root' => ::Dir.pwd,
               'site-source' => source,
               'site-destination' => dest,
-              'site-baseurl' => config['baseurl'],
+              'site-baseurl' => (baseurl = config['baseurl']),
               'site-url' => config['url'],
             }
             enable_attribute_value_coercion = asciidoctor_config[:enable_attribute_value_coercion]
@@ -115,8 +115,9 @@ module Jekyll
               attrs[key + '@'] = val
               m_attr[key] = val
             end
-            if (imagesdir = attrs['imagesdir']) && !(attrs.key? 'imagesoutdir') && (imagesdir.start_with? '/')
-              attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
+            if (imagesdir = attrs['imagesdir']) && (imagesdir.start_with? '/')
+              attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@') unless attrs.key? 'imagesoutdir'
+              attrs['imagesdir'] = baseurl + imagesdir unless baseurl.to_s.empty?
             end
             attrs[%(#{asciidoc_config['page_attribute_prefix']}published)] = '' if config['unpublished']
             asciidoctor_config.extend Configured
