@@ -39,8 +39,9 @@ RSpec.configure do |config|
     (expect ::File.exist? (source_dir (::File.join name.to_s, '_config.yml'))).to be_truthy
   end
 
-  def use_fixture name
+  def use_fixture name, config_path = ''
     let (:name) { name.to_s }
+    let (:config_path) { (config_path || '').to_s }
   end
 
   def fixture_site_params path
@@ -48,6 +49,7 @@ RSpec.configure do |config|
       'source' => (source_dir path),
       'destination' => (output_dir path),
       'url' => 'http://example.org',
+      config_path && 'config' => (File.join (source_dir path), config_path, '_config.yml'),
     }
   end
 

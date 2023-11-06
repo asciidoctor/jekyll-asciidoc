@@ -94,14 +94,15 @@ module Jekyll
               'site-root' => ::Dir.pwd,
               'site-source' => source,
               'site-destination' => dest,
-              'site-baseurl' => config['baseurl'],
+              'site-baseurl' => (baseurl = config['baseurl']),
               'site-url' => config['url'],
             }
             attrs = asciidoctor_config[:attributes] = compile_attributes asciidoctor_config[:attributes],
                 (compile_attributes asciidoc_config['attributes'],
                     ((site_attributes.merge ImplicitAttributes).merge DefaultAttributes))
-            if (imagesdir = attrs['imagesdir']) && !(attrs.key? 'imagesoutdir') && (imagesdir.start_with? '/')
-              attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
+            if (imagesdir = attrs['imagesdir']) && (imagesdir.start_with? '/')
+              attrs['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@') unless attrs.key? 'imagesoutdir'
+              attrs['imagesdir'] = baseurl + imagesdir unless baseurl.to_s.empty?
             end
             asciidoctor_config.extend Configured
           end

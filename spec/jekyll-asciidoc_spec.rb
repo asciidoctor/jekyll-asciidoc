@@ -163,18 +163,21 @@ describe 'Jekyll::AsciiDoc' do
   end
 
   describe 'imagesdir relative to root' do
-    use_fixture :imagesdir_relative_to_root
+    [nil, :with_baseurl].each do |config_path|
+      describe config_path do
+        use_fixture :imagesdir_relative_to_root, config_path
 
-    before :each do
-      site.object_id
-    end
+        before :each do
+          site.object_id
+        end
 
-    it 'should set imagesoutdir if imagesdir is relative to root' do
-      (expect (asciidoctor_config = site.config['asciidoctor'])).to be_a ::Hash
-      (expect (attrs = asciidoctor_config[:attributes])).to be_a ::Hash
-      (expect attrs['imagesdir']).to eql '/images@'
-      imagesoutdir_expected = ::File.join site.dest, (attrs['imagesdir'].chomp '@')
-      (expect attrs['imagesoutdir']).to eql imagesoutdir_expected
+        it 'should set imagesoutdir if imagesdir is relative to root' do
+          (expect (asciidoctor_config = site.config['asciidoctor'])).to be_a ::Hash
+          (expect (attrs = asciidoctor_config[:attributes])).to be_a ::Hash
+          (expect attrs['imagesdir']).to eql (config_path == :with_baseurl ? '/projectname' : '') + '/images@'
+          (expect attrs['imagesoutdir']).to eql (File.join site.dest, '/images')
+        end
+      end
     end
   end
 

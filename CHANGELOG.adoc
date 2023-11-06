@@ -8,6 +8,7 @@ For a detailed view of what has changed, refer to the {url-repo}/commits/master[
 == Unreleased
 
 * clear `:base_dir` option if value is `:docdir` and paths with docdir information is not available (such as to `asciidocify` filter) (#270)
+* prepend baseurl to value of imagesdir if imagesdir value is root-relative (#177)
 
 == 3.0.0 (2019-08-31) - @mojavelinux
 
