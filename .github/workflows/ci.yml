@@ -16,6 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         ruby: ['2.7', '3.2']
+        jekyll-version: [~]
         exclude:
         # remove entry to mark as primary
         - os: ubuntu-latest
@@ -23,6 +24,9 @@ jobs:
         include:
         - os: windows-latest
           ruby: '3.2'
+        - os: ubuntu-latest
+          ruby: '3.2'
+          jekyll-version: '3.9.0'
         - os: ubuntu-latest
           ruby: '3.2'
           primary: primary
@@ -33,6 +37,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Set Jekyll version
+      if: matrix.jekyll-version
+      run: echo 'JEKYLL_VERSION=${{ matrix.jekyll-version }}' >> $GITHUB_ENV
     - name: Enable lint and coverage (primary only)
       if: matrix.primary
       run: |
