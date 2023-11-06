@@ -29,8 +29,6 @@ ifndef::icons[:conum-guard: {sp}#{sp}]
 :url-issues: {url-repo}/issues
 :url-search-issues: {url-repo}/search?type=Issues
 :url-chat: https://gitter.im/asciidoctor/asciidoctor
-:url-ci-travis: https://travis-ci.org/asciidoctor/jekyll-asciidoc
-:url-ci-appveyor: https://ci.appveyor.com/project/asciidoctor/jekyll-asciidoc
 :url-gem: http://rubygems.org/gems/jekyll-asciidoc
 :url-gem-asciidoctor: http://rubygems.org/gems/asciidoctor
 :url-asciidoc: http://asciidoc.org
@@ -56,8 +54,7 @@ ifndef::icons[:conum-guard: {sp}#{sp}]
 ifdef::status[]
 image:https://img.shields.io/gem/v/jekyll-asciidoc.svg[Latest Release, link={url-gem}]
 image:https://img.shields.io/badge/license-MIT-blue.svg[MIT License, link=#copyright-and-license]
-image:https://img.shields.io/travis/asciidoctor/jekyll-asciidoc/master.svg[Build Status (Travis CI), link={url-ci-travis}]
-image:https://ci.appveyor.com/api/projects/status/3cf1f8p2cyoaoc25/branch/master?svg=true&passingText=green%20bar&failingText=%23fail&pendingText=checking[Build Status (AppVeyor), link={url-ci-appveyor}]
+image:{url-project-repo}/workflows/CI/badge.svg[Build Status (GitHub Actions),link={url-project-repo}/actions?query=workflow%3ACI+branch%3A{branch}]
 endif::[]
 
 A plugin for {url-jekyll}[Jekyll] (>= 3.0.0) that converts {url-asciidoc}[AsciiDoc] source files in your site to HTML pages using {url-asciidoctor}[Asciidoctor].
