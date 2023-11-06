@@ -16,11 +16,15 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         ruby: ['2.4', '2.7', '3.2']
+        pygments-version: ~
         exclude:
         # remove entry to mark as primary
         - os: ubuntu-latest
           ruby: '2.7'
         include:
+        - os: ubuntu-latest
+          ruby: '2.7'
+          pygments-version: '1.2.0'
         - os: ubuntu-latest
           ruby: '2.7'
           primary: primary
@@ -46,6 +50,9 @@ jobs:
       run: |
         bundle config --local path vendor/bundle
         bundle --jobs 3 --retry 3
+    - name: Install prerequisites for Pygments ~> 1.2.0 (Linux)
+      if: matrix.os == 'ubuntu-latest' && matrix.pygments-version == '1.2.0'
+      run: sudo apt-get install python2
     - name: Run linter (primary only)
       if: matrix.primary
       run: bundle exec rake lint
