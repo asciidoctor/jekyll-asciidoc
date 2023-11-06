@@ -135,7 +135,8 @@ Jekyll will automatically activate any plugins listed in the `:jekyll_plugins` g
 
 If you want to keep the installed gems inside the project, use this command instead:
 
- $ bundle --path=.bundle/gems
+ $ bundle config set --local path .bundle/gems
+   bundle
 
 TIP: Subsequent calls to `bundle` will retain the `path` setting.
 
