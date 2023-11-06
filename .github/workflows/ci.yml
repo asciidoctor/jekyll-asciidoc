@@ -23,6 +23,8 @@ jobs:
         - os: ubuntu-latest
           ruby: '2.7'
         include:
+        - os: ubuntu-latest
+          ruby: jruby-9.4
         - os: windows-latest
           ruby: '2.7'
         - os: ubuntu-latest
