@@ -3,11 +3,11 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'asciidoctor', %(~> #{ENV['ASCIIDOCTOR_VERSION']}), require: false if ENV.key? 'ASCIIDOCTOR_VERSION'
+gem 'em-websocket', '0.5.2', platform: [:jruby], require: false
 gem 'jekyll', %(~> #{ENV['JEKYLL_VERSION']}), require: false if ENV.key? 'JEKYLL_VERSION'
 gem 'pygments.rb', %(~> #{ENV['PYGMENTS_VERSION']}), require: false if ENV.key? 'PYGMENTS_VERSION'
 # NOTE Windows does not include zoneinfo files, so load tzinfo-data gem
 gem 'tzinfo-data', platform: [:x64_mingw, :mingw], require: false
-gem 'em-websocket', '0.5.2', platform: [:jruby], require: false
 
 group :coverage do
   gem 'deep-cover-core', '~> 1.1.0', require: false
