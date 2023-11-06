@@ -23,6 +23,8 @@ jobs:
         - os: ubuntu-latest
           ruby: '2.7'
         include:
+        - os: windows-latest
+          ruby: '2.7'
         - os: ubuntu-latest
           ruby: '2.7'
           pygments-version: '1.2.0'
