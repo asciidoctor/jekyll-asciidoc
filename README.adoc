@@ -59,6 +59,11 @@ endif::[]
 
 A plugin for {url-jekyll}[Jekyll] (>= 3.0.0) that converts {url-asciidoc}[AsciiDoc] source files in your site to HTML pages using {url-asciidoctor}[Asciidoctor].
 
+IMPORTANT: We're currently seeking a new maintainer for this project as the current maintainers can no longer dedicate time to working on it.
+As of November 2023, this project is fully up to date and features both automated testing and releases.
+This situation presents an opportunity for someone to come into the project and run it witih plenty of autonomy.
+If no one comes forward by the start of 2025, we plan to archive this project and halt releases.
+
 ifeval::['{branch}' == 'main']
 NOTE: You're viewing the documentation for the upcoming release.
 If you're looking for the documentation for an older release, please refer to one of the following branches: +
